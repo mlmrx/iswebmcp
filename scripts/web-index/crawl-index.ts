@@ -13,6 +13,7 @@ import { numericArg, stringArg } from './cli';
 
 const USER_AGENT =
   'isWebMCP-Research/1.0 (+https://iswebmcp.com/readiness-index-methodology; research@iswebmcp.com)';
+const CRAWL_ITEM_WATCHDOG_MS = 70_000;
 const limit = numericArg('limit', 100_000);
 const concurrency = Math.min(numericArg('concurrency', 4), 32);
 const inputPath = path.resolve(
@@ -117,6 +118,36 @@ async function scan(rank: number, domain: string): Promise<WebIndexRow> {
   return scanOrigin(rank, domain, 'http', startedAt);
 }
 
+async function scanWithWatchdog(
+  rank: number,
+  domain: string,
+): Promise<WebIndexRow> {
+  const startedAt = Date.now();
+  let watchdog: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return await Promise.race([
+      scan(rank, domain),
+      new Promise<WebIndexRow>((resolve) => {
+        watchdog = setTimeout(
+          () =>
+            resolve(
+              unscoredRow(
+                rank,
+                domain,
+                'unreachable',
+                startedAt,
+                'UPSTREAM_TIMEOUT',
+              ),
+            ),
+          CRAWL_ITEM_WATCHDOG_MS,
+        );
+      }),
+    ]);
+  } finally {
+    if (watchdog) clearTimeout(watchdog);
+  }
+}
+
 await mkdir(path.dirname(outputPath), { recursive: true });
 const input = (await readFile(inputPath, 'utf8'))
   .trim()
@@ -140,7 +171,7 @@ const targets = input
 for (let offset = 0; offset < targets.length; offset += concurrency) {
   const batch = targets.slice(offset, offset + concurrency);
   const rows = await Promise.all(
-    batch.map(({ rank, domain }) => scan(rank, domain)),
+    batch.map(({ rank, domain }) => scanWithWatchdog(rank, domain)),
   );
   await appendFile(
     outputPath,
