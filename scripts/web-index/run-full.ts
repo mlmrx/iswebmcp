@@ -26,7 +26,7 @@ await run('npx', [
   '--limit',
   '100000',
   '--concurrency',
-  '16',
+  '32',
 ]);
 await run('npx', ['tsx', 'scripts/web-index/build-snapshot.ts']);
 await run('npm', ['run', 'typecheck']);

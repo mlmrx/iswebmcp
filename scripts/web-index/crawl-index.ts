@@ -14,7 +14,7 @@ import { numericArg, stringArg } from './cli';
 const USER_AGENT =
   'isWebMCP-Research/1.0 (+https://iswebmcp.com/readiness-index-methodology; research@iswebmcp.com)';
 const limit = numericArg('limit', 100_000);
-const concurrency = Math.min(numericArg('concurrency', 4), 16);
+const concurrency = Math.min(numericArg('concurrency', 4), 32);
 const inputPath = path.resolve(
   stringArg('input', 'data/webmcp-index/tranco-top.csv'),
 );
