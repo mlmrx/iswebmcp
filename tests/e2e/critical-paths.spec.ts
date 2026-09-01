@@ -1,0 +1,233 @@
+import { expect, test } from '@playwright/test';
+
+type BrowserTool = {
+  execute: (input: unknown, options: { signal: AbortSignal }) => unknown;
+};
+
+async function executeRegisteredTool(
+  page: import('@playwright/test').Page,
+  name: string,
+  input: unknown,
+) {
+  return page.evaluate(
+    async ({ toolName, toolInput }) => {
+      const tools = (
+        window as unknown as { __webmcpTools: Map<string, BrowserTool> }
+      ).__webmcpTools;
+      const tool = tools.get(toolName);
+      if (!tool) throw new Error(`Tool ${toolName} is not registered.`);
+      return tool.execute(toolInput, { signal: new AbortController().signal });
+    },
+    { toolName: name, toolInput: input },
+  );
+}
+
+test('landing communicates the product and opens a sample evidence report', async ({
+  page,
+}) => {
+  await page.goto('/');
+  await expect(
+    page.getByRole('heading', { name: 'Is your web app truly WebMCP ready?' }),
+  ).toBeVisible();
+  await expect(page.getByLabel('Public URL')).toBeVisible();
+  await page
+    .getByRole('button', { name: 'Open sample evidence report' })
+    .click();
+  await expect(
+    page.getByRole('heading', {
+      name: 'Three measurements. No blended score.',
+    }),
+  ).toBeVisible();
+  await expect(page.getByText('Not enough runtime evidence.')).toBeVisible();
+});
+
+test('private targets fail closed', async ({ page }) => {
+  await page.goto('/');
+  await page.getByLabel('Public URL').fill('http://127.0.0.1/admin');
+  await page.getByRole('button', { name: 'Test this app' }).click();
+  await expect(
+    page.getByText(/private, reserved, and special-purpose/i),
+  ).toBeVisible();
+});
+
+test('controlled before/after replay produces observed WebMCP Lift', async ({
+  page,
+}) => {
+  await page.goto('/lab');
+  await page.getByRole('button', { name: 'Replay both paths' }).click();
+  await expect(page.getByText('Meaningful improvement')).toBeVisible();
+  await expect(
+    page.getByText('controlled replay', { exact: false }),
+  ).toBeVisible();
+  await expect(page.getByText('Aurora Q45').first()).toBeVisible();
+});
+
+test('the interactive baseline enforces search, comparison, cart, and verification order', async ({
+  page,
+}) => {
+  await page.goto('/lab');
+  await page.getByRole('button', { name: 'Start baseline run' }).click();
+  await expect(
+    page.getByRole('button', { name: /Add to demo cart/ }).first(),
+  ).toBeDisabled();
+  await page.getByLabel('Max price').fill('300');
+  await page.getByLabel('Min rating').selectOption('4.5');
+  await page.getByLabel('Min battery').fill('30');
+  await page.getByLabel('Noise canceling').click();
+  await expect(page.getByLabel('Noise canceling')).toBeChecked();
+  await page.getByRole('button', { name: 'Apply' }).click();
+  await page.getByLabel('Select Aurora Q45 to compare').click();
+  await page.getByLabel('Select Sonic Arc to compare').click();
+  await page.getByRole('button', { name: 'Compare selected' }).click();
+  await page
+    .getByRole('article')
+    .filter({ hasText: 'Aurora Q45' })
+    .getByRole('button', { name: 'Add to demo cart' })
+    .click();
+  await page.getByRole('button', { name: 'Finish and verify' }).click();
+  await expect(
+    page.getByText('Run completed: every deterministic assertion passed.'),
+  ).toBeVisible();
+});
+
+test('a manifest import creates a refreshable derived report with explicit provenance', async ({
+  page,
+}) => {
+  await page.goto('/');
+  await page
+    .getByRole('button', { name: 'Open sample evidence report' })
+    .click();
+  await page.getByRole('button', { name: 'Load example' }).click();
+  const originalUrl = page.url();
+  await page.getByRole('button', { name: 'Import and audit' }).click();
+  await expect(page).not.toHaveURL(originalUrl);
+  await expect(
+    page.getByText('Imported · not independently verified'),
+  ).toBeVisible();
+  await expect(page.getByText(/imported evidence coverage/i)).toBeVisible();
+
+  await page.reload();
+  await expect(
+    page.getByText('Imported · not independently verified'),
+  ).toBeVisible();
+  const firstDerivedUrl = page.url();
+
+  await page.locator('#manifest-file').setInputFiles({
+    name: 'tools.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(
+      JSON.stringify([
+        {
+          name: 'compare_products',
+          description: 'Compare selected products using stable identifiers.',
+          inputSchema: {
+            type: 'object',
+            properties: {},
+            additionalProperties: false,
+          },
+          annotations: { readOnlyHint: true, untrustedContentHint: true },
+        },
+      ]),
+    ),
+  });
+  await expect(page.getByText('Loaded tools.json.')).toBeVisible();
+  await page.getByRole('button', { name: 'Import and audit' }).click();
+  await expect(page).not.toHaveURL(firstDerivedUrl);
+  await expect(page.getByText('1 imported contract attached')).toBeVisible();
+});
+
+test('registered WebMCP tools execute the complete journey and return structured contract errors', async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    const registry = new Map<string, BrowserTool>();
+    Object.defineProperty(window, '__webmcpTools', { value: registry });
+    Object.defineProperty(document, 'modelContext', {
+      configurable: true,
+      value: {
+        registerTool: async (
+          tool: BrowserTool & { name: string },
+          options?: { signal?: AbortSignal },
+        ) => {
+          registry.set(tool.name, tool);
+          options?.signal?.addEventListener(
+            'abort',
+            () => {
+              if (registry.get(tool.name) === tool) registry.delete(tool.name);
+            },
+            { once: true },
+          );
+        },
+      },
+    });
+  });
+  await page.goto('/lab');
+  await page.getByRole('button', { name: 'WebMCP' }).click();
+  await expect
+    .poll(() =>
+      page.evaluate(() =>
+        (
+          window as unknown as { __webmcpTools: Map<string, BrowserTool> }
+        ).__webmcpTools.has('search_demo_products'),
+      ),
+    )
+    .toBe(true);
+
+  const invalid = (await executeRegisteredTool(page, 'search_demo_products', {
+    unexpected: true,
+  })) as { ok: boolean; error: { code: string } };
+  expect(invalid.ok).toBe(false);
+  expect(invalid.error.code).toBe('INVALID_INPUT');
+
+  await executeRegisteredTool(page, 'start_demo_run', {
+    task_id: 'headset_research',
+  });
+  await executeRegisteredTool(page, 'search_demo_products', {
+    category: 'headphones',
+    max_price: 300,
+    minimum_rating: 4.5,
+    minimum_battery_hours: 30,
+    features: ['noise_canceling'],
+  });
+  await executeRegisteredTool(page, 'compare_demo_products', {
+    product_ids: ['aurora-q45', 'sonic-arc'],
+  });
+  await executeRegisteredTool(page, 'add_demo_product_to_cart', {
+    product_id: 'aurora-q45',
+    quantity: 1,
+  });
+  const completed = (await executeRegisteredTool(
+    page,
+    'finish_demo_run',
+    {},
+  )) as { success: boolean };
+  expect(completed.success).toBe(true);
+  await expect(page.getByText('Aurora Q45').last()).toBeVisible();
+});
+
+test('primary navigation remains reachable at every configured viewport', async ({
+  page,
+}) => {
+  await page.goto('/');
+  const methodology = page.getByRole('link', { name: 'Methodology' });
+  if (!(await methodology.isVisible())) {
+    await expect(page.getByTestId('mobile-menu')).toBeHidden();
+    await page.getByLabel('Open primary navigation').click();
+    await expect(page.getByTestId('mobile-menu')).toBeVisible();
+  }
+  await methodology.click();
+  await expect(
+    page.getByRole('heading', { name: 'Presence is not readiness.' }),
+  ).toBeVisible();
+});
+
+test('contract workbench exposes deterministic findings', async ({ page }) => {
+  await page.goto('/workbench');
+  await expect(
+    page.getByRole('heading', {
+      name: 'Find weak contracts before an agent does.',
+    }),
+  ).toBeVisible();
+  await expect(page.getByText('Current feature detection')).toBeVisible();
+  await expect(page.getByText('Static evidence is provisional.')).toBeVisible();
+});
