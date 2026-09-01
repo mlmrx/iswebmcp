@@ -69,12 +69,13 @@ test('readiness index publishes coverage, rankings, and honest after-state label
   await expect(
     page.getByRole('heading', { name: 'The web’s action layer, mapped.' }),
   ).toBeVisible();
-  await expect(page.getByText('100 / 100,000')).toBeVisible();
+  await expect(page.getByText('100,000 / 100,000')).toBeVisible();
+  await expect(page.getByText('Full corpus')).toBeVisible();
   await expect(
     page.getByText('Illustration · not measured lift'),
   ).toBeVisible();
-  await page.getByLabel('Search index').fill('amazonaws.com');
-  await expect(page.getByRole('cell', { name: 'amazonaws.com' })).toBeVisible();
+  await page.getByLabel('Search index').fill('sbicard.com');
+  await expect(page.getByRole('cell', { name: 'sbicard.com' })).toBeVisible();
   await page.getByRole('link', { name: 'Read index methodology' }).click();
   await expect(
     page.getByRole('heading', { name: 'Methodology you can challenge' }),
@@ -93,9 +94,9 @@ test('readiness index API exposes a pinned, coverage-aware snapshot', async ({
     source: { listId: string };
     coverage: { scored: number; robots_blocked: number };
   };
-  expect(snapshot.status).toBe('pilot');
+  expect(snapshot.status).toBe('complete');
   expect(snapshot.targetCount).toBe(100_000);
-  expect(snapshot.attemptedCount).toBe(100);
+  expect(snapshot.attemptedCount).toBe(100_000);
   expect(snapshot.source.listId).toBe('GQJJK');
   expect(
     snapshot.coverage.scored + snapshot.coverage.robots_blocked,

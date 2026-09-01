@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   alternates: { canonical: '/readiness-index' },
   openGraph: {
     title: 'The WebMCP Readiness Index · isWebMCP',
-    description: `${snapshot.attemptedCount} popular domains attempted in the current transparent pilot.`,
+    description: `${snapshot.attemptedCount.toLocaleString()} popular domains attempted in the current transparent benchmark.`,
     type: 'website',
     images: [
       {
@@ -36,6 +36,7 @@ export const metadata: Metadata = {
 
 export default function WebMcpIndexPage() {
   const completion = (snapshot.attemptedCount / snapshot.targetCount) * 100;
+  const isComplete = snapshot.status === 'complete';
   const datasetJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Dataset',
@@ -115,7 +116,7 @@ export default function WebMcpIndexPage() {
                     </p>
                   </div>
                   <span className="rounded-full bg-signal/25 px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-wider text-signal-ink">
-                    Pilot evidence
+                    {isComplete ? 'Full corpus' : 'Pilot evidence'}
                   </span>
                 </div>
                 <div className="mt-4 h-2 overflow-hidden rounded-full bg-muted">
@@ -125,8 +126,9 @@ export default function WebMcpIndexPage() {
                   />
                 </div>
                 <p className="mt-3 text-xs leading-5 text-muted-foreground">
-                  No 100,000-site claim until 100,000 attempts are published.
-                  This pilot exercises the same resumable pipeline.
+                  {isComplete
+                    ? 'All 100,000 ranked domains were attempted with the published robots-aware, source-only pipeline.'
+                    : 'No 100,000-site claim until 100,000 attempts are published. This pilot exercises the same resumable pipeline.'}
                 </p>
               </div>
               <div className="grid grid-cols-2 divide-x divide-border">
