@@ -27,7 +27,7 @@ flowchart TD
   Analyzer --> Reports
   Import[Manifest import route] --> Sanitize[Bounded validation and schema summary]
   Sanitize --> Reports
-  Reports --> Memory[Ephemeral isolate-local store]
+  Reports --> Memory[Ephemeral server-instance store]
   Editorial[Reviewed editorial catalog] --> Learn[Learning center, FAQ and RSS]
   Pulse[Versioned source-attributed pulse] --> Learn
   Learn --> Agent[Read-only content and pulse tools]
@@ -36,12 +36,12 @@ flowchart TD
 ## Runtime stack
 
 - React 19 and TypeScript for UI and domain logic
-- Vinext and Vite for Next-compatible routing and Cloudflare output
+- Next.js 16 App Router for server rendering, route handlers, and native Vercel output
 - Tailwind CSS and Base UI primitives for presentation and accessible controls
 - Zod plus explicit exact-record checks for API and tool inputs
 - Vitest for unit/integration coverage
 - Playwright for browser journeys and direct deterministic WebMCP execution
-- OpenAI Sites/Cloudflare Workers as the publishing runtime
+- Vercel Functions through the connected GitHub deployment
 
 ## Request flows
 
@@ -103,6 +103,6 @@ The learning and pulse catalog is exposed through server-rendered pages, `/api/c
 
 ## Storage and scale
 
-The current report store, rate windows, and concurrency counter live in isolate memory. This is intentional for an account-free challenge MVP, but it means reports can expire or disappear across isolates/deployments and rate enforcement is not globally coordinated. A multi-region production service should replace these with durable storage, a global rate-limit primitive, and controlled outbound egress.
+The current report store, rate windows, and concurrency counter live in server-instance memory. This is intentional for an account-free challenge MVP, but it means reports can expire or disappear across instances/deployments and rate enforcement is not globally coordinated. A multi-region production service should replace these with durable storage, a global rate-limit primitive, and controlled outbound egress.
 
-Editorial history is durable through Git rather than isolate memory. A larger publishing operation could move feed history, review workflow, and correction records to D1, but the current version favors a small auditable source catalog over an always-on ingestion database.
+Editorial history is durable through Git rather than server-instance memory. A larger publishing operation could move feed history, review workflow, and correction records to a durable database, but the current version favors a small auditable source catalog over an always-on ingestion database.

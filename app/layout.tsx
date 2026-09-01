@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import { AppProvider } from '@/components/app-provider';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
+import { siteOrigin } from '@/lib/site-origin';
 
 import './globals.css';
 
@@ -18,7 +19,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://iswebmcp.mlmrx.chatgpt.site'),
+  metadataBase: new URL(siteOrigin),
   title: {
     default: 'isWebMCP — Detect it. Test it. Prove it.',
     template: '%s · isWebMCP',
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
     title: 'Is your web app truly WebMCP ready?',
     description: 'Detect it. Test it. Prove it.',
     type: 'website',
-    url: 'https://iswebmcp.mlmrx.chatgpt.site',
+    url: siteOrigin,
     siteName: 'isWebMCP',
     images: [
       {

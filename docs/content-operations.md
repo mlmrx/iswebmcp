@@ -53,7 +53,7 @@ Never copy an article body. Store a short original summary and link to the sourc
 3. Run formatting, type checking, lint, unit tests, the production build, and browser tests.
 4. Review the rendered labels, dates, attribution, feed, and content API.
 5. Commit and push only the exact validated source.
-6. Publish the owner-only Sites version and verify that deployment succeeds.
+6. Push the validated commit and verify the connected Vercel production deployment succeeds.
 7. If there is no material change, make no source-control or hosting change.
 
 ## Challenge freeze

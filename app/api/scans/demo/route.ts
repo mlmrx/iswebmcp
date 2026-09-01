@@ -1,10 +1,9 @@
+import { isCrossSiteMutation } from '@/lib/request-origin';
 import { makeDemoReport } from '@/lib/scanner';
 import { allowRequest, putReport } from '@/lib/scan-store';
 
 export async function POST(request: Request) {
-  const origin = request.headers.get('origin');
-  const crossSite = request.headers.get('sec-fetch-site') === 'cross-site';
-  if (crossSite || (origin && origin !== new URL(request.url).origin)) {
+  if (isCrossSiteMutation(request)) {
     return Response.json(
       {
         error: {

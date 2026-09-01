@@ -39,7 +39,7 @@ The site remains completely usable when WebMCP is unavailable. WebMCP augments t
 
 ## How we built it
 
-The application uses React 19, TypeScript, Vinext/Vite, Tailwind CSS, Base UI, Zod, Vitest, Playwright, and the Cloudflare Worker runtime through OpenAI Sites.
+The application uses Next.js 16, React 19, TypeScript, Tailwind CSS, Base UI, Zod, Vitest, Playwright, and Vercel Functions through the GitHub deployment integration.
 
 The scanner uses strict URL and address normalization, A/AAAA checks on every redirect hop, manual redirects, exact textual MIME types, bounded request and response bodies, short deadlines, no credentials, and per-caller/host admission. Complete target HTML is analyzed in memory and not stored in reports. Imported manifests use iterative depth/node limits, forbidden-key checks, credential-pattern rejection, and an allowlisted normalized summary.
 
@@ -51,11 +51,11 @@ The hardest design problem was evidence honesty. A public server fetch cannot se
 
 The second challenge was fair comparison. Counting every keystroke would flatter tools; counting a whole form as one action would flatter the UI. We defined one committed semantic control operation as a UI action and one registered-tool execution as a tool action, count finish/verification on both paths, and reject mixed or unmatched runs.
 
-The third challenge was safe public fetching on an edge runtime. Cloudflare's outbound proxy restricts Worker fetch to public Internet services, and isWebMCP adds DNS and redirect checks, but application code cannot pin the connection to the exact preflight address. We document that residual TOCTOU risk instead of claiming an SSRF-grade guarantee; hardened deployments need controlled address-pinned egress.
+The third challenge was safe public fetching on a serverless runtime. isWebMCP adds DNS and redirect checks, but Node fetch resolves independently and application code cannot pin the connection to the exact preflight address. We document that residual TOCTOU risk instead of claiming an SSRF-grade guarantee; hardened deployments need controlled address-pinned egress.
 
 ## Accomplishments
 
-- Twelve useful, validated WebMCP tools with visible shared state and lifecycle cleanup
+- Sixteen useful, validated WebMCP tools with visible shared state and lifecycle cleanup
 - Source-only scanning that does not overclaim runtime evidence
 - Immutable, sanitized imported-contract audits
 - Deterministic UI-only and tool-only journeys with observable postconditions
@@ -77,7 +77,7 @@ The most valuable WebMCP tools are not one-to-one wrappers around buttons. They 
 
 ## Links to insert before submission
 
-- Live app: [owner-only staging deployment](https://iswebmcp.mlmrx.chatgpt.site) — change Sites access to public before submission
+- Live app: [Vercel production domain](https://iswebmcp.com) — verify the final deployment and public access before submission
 - Repository: [private build repository](https://github.com/mlmrx/iswebmcp) — change visibility to public before submission
 - Demo video: `TBD_AFTER_RECORDING`
 - Frozen release tag: `TBD_AFTER_FINAL_VERIFICATION`

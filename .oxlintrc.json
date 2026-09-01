@@ -28,6 +28,7 @@
     "out/**",
     "build/**",
     "dist/**",
+    ".output/**",
     "coverage/**",
     "next-env.d.ts",
     "components/ui/**",

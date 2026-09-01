@@ -10,6 +10,7 @@ import {
   getRelatedArticles,
   learningArticles,
 } from '@/lib/content';
+import { siteOrigin } from '@/lib/site-origin';
 
 export const dynamicParams = false;
 
@@ -65,7 +66,7 @@ export default async function LearningArticlePage({
     dateModified: article.updatedAt,
     author: { '@type': 'Organization', name: 'isWebMCP' },
     publisher: { '@type': 'Organization', name: 'isWebMCP' },
-    mainEntityOfPage: `https://iswebmcp.mlmrx.chatgpt.site/learn/${article.slug}`,
+    mainEntityOfPage: `${siteOrigin}/learn/${article.slug}`,
     citation: article.sources.map((source) => source.url),
     ...(article.kind === 'how-to'
       ? {
@@ -73,7 +74,7 @@ export default async function LearningArticlePage({
             '@type': 'HowToStep',
             name: section.heading,
             text: section.paragraphs.join(' '),
-            url: `https://iswebmcp.mlmrx.chatgpt.site/learn/${article.slug}#${section.id}`,
+            url: `${siteOrigin}/learn/${article.slug}#${section.id}`,
           })),
         }
       : {}),

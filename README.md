@@ -6,7 +6,7 @@
 
 **Detect it. Test it. Prove it.**
 
-- Owner-only production app: [iswebmcp.mlmrx.chatgpt.site](https://iswebmcp.mlmrx.chatgpt.site)
+- Production domain: [iswebmcp.com](https://iswebmcp.com) via Vercel GitHub deployment
 - Private source repository: [mlmrx/iswebmcp](https://github.com/mlmrx/iswebmcp)
 
 Make the app and repository public before a challenge submission; both are intentionally private at this handoff.
@@ -89,11 +89,11 @@ Additional commands:
 
 - `npm run format:check` checks formatting.
 - `npm run format` applies the repository formatter.
-- `npm run start` runs the built Cloudflare Worker locally.
+- `npm run start` runs the built Next.js production server locally.
 
 ## Architecture
 
-The app uses React 19, TypeScript, Vinext, Vite, Tailwind CSS, Zod, Vitest, Playwright, and Cloudflare's Worker runtime. It is deliberately account-free and deterministic.
+The app uses Next.js 16, React 19, TypeScript, Tailwind CSS, Zod, Vitest, and Playwright. It is deliberately account-free and deterministic.
 
 ```text
 Browser UI / WebMCP tools
@@ -112,10 +112,10 @@ Editorial cadence, approved sources, correction policy, and challenge-freeze beh
 ## Security and evidence boundaries
 
 - Quick Scan accepts only absolute HTTP(S) URLs, rejects credentials and nonstandard ports, checks A and AAAA records before every redirect hop, blocks private/reserved/special-purpose addresses, omits cookies and authorization, and caps time, redirects, response size, concurrency, and rates.
-- Cloudflare's outbound Worker fetch proxy is designed to reach public Internet services rather than internal services. The app still documents its DNS preflight limitation: Worker `fetch` resolves independently, so application code cannot cryptographically pin the connection to the preflight address. A deployment requiring an address-pinned SSRF guarantee needs controlled egress or equivalent network policy.
+- The scanner checks public A and AAAA answers before each request, but the Node `fetch` connection resolves independently. Application code therefore cannot cryptographically pin the connection to the preflight address; a deployment requiring that SSRF guarantee needs controlled address-pinned egress or equivalent network policy.
 - Fetched markup is untrusted input. It is analyzed in memory, never rendered as HTML, and complete target HTML is not retained in reports.
 - Imported manifests are user supplied and **not independently verified**. Raw defaults, examples, enums, credentials, and extension payloads are not retained.
-- Report storage, rate counters, and concurrency counters are ephemeral and isolate-local in this MVP.
+- Report storage, rate counters, and concurrency counters are ephemeral and server-instance-local in this MVP.
 - Pulse updates are original summaries with direct primary-source links. There is no runtime feed ingestion in the site and no automated Devpost scraping; the checked-in catalog is reviewed, versioned, and safely rendered as text.
 
 Please report security issues using the process in [SECURITY.md](SECURITY.md).
@@ -133,7 +133,7 @@ Authoritative references:
 
 ## Deployment
 
-The production target is OpenAI Sites on Cloudflare. Build configuration lives in `.openai/hosting.json`; deployment identifiers are managed by the hosting workflow. A custom domain can be attached after the generated deployment is healthy.
+The production target is native Next.js on Vercel through its GitHub integration. `vercel.json` declares the framework and otherwise leaves the build and output conventions to Vercel's zero-configuration Next.js support. Set `SITE_URL=https://iswebmcp.com` in Vercel so canonical URLs, RSS, robots, and sitemap output remain stable. There is no OpenAI Sites configuration or source remote in this repository.
 
 ## Challenge submission kit
 

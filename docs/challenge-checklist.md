@@ -36,16 +36,16 @@ This file is intentionally truthful. A checked engineering item does not imply s
 - [x] Target HTML is not retained in reports or rendered as executable content
 - [x] Imported evidence is bounded, sanitized, and visibly unverified
 - [x] CSP, origin isolation, frame denial, referrer policy, and `tools=(self)` policy
-- [x] DNS/fetch address-pinning limitation and isolate-local limits documented
+- [x] DNS/fetch address-pinning limitation and server-instance-local limits documented
 - [ ] Review production deployment headers from the public origin
 
 ## Automated release gates
 
-- [ ] `npm ci` from a clean checkout
+- [x] `npm ci` from a clean install
 - [x] `npm run format:check`
 - [x] `npm run typecheck`
 - [x] `npm run lint`
-- [x] `npm test` (73 tests)
+- [x] `npm test` (82 tests)
 - [x] `npm run build`
 - [x] `npm run test:e2e` (22 production-build Chromium/Pixel 7 cases)
 - [x] `npm audit` reports zero unresolved vulnerabilities
@@ -55,9 +55,9 @@ Update this checklist only with retained release evidence; local passing command
 
 ## Publishing
 
-- [x] Owner-only OpenAI Sites deployment is healthy: <https://iswebmcp.mlmrx.chatgpt.site>
+- [ ] Vercel production deployment is healthy: <https://iswebmcp.com>
 - [ ] Social image and metadata resolve on the live origin
-- [x] Launch copy uses the actual generated Sites origin; the broken custom-domain placeholder was removed
+- [x] Canonical output uses `SITE_URL`, Vercel's production hostname, or the branded fallback
 - [x] Private GitHub repository created and pushed per owner request
 - [ ] **Repository made public before challenge submission**
 - [x] MIT license exists at repository root
@@ -84,7 +84,7 @@ Update this checklist only with retained release evidence; local passing command
 
 - Commit: resolve from `v1.0.0-challenge^{}`
 - Tag: `v1.0.0-challenge`
-- Deployment URL: `https://iswebmcp.mlmrx.chatgpt.site` (owner-only)
+- Deployment URL: `https://iswebmcp.com` (verify after Vercel production deployment)
 - Deployment timestamp (UTC): `TBD`
 - Manual test environment/date: `TBD`
 - Video URL: `TBD`

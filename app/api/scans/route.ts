@@ -6,6 +6,7 @@ import {
   ScanFailure,
   toScanError,
 } from '@/lib/network';
+import { isCrossSiteMutation } from '@/lib/request-origin';
 import { analyzeSource } from '@/lib/scanner';
 import { acquireScanSlot, allowRequest, putReport } from '@/lib/scan-store';
 
@@ -79,8 +80,6 @@ export async function POST(request: Request) {
         ?.split(';', 1)[0]
         ?.trim()
         .toLowerCase() ?? '';
-    const origin = request.headers.get('origin');
-    const crossSite = request.headers.get('sec-fetch-site') === 'cross-site';
     if (contentType !== 'application/json') {
       return Response.json(
         {
@@ -92,7 +91,7 @@ export async function POST(request: Request) {
         { status: 415 },
       );
     }
-    if (crossSite || (origin && origin !== new URL(request.url).origin)) {
+    if (isCrossSiteMutation(request)) {
       return Response.json(
         {
           error: {

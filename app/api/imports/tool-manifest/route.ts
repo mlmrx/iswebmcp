@@ -3,6 +3,7 @@ import {
   deriveReportWithImportedAudit,
   importedManifestRequestSchema,
 } from '@/lib/imported-manifest';
+import { isCrossSiteMutation } from '@/lib/request-origin';
 import { allowRequest, getReport, putReport } from '@/lib/scan-store';
 
 const MAX_IMPORT_BYTES = 128_000;
@@ -54,8 +55,6 @@ export async function POST(request: Request) {
         ?.split(';', 1)[0]
         ?.trim()
         .toLowerCase() ?? '';
-    const origin = request.headers.get('origin');
-    const crossSite = request.headers.get('sec-fetch-site') === 'cross-site';
     if (contentType !== 'application/json') {
       return Response.json(
         {
@@ -67,7 +66,7 @@ export async function POST(request: Request) {
         { status: 415 },
       );
     }
-    if (crossSite || (origin && origin !== new URL(request.url).origin)) {
+    if (isCrossSiteMutation(request)) {
       return Response.json(
         {
           error: {

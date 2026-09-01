@@ -1,7 +1,6 @@
 import { learningArticles, learningCatalogUpdatedAt } from '@/lib/content';
 import { pulseGeneratedAt } from '@/lib/pulse';
-
-const origin = 'https://iswebmcp.mlmrx.chatgpt.site';
+import { siteOrigin } from '@/lib/site-origin';
 
 export function GET() {
   const pulseLastmod = pulseGeneratedAt.slice(0, 10);
@@ -20,11 +19,11 @@ export function GET() {
   ];
   const urls = [
     ...staticPages.map(({ path, lastmod }) => ({
-      loc: `${origin}${path}`,
+      loc: `${siteOrigin}${path}`,
       lastmod,
     })),
     ...learningArticles.map((article) => ({
-      loc: `${origin}/learn/${article.slug}`,
+      loc: `${siteOrigin}/learn/${article.slug}`,
       lastmod: article.updatedAt,
     })),
   ];

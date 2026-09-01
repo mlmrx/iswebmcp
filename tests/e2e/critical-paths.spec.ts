@@ -331,17 +331,15 @@ test('RSS, sitemap, and content API expose attributed indexable content', async 
   const sitemapBody = await sitemap.text();
   expect(sitemapBody).toContain('/learn/webmcp-vs-mcp');
   expect(sitemapBody).toMatch(
-    /<loc>https:\/\/iswebmcp\.mlmrx\.chatgpt\.site\/pulse<\/loc><lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/,
+    /<loc>https:\/\/iswebmcp\.com\/pulse<\/loc><lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/,
   );
 
   const methodology = await request.get('/methodology');
   expect(methodology.ok()).toBe(true);
   const methodologyHtml = await methodology.text();
-  expect(methodologyHtml).toContain(
-    'href="https://iswebmcp.mlmrx.chatgpt.site/methodology"',
-  );
+  expect(methodologyHtml).toContain('href="https://iswebmcp.com/methodology"');
   expect(methodologyHtml).not.toContain(
-    'rel="canonical" href="https://iswebmcp.mlmrx.chatgpt.site"',
+    'rel="canonical" href="https://iswebmcp.com"',
   );
 
   const content = await request.get('/api/content');
