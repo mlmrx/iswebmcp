@@ -12,6 +12,8 @@ export function GET() {
     { path: '', lastmod: productLastmod },
     { path: '/learn', lastmod: learningCatalogUpdatedAt },
     { path: '/faq', lastmod: learningCatalogUpdatedAt },
+    { path: '/readiness-index', lastmod: '2026-08-31' },
+    { path: '/readiness-index-methodology', lastmod: '2026-08-31' },
     { path: '/pulse', lastmod: pulseLastmod },
     { path: '/methodology', lastmod: '2026-08-31' },
     { path: '/lab', lastmod: '2026-08-31' },

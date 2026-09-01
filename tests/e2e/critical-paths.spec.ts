@@ -62,6 +62,46 @@ test('controlled before/after replay produces observed WebMCP Lift', async ({
   await expect(page.getByText('Aurora Q45').first()).toBeVisible();
 });
 
+test('readiness index publishes coverage, rankings, and honest after-state labels', async ({
+  page,
+}) => {
+  await page.goto('/readiness-index');
+  await expect(
+    page.getByRole('heading', { name: 'The web’s action layer, mapped.' }),
+  ).toBeVisible();
+  await expect(page.getByText('100 / 100,000')).toBeVisible();
+  await expect(
+    page.getByText('Illustration · not measured lift'),
+  ).toBeVisible();
+  await page.getByLabel('Search index').fill('amazonaws.com');
+  await expect(page.getByRole('cell', { name: 'amazonaws.com' })).toBeVisible();
+  await page.getByRole('link', { name: 'Read index methodology' }).click();
+  await expect(
+    page.getByRole('heading', { name: 'Methodology you can challenge' }),
+  ).toBeVisible();
+});
+
+test('readiness index API exposes a pinned, coverage-aware snapshot', async ({
+  request,
+}) => {
+  const response = await request.get('/api/index');
+  expect(response.ok()).toBe(true);
+  const snapshot = (await response.json()) as {
+    status: string;
+    targetCount: number;
+    attemptedCount: number;
+    source: { listId: string };
+    coverage: { scored: number; robots_blocked: number };
+  };
+  expect(snapshot.status).toBe('pilot');
+  expect(snapshot.targetCount).toBe(100_000);
+  expect(snapshot.attemptedCount).toBe(100);
+  expect(snapshot.source.listId).toBe('GQJJK');
+  expect(
+    snapshot.coverage.scored + snapshot.coverage.robots_blocked,
+  ).toBeGreaterThan(0);
+});
+
 test('the interactive baseline enforces search, comparison, cart, and verification order', async ({
   page,
 }) => {

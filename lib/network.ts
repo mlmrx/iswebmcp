@@ -374,6 +374,14 @@ export interface SafeFetchResult {
   redirects: number;
 }
 
+export interface SafeFetchOptions {
+  externalSignal?: AbortSignal;
+  beforeHop?: (url: URL) => void;
+  userAgent?: string;
+  accept?: string;
+  returnErrorResponse?: boolean;
+}
+
 async function readLimitedBody(
   response: Response,
 ): Promise<{ text: string; bytes: number }> {
@@ -419,9 +427,20 @@ async function readLimitedBody(
 
 export async function fetchPublicText(
   rawUrl: string,
-  externalSignal?: AbortSignal,
-  beforeHop?: (url: URL) => void,
+  externalSignalOrOptions?: AbortSignal | SafeFetchOptions,
+  legacyBeforeHop?: (url: URL) => void,
 ): Promise<SafeFetchResult> {
+  const options: SafeFetchOptions =
+    externalSignalOrOptions instanceof AbortSignal || legacyBeforeHop
+      ? {
+          externalSignal:
+            externalSignalOrOptions instanceof AbortSignal
+              ? externalSignalOrOptions
+              : undefined,
+          beforeHop: legacyBeforeHop,
+        }
+      : (externalSignalOrOptions ?? {});
+  const { externalSignal, beforeHop } = options;
   let current = normalizePublicUrl(rawUrl);
   const totalController = new AbortController();
   const cancelTotal = () => totalController.abort(externalSignal?.reason);
@@ -458,8 +477,11 @@ export async function fetchPublicText(
           redirect: 'manual',
           signal: controller.signal,
           headers: {
-            accept: 'text/html,application/xhtml+xml,text/plain;q=0.8',
+            accept:
+              options.accept ??
+              'text/html,application/xhtml+xml,text/plain;q=0.8',
             'user-agent':
+              options.userAgent ??
               'isWebMCP-QuickScan/1.0 (+https://iswebmcp.com/methodology)',
           },
         });
@@ -482,7 +504,7 @@ export async function fetchPublicText(
           current = normalizePublicUrl(new URL(location, current).toString());
           continue;
         }
-        if (!response.ok) {
+        if (!response.ok && !options.returnErrorResponse) {
           throw new ScanFailure(
             'UPSTREAM_FAILURE',
             `The target returned HTTP ${response.status}; error responses are not scored.`,

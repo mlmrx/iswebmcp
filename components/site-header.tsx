@@ -2,6 +2,7 @@ import { Code2, Menu, Radar } from 'lucide-react';
 import Link from 'next/link';
 
 const links = [
+  { href: '/readiness-index', label: 'Index' },
   { href: '/learn', label: 'Learn' },
   { href: '/pulse', label: 'Pulse' },
   { href: '/methodology', label: 'Methodology' },

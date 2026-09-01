@@ -13,6 +13,9 @@ export function SiteFooter() {
           </p>
         </div>
         <div className="flex max-w-xl flex-wrap items-start gap-x-5 gap-y-2 text-muted-foreground lg:justify-end">
+          <Link className="hover:text-foreground" href="/readiness-index">
+            Readiness index
+          </Link>
           <Link className="hover:text-foreground" href="/learn">
             Learning center
           </Link>

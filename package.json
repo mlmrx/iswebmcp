@@ -16,7 +16,11 @@
     "test:watch": "vitest",
     "test:e2e": "npm run build && playwright test",
     "format": "oxfmt",
-    "format:check": "oxfmt --check ."
+    "format:check": "oxfmt --check .",
+    "index:download": "tsx scripts/web-index/download-tranco.ts",
+    "index:crawl": "tsx scripts/web-index/crawl-index.ts",
+    "index:build": "tsx scripts/web-index/build-snapshot.ts",
+    "index:full": "tsx scripts/web-index/run-full.ts"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",
@@ -45,11 +49,13 @@
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
+    "fflate": "^0.8.3",
     "oxfmt": "0.61.0",
     "oxlint": "1.76.0",
     "oxlint-tsgolint": "7.0.2001",
     "postcss": "8.5.26",
     "tailwindcss": "4.3.3",
+    "tsx": "^4.23.13",
     "typescript": "5.9.3",
     "vitest": "^4.1.11"
   },
