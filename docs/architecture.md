@@ -2,12 +2,15 @@
 
 ## Product boundary
 
-isWebMCP is one web application with four surfaces:
+isWebMCP is one web application with seven connected surfaces:
 
 1. Landing and Quick Scan
 2. Evidence-based reports
 3. Before/After Proof Lab
 4. Tool Contract Workbench
+5. Learning Center and detail guides
+6. WebMCP FAQ
+7. WebMCP Pulse and Challenge Pulse
 
 The browser UI and WebMCP handlers call the same domain services. There is no second “agent-only” state model.
 
@@ -25,6 +28,9 @@ flowchart TD
   Import[Manifest import route] --> Sanitize[Bounded validation and schema summary]
   Sanitize --> Reports
   Reports --> Memory[Ephemeral isolate-local store]
+  Editorial[Reviewed editorial catalog] --> Learn[Learning center, FAQ and RSS]
+  Pulse[Versioned source-attributed pulse] --> Learn
+  Learn --> Agent[Read-only content and pulse tools]
 ```
 
 ## Runtime stack
@@ -74,7 +80,7 @@ Controlled replay uses fixed events to demonstrate measurement and state synchro
 
 ## WebMCP lifecycle
 
-Core tools are feature-detected and registered by the top-level application provider. The report readers refuse to return a report that does not match the visible report route. The three catalog tools register only on `/lab` in WebMCP mode. Each registration group receives an `AbortSignal`; changing route or mode aborts the group and removes stale capabilities.
+Core tools are feature-detected and registered by the top-level application provider. The report readers refuse to return a report that does not match the visible report route. The three catalog tools register only on `/lab` in WebMCP mode. Four read-only tools expose the reviewed learning library, labeled pulse, and challenge aggregate across routes. Each registration group receives an `AbortSignal`; changing route or mode aborts the group and removes stale capabilities.
 
 Every handler:
 
@@ -85,6 +91,18 @@ Every handler:
 - truthfully annotates read-only behavior;
 - avoids external purchase or irreversible effects.
 
+## Editorial and pulse flow
+
+Evergreen resources are typed, reviewed block data rather than remote HTML or executable MDX. Detail pages render paragraphs, lists, code, notes, and citations through React. Each article includes a stable slug, review date, audience, estimated reading time, status-aware language, direct primary references, and related-resource links.
+
+The pulse is a versioned JSON snapshot with separate `publishedAt`, `observedAt`, source, topic, and status fields. The site does not fetch external feeds during a visitor request. An external hourly maintenance task may examine approved machine-readable official feeds, but it updates the checked-in snapshot only for a material, source-verified change and only after the release gates pass. No-change checks produce no commit or deployment.
+
+Devpost is deliberately different: its public aggregate is a timestamped manual observation. Participant identities require login, the project gallery is not yet published, and Devpost's terms prohibit automated scraping. The site never infers a submission total from a participant counter.
+
+The learning and pulse catalog is exposed through server-rendered pages, `/api/content`, `/feed.xml`, and four read-only WebMCP tools. `/sitemap.xml` includes durable public content but excludes ephemeral reports and APIs.
+
 ## Storage and scale
 
 The current report store, rate windows, and concurrency counter live in isolate memory. This is intentional for an account-free challenge MVP, but it means reports can expire or disappear across isolates/deployments and rate enforcement is not globally coordinated. A multi-region production service should replace these with durable storage, a global rate-limit primitive, and controlled outbound egress.
+
+Editorial history is durable through Git rather than isolate memory. A larger publishing operation could move feed history, review workflow, and correction records to D1, but the current version favors a small auditable source catalog over an always-on ingestion database.

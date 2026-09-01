@@ -84,4 +84,4 @@ The most valuable WebMCP tools are not one-to-one wrappers around buttons. They 
 
 ## Disclosure
 
-WebMCP is an experimental proposed standard and not a W3C Standard. isWebMCP is independent and is not an official OpenAI, Google, Microsoft, Chrome, Cloudflare, or W3C product. The controlled replay is deterministic product evidence, not a probabilistic model evaluation.
+WebMCP is an experimental browser API proposal and not a W3C Standard. isWebMCP is independent and is not an official OpenAI, Google, Microsoft, Chrome, Cloudflare, or W3C product. The controlled replay is deterministic product evidence, not a probabilistic model evaluation.

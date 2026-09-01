@@ -22,6 +22,18 @@ import {
   makeControlledRun,
   type ProductFilters,
 } from '@/lib/demo';
+import {
+  getLearningArticle,
+  learningArticles,
+  searchLearningArticles,
+  type ContentKind,
+} from '@/lib/content';
+import {
+  challengeSnapshot,
+  listPulseUpdates,
+  pulseGeneratedAt,
+  type PulseTopic,
+} from '@/lib/pulse';
 import { calculateLift } from '@/lib/scoring';
 import type {
   DemoProduct,
@@ -932,6 +944,204 @@ export function AppProvider({ children }: { children: ReactNode }) {
             evidence: report.evidence.filter((item) =>
               finding.evidenceIds.includes(item.id),
             ),
+          };
+        },
+      },
+      {
+        name: 'search_webmcp_library',
+        title: 'Search WebMCP learning library',
+        description:
+          'Find source-linked WebMCP explainers, implementation guides, security reviews, and testing methods.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            query: {
+              type: 'string',
+              maxLength: 120,
+              description: 'Optional search words.',
+            },
+            kind: {
+              type: 'string',
+              enum: [
+                'explainer',
+                'how-to',
+                'architecture',
+                'testing',
+                'security',
+                'field-guide',
+              ],
+              description: 'Optional resource format.',
+            },
+            limit: {
+              type: 'integer',
+              minimum: 1,
+              maximum: 10,
+              description: 'Maximum results from one to ten.',
+            },
+          },
+          additionalProperties: false,
+        },
+        annotations: { readOnlyHint: true },
+        execute: (raw) => {
+          const input = exactRecord(raw, ['query', 'kind', 'limit']);
+          const kind = stringInput(input, 'kind');
+          const allowedKinds: ContentKind[] = [
+            'explainer',
+            'how-to',
+            'architecture',
+            'testing',
+            'security',
+            'field-guide',
+          ];
+          if (kind && !allowedKinds.includes(kind as ContentKind))
+            toolFailure('INVALID_INPUT', 'Unknown learning-resource kind.');
+          const articles = searchLearningArticles({
+            query: stringInput(input, 'query', { max: 120 }),
+            kind: kind as ContentKind | undefined,
+            limit:
+              numberInput(input, 'limit', {
+                integer: true,
+                min: 1,
+                max: 10,
+              }) ?? 6,
+          });
+          return {
+            count: articles.length,
+            results: articles.map(
+              ({ slug, title, dek, kind: resourceKind, minutes, tags }) => ({
+                slug,
+                title,
+                summary: dek,
+                kind: resourceKind,
+                reading_minutes: minutes,
+                tags,
+                url: `/learn/${slug}`,
+              }),
+            ),
+          };
+        },
+      },
+      {
+        name: 'get_webmcp_resource',
+        title: 'Read a WebMCP resource',
+        description:
+          'Read one reviewed isWebMCP resource with status notes, sections, primary references, and a next action.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            slug: {
+              type: 'string',
+              enum: learningArticles.map((article) => article.slug),
+              description: 'Resource slug returned by library search.',
+            },
+            detail: {
+              type: 'string',
+              enum: ['summary', 'full'],
+              description: 'Summary or full structured sections.',
+            },
+          },
+          required: ['slug'],
+          additionalProperties: false,
+        },
+        annotations: { readOnlyHint: true },
+        execute: (raw) => {
+          const input = exactRecord(raw, ['slug', 'detail']);
+          const slug = stringInput(input, 'slug', {
+            required: true,
+            max: 100,
+          }) as string;
+          const detail = stringInput(input, 'detail') ?? 'summary';
+          if (detail !== 'summary' && detail !== 'full')
+            toolFailure('INVALID_INPUT', 'Detail must be summary or full.');
+          const article = getLearningArticle(slug);
+          if (!article)
+            toolFailure('NOT_FOUND', 'The resource slug is unknown.');
+          return {
+            slug: article.slug,
+            title: article.title,
+            summary: article.dek,
+            takeaway: article.takeaway,
+            reviewed_at: article.updatedAt,
+            status_note:
+              'WebMCP remains an experimental Community Group draft as of this review.',
+            sections:
+              detail === 'full'
+                ? article.sections
+                : article.sections.map(({ id, heading }) => ({ id, heading })),
+            sources: article.sources,
+            next_action: article.cta,
+          };
+        },
+      },
+      {
+        name: 'list_mcp_updates',
+        title: 'List WebMCP and MCP updates',
+        description:
+          'List source-linked WebMCP, relevant MCP ecosystem, or challenge updates without conflating their status.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            topic: {
+              type: 'string',
+              enum: ['webmcp', 'mcp', 'challenge'],
+              description: 'Optional update stream.',
+            },
+            limit: {
+              type: 'integer',
+              minimum: 1,
+              maximum: 10,
+              description: 'Maximum results from one to ten.',
+            },
+          },
+          additionalProperties: false,
+        },
+        annotations: { readOnlyHint: true, untrustedContentHint: true },
+        execute: (raw) => {
+          const input = exactRecord(raw, ['topic', 'limit']);
+          const topic = stringInput(input, 'topic');
+          if (topic && !['webmcp', 'mcp', 'challenge'].includes(topic))
+            toolFailure('INVALID_INPUT', 'Unknown update topic.');
+          const updates = listPulseUpdates({
+            topic: topic as PulseTopic | undefined,
+            limit:
+              numberInput(input, 'limit', {
+                integer: true,
+                min: 1,
+                max: 10,
+              }) ?? 6,
+          });
+          return {
+            checked_at: pulseGeneratedAt,
+            count: updates.length,
+            updates,
+            provenance:
+              'Original summaries with direct primary-source URLs; topic labels distinguish WebMCP, MCP, and challenge news.',
+          };
+        },
+      },
+      {
+        name: 'get_challenge_pulse',
+        title: 'Read WebMCP Challenge pulse',
+        description:
+          'Read the timestamped public participant aggregate, project-gallery status, deadline, and evidence caveats.',
+        inputSchema: emptySchema,
+        annotations: { readOnlyHint: true, untrustedContentHint: true },
+        execute: (raw) => {
+          exactRecord(raw, []);
+          return {
+            checked_at: pulseGeneratedAt,
+            participant_count: challengeSnapshot.participantCount,
+            participant_count_observed_at:
+              challengeSnapshot.participantCountObservedAt,
+            participant_count_note: challengeSnapshot.participantCountNote,
+            submission_count: challengeSnapshot.submissionCount,
+            gallery_status: challengeSnapshot.galleryStatus,
+            gallery_note: challengeSnapshot.galleryNote,
+            deadline: challengeSnapshot.deadline,
+            sources: {
+              participants: challengeSnapshot.participantSourceUrl,
+              gallery: challengeSnapshot.gallerySourceUrl,
+            },
           };
         },
       },

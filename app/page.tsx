@@ -1,5 +1,6 @@
 import {
   ArrowRight,
+  BookOpen,
   Braces,
   CheckCircle2,
   CircleDashed,
@@ -9,12 +10,23 @@ import {
   Layers3,
   MousePointer2,
   Radar,
+  RadioTower,
   ShieldCheck,
 } from 'lucide-react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import { QuickScanForm } from '@/components/quick-scan-form';
 import { Button } from '@/components/ui/button';
+import { learningArticles } from '@/lib/content';
+import { formatPulseDate, pulseUpdates } from '@/lib/pulse';
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: '/',
+    types: { 'application/rss+xml': '/feed.xml' },
+  },
+};
 
 const proofSteps = [
   [
@@ -325,6 +337,84 @@ export default function Home() {
                 </article>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-border bg-card/70">
+        <div className="mx-auto max-w-7xl px-5 py-16 lg:px-8">
+          <div className="grid gap-8 lg:grid-cols-[.62fr_1.38fr]">
+            <div>
+              <p className="eyebrow text-signal-ink">Learn + monitor</p>
+              <h2 className="mt-3 text-4xl font-semibold tracking-[-.05em]">
+                The field guide now lives beside the lab.
+              </h2>
+              <p className="mt-5 max-w-lg leading-7 text-muted-foreground">
+                Build from source-linked explainers and how-tos, then follow
+                meaningful WebMCP changes without mixing them up with broader
+                MCP ecosystem news.
+              </p>
+              <div className="mt-7 flex flex-wrap gap-3">
+                <Button nativeButton={false} render={<Link href="/learn" />}>
+                  <BookOpen data-icon="inline-start" /> Open learning center
+                </Button>
+                <Button
+                  nativeButton={false}
+                  variant="outline"
+                  render={<Link href="/pulse" />}
+                >
+                  <RadioTower data-icon="inline-start" /> View latest pulse
+                </Button>
+              </div>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {learningArticles.slice(0, 2).map((article) => (
+                <article key={article.slug} className="instrument-card p-5">
+                  <span className="source-badge">
+                    {article.kind.replace('-', ' ')}
+                  </span>
+                  <h3 className="mt-5 text-xl font-semibold">
+                    {article.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                    {article.dek}
+                  </p>
+                  <Link
+                    className="mt-5 inline-flex items-center gap-2 text-sm font-semibold"
+                    href={`/learn/${article.slug}`}
+                  >
+                    Read {article.minutes}-minute guide{' '}
+                    <ArrowRight className="size-4" aria-hidden="true" />
+                  </Link>
+                </article>
+              ))}
+              <article className="instrument-card p-5 sm:col-span-2">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <span className="source-badge">Latest signal</span>
+                  <time
+                    className="font-mono text-[10px] text-muted-foreground"
+                    dateTime={pulseUpdates[0]?.publishedAt}
+                  >
+                    {pulseUpdates[0]
+                      ? formatPulseDate(pulseUpdates[0].publishedAt)
+                      : ''}
+                  </time>
+                </div>
+                <h3 className="mt-5 text-xl font-semibold">
+                  {pulseUpdates[0]?.title}
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                  {pulseUpdates[0]?.summary}
+                </p>
+                <Link
+                  className="mt-5 inline-flex items-center gap-2 text-sm font-semibold"
+                  href="/pulse"
+                >
+                  See source and challenge tracker{' '}
+                  <ArrowRight className="size-4" aria-hidden="true" />
+                </Link>
+              </article>
+            </div>
           </div>
         </div>
       </section>

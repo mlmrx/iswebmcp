@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: 'Before/After Proof Lab',
   description:
     'Run the same synthetic journey through UI-only and WebMCP-enabled paths, then measure the difference.',
+  alternates: { canonical: '/lab' },
   openGraph: {
     title: 'Before/After WebMCP Proof Lab · isWebMCP',
     description:

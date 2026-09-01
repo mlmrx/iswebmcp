@@ -25,6 +25,11 @@ export const metadata: Metadata = {
   },
   description:
     'An evidence-based before-and-after laboratory for agent-ready web applications.',
+  alternates: {
+    types: {
+      'application/rss+xml': '/feed.xml',
+    },
+  },
   openGraph: {
     title: 'Is your web app truly WebMCP ready?',
     description: 'Detect it. Test it. Prove it.',

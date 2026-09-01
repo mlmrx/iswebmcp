@@ -173,6 +173,22 @@ test('registered WebMCP tools execute the complete journey and return structured
     )
     .toBe(true);
 
+  const library = (await executeRegisteredTool(page, 'search_webmcp_library', {
+    query: 'lifecycle cleanup',
+    limit: 3,
+  })) as { count: number; results: Array<{ slug: string }> };
+  expect(library.count).toBeGreaterThan(0);
+  expect(library.results.map((item) => item.slug)).toContain(
+    'webmcp-lifecycle-single-page-apps',
+  );
+  const challenge = (await executeRegisteredTool(
+    page,
+    'get_challenge_pulse',
+    {},
+  )) as { submission_count: number | null; gallery_status: string };
+  expect(challenge.submission_count).toBeNull();
+  expect(challenge.gallery_status).toBe('not_published');
+
   const invalid = (await executeRegisteredTool(page, 'search_demo_products', {
     unexpected: true,
   })) as { ok: boolean; error: { code: string } };
@@ -203,6 +219,30 @@ test('registered WebMCP tools execute the complete journey and return structured
   )) as { success: boolean };
   expect(completed.success).toBe(true);
   await expect(page.getByText('Aurora Q45').last()).toBeVisible();
+
+  const methodology = page.getByRole('link', { name: 'Methodology' });
+  if (!(await methodology.isVisible())) {
+    await page.getByLabel('Open primary navigation').click();
+  }
+  await methodology.click();
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const tools = (
+          window as unknown as { __webmcpTools: Map<string, BrowserTool> }
+        ).__webmcpTools;
+        return {
+          globalContentTool: tools.has('search_webmcp_library'),
+          labTool: tools.has('start_demo_run'),
+          catalogTool: tools.has('search_demo_products'),
+        };
+      }),
+    )
+    .toEqual({
+      globalContentTool: true,
+      labTool: false,
+      catalogTool: false,
+    });
 });
 
 test('primary navigation remains reachable at every configured viewport', async ({
@@ -236,4 +276,80 @@ test('contract workbench exposes deterministic findings', async ({ page }) => {
   ).toBeVisible();
   await expect(page.getByText('Current feature detection')).toBeVisible();
   await expect(page.getByText('Static evidence is provisional.')).toBeVisible();
+});
+
+test('learning center supports discovery and opens a source-linked guide', async ({
+  page,
+}) => {
+  await page.goto('/learn');
+  await expect(
+    page.getByRole('heading', {
+      name: 'From first principles to production evidence.',
+    }),
+  ).toBeVisible();
+  await page.getByLabel('Search the library').fill('prompt injection');
+  await expect(page.getByText('1 of 10 resources')).toBeVisible();
+  await page
+    .getByRole('link', {
+      name: 'A practical security and privacy review for WebMCP tools',
+    })
+    .click();
+  await expect(
+    page.getByRole('heading', {
+      name: 'Threat-model the session and every exposed action',
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'Read the sources' }),
+  ).toBeVisible();
+});
+
+test('FAQ and pulse preserve experimental status and challenge provenance', async ({
+  page,
+}) => {
+  await page.goto('/faq');
+  await page.getByRole('button', { name: 'Is WebMCP a W3C Standard?' }).click();
+  await expect(page.getByText(/not on the W3C Standards Track/i)).toBeVisible();
+  await page.goto('/pulse');
+  await expect(
+    page.getByRole('heading', { name: 'Registrations are not submissions.' }),
+  ).toBeVisible();
+  await expect(page.getByText('Not published', { exact: true })).toBeVisible();
+  await expect(page.getByText(/no automated Devpost scraping/i)).toBeVisible();
+});
+
+test('RSS, sitemap, and content API expose attributed indexable content', async ({
+  request,
+}) => {
+  const rss = await request.get('/feed.xml');
+  expect(rss.ok()).toBe(true);
+  expect(rss.headers()['content-type']).toContain('application/rss+xml');
+  expect(await rss.text()).toContain('isWebMCP Learning &amp; Pulse');
+
+  const sitemap = await request.get('/sitemap.xml');
+  expect(sitemap.ok()).toBe(true);
+  const sitemapBody = await sitemap.text();
+  expect(sitemapBody).toContain('/learn/webmcp-vs-mcp');
+  expect(sitemapBody).toMatch(
+    /<loc>https:\/\/iswebmcp\.mlmrx\.chatgpt\.site\/pulse<\/loc><lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/,
+  );
+
+  const methodology = await request.get('/methodology');
+  expect(methodology.ok()).toBe(true);
+  const methodologyHtml = await methodology.text();
+  expect(methodologyHtml).toContain(
+    'href="https://iswebmcp.mlmrx.chatgpt.site/methodology"',
+  );
+  expect(methodologyHtml).not.toContain(
+    'rel="canonical" href="https://iswebmcp.mlmrx.chatgpt.site"',
+  );
+
+  const content = await request.get('/api/content');
+  expect(content.ok()).toBe(true);
+  const payload = (await content.json()) as {
+    articles: unknown[];
+    challenge: { submissionCount: number | null };
+  };
+  expect(payload.articles.length).toBeGreaterThanOrEqual(10);
+  expect(payload.challenge.submissionCount).toBeNull();
 });

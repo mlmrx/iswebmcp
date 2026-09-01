@@ -12,11 +12,13 @@ This file is intentionally truthful. A checked engineering item does not imply s
 - [x] Proof Lab uses the same visible UI and services in both modes
 - [x] Tool Contract Workbench gives deterministic feedback
 - [x] JSON and print exports are visible and account-free
+- [x] Ten-guide Learning Center, thirty-answer FAQ, Pulse, RSS, sitemap, and JSON content index
+- [x] Challenge Pulse separates participants, public gallery entries, and unknown submissions
 - [x] Mobile navigation, report overflow, metadata, favicon, and social card implemented
 
 ## WebMCP
 
-- [x] Twelve top-level imperative tools implemented
+- [x] Sixteen top-level imperative tools implemented
 - [x] Runtime inputs validated; unknown fields rejected
 - [x] Structured expected errors
 - [x] Read-only annotations are truthful
@@ -43,9 +45,9 @@ This file is intentionally truthful. A checked engineering item does not imply s
 - [x] `npm run format:check`
 - [x] `npm run typecheck`
 - [x] `npm run lint`
-- [x] `npm test` (66 tests)
+- [x] `npm test` (73 tests)
 - [x] `npm run build`
-- [x] `npm run test:e2e` (16 production-build Chromium/Pixel 7 cases)
+- [x] `npm run test:e2e` (22 production-build Chromium/Pixel 7 cases)
 - [x] `npm audit` reports zero unresolved vulnerabilities
 - [ ] GitHub Actions passes on the pushed commit
 
@@ -60,7 +62,8 @@ Update this checklist only with retained release evidence; local passing command
 - [ ] **Repository made public before challenge submission**
 - [x] MIT license exists at repository root
 - [x] Repository URL inserted in site header, README, and Devpost draft
-- [x] Frozen challenge tag `v1.0.0-challenge` created from the final verified source
+- [x] Historical `v1.0.0-challenge` tag preserved for the pre-content release
+- [ ] Create the final challenge-freeze tag only after content monitoring is paused
 
 > Blocker: the owner requested a private repository for this build, while the challenge requirements call for a public repository. Keep it private now, but do not submit or claim eligibility until the owner explicitly changes visibility.
 

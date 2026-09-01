@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: 'Tool Contract Workbench',
   description:
     'Deterministically audit WebMCP names, schemas, annotations, lifecycle cleanup, and security signals.',
+  alternates: { canonical: '/workbench' },
   openGraph: {
     title: 'WebMCP Tool Contract Workbench · isWebMCP',
     description:

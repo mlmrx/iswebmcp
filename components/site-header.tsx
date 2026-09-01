@@ -2,6 +2,8 @@ import { Code2, Menu, Radar } from 'lucide-react';
 import Link from 'next/link';
 
 const links = [
+  { href: '/learn', label: 'Learn' },
+  { href: '/pulse', label: 'Pulse' },
   { href: '/methodology', label: 'Methodology' },
   { href: '/lab', label: 'Proof lab' },
   { href: '/workbench', label: 'Workbench' },
@@ -27,7 +29,7 @@ export function SiteHeader() {
           {links.map((link) => (
             <Link
               key={link.href}
-              className="hidden rounded-lg px-3 py-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground sm:inline-flex"
+              className="hidden rounded-lg px-3 py-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground lg:inline-flex"
               href={link.href}
             >
               {link.label}
@@ -40,7 +42,7 @@ export function SiteHeader() {
           >
             <Code2 className="size-4" aria-hidden="true" />
           </a>
-          <details className="group sm:hidden">
+          <details className="group lg:hidden">
             <summary
               className="flex size-9 cursor-pointer list-none items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition-colors hover:text-foreground"
               aria-label="Open primary navigation"

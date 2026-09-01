@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: 'Methodology',
   description:
     'Evidence provenance, scoring formulas, limitations, security boundaries, and WebMCP draft assumptions.',
+  alternates: { canonical: '/methodology' },
   openGraph: {
     title: 'WebMCP readiness methodology · isWebMCP',
     description:
@@ -51,6 +52,10 @@ const tools = [
   'get_scan_summary',
   'list_action_surface',
   'get_finding_details',
+  'search_webmcp_library',
+  'get_webmcp_resource',
+  'list_mcp_updates',
+  'get_challenge_pulse',
   'select_demo_mode',
   'start_demo_run',
   'search_demo_products',
@@ -333,7 +338,7 @@ export default function MethodologyPage() {
               <div>
                 <p className="eyebrow">This site’s action surface</p>
                 <h3 className="mt-2 text-xl font-semibold">
-                  12 top-level tools
+                  16 top-level tools
                 </h3>
               </div>
               <span className="status-chip">AbortSignal cleanup</span>

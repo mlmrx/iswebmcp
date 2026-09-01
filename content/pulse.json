@@ -1,0 +1,99 @@
+{
+  "generatedAt": "2026-08-31T19:55:00-07:00",
+  "policy": "Source-verified updates only. An hourly check may read approved machine-oriented official feeds, but new editorial entries require a primary source and a material change. Devpost observations are manual.",
+  "challenge": {
+    "name": "The WebMCP Challenge",
+    "organizer": "Devpost",
+    "deadline": "2026-09-03T13:00:00-07:00",
+    "participantCount": 5113,
+    "participantCountObservedAt": "2026-08-31T19:52:00-07:00",
+    "participantCountNote": "The public navigation counter returned values from 5,110 to 5,113 during the same collection window, likely because of cache or request timing. The displayed value is the latest observation, not an audited registration total.",
+    "galleryStatus": "not_published",
+    "submissionCount": null,
+    "galleryNote": "Devpost says the project gallery has not been published. Participants are not the same as submitted projects, so no submission total is inferred.",
+    "participantSourceUrl": "https://webmcp.devpost.com/participants",
+    "gallerySourceUrl": "https://webmcp.devpost.com/project-gallery",
+    "observations": [
+      {
+        "observedAt": "2026-08-31T19:52:00-07:00",
+        "participantCount": 5113,
+        "submissionCount": null,
+        "galleryStatus": "not_published"
+      }
+    ]
+  },
+  "updates": [
+    {
+      "id": "devpost-halfway-2026-08-30",
+      "title": "Challenge organizers publish the halfway build checklist",
+      "summary": "The latest Devpost update asks builders to verify registered tools, a complete core flow, a deployed app, a public licensed repository, and a clear demo plan before the September 3 deadline.",
+      "publishedAt": "2026-08-30",
+      "observedAt": "2026-08-31T19:52:00-07:00",
+      "sourceName": "The WebMCP Challenge on Devpost",
+      "sourceUrl": "https://webmcp.devpost.com/updates/46123-halfway-there-where-are-you",
+      "topic": "challenge",
+      "status": "published",
+      "tags": ["challenge", "submission", "checklist"]
+    },
+    {
+      "id": "webmcp-draft-2026-08-26",
+      "title": "WebMCP Community Group Report dated August 26",
+      "summary": "The current report defines the imperative browser API, lifecycle and exposure concepts, agent interaction model, and a growing security and privacy section. It remains a Community Group draft, not a W3C Standard.",
+      "publishedAt": "2026-08-26",
+      "observedAt": "2026-08-31T19:52:00-07:00",
+      "sourceName": "Web Machine Learning Community Group",
+      "sourceUrl": "https://webmachinelearning.github.io/webmcp/",
+      "topic": "webmcp",
+      "status": "draft",
+      "tags": ["specification", "browser-api", "security"]
+    },
+    {
+      "id": "chrome-build-tools-2026-08-26",
+      "title": "Chrome publishes a practical WebMCP tool-building guide",
+      "summary": "Chrome's guide walks through imperative registration, input schemas, tool results, annotations, state synchronization, feature detection, and cleanup for application developers.",
+      "publishedAt": "2026-08-26",
+      "observedAt": "2026-08-31T19:52:00-07:00",
+      "sourceName": "Chrome for Developers",
+      "sourceUrl": "https://developer.chrome.com/docs/ai/webmcp/build-tools",
+      "topic": "webmcp",
+      "status": "published",
+      "tags": ["implementation", "chrome", "guide"]
+    },
+    {
+      "id": "mcp-roadmap-2026-08-22",
+      "title": "MCP maintainers publish a new protocol roadmap",
+      "summary": "The broader MCP project highlights agentic messaging, HTTP transport hardening, agent identity, enterprise security, improved primitives, and SDK experience. This is MCP ecosystem news, not a WebMCP browser API change.",
+      "publishedAt": "2026-08-22",
+      "observedAt": "2026-08-31T19:52:00-07:00",
+      "sourceName": "Model Context Protocol Blog",
+      "sourceUrl": "https://blog.modelcontextprotocol.io/posts/mcp-roadmap/",
+      "topic": "mcp",
+      "status": "published",
+      "tags": ["roadmap", "protocol", "governance"]
+    },
+    {
+      "id": "cloudflare-webmcp-2026-08-06",
+      "title": "Cloudflare describes a remote-browser path to WebMCP",
+      "summary": "Cloudflare presents an approach for adding a WebMCP interface around existing sites with Browser Rendering and Workers. Treat it as one implementation pattern, not a change to the browser specification.",
+      "publishedAt": "2026-08-06",
+      "observedAt": "2026-08-31T19:52:00-07:00",
+      "sourceName": "Cloudflare Blog",
+      "sourceUrl": "https://blog.cloudflare.com/webmcp/",
+      "topic": "webmcp",
+      "status": "published",
+      "tags": ["cloudflare", "browser-automation", "implementation"]
+    },
+    {
+      "id": "mcp-spec-2026-07-28",
+      "title": "MCP 2026-07-28 specification release ships",
+      "summary": "The broader MCP protocol release introduces a stateless core, discovery, cacheable list results, authorization hardening, and an extensions framework. WebMCP applications should track it for ecosystem alignment, but it is a separate specification.",
+      "publishedAt": "2026-07-28",
+      "observedAt": "2026-08-31T19:52:00-07:00",
+      "sourceName": "Model Context Protocol Blog",
+      "sourceUrl": "https://blog.modelcontextprotocol.io/posts/2026-07-28/",
+      "topic": "mcp",
+      "status": "published",
+      "tags": ["specification", "release", "protocol"]
+    }
+  ]
+}

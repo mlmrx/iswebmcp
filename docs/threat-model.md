@@ -12,6 +12,8 @@ Untrusted inputs include:
 - imported JSON tool manifests;
 - every WebMCP tool call;
 - report IDs and finding IDs in routes or tool inputs.
+- externally published titles, summaries, timestamps, and source URLs considered for the pulse;
+- public challenge aggregate observations.
 
 The primary boundaries are the browser/API origin, public outbound fetch path, manifest normalization boundary, ephemeral store, and browser WebMCP registration surface.
 
@@ -30,6 +32,9 @@ The primary boundaries are the browser/API origin, public outbound fetch path, m
 | Tool misuse or state divergence                   | Exact runtime input checks, stable enums/IDs, ordered demo state constraints, shared UI/tool services, structured errors, visible updates, deterministic finish assertions                                                                     | Current lab tools are synthetic. Real consequential tools need authentication, authorization, idempotency, confirmation, audit, and domain-specific controls.                                                          |
 | Stale route capabilities                          | Route/mode-scoped `AbortSignal` cleanup; report handlers require visible route/report match                                                                                                                                                    | Browser implementations are experimental; manual lifecycle tests remain required.                                                                                                                                      |
 | Cross-site API use                                | JSON content type and Origin/Sec-Fetch-Site checks; no permissive CORS; CSP, frame denial, referrer policy, origin isolation, and `tools=(self)`                                                                                               | Non-browser clients can omit browser metadata; rate/target guards remain the server-side security controls.                                                                                                            |
+| Editorial prompt injection or unsafe markup       | Approved primary sources; original bounded summaries; typed React blocks; no remote HTML, images, scripts, or MDX execution; direct attribution; review before commit                                                                          | A maintainer could still summarize a source incorrectly. Corrections remain a human editorial responsibility and must be recorded in Git.                                                                              |
+| Automated source abuse                            | Hourly monitor is limited to machine-readable official feeds and APIs that permit aggregation; conditional requests and no-op checks; no automated Devpost access                                                                              | Source terms and interfaces can change. Disable a source on ambiguity rather than bypassing controls.                                                                                                                  |
+| Misleading challenge metrics                      | Participant aggregate and public project gallery are separate fields; unknown submission count remains null; observation time and counter uncertainty are visible; no identities collected                                                     | Devpost counters may be cached or internally inconsistent and public gallery counts may exclude projects under review.                                                                                                 |
 
 ## Deliberate non-claims
 
@@ -39,6 +44,8 @@ The primary boundaries are the browser/API origin, public outbound fetch path, m
 - The controlled replay does not measure arbitrary model routing accuracy.
 - The hosted MVP does not provide durable reports or globally coordinated rate limits.
 - No token, cost, or ROI savings are claimed without measured model-specific evidence.
+- The participant counter is not a submission, team, eligibility, or judging metric.
+- A registry listing, vendor article, or community post is not a normative WebMCP specification change.
 
 ## Production hardening path
 
