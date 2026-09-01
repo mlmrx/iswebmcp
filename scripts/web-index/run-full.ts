@@ -2,10 +2,14 @@ import { spawn } from 'node:child_process';
 
 function run(command: string, args: string[]): Promise<void> {
   return new Promise((resolve, reject) => {
-    const child = spawn(command, args, {
+    const executable =
+      process.platform === 'win32' && ['npm', 'npx'].includes(command)
+        ? `${command}.cmd`
+        : command;
+    const child = spawn(executable, args, {
       cwd: process.cwd(),
       env: process.env,
-      shell: process.platform === 'win32',
+      shell: false,
       stdio: 'inherit',
     });
     child.once('error', reject);
