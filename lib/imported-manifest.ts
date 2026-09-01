@@ -503,12 +503,12 @@ export function auditImportedManifest(
   const categories = [
     category(
       'action_coverage',
-      'Useful action coverage',
+      'Contract-to-action candidate coverage',
       20,
       actionCoverage,
       actionCoverage === null
         ? 'No source action surface was available for exact-token matching.'
-        : `${matchedActionIds.length} of ${report.actionSurface.length} source action candidates matched imported name, title, or description tokens.`,
+        : `${matchedActionIds.length} of ${report.actionSurface.length} source action candidates matched imported name or title identity tokens. This lexical candidate signal does not prove distinct runtime capabilities.`,
     ),
     category(
       'contracts',

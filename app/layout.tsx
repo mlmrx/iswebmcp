@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://iswebmcp.com'),
+  metadataBase: new URL('https://iswebmcp.mlmrx.chatgpt.site'),
   title: {
     default: 'isWebMCP — Detect it. Test it. Prove it.',
     template: '%s · isWebMCP',
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     title: 'Is your web app truly WebMCP ready?',
     description: 'Detect it. Test it. Prove it.',
     type: 'website',
-    url: 'https://iswebmcp.com',
+    url: 'https://iswebmcp.mlmrx.chatgpt.site',
     siteName: 'isWebMCP',
     images: [
       {
@@ -59,6 +59,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AppProvider>
+          <a className="skip-link" href="#main-content">
+            Skip to main content
+          </a>
           <SiteHeader />
           {children}
           <SiteFooter />

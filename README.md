@@ -6,6 +6,11 @@
 
 **Detect it. Test it. Prove it.**
 
+- Owner-only production app: [iswebmcp.mlmrx.chatgpt.site](https://iswebmcp.mlmrx.chatgpt.site)
+- Private source repository: [mlmrx/iswebmcp](https://github.com/mlmrx/iswebmcp)
+
+Make the app and repository public before a challenge submission; both are intentionally private at this handoff.
+
 The product answers a harder question than protocol detection: can an agent use the exposed tools successfully, safely, and with an observable improvement over the human UI path?
 
 ## What works

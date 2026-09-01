@@ -178,7 +178,11 @@ export function LabView() {
   };
 
   return (
-    <main className="min-h-screen bg-background pb-16">
+    <main
+      id="main-content"
+      tabIndex={-1}
+      className="min-h-screen bg-background pb-16"
+    >
       <section className="border-b border-border bg-ink text-paper">
         <div className="mx-auto grid max-w-7xl gap-8 px-5 py-10 lg:grid-cols-[1fr_auto] lg:items-end lg:px-8">
           <div>

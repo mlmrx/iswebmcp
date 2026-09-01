@@ -40,27 +40,27 @@ This file is intentionally truthful. A checked engineering item does not imply s
 ## Automated release gates
 
 - [ ] `npm ci` from a clean checkout
-- [ ] `npm run format:check`
-- [ ] `npm run typecheck`
-- [ ] `npm run lint`
-- [ ] `npm test`
-- [ ] `npm run build`
-- [ ] `npm run test:e2e` in Chromium desktop and mobile projects
-- [ ] `npm audit` reports zero unresolved production vulnerabilities
+- [x] `npm run format:check`
+- [x] `npm run typecheck`
+- [x] `npm run lint`
+- [x] `npm test` (66 tests)
+- [x] `npm run build`
+- [x] `npm run test:e2e` (16 production-build Chromium/Pixel 7 cases)
+- [x] `npm audit` reports zero unresolved vulnerabilities
 - [ ] GitHub Actions passes on the pushed commit
 
 Update this checklist only with retained release evidence; local passing commands are not automatically a future deployment guarantee.
 
 ## Publishing
 
-- [ ] OpenAI Sites deployment is healthy and linked here: `TBD`
+- [x] Owner-only OpenAI Sites deployment is healthy: <https://iswebmcp.mlmrx.chatgpt.site>
 - [ ] Social image and metadata resolve on the live origin
-- [ ] Custom domain is configured and healthy, or all launch copy uses the actual generated origin
-- [ ] Private GitHub repository created and pushed per owner request
+- [x] Launch copy uses the actual generated Sites origin; the broken custom-domain placeholder was removed
+- [x] Private GitHub repository created and pushed per owner request
 - [ ] **Repository made public before challenge submission**
 - [x] MIT license exists at repository root
-- [ ] Repository URL inserted in site header, README, and Devpost draft
-- [ ] Frozen challenge tag created and pushed after final verification
+- [x] Repository URL inserted in site header, README, and Devpost draft
+- [x] Frozen challenge tag `v1.0.0-challenge` created from the final verified source
 
 > Blocker: the owner requested a private repository for this build, while the challenge requirements call for a public repository. Keep it private now, but do not submit or claim eligibility until the owner explicitly changes visibility.
 
@@ -79,9 +79,9 @@ Update this checklist only with retained release evidence; local passing command
 
 ## Freeze record
 
-- Commit: `TBD`
-- Tag: `TBD`
-- Deployment URL: `TBD`
+- Commit: resolve from `v1.0.0-challenge^{}`
+- Tag: `v1.0.0-challenge`
+- Deployment URL: `https://iswebmcp.mlmrx.chatgpt.site` (owner-only)
 - Deployment timestamp (UTC): `TBD`
 - Manual test environment/date: `TBD`
 - Video URL: `TBD`

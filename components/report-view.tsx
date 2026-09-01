@@ -236,7 +236,11 @@ export function ReportView({ scanId }: { scanId: string }) {
 
   if (loading && !report) {
     return (
-      <main className="mx-auto min-h-[70vh] max-w-7xl px-5 py-16 lg:px-8">
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className="mx-auto min-h-[70vh] max-w-7xl px-5 py-16 lg:px-8"
+      >
         <output
           className="js-report-loading instrument-card mx-auto flex max-w-lg items-center gap-3 p-6"
           aria-live="polite"
@@ -266,7 +270,11 @@ export function ReportView({ scanId }: { scanId: string }) {
 
   if (error || !report) {
     return (
-      <main className="mx-auto min-h-[70vh] max-w-3xl px-5 py-16 lg:px-8">
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className="mx-auto min-h-[70vh] max-w-3xl px-5 py-16 lg:px-8"
+      >
         <div className="instrument-card p-8 text-center">
           <ShieldAlert
             className="mx-auto size-8 text-warning"
@@ -289,7 +297,11 @@ export function ReportView({ scanId }: { scanId: string }) {
   }
 
   return (
-    <main className="report-page min-h-screen bg-background pb-16">
+    <main
+      id="main-content"
+      tabIndex={-1}
+      className="report-page min-h-screen bg-background pb-16"
+    >
       <section className="report-toolbar sticky top-16 z-20 border-b border-border bg-background/94 backdrop-blur-lg print:static">
         <div
           id="export-controls"

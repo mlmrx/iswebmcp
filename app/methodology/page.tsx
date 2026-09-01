@@ -63,7 +63,11 @@ const tools = [
 
 export default function MethodologyPage() {
   return (
-    <main className="min-h-screen bg-background pb-16">
+    <main
+      id="main-content"
+      tabIndex={-1}
+      className="min-h-screen bg-background pb-16"
+    >
       <section className="border-b border-border">
         <div className="mx-auto max-w-7xl px-5 py-14 lg:px-8">
           <div className="flex flex-wrap items-center gap-2">

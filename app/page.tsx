@@ -36,7 +36,11 @@ const proofSteps = [
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main
+      id="main-content"
+      tabIndex={-1}
+      className="min-h-screen bg-background text-foreground"
+    >
       <section
         id="top"
         className="mx-auto grid max-w-7xl gap-12 px-5 py-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(390px,.95fr)] lg:px-8 lg:py-20"

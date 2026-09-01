@@ -77,8 +77,8 @@ The most valuable WebMCP tools are not one-to-one wrappers around buttons. They 
 
 ## Links to insert before submission
 
-- Live app: `TBD_AFTER_DEPLOYMENT`
-- Public repository: `TBD_AFTER_OWNER_MAKES_REPOSITORY_PUBLIC`
+- Live app: [owner-only staging deployment](https://iswebmcp.mlmrx.chatgpt.site) — change Sites access to public before submission
+- Repository: [private build repository](https://github.com/mlmrx/iswebmcp) — change visibility to public before submission
 - Demo video: `TBD_AFTER_RECORDING`
 - Frozen release tag: `TBD_AFTER_FINAL_VERIFICATION`
 
