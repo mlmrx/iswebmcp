@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-31T19:55:00-07:00",
+  "generatedAt": "2026-09-02T08:47:12-07:00",
   "policy": "Source-verified updates only. An hourly check may read approved machine-oriented official feeds, but new editorial entries require a primary source and a material change. Devpost observations are manual.",
   "challenge": {
     "name": "The WebMCP Challenge",
@@ -24,6 +24,18 @@
   },
   "updates": [
     {
+      "id": "webmcp-agent-support-55fb7ee",
+      "title": "WebMCP implementation status adds agent support",
+      "summary": "Commit 55fb7ee updates the draft report's implementation-status material to include agent support, and the canonical Community Group Report is now dated September 2, 2026. This is implementation-status evidence, not proof of support in every agent or browser; WebMCP remains an experimental Community Group draft, not a W3C Standard.",
+      "publishedAt": "2026-09-02",
+      "observedAt": "2026-09-02T08:47:12-07:00",
+      "sourceName": "WebMCP specification repository",
+      "sourceUrl": "https://github.com/webmachinelearning/webmcp/commit/55fb7ee2289679fbbbf3b1f8fc2f92daf96e6ba9",
+      "topic": "webmcp",
+      "status": "draft",
+      "tags": ["specification", "implementation-status", "agent-support"]
+    },
+    {
       "id": "devpost-halfway-2026-08-30",
       "title": "Challenge organizers publish the halfway build checklist",
       "summary": "The latest Devpost update asks builders to verify registered tools, a complete core flow, a deployed app, a public licensed repository, and a clear demo plan before the September 3 deadline.",
@@ -38,7 +50,7 @@
     {
       "id": "webmcp-draft-2026-08-26",
       "title": "WebMCP Community Group Report dated August 26",
-      "summary": "The current report defines the imperative browser API, lifecycle and exposure concepts, agent interaction model, and a growing security and privacy section. It remains a Community Group draft, not a W3C Standard.",
+      "summary": "The August 26 report defines the imperative browser API, lifecycle and exposure concepts, agent interaction model, and a growing security and privacy section. It remains a Community Group draft, not a W3C Standard.",
       "publishedAt": "2026-08-26",
       "observedAt": "2026-08-31T19:52:00-07:00",
       "sourceName": "Web Machine Learning Community Group",
