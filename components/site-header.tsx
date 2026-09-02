@@ -1,7 +1,8 @@
-import { Code2, Menu, Radar } from 'lucide-react';
+import { Menu, Radar } from 'lucide-react';
 import Link from 'next/link';
 
 const links = [
+  { href: '/demos', label: 'Demos' },
   { href: '/readiness-index', label: 'Index' },
   { href: '/learn', label: 'Learn' },
   { href: '/pulse', label: 'Pulse' },
@@ -36,13 +37,6 @@ export function SiteHeader() {
               {link.label}
             </Link>
           ))}
-          <a
-            className="ml-1 inline-flex size-9 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition-colors hover:text-foreground"
-            href="https://github.com/mlmrx/iswebmcp"
-            aria-label="GitHub repository"
-          >
-            <Code2 className="size-4" aria-hidden="true" />
-          </a>
           <details className="group lg:hidden">
             <summary
               className="flex size-9 cursor-pointer list-none items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition-colors hover:text-foreground"

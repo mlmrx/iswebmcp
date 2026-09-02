@@ -6,6 +6,7 @@ import type {
   ScanCounts,
   ScanReport,
   ScoreCategory,
+  ScoreMetric,
 } from '@/lib/types';
 
 const ACTION_WORDS = [
@@ -215,6 +216,44 @@ function namedControlStats(html: string): { total: number; named: number } {
   return { total: assessable.length, named };
 }
 
+function namedInteractiveStats(html: string): { total: number; named: number } {
+  const visible = renderedMarkup(html);
+  const controls = Array.from(
+    visible.matchAll(
+      /<button\b[^>]*>[\s\S]*?<\/button>|<a\b[^>]*href\s*=\s*(?:["'][^"']*["']|[^\s>]+)[^>]*>[\s\S]*?<\/a>/gi,
+    ),
+  ).map((match) => match[0]);
+  const named = controls.filter((tag) =>
+    Boolean(
+      safeText(tag, 160) ||
+      extractAttribute(tag, 'aria-label') ||
+      extractAttribute(tag, 'aria-labelledby') ||
+      extractAttribute(tag, 'title'),
+    ),
+  ).length;
+  return { total: controls.length, named };
+}
+
+function scoreMetric(
+  id: string,
+  label: string,
+  points: number,
+  possible: number,
+  value: string,
+  rationale: string,
+  observed = true,
+): ScoreMetric {
+  return {
+    id,
+    label,
+    observed,
+    value,
+    points: observed ? Math.max(0, Math.min(possible, points)) : 0,
+    possible,
+    rationale,
+  };
+}
+
 function makeCategories(
   html: string,
   counts: ScanCounts,
@@ -235,81 +274,259 @@ function makeCategories(
     visible,
     /<(button\b[^>]*type\s*=\s*["']?submit|input\b[^>]*type\s*=\s*["']?submit)/gi,
   );
-  const feedbackSignals = countMatches(
+  const feedbackSignals = [
+    /\saria-live\s*=/i,
+    /\srole\s*=\s*["']status["']/i,
+    /\srole\s*=\s*["']alert["']/i,
+  ].filter((pattern) => pattern.test(visible)).length;
+  const namedInteractive = namedInteractiveStats(visible);
+  const controlTypes = [
+    counts.forms,
+    counts.inputs,
+    counts.buttons,
+    counts.selects,
+    counts.textareas,
+  ].filter((count) => count > 0).length;
+  const landmarks = countMatches(
     visible,
-    /(aria-live\s*=|role\s*=\s*["'](?:status|alert)|\bsuccess\b|\bconfirmation\b|\bcompleted\b)/gi,
+    /<(?:main|nav|header|footer|aside)\b[^>]*>/gi,
   );
-
-  const semanticScore = interactive
-    ? Math.min(
-        100,
-        45 + Math.min(interactive, 12) * 3 + Math.min(counts.forms, 3) * 7,
-      )
-    : counts.links
-      ? 45
-      : 20;
-  const accessibleScore = names.total
-    ? Math.round((names.named / names.total) * 100)
-    : counts.buttons
-      ? 60
-      : null;
-  const formScore = counts.forms
-    ? Math.min(
-        100,
-        30 +
-          Math.round((formsWithMethod / counts.forms) * 20) +
-          Math.round((formsWithAction / counts.forms) * 20) +
-          Math.min(submitControls, counts.forms) * 30,
-      )
-    : actions.length
-      ? 55
-      : null;
-  const feedbackScore = interactive
-    ? Math.min(100, 25 + feedbackSignals * 22)
-    : null;
-  const entityScore = Math.min(
-    100,
-    25 +
-      Math.min(counts.headings, 5) * 8 +
-      Math.min(counts.structuredData, 2) * 25 +
-      Math.min(actions.length, 4) * 4,
-  );
+  const distinctLandmarkTypes = new Set(
+    Array.from(
+      visible.matchAll(/<(main|nav|header|footer|aside)\b[^>]*>/gi),
+    ).map((match) => match[1].toLowerCase()),
+  ).size;
+  const stateSignals = [
+    /\saria-current\s*=/i,
+    /\saria-expanded\s*=/i,
+    /\saria-selected\s*=/i,
+    /\saria-checked\s*=/i,
+    /\saria-busy\s*=/i,
+    /\saria-disabled\s*=/i,
+    /\sdisabled(?:\s|=|>)/i,
+  ].filter((pattern) => pattern.test(visible)).length;
+  const hasTitle = /<title\b[^>]*>\s*[^<]+<\/title>/i.test(html);
 
   const category = (
     id: string,
     label: string,
     weight: number,
-    score: number | null,
+    metrics: ScoreMetric[],
     explanation: string,
-  ): ScoreCategory => ({
-    id,
-    label,
-    weight,
-    score,
-    status:
-      score === null
-        ? 'not_observed'
-        : score >= 80
-          ? 'pass'
-          : score >= 50
-            ? 'partial'
-            : 'fail',
-    explanation,
-  });
+  ): ScoreCategory => {
+    const observed = metrics.filter((metric) => metric.observed);
+    const possible = observed.reduce((sum, metric) => sum + metric.possible, 0);
+    const points = observed.reduce((sum, metric) => sum + metric.points, 0);
+    const score = possible ? Math.round((points / possible) * 100) : null;
+    return {
+      id,
+      label,
+      weight,
+      score,
+      status:
+        score === null
+          ? 'not_observed'
+          : score >= 80
+            ? 'pass'
+            : score >= 50
+              ? 'partial'
+              : 'fail',
+      explanation,
+      metrics,
+    };
+  };
+
+  const semanticMetrics = [
+    scoreMetric(
+      'native-controls',
+      'Native controls present',
+      interactive ? 30 : counts.links ? 10 : 0,
+      30,
+      `${interactive} form/control elements`,
+      'Native elements expose more stable semantics than generic clickable containers.',
+    ),
+    scoreMetric(
+      'control-diversity',
+      'Control-type diversity',
+      controlTypes * 5,
+      25,
+      `${controlTypes} of 5 source-visible types`,
+      'Diversity is rewarded; raw element volume is intentionally not.',
+    ),
+    scoreMetric(
+      'task-actions',
+      'Named task actions',
+      Math.min(25, actions.length * 8.34),
+      25,
+      `${actions.length} bounded action candidates`,
+      'Only controls with a recognizable action label contribute.',
+    ),
+    scoreMetric(
+      'document-structure',
+      'Document structure',
+      (landmarks ? 10 : 0) + (counts.headings ? 10 : 0),
+      20,
+      `${landmarks} landmarks · ${counts.headings} headings`,
+      'Landmarks and headings help establish task context.',
+    ),
+  ];
+
+  const accessibilityMetrics = [
+    scoreMetric(
+      'field-names',
+      'Form-field names',
+      names.total ? (names.named / names.total) * 55 : 0,
+      55,
+      `${names.named} of ${names.total}`,
+      'Explicit label relationships and ARIA naming are source-verifiable.',
+      names.total > 0,
+    ),
+    scoreMetric(
+      'action-names',
+      'Button and link names',
+      namedInteractive.total
+        ? (namedInteractive.named / namedInteractive.total) * 30
+        : 0,
+      30,
+      `${namedInteractive.named} of ${namedInteractive.total}`,
+      'Visible text or an explicit accessible name reduces action ambiguity.',
+      namedInteractive.total > 0,
+    ),
+    scoreMetric(
+      'label-elements',
+      'Explicit label coverage',
+      names.total ? Math.min(1, counts.labels / names.total) * 15 : 0,
+      15,
+      `${counts.labels} labels for ${names.total} assessable fields`,
+      'A label element is a strong, inspectable relationship signal.',
+      names.total > 0,
+    ),
+  ];
+
+  const formMetrics = counts.forms
+    ? [
+        scoreMetric(
+          'submit-coverage',
+          'Submit affordances',
+          Math.min(1, submitControls / counts.forms) * 25,
+          25,
+          `${submitControls} submits for ${counts.forms} forms`,
+          'A form needs a source-visible way to commit its intent.',
+        ),
+        scoreMetric(
+          'field-contracts',
+          'Named form inputs',
+          names.total ? (names.named / names.total) * 30 : 0,
+          30,
+          `${names.named} of ${names.total}`,
+          'Named inputs make the form contract understandable.',
+          names.total > 0,
+        ),
+        scoreMetric(
+          'form-destination',
+          'Method and destination',
+          (formsWithMethod / counts.forms) * 10 +
+            (formsWithAction / counts.forms) * 10,
+          20,
+          `${formsWithMethod} methods · ${formsWithAction} actions`,
+          'Explicit method and action attributes are evidence, but client-side forms may remain unobserved.',
+        ),
+        scoreMetric(
+          'form-task-labels',
+          'Recognizable task labels',
+          Math.min(25, actions.length * 8.34),
+          25,
+          `${actions.length} action candidates`,
+          'Task-oriented labels make intent less ambiguous.',
+        ),
+      ]
+    : [
+        scoreMetric(
+          'standalone-task-labels',
+          'Standalone task labels',
+          Math.min(100, actions.length * 25),
+          100,
+          `${actions.length} action candidates · no source-visible form`,
+          'Standalone actions are assessed without inventing a form contract.',
+          actions.length > 0,
+        ),
+      ];
+
+  const feedbackMetrics = [
+    scoreMetric(
+      'live-feedback',
+      'Live-region semantics',
+      Math.min(45, feedbackSignals * 15),
+      45,
+      `${feedbackSignals} distinct live-region signal types`,
+      'Distinct semantic live-region types expose post-action feedback without rewarding duplicate markup.',
+    ),
+    scoreMetric(
+      'state-attributes',
+      'Explicit state attributes',
+      Math.min(35, stateSignals * 5),
+      35,
+      `${stateSignals} distinct state-attribute types`,
+      'Distinct ARIA and disabled-state types can expose state transitions without rewarding repetition.',
+    ),
+    scoreMetric(
+      'verification-cap',
+      'Source-only verification ceiling',
+      feedbackSignals || stateSignals ? 10 : 0,
+      20,
+      'Runtime behavior not executed',
+      'Source hints can earn partial credit but cannot prove feedback works.',
+    ),
+  ];
+
+  const entityMetrics = [
+    scoreMetric(
+      'document-identity',
+      'Page identity and hierarchy',
+      (hasTitle ? 12.5 : 0) + (counts.headings ? 12.5 : 0),
+      25,
+      `${hasTitle ? 'title present' : 'title absent'} · ${counts.headings} headings`,
+      'A named page and heading hierarchy establish task context.',
+    ),
+    scoreMetric(
+      'structured-entities',
+      'Structured entity data',
+      counts.structuredData ? 30 : 0,
+      30,
+      `${counts.structuredData} JSON-LD blocks`,
+      'Structured-data presence can make entities explicit; duplicate blocks do not add points.',
+    ),
+    scoreMetric(
+      'task-vocabulary',
+      'Task vocabulary',
+      Math.min(25, actions.length * 8.34),
+      25,
+      `${actions.length} action candidates`,
+      'Recognizable actions connect entities to user goals.',
+    ),
+    scoreMetric(
+      'landmarks',
+      'Landmark context',
+      Math.min(20, distinctLandmarkTypes * 5),
+      20,
+      `${distinctLandmarkTypes} distinct types across ${landmarks} landmarks`,
+      'Distinct landmark types clarify context; repeated tags do not add points.',
+    ),
+  ];
 
   return [
     category(
       'semantics',
       'Semantic interactive structure',
       20,
-      semanticScore,
-      `${countPhrase(interactive, 'semantic interactive element')} ${interactive === 1 ? 'was' : 'were'} source-visible.`,
+      semanticMetrics,
+      `${countPhrase(interactive, 'semantic interactive element')} were source-visible; diversity and recognizable intent matter more than volume.`,
     ),
     category(
       'accessible_names',
       'Accessible names and relationships',
       20,
-      accessibleScore,
+      accessibilityMetrics,
       names.total
         ? `${names.named} of ${names.total} form controls had an explicit source-visible accessible name.`
         : 'No source-visible form fields were available to assess.',
@@ -318,7 +535,7 @@ function makeCategories(
       'form_clarity',
       'Form and action clarity',
       20,
-      formScore,
+      formMetrics,
       counts.forms
         ? `${counts.forms} form${counts.forms === 1 ? '' : 's'} and ${submitControls} explicit submit control${submitControls === 1 ? '' : 's'} were observed.`
         : 'No form contract was source-visible; action controls were assessed when possible.',
@@ -327,27 +544,40 @@ function makeCategories(
       'feedback',
       'Predictable state and feedback',
       15,
-      feedbackScore,
+      feedbackMetrics,
       interactive
-        ? `${feedbackSignals} source-visible status or confirmation affordance${feedbackSignals === 1 ? '' : 's'} were observed.`
+        ? `${feedbackSignals} source-visible status or confirmation affordance${feedbackSignals === 1 ? '' : 's'} ${feedbackSignals === 1 ? 'was' : 'were'} observed.`
         : 'State feedback could not be assessed without a source-visible interaction.',
     ),
     category(
       'entities',
       'Task-oriented content and entities',
       15,
-      entityScore,
+      entityMetrics,
       `${countPhrase(counts.headings, 'heading')}, ${countPhrase(counts.structuredData, 'structured-data block')}, and ${countPhrase(actions.length, 'action candidate')} were observed.`,
     ),
     category(
       'transport',
       'Visible security and transport',
       10,
-      transport.initialHttps && transport.finalHttps
-        ? 100
-        : transport.finalHttps
-          ? 65
-          : 20,
+      [
+        scoreMetric(
+          'secure-transport',
+          'Secure transport',
+          transport.initialHttps && transport.finalHttps
+            ? 100
+            : transport.finalHttps
+              ? 65
+              : 20,
+          100,
+          transport.initialHttps && transport.finalHttps
+            ? 'HTTPS requested and reached'
+            : transport.finalHttps
+              ? 'HTTP redirected to HTTPS'
+              : 'HTTP final page',
+          'Secure context is foundational, but transport alone does not imply WebMCP readiness.',
+        ),
+      ],
       transport.initialHttps && transport.finalHttps
         ? 'The requested and final page URLs use HTTPS.'
         : transport.finalHttps
@@ -384,6 +614,9 @@ export interface AnalyzeInput {
   status: number;
   contentType: string;
   bytesRead: number;
+  declaredBytes?: number;
+  analysisLimitBytes?: number;
+  truncated?: boolean;
   redirects: number;
   queryRedacted?: boolean;
   now?: Date;
@@ -432,6 +665,15 @@ export function analyzeSource(input: AnalyzeInput): ScanReport {
         : 'HTTP page reached',
     `The request began over ${input.normalizedUrl.startsWith('https:') ? 'HTTPS' : 'HTTP'} and ended over ${input.finalUrl.startsWith('https:') ? 'HTTPS' : 'HTTP'}. The server returned HTTP ${input.status} with content type ${input.contentType.split(';')[0] || 'unknown'}.`,
   );
+  if (input.truncated) {
+    addEvidence(
+      'ev-source-window',
+      'source_coverage',
+      'Large page analyzed through a bounded source window',
+      `${input.bytesRead.toLocaleString()} bytes were analyzed from the start of the response${input.declaredBytes ? `; the response declared ${input.declaredBytes.toLocaleString()} bytes` : ''}. Findings and scores apply only to that bounded window.`,
+      'medium',
+    );
+  }
   addEvidence(
     'ev-controls',
     'action_surface',
@@ -526,7 +768,14 @@ export function analyzeSource(input: AnalyzeInput): ScanReport {
     },
     sourceActions,
   );
-  const baselineActionability = calculateWeightedScore(categories);
+  const baselineActionability = calculateWeightedScore(categories, {
+    fullResultUnknown: Boolean(input.truncated),
+    modelVersion: 'source-actionability-v2.1',
+    confidence: input.truncated ? 'low' : 'medium',
+    coverageNote: input.truncated
+      ? 'The point estimate and model-input coverage describe only the captured prefix. Unseen markup can raise or lower the complete-page result, so its range is 0–100.'
+      : 'Coverage is the observed possible-points share of the source-only scoring model, not whole-product coverage.',
+  });
   const names = namedControlStats(input.html);
   const feedbackSignals =
     /(aria-live\s*=|role\s*=\s*["'](?:status|alert)|\bsuccess\b|\bconfirmation\b)/i.test(
@@ -658,6 +907,7 @@ export function analyzeSource(input: AnalyzeInput): ScanReport {
 
   return {
     id: `scan_${crypto.randomUUID().replace(/-/g, '').slice(0, 12)}`,
+    reportKind: 'observed_source',
     normalizedUrl: input.normalizedUrl,
     finalUrl: input.finalUrl,
     goal: input.goal,
@@ -667,8 +917,10 @@ export function analyzeSource(input: AnalyzeInput): ScanReport {
       status: input.status,
       contentType: input.contentType,
       bytesRead: input.bytesRead,
+      declaredBytes: input.declaredBytes,
+      analysisLimitBytes: input.analysisLimitBytes,
       redirects: input.redirects,
-      truncated: false,
+      truncated: Boolean(input.truncated),
     },
     implementationState,
     baselineActionability,
@@ -683,6 +935,13 @@ export function analyzeSource(input: AnalyzeInput): ScanReport {
       'Source hints are not proof that WebMCP tools register or work at runtime.',
       'Dynamic controls, authenticated states, shadow DOM, and client-rendered content may be absent.',
       'The score describes observable source evidence and its coverage, not overall product quality.',
+      ...(input.truncated
+        ? [
+            `The response exceeded the ${(
+              input.analysisLimitBytes ?? input.bytesRead
+            ).toLocaleString()}-byte analysis window; this partial report does not describe controls beyond the captured prefix.`,
+          ]
+        : []),
       ...(input.queryRedacted
         ? [
             'Query values were used for the fetch but removed from the stored and displayed report URL.',
@@ -696,7 +955,7 @@ export function analyzeSource(input: AnalyzeInput): ScanReport {
 
 export function makeDemoReport(): ScanReport {
   const html = `<!doctype html><html><head><script type="application/ld+json">{"@type":"WebApplication"}</script></head><body><main><h1>Headset research</h1><form action="/search" method="get"><label for="q">Search products</label><input id="q" name="q" type="search"><label for="price">Maximum price</label><input id="price" name="price" type="number"><button type="submit">Search</button></form><button aria-label="Compare selected products">Compare</button><button aria-label="Add selected product to cart">Add to cart</button><p role="status">Cart updated</p><script>if (document.modelContext) { document.modelContext.registerTool({name:'search_products'}) }</script></main></body></html>`;
-  return analyzeSource({
+  const report = analyzeSource({
     normalizedUrl: 'https://demo.iswebmcp.com/store',
     finalUrl: 'https://demo.iswebmcp.com/store',
     goal: 'Find and compare a noise-canceling headset under $300.',
@@ -704,7 +963,18 @@ export function makeDemoReport(): ScanReport {
     status: 200,
     contentType: 'text/html; charset=utf-8',
     bytesRead: new TextEncoder().encode(html).byteLength,
+    declaredBytes: new TextEncoder().encode(html).byteLength,
+    analysisLimitBytes: 1_000_000,
+    truncated: false,
     redirects: 0,
     now: new Date('2026-08-31T20:26:00.000Z'),
   });
+  return {
+    ...report,
+    reportKind: 'synthetic_fixture',
+    limitations: [
+      'This sample is an authored synthetic fixture; no third-party website was fetched or observed.',
+      ...report.limitations,
+    ],
+  };
 }

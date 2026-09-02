@@ -31,18 +31,18 @@ export const metadata: Metadata = {
 const proofSteps = [
   [
     '01',
-    'Detect',
-    'Map source-visible actions and separate WebMCP hints from runtime proof.',
+    'Map the friction',
+    'Find the named actions, missing semantics, and state transitions an agent would otherwise have to infer.',
   ],
   [
     '02',
-    'Test',
-    'Inspect contracts and run a representative journey against explicit assertions.',
+    'Design the contract',
+    'Turn useful workflows into narrow typed tools with explicit safety and verification boundaries.',
   ],
   [
     '03',
-    'Prove',
-    'Compare observed outcomes with a published, reversible scoring formula.',
+    'Prove the lift',
+    'Run the same task both ways and publish success, effort, recovery, and postcondition evidence.',
   ],
 ];
 
@@ -63,22 +63,23 @@ export default function Home() {
             Evidence lab for the agent-native web
           </div>
           <p className="mb-3 font-mono text-sm font-medium text-signal-ink">
-            isWebMCP(url) &rarr; ?
+            UI inference &rarr; typed action &rarr; verified result
           </p>
           <h1 className="max-w-3xl text-balance text-5xl font-semibold leading-[.98] tracking-[-.055em] sm:text-6xl lg:text-7xl">
-            Is your web app truly WebMCP ready?
+            Turn UI guesswork into actions you can prove.
           </h1>
           <p className="mt-6 max-w-2xl text-pretty text-lg leading-8 text-muted-foreground">
-            Paste a public URL to inspect its action surface, find WebMCP
-            opportunities, and see what still needs proof.
+            WebMCP gives agents explicit, typed, verifiable actions. isWebMCP
+            shows where that matters, audits the contracts, and separates source
+            clues from measured runtime proof.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-4 text-sm font-medium">
-            <span>Detect it.</span>
+            <span>Map it.</span>
             <ArrowRight
               className="size-4 text-muted-foreground"
               aria-hidden="true"
             />
-            <span>Test it.</span>
+            <span>Contract it.</span>
             <ArrowRight
               className="size-4 text-muted-foreground"
               aria-hidden="true"
@@ -89,21 +90,19 @@ export default function Home() {
             <Button
               nativeButton={false}
               size="lg"
-              variant="outline"
               className="h-10"
-              render={<Link href="/lab" />}
+              render={<Link href="/demos" />}
             >
-              <FlaskConical data-icon="inline-start" /> Watch the before/after
-              demo
+              <Eye data-icon="inline-start" /> Explore 24 visual patterns
             </Button>
             <Button
               nativeButton={false}
               size="lg"
-              variant="ghost"
+              variant="outline"
               className="h-10"
-              render={<Link href="/methodology" />}
+              render={<Link href="/lab" />}
             >
-              Read methodology <ArrowRight data-icon="inline-end" />
+              <FlaskConical data-icon="inline-start" /> Run the proof lab
             </Button>
           </div>
         </div>
@@ -150,7 +149,7 @@ export default function Home() {
               One URL. A ledger of what is known.
             </h2>
             <p className="mt-5 max-w-xl leading-7 text-muted-foreground">
-              Quick Scan is intentionally conservative. It analyzes public
+              The source scan is intentionally conservative. It analyzes public
               source, maps candidate actions, and ranks next steps—while
               refusing to invent runtime proof it cannot observe.
             </p>
@@ -175,7 +174,7 @@ export default function Home() {
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-5">
               <div>
                 <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-                  Sample report
+                  Synthetic fixture · not a website observation
                 </p>
                 <p className="mt-1 font-semibold">demo.iswebmcp.com/store</p>
               </div>
@@ -186,9 +185,9 @@ export default function Home() {
             </div>
             <div className="grid gap-px bg-border md:grid-cols-3">
               {[
-                ['82', 'Baseline actionability', '100% source coverage'],
-                ['—', 'WebMCP quality', 'Runtime unknown'],
-                ['—', 'WebMCP Lift', 'Awaiting runs'],
+                ['6', 'Source categories', 'Every input inspectable'],
+                ['0', 'Runtime trials', 'Not measured'],
+                ['3', 'Candidate actions', 'Fixture only'],
               ].map(([value, label, detail]) => (
                 <div key={label} className="bg-card p-5">
                   <span className="text-4xl font-semibold tracking-[-.06em]">
@@ -222,9 +221,10 @@ export default function Home() {
                 nativeButton={false}
                 variant="outline"
                 className="mt-3 w-full"
-                render={<Link href="/methodology" />}
+                render={<Link href="/demos" />}
               >
-                See how evidence is scored <ArrowRight data-icon="inline-end" />
+                See the interaction patterns{' '}
+                <ArrowRight data-icon="inline-end" />
               </Button>
             </div>
           </div>

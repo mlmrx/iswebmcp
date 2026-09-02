@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin),
   title: {
-    default: 'isWebMCP — Detect it. Test it. Prove it.',
+    default: 'isWebMCP — Map it. Contract it. Prove it.',
     template: '%s · isWebMCP',
   },
   description:
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Is your web app truly WebMCP ready?',
-    description: 'Detect it. Test it. Prove it.',
+    description: 'Map it. Contract it. Prove it.',
     type: 'website',
     url: siteOrigin,
     siteName: 'isWebMCP',
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Is your web app truly WebMCP ready?',
-    description: 'Detect it. Test it. Prove it.',
+    description: 'Map it. Contract it. Prove it.',
     images: ['/og.png'],
   },
 };

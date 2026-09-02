@@ -62,12 +62,30 @@ export interface ScoreCategory {
   score: number | null;
   status: FindingStatus;
   explanation: string;
+  metrics?: ScoreMetric[];
+}
+
+export interface ScoreMetric {
+  id: string;
+  label: string;
+  observed: boolean;
+  value: string;
+  points: number;
+  possible: number;
+  rationale: string;
 }
 
 export interface WeightedScore {
   value: number | null;
   coverage: number;
+  interval?: {
+    lower: number;
+    upper: number;
+  };
   categories: ScoreCategory[];
+  modelVersion?: string;
+  confidence?: Confidence;
+  coverageNote?: string;
 }
 
 export interface ScanCounts {
@@ -137,6 +155,7 @@ export interface ImportedManifestAudit {
 export interface ScanReport {
   id: string;
   parentReportId?: string;
+  reportKind: 'observed_source' | 'synthetic_fixture';
   normalizedUrl: string;
   finalUrl: string;
   goal?: string;
@@ -146,6 +165,8 @@ export interface ScanReport {
     status: number;
     contentType: string;
     bytesRead: number;
+    declaredBytes?: number;
+    analysisLimitBytes?: number;
     redirects: number;
     truncated: boolean;
   };
@@ -236,8 +257,8 @@ export interface LiftComponent {
   id: string;
   label: string;
   weight: number;
-  value: number;
-  contribution: number;
+  value: number | null;
+  contribution: number | null;
   comparable: boolean;
 }
 

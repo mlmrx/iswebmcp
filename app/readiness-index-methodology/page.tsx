@@ -9,7 +9,7 @@ const snapshot = snapshotData as WebIndexSnapshot;
 export const metadata: Metadata = {
   title: 'Index methodology',
   description:
-    'Source selection, crawl policy, formulas, caveats, and correction process for the WebMCP Readiness Index.',
+    'Source selection, crawl audit, frozen WRI v1 formula, known validity limits, and correction process for the WebMCP Readiness Index.',
   alternates: { canonical: '/readiness-index-methodology' },
 };
 
@@ -17,7 +17,7 @@ const formula = [
   [
     '55%',
     'Workflow signal',
-    'Observed action candidates, forms, and controls, capped at 100.',
+    'action candidates × 13 + forms × 10 + controls × 2, capped at 100.',
   ],
   [
     '35%',
@@ -27,7 +27,7 @@ const formula = [
   [
     '10%',
     'Implementation gap',
-    'A bounded gap signal when no WebMCP hint appears in source.',
+    '100 when no static source hint appeared; 35 when one did.',
   ],
 ];
 
@@ -48,8 +48,10 @@ export default function IndexMethodologyPage() {
           </h1>
           <p className="mt-5 max-w-3xl text-lg leading-8 text-muted-foreground">
             The index is designed to create testable hypotheses, not verdicts
-            about companies. Every public number is traceable to a pinned source
-            list, bounded fetch, explicit formula, and coverage state.
+            about companies. WRI v1 is now frozen and explicitly labeled
+            uncalibrated: its raw records are preserved, its collection outage
+            is quarantined, and its score limitations are published instead of
+            silently rewriting history.
           </p>
         </div>
       </section>
@@ -100,10 +102,49 @@ export default function IndexMethodologyPage() {
             </p>
           </div>
         </section>
-        <section className="instrument-card p-6">
-          <p className="eyebrow">3 · Opportunity formula</p>
+        <section className="rounded-2xl border border-warning/30 bg-warning/8 p-6">
+          <p className="eyebrow text-warning">3 · Post-crawl integrity audit</p>
           <h2 className="mt-2 text-2xl font-semibold">
-            Transparent, bounded, and separate from popularity
+            100,000 scheduled is not 100,000 valid observations
+          </h2>
+          <p className="mt-4 leading-7 text-muted-foreground">
+            The runner wrote {snapshot.attemptedCount.toLocaleString()} unique,
+            contiguous rank/domain records. A post-run audit found two
+            scanner-wide <code>UPSTREAM_FAILURE</code> windows—ranks
+            45,557–56,180 and 76,005–100,000—covering{' '}
+            {snapshot.collectionErrorCount.toLocaleString()} records. Their
+            speed and uninterrupted zero-success batches show a collection
+            failure, not domain-specific evidence.
+          </p>
+          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+            {[
+              [snapshot.scheduledCount, 'Scheduled ranks'],
+              [snapshot.validAttemptCount, 'Valid collection outcomes'],
+              [snapshot.collectionErrorCount, 'Quarantined collection errors'],
+            ].map(([value, label]) => (
+              <div
+                key={label}
+                className="rounded-xl border border-border bg-card p-4"
+              >
+                <p className="text-2xl font-semibold">
+                  {Number(value).toLocaleString()}
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">{label}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-4 text-sm leading-6 text-muted-foreground">
+            Raw NDJSON remains immutable. The checked-in audit manifest can only
+            remap rows inside those exact ranges when their original state and
+            error code match. The public status is therefore{' '}
+            <strong className="text-foreground">audited partial</strong>, never
+            “full corpus.”
+          </p>
+        </section>
+        <section className="instrument-card p-6">
+          <p className="eyebrow">4 · Frozen WRI v1 opportunity formula</p>
+          <h2 className="mt-2 text-2xl font-semibold">
+            Reproducible does not mean validated
           </h2>
           <div className="mt-5 grid gap-3 sm:grid-cols-3">
             {formula.map(([weight, title, detail]) => (
@@ -127,9 +168,22 @@ export default function IndexMethodologyPage() {
             quality, security, accessibility conformance, or a production WebMCP
             implementation.
           </p>
+          <div className="mt-5 rounded-xl border border-warning/25 bg-warning/8 p-4 text-sm leading-6 text-muted-foreground">
+            <strong className="text-foreground">
+              Known v1 validity limits:
+            </strong>{' '}
+            raw control volume can saturate workflow signal even with no named
+            action; missing score dimensions were renormalized; absence of a
+            static hint was treated as an implementation gap even though runtime
+            tools may exist; and the model was not calibrated against an
+            independently human-rated holdout corpus. Across the scored corpus,
+            only 69 distinct integer opportunity scores exist. The audited UI
+            now gives equal scores the same dense score rank and keeps Tranco
+            popularity separate.
+          </div>
         </section>
         <section className="instrument-card p-6">
-          <p className="eyebrow">4 · What “after” means</p>
+          <p className="eyebrow">5 · What “after” means</p>
           <h2 className="mt-2 text-2xl font-semibold">
             No counterfactual theater
           </h2>
@@ -141,7 +195,7 @@ export default function IndexMethodologyPage() {
           </p>
         </section>
         <section className="instrument-card p-6">
-          <p className="eyebrow">5 · Corrections and limitations</p>
+          <p className="eyebrow">6 · Access, corrections, and limitations</p>
           <h2 className="mt-2 text-2xl font-semibold">
             A homepage snapshot is not the whole product
           </h2>
@@ -158,7 +212,26 @@ export default function IndexMethodologyPage() {
               Results change as sites, network paths, and the source list
               change.
             </li>
+            <li>
+              WRI v1 classified 3,964 responses above its 640 KB cap as
+              unreachable. The current quick scanner instead analyzes a bounded
+              prefix and labels it partial; the frozen v1 rows are not
+              retroactively rescored.
+            </li>
+            <li>
+              The coarse v1 robots bucket can include an explicit exclusion,
+              access denial, or robots-fetch failure; it is not proof that a
+              site owner deliberately blocked this research.
+            </li>
           </ul>
+          <p className="mt-5 text-sm leading-6 text-muted-foreground">
+            The server-rendered review slice contains{' '}
+            {snapshot.publishedRowCount.toLocaleString()} records for page
+            performance and is not a representative sample. The explorer can
+            load and verify the complete compressed{' '}
+            {snapshot.attemptedCount.toLocaleString()}-record attempt log on
+            demand.
+          </p>
           <p className="mt-5 text-sm leading-6 text-muted-foreground">
             Site owners can request a correction, exclusion, or rescan by
             opening a private repository issue or emailing{' '}

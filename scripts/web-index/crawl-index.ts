@@ -1,7 +1,11 @@
 import { appendFile, mkdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 
-import { fetchPublicText, ScanFailure } from '../../lib/network';
+import {
+  fetchPublicText,
+  MAX_RESPONSE_BYTES,
+  ScanFailure,
+} from '../../lib/network';
 import { robotsAllows } from '../../lib/robots';
 import { analyzeSource } from '../../lib/scanner';
 import {
@@ -47,6 +51,7 @@ async function fetchRobots(
     const result = await fetchPublicText(`${origin}/robots.txt`, {
       userAgent: USER_AGENT,
       accept: 'text/plain,text/html;q=0.2',
+      allowedMediaTypes: ['text/plain', 'text/html'],
       returnErrorResponse: true,
     });
     if (
@@ -96,6 +101,9 @@ async function scanOrigin(
       status: fetched.status,
       contentType: fetched.contentType,
       bytesRead: fetched.bytesRead,
+      declaredBytes: fetched.declaredBytes,
+      analysisLimitBytes: MAX_RESPONSE_BYTES,
+      truncated: fetched.truncated,
       redirects: fetched.redirects,
     });
     return rowFromReport(rank, domain, report, Date.now() - startedAt);

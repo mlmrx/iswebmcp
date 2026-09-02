@@ -146,32 +146,38 @@ export default function MethodologyPage() {
                 id="scores-heading"
                 className="mt-3 text-3xl font-semibold tracking-[-.04em]"
               >
-                Three questions need three answers.
+                Four questions. Four evidence boundaries.
               </h2>
               <p className="mt-4 leading-7 text-paper/60">
                 No generic readiness composite hides an unknown runtime or
                 substitutes hypothetical ROI for observed behavior.
               </p>
             </div>
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-2">
               {[
                 [
                   '01',
-                  'Baseline actionability',
+                  'Source actionability',
                   '0–100',
-                  'Semantic structure 20 · accessible names 20 · form clarity 20 · state feedback 15 · entities 15 · transport 10. The displayed coverage is the sum of observed weights.',
+                  'Named task actions, semantic structure, accessible names, form clarity, state feedback, entities, and transport. Repeated markup is not rewarded. Every contribution is inspectable; a truncated page makes the complete-page range 0–100.',
                 ],
                 [
                   '02',
-                  'Implementation quality',
+                  'Contract lint',
                   '0–100',
-                  'Only available with imported or runtime tools. Coverage 20 · names 15 · schemas 15 · outputs 15 · state consistency 15 · safety 15 · recovery 5.',
+                  'Available for sanitized imported definitions. It checks names, schema shape, over-parameterization, safety annotations, declared state, and recovery—but never calls imported evidence runtime quality.',
                 ],
                 [
                   '03',
+                  'Runtime readiness',
+                  'trial evidence',
+                  'Requires observed discovery and selection, schema rejection, authorization and confirmation, task success, postcondition verification, UI synchronization, recovery/idempotency, and lifecycle cleanup. A critical safety failure blocks “ready.”',
+                ],
+                [
+                  '04',
                   'WebMCP Lift',
                   '−100…+100',
-                  'Success 40% · actions 20% · elapsed 15% · invalid attempts 10% · human intervention 10% · verification 5%. Efficiency is ignored if either run fails.',
+                  'Only calculated for paired interactive runs of the same task and fixture. Success 40% · actions 20% · elapsed 15% · invalid attempts 10% · human intervention 10% · verification 5%. Authored replays receive no number.',
                 ],
               ].map(([number, title, range, detail]) => (
                 <article
@@ -194,7 +200,13 @@ export default function MethodologyPage() {
               ))}
             </div>
           </div>
-          <div className="mt-6 border-t border-paper/15 pt-5 font-mono text-xs leading-6 text-paper/55">
+          <p className="mt-6 border-t border-paper/15 pt-5 text-xs leading-6 text-paper/55">
+            Source Actionability v2.1 and Contract Lint are transparent
+            diagnostic heuristics, not calibrated predictors of agent task
+            success and not cross-site league-table scores. Runtime Readiness
+            and Lift require observed trials.
+          </p>
+          <div className="mt-4 font-mono text-xs leading-6 text-paper/55">
             Lift = round(100 × (0.40·successΔ + 0.20·actionReduction +
             0.15·elapsedReduction + 0.10·invalidReduction +
             0.10·interventionReduction + 0.05·verificationΔ))
@@ -204,6 +216,8 @@ export default function MethodologyPage() {
             operation; each registered-tool execution is one tool call. Run
             start is setup, while finish/verification is counted on both paths.
             Mixed UI/tool paths and unpaired fixtures are not comparable.
+            Repeated trials and uncertainty are required before generalizing a
+            single paired result.
           </p>
         </section>
 
@@ -221,8 +235,8 @@ export default function MethodologyPage() {
             </h2>
             <ul className="mt-5 space-y-3 text-sm leading-6 text-muted-foreground">
               <li>
-                — Accepts only absolute HTTP(S) URLs without embedded
-                credentials.
+                — Normalizes a bare domain to HTTPS in the browser, then accepts
+                only absolute HTTP(S) URLs without embedded credentials.
               </li>
               <li>
                 — Rejects local, private, link-local, multicast, reserved,
@@ -233,14 +247,19 @@ export default function MethodologyPage() {
                 and fails closed when resolution cannot be verified.
               </li>
               <li>
-                — Uses a neutral scanner identity, short timeout, textual
-                content allowlist, response-size cap, per-caller/host rate
-                limit, and no cookies or authorization headers.
+                — Uses a neutral scanner identity, short timeout, HTML/XHTML
+                allowlist, per-caller/host rate limit, and no cookies or
+                authorization headers.
+              </li>
+              <li>
+                — Streams a bounded HTML prefix of at most 1 MB and labels the
+                report partial when more bytes exist, so a large page does not
+                become a false “unreachable” result.
               </li>
               <li>
                 — Treats fetched text as untrusted data, strips executable
-                content from displayed evidence, and keeps complete HTML only
-                for in-request analysis.
+                content from displayed evidence, and keeps the bounded HTML
+                analysis window only for the current request.
               </li>
             </ul>
           </article>

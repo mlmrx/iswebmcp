@@ -2,15 +2,17 @@
 
 ## Product boundary
 
-isWebMCP is one web application with seven connected surfaces:
+isWebMCP is one web application with nine connected surfaces:
 
 1. Landing and Quick Scan
 2. Evidence-based reports
 3. Before/After Proof Lab
 4. Tool Contract Workbench
-5. Learning Center and detail guides
-6. WebMCP FAQ
-7. WebMCP Pulse and Challenge Pulse
+5. Interactive Pattern Gallery
+6. Learning Center and detail guides
+7. WebMCP FAQ
+8. WebMCP Pulse and Challenge Pulse
+9. Audited WebMCP Readiness Index
 
 The browser UI and WebMCP handlers call the same domain services. There is no second “agent-only” state model.
 
@@ -30,6 +32,8 @@ flowchart TD
   Reports --> Memory[Ephemeral server-instance store]
   Editorial[Reviewed editorial catalog] --> Learn[Learning center, FAQ and RSS]
   Pulse[Versioned source-attributed pulse] --> Learn
+  Corpus[Pinned Tranco ranks and raw crawl rows] --> Audit[Checked-in crawl audit]
+  Audit --> Index[Audited-partial WRI v1 snapshot]
   Learn --> Agent[Read-only content and pulse tools]
 ```
 
@@ -51,8 +55,8 @@ flowchart TD
 2. The URL parser accepts only HTTP(S), no credentials, and standard ports.
 3. Every initial and redirected hostname is host-rate-limited and resolved through A and AAAA checks.
 4. Private, local, reserved, documentation, multicast, metadata, and special-use destinations fail closed.
-5. Manual redirects, hop and total deadlines, exact textual MIME types, a 640 KB body cap, and a neutral scanner identity bound the fetch.
-6. The analyzer removes executable/example-only regions from visible analysis, extracts semantic evidence, calculates only supported metrics, and discards complete target HTML.
+5. Manual redirects, hop and total deadlines, an HTML/XHTML allowlist, a 1 MB analysis window, and a neutral scanner identity bound the fetch.
+6. The analyzer removes executable/example-only regions from visible analysis, extracts semantic evidence, widens the score interval when the response is truncated, and discards the captured markup.
 7. The normalized report is stored for 15 minutes in the current isolate.
 
 Quick Scan does not execute JavaScript, authenticate, inspect shadow DOM, or cross the browser same-origin boundary. A source occurrence of `document.modelContext` or `registerTool` is a hint, not runtime proof.
@@ -62,7 +66,7 @@ Quick Scan does not execute JavaScript, authenticate, inspect shadow DOM, or cro
 1. A visible report ID and a JSON manifest are submitted to the same-origin import endpoint.
 2. The server limits bytes, tool count, depth, nodes, key names, and credential-like material.
 3. Only tool names, bounded descriptions, annotations, and schema summaries survive normalization.
-4. The audit scores only observed naming, schema, coverage, and safety dimensions. Output/state/recovery claims remain unobserved.
+4. Contract Lint scores only observed name, description, schema-shape, over-parameterization, annotation, and declared-state signals. Runtime Readiness remains unobserved.
 5. A new report is derived with `parentReportId`; the original report is unchanged.
 
 An envelope claiming `same_origin_probe` provenance must match the scanned page origin and include its capture metadata. That validates consistency, not truth. All imported evidence remains labeled “not independently verified.”
@@ -74,9 +78,13 @@ Both modes use the same synthetic catalog, task definition, visible UI, state re
 - Baseline mode records committed semantic UI operations.
 - WebMCP mode additionally registers structured search, comparison, and cart tools on the top-level page.
 - The same ordered postconditions—eligible results, comparison, selected product, visible cart, quantity, and no checkout—must pass.
-- WebMCP Lift is computed only for a paired fixture/task/evidence mode with completed UI-only and tool-only runs.
+- WebMCP Lift is computed only for paired interactive UI-only and tool-only runs of the same fixture and task.
 
-Controlled replay uses fixed events to demonstrate measurement and state synchronization. It is not a claim about probabilistic model selection quality.
+Controlled replay is an authored teaching timeline for state synchronization and counting rules. No agent trial occurs, and it never receives a numeric Lift score.
+
+### WebMCP Readiness Index
+
+WRI v1 is a frozen, uncalibrated source-observation heuristic over a pinned 100,000-rank Tranco list. The immutable raw attempt log contains one unique row per scheduled rank and domain. A checked-in post-crawl audit quarantines two exact scanner-wide `UPSTREAM_FAILURE` ranges in the derived snapshot: 65,380 rows remain valid collection outcomes and 34,620 are labeled collection errors. The public snapshot therefore reports `audited_partial`, not a complete 100,000-site observation set. WRI v1 does not measure product quality, live WebMCP behavior, or agent task success.
 
 ## WebMCP lifecycle
 

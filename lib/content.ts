@@ -194,7 +194,7 @@ export const learningArticles: LearningArticle[] = [
         heading: '3. Inventory the human action surface',
         paragraphs: [
           'Walk the workflow with the keyboard and an accessibility inspector before adding agent tools. Record forms, labels, validation messages, loading states, and error recovery. If the human path is ambiguous, an agent-facing wrapper often preserves that ambiguity instead of fixing it.',
-          'Baseline actionability is not a score for visual beauty. It asks whether the existing interface exposes understandable controls and state transitions. A complete accessible UI also supplies graceful degradation when WebMCP is unavailable.',
+          'Source actionability is not a score for visual beauty. It asks whether captured HTML exposes understandable controls and state transitions. A complete accessible UI also supplies graceful degradation when WebMCP is unavailable.',
         ],
       },
       {
@@ -524,11 +524,11 @@ export const learningArticles: LearningArticle[] = [
         paragraphs: [
           'A resolved promise is not proof. Check the authoritative record, visible application state, and any required audit event. For before-and-after comparisons, use the same fixture and success criteria. If one run fails, make that failure the headline instead of averaging it into an efficiency score.',
         ],
-        note: 'isWebMCP calls this measured difference WebMCP Lift. The formula is public, but the value is meaningful only for the paired task and fixture.',
+        note: 'isWebMCP calls this measured difference WebMCP Lift. A number is available only for paired interactive runs of the same task and fixture; authored replay is illustrative and receives no score.',
       },
     ],
     sources: [webmcpDraft, chromeEvals],
-    cta: { label: 'Run the controlled before-and-after journey', href: '/lab' },
+    cta: { label: 'Open the before-and-after evidence lab', href: '/lab' },
   },
   {
     slug: 'webmcp-security-privacy-review',
@@ -637,7 +637,7 @@ export const learningArticles: LearningArticle[] = [
     ],
     sources: [chromeEvals, webmcpDraft],
     cta: {
-      label: 'Replay an instrumented WebMCP Lift comparison',
+      label: 'Explore the authored comparison model',
       href: '/lab',
     },
   },
@@ -804,19 +804,19 @@ export const frequentlyAskedQuestions: FrequentlyAskedQuestion[] = [
     'faq-017',
     'Testing',
     'What can isWebMCP Quick Scan prove?',
-    'It reports bounded source-visible evidence from a public page. It does not execute target JavaScript, authenticate, or certify runtime WebMCP behavior.',
+    'It reports Source Actionability from a bounded window of public HTML. It does not execute target JavaScript, authenticate, or certify runtime WebMCP behavior.',
   ],
   [
     'faq-018',
     'Testing',
     'Does importing a manifest prove implementation?',
-    'No. An imported manifest is user-supplied contract evidence with unverified provenance, not independent runtime proof.',
+    'No. Contract Lint reviews bounded user-supplied definitions with unverified provenance; it is not independent Runtime Readiness evidence.',
   ],
   [
     'faq-019',
     'Testing',
-    'How should I read the three isWebMCP measurements?',
-    'Baseline Actionability covers source-visible UI evidence, Implementation Quality covers imported or runtime tool evidence, and WebMCP Lift compares equivalent measured journeys.',
+    'How should I read the isWebMCP evidence layers?',
+    'Source Actionability covers captured HTML, Contract Lint covers sanitized imported definitions, and Runtime Readiness requires observed trials. WebMCP Lift is separate: it is available only for paired interactive runs, never authored replay.',
   ],
   [
     'faq-020',

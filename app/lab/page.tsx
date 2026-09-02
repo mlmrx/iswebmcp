@@ -19,7 +19,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Before/After WebMCP Proof Lab · isWebMCP',
-    description: 'Compare observed UI-only and WebMCP-enabled journeys.',
+    description:
+      'Compare user-run UI-only and WebMCP-enabled journeys with explicit evidence boundaries.',
     images: ['/og.png'],
   },
 };

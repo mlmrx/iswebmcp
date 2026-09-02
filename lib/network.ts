@@ -1,6 +1,6 @@
 import type { ScanErrorBody } from '@/lib/types';
 
-export const MAX_RESPONSE_BYTES = 640_000;
+export const MAX_RESPONSE_BYTES = 1_000_000;
 export const MAX_REDIRECTS = 3;
 export const FETCH_TIMEOUT_MS = 8_000;
 export const TOTAL_SCAN_TIMEOUT_MS = 12_000;
@@ -358,11 +358,12 @@ export async function assertPublicResolution(
   return addresses;
 }
 
-function textualContentType(contentType: string): boolean {
+function textualContentType(
+  contentType: string,
+  allowedMediaTypes = ['text/html', 'application/xhtml+xml'],
+): boolean {
   const mediaType = contentType.split(';', 1)[0]?.trim().toLowerCase();
-  return ['text/html', 'application/xhtml+xml', 'text/plain'].includes(
-    mediaType,
-  );
+  return allowedMediaTypes.includes(mediaType);
 }
 
 export interface SafeFetchResult {
@@ -371,6 +372,8 @@ export interface SafeFetchResult {
   status: number;
   contentType: string;
   bytesRead: number;
+  declaredBytes?: number;
+  truncated: boolean;
   redirects: number;
 }
 
@@ -379,38 +382,50 @@ export interface SafeFetchOptions {
   beforeHop?: (url: URL) => void;
   userAgent?: string;
   accept?: string;
+  allowedMediaTypes?: string[];
   returnErrorResponse?: boolean;
 }
 
-async function readLimitedBody(
-  response: Response,
-): Promise<{ text: string; bytes: number }> {
+async function readLimitedBody(response: Response): Promise<{
+  text: string;
+  bytes: number;
+  declaredBytes?: number;
+  truncated: boolean;
+}> {
   const declaredLength = Number(response.headers.get('content-length') ?? 0);
-  if (declaredLength > MAX_RESPONSE_BYTES) {
-    throw new ScanFailure(
-      'RESPONSE_TOO_LARGE',
-      'The page is larger than the Quick Scan safety limit.',
-      413,
-    );
-  }
-  if (!response.body) return { text: '', bytes: 0 };
+  const declaredBytes =
+    Number.isFinite(declaredLength) && declaredLength > 0
+      ? declaredLength
+      : undefined;
+  if (!response.body)
+    return { text: '', bytes: 0, declaredBytes, truncated: false };
 
   const reader = response.body.getReader();
   const chunks: Uint8Array[] = [];
   let bytes = 0;
+  let truncated = false;
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
-    bytes += value.byteLength;
-    if (bytes > MAX_RESPONSE_BYTES) {
+    const remaining = MAX_RESPONSE_BYTES - bytes;
+    if (value.byteLength > remaining) {
+      if (remaining > 0) chunks.push(value.slice(0, remaining));
+      bytes += Math.max(0, remaining);
+      truncated = true;
       await reader.cancel();
-      throw new ScanFailure(
-        'RESPONSE_TOO_LARGE',
-        'The page is larger than the Quick Scan safety limit.',
-        413,
-      );
+      break;
     }
     chunks.push(value);
+    bytes += value.byteLength;
+    if (
+      bytes === MAX_RESPONSE_BYTES &&
+      declaredBytes &&
+      declaredBytes > bytes
+    ) {
+      truncated = true;
+      await reader.cancel();
+      break;
+    }
   }
 
   const merged = new Uint8Array(bytes);
@@ -422,6 +437,8 @@ async function readLimitedBody(
   return {
     text: new TextDecoder('utf-8', { fatal: false }).decode(merged),
     bytes,
+    declaredBytes,
+    truncated,
   };
 }
 
@@ -477,9 +494,7 @@ export async function fetchPublicText(
           redirect: 'manual',
           signal: controller.signal,
           headers: {
-            accept:
-              options.accept ??
-              'text/html,application/xhtml+xml,text/plain;q=0.8',
+            accept: options.accept ?? 'text/html,application/xhtml+xml',
             'user-agent':
               options.userAgent ??
               'isWebMCP-QuickScan/1.0 (+https://iswebmcp.com/methodology)',
@@ -512,10 +527,10 @@ export async function fetchPublicText(
           );
         }
         const contentType = response.headers.get('content-type') ?? '';
-        if (!textualContentType(contentType))
+        if (!textualContentType(contentType, options.allowedMediaTypes))
           throw new ScanFailure(
             'UNSUPPORTED_CONTENT',
-            'Quick Scan accepts HTML and plain-text pages only.',
+            'Quick Scan scores HTML pages only.',
             415,
           );
         const body = await readLimitedBody(response);
@@ -525,6 +540,8 @@ export async function fetchPublicText(
           status: response.status,
           contentType,
           bytesRead: body.bytes,
+          declaredBytes: body.declaredBytes,
+          truncated: body.truncated,
           redirects,
         };
       } catch (error) {

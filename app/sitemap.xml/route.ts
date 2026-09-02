@@ -12,11 +12,12 @@ export function GET() {
     { path: '', lastmod: productLastmod },
     { path: '/learn', lastmod: learningCatalogUpdatedAt },
     { path: '/faq', lastmod: learningCatalogUpdatedAt },
-    { path: '/readiness-index', lastmod: '2026-08-31' },
-    { path: '/readiness-index-methodology', lastmod: '2026-08-31' },
+    { path: '/readiness-index', lastmod: '2026-09-01' },
+    { path: '/readiness-index-methodology', lastmod: '2026-09-01' },
     { path: '/pulse', lastmod: pulseLastmod },
     { path: '/methodology', lastmod: '2026-08-31' },
-    { path: '/lab', lastmod: '2026-08-31' },
+    { path: '/lab', lastmod: '2026-09-01' },
+    { path: '/demos', lastmod: '2026-09-01' },
     { path: '/workbench', lastmod: '2026-08-31' },
   ];
   const urls = [

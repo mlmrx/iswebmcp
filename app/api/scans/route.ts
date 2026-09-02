@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 import {
   fetchPublicText,
+  MAX_RESPONSE_BYTES,
   normalizePublicUrl,
   ScanFailure,
   toScanError,
@@ -18,7 +19,12 @@ const requestSchema = z
   .strict();
 
 function requesterIp(request: Request): string {
-  const ip = (request.headers.get('cf-connecting-ip') ?? 'local-or-anonymous')
+  const forwarded =
+    request.headers.get('x-vercel-forwarded-for') ??
+    request.headers.get('x-forwarded-for') ??
+    request.headers.get('cf-connecting-ip') ??
+    'local-or-anonymous';
+  const ip = (forwarded.split(',', 1)[0] ?? 'local-or-anonymous')
     .trim()
     .slice(0, 64);
   return ip;
@@ -211,6 +217,9 @@ export async function POST(request: Request) {
       status: fetched.status,
       contentType: fetched.contentType,
       bytesRead: fetched.bytesRead,
+      declaredBytes: fetched.declaredBytes,
+      analysisLimitBytes: MAX_RESPONSE_BYTES,
+      truncated: fetched.truncated,
       redirects: fetched.redirects,
     });
     putReport(report);

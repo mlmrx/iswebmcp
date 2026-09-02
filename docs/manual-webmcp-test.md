@@ -29,7 +29,7 @@ Expected visible behavior:
 
 - [ ] A report route opens.
 - [ ] The report says Quick Scan is source-only and runtime remains unverified.
-- [ ] No WebMCP Implementation Quality or Lift value is fabricated.
+- [ ] Source Actionability is limited to captured source; Contract Lint, Runtime Readiness, and Lift are not fabricated.
 - [ ] Returned evidence matches visible report evidence.
 
 ### 2. Evidence versus inference
@@ -106,10 +106,11 @@ Expected trace, in order:
 - [ ] The visible cart contains one Aurora Q45.
 - [ ] Every finish assertion passes and `checkout_performed` is false.
 - [ ] Tool returns and visible state agree after each call.
+- [ ] This trace is labeled as one observed runtime trial, with browser/model/version and authorization context recorded; it is not generalized into a universal readiness claim.
 
 ### 7. Compare paired runs
 
-First complete the same task through the UI-only baseline, or use the controlled paired replay and clearly record that evidence mode.
+First complete the same task through an interactive UI-only baseline. A controlled replay may explain the flow, but it is authored—not an agent trial—and cannot qualify a pair for numeric Lift.
 
 Prompt:
 
@@ -117,10 +118,11 @@ Prompt:
 
 Expected trace: `compare_demo_runs`.
 
-- [ ] The fixture, task, and evidence modes are comparable.
+- [ ] Both runs are interactive and use the same fixture, task, starting state, and success criteria.
 - [ ] Raw values and normalized components are returned.
 - [ ] The UI shows the same Lift value.
-- [ ] The response calls a controlled replay deterministic and does not present it as a model eval.
+- [ ] The response limits the result to this observed pair and does not generalize from one trial.
+- [ ] If either run is an authored replay, the UI and tool response label it illustrative, state that no agent trial occurred, and withhold numeric Lift.
 
 ## Negative and lifecycle tests
 

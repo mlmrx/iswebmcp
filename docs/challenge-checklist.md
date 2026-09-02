@@ -6,14 +6,17 @@ This file is intentionally truthful. A checked engineering item does not imply s
 
 - [x] Landing page and safe public Quick Scan
 - [x] Evidence report separates source, inferred, imported, runtime, and measured evidence
-- [x] Baseline Actionability does not masquerade as WebMCP quality
-- [x] WebMCP Implementation Quality appears only with imported/runtime evidence
-- [x] WebMCP Lift appears only for comparable completed runs
+- [x] Source Actionability reports only source-visible evidence and its coverage
+- [x] Contract Lint appears only for bounded imported definitions and never claims runtime proof
+- [x] Runtime Readiness is trial evidence, not a source or import score
+- [x] WebMCP Lift appears only for paired interactive runs; authored replay always withholds the number
 - [x] Proof Lab uses the same visible UI and services in both modes
+- [x] Interactive Pattern Gallery contains 24 synthetic, provenance-labeled before/after scenarios with verification and confirmation seams
 - [x] Tool Contract Workbench gives deterministic feedback
 - [x] JSON and print exports are visible and account-free
 - [x] Ten-guide Learning Center, thirty-answer FAQ, Pulse, RSS, sitemap, and JSON content index
 - [x] Challenge Pulse separates participants, public gallery entries, and unknown submissions
+- [x] WRI v1 is labeled frozen and uncalibrated; the public status is audited partial with 100,000 scheduled, 65,380 valid collection outcomes, and 34,620 collection errors
 - [x] Mobile navigation, report overflow, metadata, favicon, and social card implemented
 
 ## WebMCP
@@ -31,10 +34,11 @@ This file is intentionally truthful. A checked engineering item does not imply s
 ## Security and privacy
 
 - [x] Source-only scanner limitation is visible
-- [x] URL, port, IP range, DNS, redirect, MIME, body-size, deadline, caller/host rate, and concurrency guards
+- [x] URL, port, IP range, DNS, redirect, MIME, bounded-analysis, deadline, caller/host rate, and concurrency guards
 - [x] No target cookies, authorization, or credentials
 - [x] Target HTML is not retained in reports or rendered as executable content
 - [x] Imported evidence is bounded, sanitized, and visibly unverified
+- [x] Raw WRI v1 attempts remain immutable; audit remapping is limited to exact expected outage ranges and error codes
 - [x] CSP, origin isolation, frame denial, referrer policy, and `tools=(self)` policy
 - [x] DNS/fetch address-pinning limitation and server-instance-local limits documented
 - [ ] Review production deployment headers from the public origin

@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   fetchPublicText,
   isPublicIpAddress,
+  MAX_RESPONSE_BYTES,
   normalizePublicUrl,
   parseIpv4,
 } from '@/lib/network';
@@ -186,7 +187,7 @@ describe('bounded fetch', () => {
     expect(targets).toEqual(['example.com', 'www.example.org']);
   });
 
-  it('fails before reading an oversized response', async () => {
+  it('treats declared length as metadata when the actual body is small', async () => {
     vi.stubGlobal(
       'fetch',
       vi.fn(async (input: RequestInfo | URL) => {
@@ -204,9 +205,75 @@ describe('bounded fetch', () => {
         });
       }),
     );
+    const result = await fetchPublicText('https://example.com');
+    expect(result.text).toBe('small');
+    expect(result.bytesRead).toBe(5);
+    expect(result.declaredBytes).toBe(9_999_999);
+    expect(result.truncated).toBe(false);
+  });
+
+  it('returns a clean bounded prefix when the streamed body exceeds the limit', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (input: RequestInfo | URL) => {
+        const url = requestUrl(input);
+        if (url.startsWith('https://cloudflare-dns.com/')) {
+          return Response.json({
+            Status: 0,
+            Answer: url.includes('type=A')
+              ? [{ type: 1, data: '93.184.216.34' }]
+              : [],
+          });
+        }
+        const body = new ReadableStream<Uint8Array>({
+          start(controller) {
+            controller.enqueue(new Uint8Array(MAX_RESPONSE_BYTES).fill(97));
+            controller.enqueue(new Uint8Array([98, 99]));
+            controller.close();
+          },
+        });
+        return new Response(body, {
+          headers: { 'content-type': 'text/html' },
+        });
+      }),
+    );
+
+    const result = await fetchPublicText('https://example.com');
+    expect(result.bytesRead).toBe(MAX_RESPONSE_BYTES);
+    expect(result.text).toHaveLength(MAX_RESPONSE_BYTES);
+    expect(result.text.endsWith('a')).toBe(true);
+    expect(result.truncated).toBe(true);
+  });
+
+  it('rejects text/plain by default and allows an explicit robots opt-in', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (input: RequestInfo | URL) => {
+        const url = requestUrl(input);
+        if (url.startsWith('https://cloudflare-dns.com/')) {
+          return Response.json({
+            Status: 0,
+            Answer: url.includes('type=A')
+              ? [{ type: 1, data: '93.184.216.34' }]
+              : [],
+          });
+        }
+        return new Response('User-agent: *\nDisallow: /private', {
+          headers: { 'content-type': 'text/plain; charset=utf-8' },
+        });
+      }),
+    );
+
     await expect(fetchPublicText('https://example.com')).rejects.toMatchObject({
-      code: 'RESPONSE_TOO_LARGE',
+      code: 'UNSUPPORTED_CONTENT',
     });
+
+    const robots = await fetchPublicText('https://example.com/robots.txt', {
+      accept: 'text/plain',
+      allowedMediaTypes: ['text/plain'],
+    });
+    expect(robots.text).toContain('Disallow: /private');
+    expect(robots.contentType).toContain('text/plain');
   });
 
   it('rejects non-text responses and non-success status pages', async () => {

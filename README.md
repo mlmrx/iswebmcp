@@ -4,21 +4,24 @@
 
 ![isWebMCP social card](public/og.png)
 
-**Detect it. Test it. Prove it.**
+**Map it. Contract it. Prove it.**
 
 - Production domain: [iswebmcp.com](https://iswebmcp.com) via Vercel GitHub deployment
 - Private source repository: [mlmrx/iswebmcp](https://github.com/mlmrx/iswebmcp)
 
-Make the app and repository public before a challenge submission; both are intentionally private at this handoff.
+The source repository remains private at the owner’s instruction. The live
+product is deployed only through the native Next.js + Vercel path.
 
 The product answers a harder question than protocol detection: can an agent use the exposed tools successfully, safely, and with an observable improvement over the human UI path?
 
 ## What works
 
-- **Quick Scan** performs a bounded, unauthenticated fetch of public HTML or plain text, inventories semantic controls, and reports source evidence without executing target JavaScript.
-- **Evidence reports** keep baseline actionability, WebMCP implementation quality, and measured WebMCP Lift separate. Unknown evidence stays unknown.
+- **Source Opportunity Scan** performs a bounded, unauthenticated fetch of public HTML/XHTML, inventories semantic controls, and reports source evidence without executing target JavaScript. Large responses produce an explicitly partial 1 MB analysis window instead of a false unreachable error.
+- **Evidence reports** keep source actionability, imported contract lint, runtime readiness, and measured WebMCP Lift separate. Every v2.1 category exposes its scoring inputs, model-input coverage, confidence, and uncertainty range.
 - **Imported contract evidence** accepts a sanitized tool inventory, retains only bounded schema summaries, labels its provenance, and creates an immutable derived report.
 - **Proof Lab** runs the same synthetic headset task through an accessible UI-only path and a WebMCP tool path backed by the same state and services.
+- **Interactive Pattern Gallery** contains exactly 24 synthetic before/after patterns across value, contract design, security, and reliability, each with a contract, example input/result, verification seam, and human confirmation boundary.
+- **Audited Index** preserves the frozen WRI v1 crawl while publishing its real collection health: 100,000 scheduled ranks, 65,380 valid collection outcomes, and 34,620 quarantined scanner-infrastructure errors.
 - **Contract Workbench** provides deterministic feedback on tool names, descriptions, schemas, annotations, and source-visible state/verification signals.
 - **Learning Center** publishes ten substantial explainers, how-tos, architecture guides, security reviews, testing methods, and challenge field guides with direct primary-source references.
 - **WebMCP FAQ** answers thirty common questions across fundamentals, building, testing, security, and challenge participation.
@@ -28,15 +31,16 @@ The product answers a harder question than protocol detection: can an agent use 
 
 ## Measurements
 
-| Measurement                   |     Range | Available when                                                       |
-| ----------------------------- | --------: | -------------------------------------------------------------------- |
-| Baseline Actionability        |     0–100 | Source-visible UI evidence exists                                    |
-| WebMCP Implementation Quality |     0–100 | Imported or runtime tool evidence exists                             |
-| WebMCP Lift                   | −100…+100 | Paired, completed runs use the same fixture, task, and evidence mode |
+| Measurement          |            Range | Available when                                                                                 |
+| -------------------- | ---------------: | ---------------------------------------------------------------------------------------------- |
+| Source Actionability | 0–100 + interval | Source-visible UI evidence exists                                                              |
+| Contract Lint        |            0–100 | A sanitized tool definition is imported                                                        |
+| Runtime Readiness    |   trial evidence | Discovery, authorization, execution, verification, recovery, and lifecycle checks are observed |
+| WebMCP Lift          |        −100…+100 | Paired interactive runs use the same fixture, task, and evidence mode                          |
 
-Baseline Actionability weights semantic structure (20), accessible names (20), form clarity (20), state feedback (15), entities (15), and transport (10). WebMCP Lift weights success (40%), action reduction (20%), elapsed reduction (15%), invalid attempts (10%), human intervention (10%), and verification (5%). Efficiency components are ignored if either journey fails.
+Source Actionability v2.1 weights semantic structure (20), accessible names (20), form clarity (20), state feedback (15), entities (15), and transport (10). Raw occurrence volume is not rewarded. Unknown model inputs widen the published interval; a truncated response makes the complete-page range 0–100 instead of manufacturing a tighter bound. This is an inspectable diagnostic heuristic, not a calibrated predictor of agent success or a cross-site ranking model. WebMCP Lift weights success (40%), action reduction (20%), elapsed reduction (15%), invalid attempts (10%), human intervention (10%), and verification (5%). Efficiency components are ignored if either journey fails.
 
-The controlled replay is deterministic product evidence, not a model-selection evaluation. See [methodology](docs/architecture.md) and the in-app Methodology page for the complete counting rules and limitations.
+The controlled replay is an authored teaching timeline, not a model trial. Its numeric Lift is withheld. See [methodology](docs/architecture.md) and the in-app Methodology page for the complete counting rules and limitations.
 
 ## WebMCP tool inventory
 
@@ -111,9 +115,9 @@ Editorial cadence, approved sources, correction policy, and challenge-freeze beh
 
 ## Security and evidence boundaries
 
-- Quick Scan accepts only absolute HTTP(S) URLs, rejects credentials and nonstandard ports, checks A and AAAA records before every redirect hop, blocks private/reserved/special-purpose addresses, omits cookies and authorization, and caps time, redirects, response size, concurrency, and rates.
+- The browser safely normalizes bare domains to HTTPS. The API then accepts only absolute HTTP(S) URLs, rejects credentials and nonstandard ports, checks A and AAAA records before every redirect hop, blocks private/reserved/special-purpose addresses, omits cookies and authorization, and caps time, redirects, analyzed bytes, concurrency, and rates.
 - The scanner checks public A and AAAA answers before each request, but the Node `fetch` connection resolves independently. Application code therefore cannot cryptographically pin the connection to the preflight address; a deployment requiring that SSRF guarantee needs controlled address-pinned egress or equivalent network policy.
-- Fetched markup is untrusted input. It is analyzed in memory, never rendered as HTML, and complete target HTML is not retained in reports.
+- Fetched markup is untrusted input. It is analyzed in memory, never rendered as HTML, and target HTML is not retained in reports. At most the first 1 MB is analyzed and any truncation is carried into report coverage and confidence.
 - Imported manifests are user supplied and **not independently verified**. Raw defaults, examples, enums, credentials, and extension payloads are not retained.
 - Report storage, rate counters, and concurrency counters are ephemeral and server-instance-local in this MVP.
 - Pulse updates are original summaries with direct primary-source links. There is no runtime feed ingestion in the site and no automated Devpost scraping; the checked-in catalog is reviewed, versioned, and safely rendered as text.

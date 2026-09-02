@@ -1,0 +1,28 @@
+{
+  "version": "crawl-audit-v1",
+  "auditedAt": "2026-09-02T05:14:55.667Z",
+  "scheduledCount": 100000,
+  "validAttemptCount": 65380,
+  "collectionErrorCount": 34620,
+  "expectedRawState": "unreachable",
+  "expectedRawErrorCode": "UPSTREAM_FAILURE",
+  "collectionErrorRanges": [
+    {
+      "startRank": 45557,
+      "endRank": 56180,
+      "rowCount": 10624,
+      "observedFrom": "2026-09-01T11:39:22.103Z",
+      "observedThrough": "2026-09-01T11:41:55.585Z",
+      "reason": "A contiguous scanner-side upstream failure window completed implausibly quickly and produced no target-specific evidence."
+    },
+    {
+      "startRank": 76005,
+      "endRank": 100000,
+      "rowCount": 23996,
+      "observedFrom": "2026-09-01T15:47:04.100Z",
+      "observedThrough": "2026-09-01T15:54:28.928Z",
+      "reason": "A contiguous scanner-side upstream failure window continued through the end of the scheduled corpus and produced no target-specific evidence."
+    }
+  ],
+  "note": "Raw crawl records remain immutable. Only rows inside these audited ranges, and only when their raw state and error code match this manifest, are reclassified in derived snapshots."
+}

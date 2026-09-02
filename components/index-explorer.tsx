@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { ArrowRight, Search } from 'lucide-react';
+import { ArrowRight, Database, LoaderCircle, Search } from 'lucide-react';
 
 import { Input } from '@/components/ui/input';
 import {
@@ -24,43 +24,54 @@ function OpportunityLandscape({ snapshot }: { snapshot: WebIndexSnapshot }) {
       row.baselineScore != null &&
       row.opportunityScore != null,
   );
+  const bins = Array.from({ length: 100 }, () => 0);
+  for (const row of points) {
+    const x = Math.min(9, Math.floor((row.baselineScore ?? 0) / 10));
+    const y = Math.min(9, Math.floor((row.opportunityScore ?? 0) / 10));
+    bins[(9 - y) * 10 + x] += 1;
+  }
+  const maximum = Math.max(...bins, 1);
   return (
     <div>
-      <div className="relative h-[22rem] overflow-hidden rounded-xl border border-border bg-card">
-        <div className="absolute inset-x-12 top-1/2 border-t border-dashed border-border" />
-        <div className="absolute inset-y-10 left-1/2 border-l border-dashed border-border" />
-        <span className="absolute left-3 top-3 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+      <div className="relative h-[22rem] overflow-hidden rounded-xl border border-border bg-card p-10 pb-12 pt-11">
+        <span className="absolute left-3 top-3 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
           Higher opportunity
         </span>
-        <span className="absolute bottom-3 right-3 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+        <span className="absolute bottom-3 right-3 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
           Stronger baseline →
         </span>
-        <span className="absolute bottom-3 left-3 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+        <span className="absolute bottom-3 left-3 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
           Weaker baseline
         </span>
-        {points.map((row) => (
-          <a
-            key={row.popularityRank}
-            href={`#rank-${row.popularityRank}`}
-            className="group absolute grid size-4 -translate-x-1/2 translate-y-1/2 place-items-center rounded-full border-2 border-card bg-signal-ink shadow-sm transition-transform hover:z-20 hover:scale-150 focus:z-20 focus:scale-150"
-            style={{
-              left: `${8 + (row.baselineScore! / 100) * 84}%`,
-              bottom: `${10 + (row.opportunityScore! / 100) * 78}%`,
-              width: `${Math.max(11, 22 - Math.log10(row.popularityRank + 1) * 3)}px`,
-              height: `${Math.max(11, 22 - Math.log10(row.popularityRank + 1) * 3)}px`,
-            }}
-            aria-label={`${row.domain}: baseline ${row.baselineScore}, opportunity ${row.opportunityScore}`}
-          >
-            <span className="pointer-events-none absolute bottom-5 hidden whitespace-nowrap rounded-md bg-ink px-2 py-1 font-mono text-[10px] text-white group-hover:block group-focus:block">
-              {row.domain} · {row.baselineScore}/{row.opportunityScore}
-            </span>
-          </a>
-        ))}
+        <figure className="grid h-full grid-cols-10 grid-rows-10 gap-1">
+          <figcaption className="sr-only">
+            Density grid for {points.length} scored rows loaded in this browser
+          </figcaption>
+          {bins.map((count, index) => {
+            const column = index % 10;
+            const row = Math.floor(index / 10);
+            const baselineRange = `${column * 10}–${column === 9 ? 100 : column * 10 + 9}`;
+            const opportunityFloor = (9 - row) * 10;
+            const opportunityRange = `${opportunityFloor}–${opportunityFloor === 90 ? 100 : opportunityFloor + 9}`;
+            return (
+              <div
+                key={`${row}-${column}`}
+                aria-hidden="true"
+                className="rounded-sm border border-signal-ink/10 transition-transform hover:scale-110"
+                style={{
+                  backgroundColor: `color-mix(in srgb, var(--color-signal-ink) ${count ? 12 + Math.round((count / maximum) * 88) : 3}%, transparent)`,
+                }}
+                title={`${count} loaded rows · baseline ${baselineRange} · WRI v1 opportunity ${opportunityRange}`}
+              />
+            );
+          })}
+        </figure>
       </div>
       <p className="mt-3 text-xs leading-5 text-muted-foreground">
-        Each dot is one scored homepage. Dot size reflects popularity tier;
-        position reflects our source-only heuristic. This is an opportunity map,
-        not a product-quality grade.
+        Cells show density for {points.length.toLocaleString()} scored records
+        currently loaded in this browser. Position reflects the frozen,
+        uncalibrated WRI v1 heuristic—not product quality or measured WebMCP
+        readiness.
       </p>
     </div>
   );
@@ -155,13 +166,19 @@ function BeforeAfter() {
 }
 
 export function IndexExplorer({ snapshot }: { snapshot: WebIndexSnapshot }) {
+  const [activeSnapshot, setActiveSnapshot] =
+    useState<WebIndexSnapshot>(snapshot);
+  const [datasetState, setDatasetState] = useState<
+    'preview' | 'loading' | 'full' | 'error'
+  >(snapshot.rows.length === snapshot.attemptedCount ? 'full' : 'preview');
+  const [datasetError, setDatasetError] = useState<string | null>(null);
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<'all' | OpportunityBand | 'coverage'>(
     'all',
   );
   const rows = useMemo(() => {
     const normalized = query.trim().toLowerCase();
-    return snapshot.rows.filter((row) => {
+    return activeSnapshot.rows.filter((row) => {
       if (
         normalized &&
         !row.domain.includes(normalized) &&
@@ -172,32 +189,66 @@ export function IndexExplorer({ snapshot }: { snapshot: WebIndexSnapshot }) {
       if (filter !== 'all') return row.opportunityBand === filter;
       return true;
     });
-  }, [filter, query, snapshot.rows]);
+  }, [activeSnapshot.rows, filter, query]);
+
+  const loadFullDataset = async () => {
+    setDatasetState('loading');
+    setDatasetError(null);
+    try {
+      const [response, compression] = await Promise.all([
+        fetch('/data/webmcp-index.json.gz'),
+        import('fflate'),
+      ]);
+      if (!response.ok)
+        throw new Error(`Download failed (${response.status}).`);
+      const compressed = new Uint8Array(await response.arrayBuffer());
+      const decoded = compression.strFromU8(compression.gunzipSync(compressed));
+      const full = JSON.parse(decoded) as WebIndexSnapshot;
+      if (
+        full.attemptedCount !== snapshot.attemptedCount ||
+        full.rows.length !== full.attemptedCount
+      ) {
+        throw new Error('The downloaded snapshot failed its row-count check.');
+      }
+      setActiveSnapshot(full);
+      setDatasetState('full');
+    } catch (error) {
+      setDatasetState('error');
+      setDatasetError(
+        error instanceof Error
+          ? error.message
+          : 'The full dataset did not load.',
+      );
+    }
+  };
 
   return (
     <>
       <section className="mx-auto max-w-7xl px-5 py-12 lg:px-8">
         <div className="grid gap-6 lg:grid-cols-[1.15fr_.85fr]">
           <div>
-            <p className="eyebrow text-signal-ink">The opportunity landscape</p>
+            <p className="eyebrow text-signal-ink">
+              Frozen v1 score distribution
+            </p>
             <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">
-              Where structured web actions could remove the most guesswork
+              What the legacy heuristic grouped together
             </h2>
           </div>
           <p className="self-end text-sm leading-6 text-muted-foreground">
-            Opportunity combines source-observed workflow density, baseline
-            friction, and the absence of a WebMCP source hint. It does not claim
-            a site is broken, unsafe, or low quality.
+            WRI v1 combined source-observed workflow density, baseline friction,
+            and a static-hint gap. Its control-volume and missing-evidence
+            assumptions are known validity limits, so this visualization is
+            preserved for audit—not promoted as the current scoring model.
           </p>
         </div>
         <div className="mt-8 grid gap-6 lg:grid-cols-[1.35fr_.65fr]">
-          <OpportunityLandscape snapshot={snapshot} />
+          <OpportunityLandscape snapshot={activeSnapshot} />
           <div className="instrument-card p-5">
             <p className="eyebrow">Opportunity bands</p>
             <div className="mt-5 space-y-5">
-              {snapshot.distribution.map(({ band, count }) => {
-                const share = snapshot.scoredCount
-                  ? (count / snapshot.scoredCount) * 100
+              {activeSnapshot.distribution.map(({ band, count }) => {
+                const share = activeSnapshot.scoredCount
+                  ? (count / activeSnapshot.scoredCount) * 100
                   : 0;
                 return (
                   <div key={band}>
@@ -241,14 +292,14 @@ export function IndexExplorer({ snapshot }: { snapshot: WebIndexSnapshot }) {
       <section id="rankings" className="mx-auto max-w-7xl px-5 py-12 lg:px-8">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="eyebrow">Public results</p>
+            <p className="eyebrow">Audited exploratory results</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-tight">
-              Observed homepage ranking
+              Inspect the frozen WRI v1 evidence
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
-              Sorted by WebMCP opportunity. “Popular” is Tranco rank; “baseline”
-              and “opportunity” are isWebMCP scores. Unscored rows stay visible
-              as coverage evidence.
+              Scores are uncalibrated source-only hypotheses. Equal scores share
+              a dense score rank; popularity is shown separately and never
+              resolves a tie. Collection failures remain visible.
             </p>
           </div>
           <div className="relative w-full lg:max-w-xs">
@@ -261,6 +312,49 @@ export function IndexExplorer({ snapshot }: { snapshot: WebIndexSnapshot }) {
               aria-label="Search index"
             />
           </div>
+        </div>
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-border bg-card p-4">
+          <div className="flex items-start gap-3">
+            <Database
+              className="mt-0.5 size-5 text-signal-ink"
+              aria-hidden="true"
+            />
+            <div>
+              <p className="text-sm font-semibold">
+                {datasetState === 'full'
+                  ? 'Full 100,000-record attempt log loaded'
+                  : `${snapshot.publishedRowCount.toLocaleString()}-record review slice loaded`}
+              </p>
+              <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                {datasetState === 'full'
+                  ? 'Search and filters now cover every scheduled rank, including quarantined collection errors.'
+                  : 'The embedded slice is deliberately small and not representative. Load the full compressed artifact for complete search.'}
+              </p>
+              {datasetError && (
+                <p className="mt-1 text-xs text-destructive">{datasetError}</p>
+              )}
+            </div>
+          </div>
+          {datasetState !== 'full' && (
+            <button
+              type="button"
+              onClick={() => void loadFullDataset()}
+              disabled={datasetState === 'loading'}
+              className="inline-flex h-9 items-center gap-2 rounded-lg bg-ink px-3 text-xs font-semibold text-white disabled:opacity-60"
+            >
+              {datasetState === 'loading' ? (
+                <LoaderCircle
+                  className="size-4 animate-spin"
+                  aria-hidden="true"
+                />
+              ) : (
+                <Database className="size-4" aria-hidden="true" />
+              )}
+              {datasetState === 'loading'
+                ? 'Loading and verifying…'
+                : 'Load all 100,000 records'}
+            </button>
+          )}
         </div>
         <fieldset
           className="mt-6 flex flex-wrap gap-2"
@@ -293,7 +387,7 @@ export function IndexExplorer({ snapshot }: { snapshot: WebIndexSnapshot }) {
             <table className="w-full min-w-[780px] text-left text-sm">
               <thead className="border-b border-border bg-muted/50 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
                 <tr>
-                  <th className="px-4 py-3">Opportunity</th>
+                  <th className="px-4 py-3">WRI v1 score</th>
                   <th className="px-4 py-3">Domain</th>
                   <th className="px-4 py-3">Popular</th>
                   <th className="px-4 py-3">Baseline</th>
@@ -311,7 +405,9 @@ export function IndexExplorer({ snapshot }: { snapshot: WebIndexSnapshot }) {
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
                         <span className="w-6 font-mono text-xs text-muted-foreground">
-                          {row.opportunityRank ?? '—'}
+                          {row.opportunityRank != null
+                            ? `B${row.opportunityRank}`
+                            : '—'}
                         </span>
                         {row.opportunityScore != null ? (
                           <>
@@ -359,8 +455,9 @@ export function IndexExplorer({ snapshot }: { snapshot: WebIndexSnapshot }) {
         </div>
         <p className="mt-3 text-xs text-muted-foreground">
           Showing {Math.min(rows.length, 100)} of {rows.length} matching rows in
-          this browser snapshot. The downloadable dataset contains all{' '}
-          {snapshot.attemptedCount.toLocaleString()} attempts.
+          this browser dataset. {activeSnapshot.rows.length.toLocaleString()} of{' '}
+          {snapshot.attemptedCount.toLocaleString()} scheduled records are
+          currently loaded.
         </p>
       </section>
     </>

@@ -17,11 +17,11 @@ const snapshot = snapshotData as WebIndexSnapshot;
 export const metadata: Metadata = {
   title: 'WebMCP Readiness Index',
   description:
-    'A reproducible, source-observed benchmark mapping WebMCP opportunity across popular public websites.',
+    'An audited exploratory dataset of source-observed WebMCP opportunity signals, collection gaps, and crawler health across a scheduled 100,000-domain corpus.',
   alternates: { canonical: '/readiness-index' },
   openGraph: {
     title: 'The WebMCP Readiness Index · isWebMCP',
-    description: `${snapshot.attemptedCount.toLocaleString()} popular domains attempted in the current transparent benchmark.`,
+    description: `${snapshot.scheduledCount.toLocaleString()} domains scheduled; ${snapshot.validAttemptCount.toLocaleString()} valid collection outcomes and ${snapshot.collectionErrorCount.toLocaleString()} quarantined crawler errors.`,
     type: 'website',
     images: [
       {
@@ -36,13 +36,15 @@ export const metadata: Metadata = {
 
 export default function WebMcpIndexPage() {
   const completion = (snapshot.attemptedCount / snapshot.targetCount) * 100;
-  const isComplete = snapshot.status === 'complete';
+  const statusLabel =
+    snapshot.status === 'audited_partial'
+      ? 'Audited partial dataset'
+      : `${snapshot.status.replaceAll('_', ' ')} dataset`;
   const datasetJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Dataset',
     name: snapshot.title,
-    description:
-      'Source-observed homepage actionability and WebMCP opportunity signals for domains from a pinned Tranco popularity list.',
+    description: `Exploratory WRI v1 source observations for a pinned Tranco list. ${snapshot.validAttemptCount} records have valid collection outcomes; ${snapshot.collectionErrorCount} scanner-infrastructure errors are quarantined.`,
     dateModified: snapshot.generatedAt,
     measurementTechnique: snapshot.version,
     isBasedOn: snapshot.source.listUrl,
@@ -73,7 +75,7 @@ export default function WebMcpIndexPage() {
             <span className="status-chip">
               <ShieldCheck className="size-3" /> Robots-aware · source only
             </span>
-            <span className="status-chip">{snapshot.status} snapshot</span>
+            <span className="status-chip">{statusLabel}</span>
           </div>
           <div className="mt-8 grid gap-10 lg:grid-cols-[1.15fr_.85fr] lg:items-end">
             <div>
@@ -84,9 +86,9 @@ export default function WebMcpIndexPage() {
                 The web’s action layer, mapped.
               </h1>
               <p className="mt-6 max-w-2xl text-pretty text-lg leading-8 text-muted-foreground">
-                A transparent benchmark of source-observed actionability and the
-                places where explicit WebMCP contracts could remove the most
-                interaction guesswork.
+                A frozen exploratory scan with its collection failures exposed.
+                Use it to inspect hypotheses—not as a definitive league table of
+                websites or WebMCP implementations.
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
                 <a
@@ -107,7 +109,7 @@ export default function WebMcpIndexPage() {
               <div className="border-b border-border p-5">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="eyebrow">Current crawl</p>
+                    <p className="eyebrow">Scheduled corpus</p>
                     <p className="mt-2 text-3xl font-semibold">
                       {snapshot.attemptedCount.toLocaleString()}{' '}
                       <span className="text-base font-normal text-muted-foreground">
@@ -116,7 +118,7 @@ export default function WebMcpIndexPage() {
                     </p>
                   </div>
                   <span className="rounded-full bg-signal/25 px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-wider text-signal-ink">
-                    {isComplete ? 'Full corpus' : 'Pilot evidence'}
+                    Audited partial
                   </span>
                 </div>
                 <div className="mt-4 h-2 overflow-hidden rounded-full bg-muted">
@@ -126,28 +128,43 @@ export default function WebMcpIndexPage() {
                   />
                 </div>
                 <p className="mt-3 text-xs leading-5 text-muted-foreground">
-                  {isComplete
-                    ? 'All 100,000 ranked domains were attempted with the published robots-aware, source-only pipeline.'
-                    : 'No 100,000-site claim until 100,000 attempts are published. This pilot exercises the same resumable pipeline.'}
+                  The runner emitted one record for every scheduled rank, but
+                  only {snapshot.validAttemptCount.toLocaleString()} are valid
+                  collection outcomes. We quarantined{' '}
+                  {snapshot.collectionErrorCount.toLocaleString()} records from
+                  two scanner-wide failure windows instead of attributing them
+                  to websites.
                 </p>
               </div>
-              <div className="grid grid-cols-2 divide-x divide-border">
+              <div className="grid grid-cols-2 border-b border-border sm:grid-cols-3">
                 <div className="p-5">
-                  <p className="eyebrow">Scored</p>
+                  <p className="eyebrow">Valid outcomes</p>
                   <p className="mt-2 text-2xl font-semibold">
-                    {snapshot.scoredCount}
+                    {snapshot.validAttemptCount.toLocaleString()}
                   </p>
                 </div>
-                <div className="p-5">
-                  <p className="eyebrow">Pinned source</p>
-                  <a
-                    className="mt-2 inline-flex items-center gap-1 text-lg font-semibold underline decoration-border underline-offset-4"
-                    href={snapshot.source.listUrl}
-                  >
-                    {snapshot.source.listId}
-                    <ExternalLink className="size-3" />
-                  </a>
+                <div className="border-l border-border p-5">
+                  <p className="eyebrow">Scored</p>
+                  <p className="mt-2 text-2xl font-semibold">
+                    {snapshot.scoredCount.toLocaleString()}
+                  </p>
                 </div>
+                <div className="border-l border-border p-5">
+                  <p className="eyebrow">Quarantined</p>
+                  <p className="mt-2 text-2xl font-semibold text-warning">
+                    {snapshot.collectionErrorCount.toLocaleString()}
+                  </p>
+                </div>
+              </div>
+              <div className="p-5">
+                <p className="eyebrow">Pinned source</p>
+                <a
+                  className="mt-2 inline-flex items-center gap-1 text-lg font-semibold underline decoration-border underline-offset-4"
+                  href={snapshot.source.listUrl}
+                >
+                  {snapshot.source.listId}
+                  <ExternalLink className="size-3" />
+                </a>
               </div>
             </div>
           </div>
@@ -191,6 +208,7 @@ function CoverageBarForPage({ snapshot }: { snapshot: WebIndexSnapshot }) {
     ['unreachable', 'bg-slate-400'],
     ['unsupported', 'bg-violet-400'],
     ['unsafe', 'bg-red-400'],
+    ['collection_error', 'bg-rose-700'],
   ] as const;
   return (
     <>
@@ -209,6 +227,11 @@ function CoverageBarForPage({ snapshot }: { snapshot: WebIndexSnapshot }) {
         <span>Scored · {snapshot.coverage.scored}</span>
         <span>Robots excluded · {snapshot.coverage.robots_blocked}</span>
         <span>Unreachable · {snapshot.coverage.unreachable}</span>
+        <span>Unsupported · {snapshot.coverage.unsupported}</span>
+        <span>Unsafe target · {snapshot.coverage.unsafe}</span>
+        <span>
+          Scanner collection error · {snapshot.coverage.collection_error}
+        </span>
       </div>
     </>
   );

@@ -29,8 +29,16 @@ import {
   NativeSelect,
   NativeSelectOption,
 } from '@/components/ui/native-select';
-import { DEMO_TASK, getDemoProduct } from '@/lib/demo';
+import { DEMO_TASK, filterDemoProducts, getDemoProduct } from '@/lib/demo';
 import type { DemoProduct, JourneyRun } from '@/lib/types';
+
+const bestEligibleProductId =
+  filterDemoProducts({
+    maxPrice: 300,
+    minimumRating: 4.5,
+    minimumBatteryHours: 30,
+    features: ['noise_canceling'],
+  })[0]?.id ?? null;
 
 function formatDuration(ms: number) {
   if (ms < 1_000) return `${ms} ms`;
@@ -95,6 +103,18 @@ export function LabView() {
     demo.baselineRun,
     demo.webmcpRun,
   );
+  const timelineHeading =
+    activeOrLatest?.evidenceMode === 'controlled_replay'
+      ? 'Authored replay timeline'
+      : activeOrLatest?.evidenceMode === 'interactive'
+        ? 'Observed interaction timeline'
+        : 'Run timeline';
+  const timelineEyebrow =
+    activeOrLatest?.evidenceMode === 'controlled_replay'
+      ? 'Authored replay events'
+      : activeOrLatest?.evidenceMode === 'interactive'
+        ? 'Observed interactive events'
+        : 'Event provenance';
 
   const comparedProducts = useMemo(
     () =>
@@ -207,7 +227,7 @@ export function LabView() {
             className="border-paper/25 bg-paper/5 text-paper hover:bg-paper/10 hover:text-paper"
             onClick={runControlledComparison}
           >
-            <Sparkles data-icon="inline-start" /> Replay both paths
+            <Sparkles data-icon="inline-start" /> Play illustrative replay
           </Button>
         </div>
       </section>
@@ -553,16 +573,19 @@ export function LabView() {
                     </tr>
                   </thead>
                   <tbody>
-                    {comparedProducts.map((product, index) => (
+                    {comparedProducts.map((product) => (
                       <tr
                         key={product.id}
                         className="border-b border-border last:border-0"
                       >
                         <td className="py-4 pr-4">
                           <span className="font-semibold">{product.name}</span>
-                          {index === 0 && (
-                            <span className="ml-2 rounded-full bg-signal/25 px-2 py-0.5 text-[10px] font-semibold text-signal-ink">
-                              Top match
+                          {product.id === bestEligibleProductId && (
+                            <span
+                              className="ml-2 rounded-full bg-signal/25 px-2 py-0.5 text-[10px] font-semibold text-signal-ink"
+                              title="Highest-rated product that satisfies every task constraint; price breaks rating ties."
+                            >
+                              Best eligible match
                             </span>
                           )}
                         </td>
@@ -641,8 +664,10 @@ export function LabView() {
           <div className="instrument-card p-5 sm:p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="eyebrow">Observed events</p>
-                <h2 className="mt-2 text-xl font-semibold">Run timeline</h2>
+                <p className="eyebrow">{timelineEyebrow}</p>
+                <h2 className="mt-2 text-xl font-semibold">
+                  {timelineHeading}
+                </h2>
               </div>
               {activeOrLatest?.completedAt ? (
                 <span className="status-chip">
@@ -683,7 +708,8 @@ export function LabView() {
               </ol>
             ) : (
               <div className="mt-6 rounded-xl border border-dashed border-border p-10 text-center text-sm text-muted-foreground">
-                Start a run or replay both paths to populate observed evidence.
+                Start a run to collect observed evidence, or play the clearly
+                labeled authored replay to understand the flow.
               </div>
             )}
           </div>
@@ -724,7 +750,7 @@ export function LabView() {
                         {Math.round(component.weight * 100)}%
                       </span>
                       <span className="text-right font-semibold tabular-nums">
-                        {component.comparable
+                        {component.comparable && component.value !== null
                           ? `${component.value >= 0 ? '+' : ''}${Math.round(component.value * 100)}%`
                           : 'N/C'}
                       </span>
@@ -760,8 +786,9 @@ export function LabView() {
                 />
                 <p className="mt-4 font-semibold">Awaiting comparison</p>
                 <p className="mt-2 text-sm leading-6 text-paper/55">
-                  Complete the same task once in each mode, or run the labeled
-                  deterministic replay.
+                  Complete the same task once in each mode to calculate Lift.
+                  The authored replay explains the flow but never receives a
+                  numeric score.
                 </p>
               </div>
             )}

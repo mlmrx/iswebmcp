@@ -27,7 +27,9 @@ test('landing communicates the product and opens a sample evidence report', asyn
 }) => {
   await page.goto('/');
   await expect(
-    page.getByRole('heading', { name: 'Is your web app truly WebMCP ready?' }),
+    page.getByRole('heading', {
+      name: 'Turn UI guesswork into actions you can prove.',
+    }),
   ).toBeVisible();
   await expect(page.getByLabel('Public URL')).toBeVisible();
   await page
@@ -35,31 +37,126 @@ test('landing communicates the product and opens a sample evidence report', asyn
     .click();
   await expect(
     page.getByRole('heading', {
-      name: 'Three measurements. No blended score.',
+      name: 'Four evidence boundaries. No blended score.',
     }),
   ).toBeVisible();
-  await expect(page.getByText('Not enough runtime evidence.')).toBeVisible();
+  await expect(
+    page.getByText('Synthetic fixture · no network observation', {
+      exact: false,
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByText('Not evaluated.', { exact: false }),
+  ).toBeVisible();
 });
 
 test('private targets fail closed', async ({ page }) => {
   await page.goto('/');
   await page.getByLabel('Public URL').fill('http://127.0.0.1/admin');
-  await page.getByRole('button', { name: 'Test this app' }).click();
+  await page.getByRole('button', { name: 'Map this page' }).click();
   await expect(
     page.getByText(/private, reserved, and special-purpose/i),
   ).toBeVisible();
 });
 
-test('controlled before/after replay produces observed WebMCP Lift', async ({
+test('authored replay explains both paths without claiming measured lift', async ({
   page,
 }) => {
   await page.goto('/lab');
-  await page.getByRole('button', { name: 'Replay both paths' }).click();
-  await expect(page.getByText('Meaningful improvement')).toBeVisible();
+  await page.getByRole('button', { name: 'Play illustrative replay' }).click();
   await expect(
-    page.getByText('controlled replay', { exact: false }),
+    page.getByText('Illustrative replay — lift withheld'),
+  ).toBeVisible();
+  await expect(
+    page.getByText('No agent trial occurred', { exact: false }),
   ).toBeVisible();
   await expect(page.getByText('Aurora Q45').first()).toBeVisible();
+});
+
+test('demo gallery preserves illustrative provenance and recovers from an empty search', async ({
+  page,
+}) => {
+  await page.goto('/demos');
+  await expect(
+    page.getByRole('heading', {
+      name: 'Catalog research without selector archaeology',
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByText('Not evaluated', { exact: true }).first(),
+  ).toBeVisible();
+
+  await page.getByRole('button', { name: 'Next step' }).click();
+  await page.getByRole('button', { name: 'Next step' }).click();
+  await expect(page.getByText(/Baseline limitation:/)).toBeVisible();
+  await expect(
+    page.getByText('Not evaluated', { exact: true }).first(),
+  ).toBeVisible();
+
+  await page
+    .getByRole('button', { name: /after Contract-driven action/i })
+    .click();
+  await expect(
+    page.getByText('Illustrative · not evaluated', { exact: true }).first(),
+  ).toBeVisible();
+  await page.getByRole('button', { name: 'Next step' }).click();
+  await page.getByRole('button', { name: 'Next step' }).click();
+  await expect(
+    page.getByText('Illustrative target', { exact: true }).first(),
+  ).toBeVisible();
+  await expect(
+    page.getByText(/No runtime assertion was executed/),
+  ).toBeVisible();
+
+  await page.getByLabel('Search demo patterns').fill('no-such-pattern-token');
+  await expect(page.getByText('No illustrative patterns match')).toBeVisible();
+  await page.getByRole('button', { name: 'Clear filters' }).click();
+  await expect(
+    page.getByRole('heading', {
+      name: 'Catalog research without selector archaeology',
+    }),
+  ).toBeVisible();
+});
+
+test('demo gallery supports keyboard tabs and a gated confirmation boundary', async ({
+  page,
+}) => {
+  await page.goto('/demos');
+  const contractTab = page.getByRole('tab', { name: 'Contract' });
+  const resultTab = page.getByRole('tab', { name: 'Example result' });
+  await contractTab.focus();
+  await page.keyboard.press('End');
+  await expect(resultTab).toBeFocused();
+  await expect(resultTab).toHaveAttribute('aria-selected', 'true');
+  await page.keyboard.press('Home');
+  await expect(contractTab).toBeFocused();
+  await expect(contractTab).toHaveAttribute('aria-selected', 'true');
+
+  await page
+    .getByLabel('Search demo patterns')
+    .fill('Pause at the consequential boundary');
+  await expect(
+    page.getByRole('heading', { name: 'Pause at the consequential boundary' }),
+  ).toBeVisible();
+  await page
+    .getByRole('button', { name: /after Last-moment confirmation/i })
+    .click();
+  const boundaryButton = page.getByRole('button', {
+    name: 'Reach the after-state first',
+  });
+  await expect(boundaryButton).toBeDisabled();
+  await page.getByRole('button', { name: 'Next step' }).click();
+  await page.getByRole('button', { name: 'Next step' }).click();
+  await expect(
+    page.getByText('Review pending', { exact: true }).first(),
+  ).toBeVisible();
+  await page.getByRole('button', { name: 'Simulate human review' }).click();
+  await expect(
+    page.getByText('Reviewed illustration', { exact: true }).first(),
+  ).toBeVisible();
+  await expect(
+    page.getByText(/no runtime assertion was executed/i),
+  ).toBeVisible();
 });
 
 test('readiness index publishes coverage, rankings, and honest after-state labels', async ({
@@ -70,12 +167,26 @@ test('readiness index publishes coverage, rankings, and honest after-state label
     page.getByRole('heading', { name: 'The web’s action layer, mapped.' }),
   ).toBeVisible();
   await expect(page.getByText('100,000 / 100,000')).toBeVisible();
-  await expect(page.getByText('Full corpus')).toBeVisible();
+  await expect(page.getByText('Audited partial').first()).toBeVisible();
+  await expect(page.getByText(/65,380 are valid/i)).toBeVisible();
+  await expect(page.getByText(/34,620 records/i)).toBeVisible();
   await expect(
     page.getByText('Illustration · not measured lift'),
   ).toBeVisible();
   await page.getByLabel('Search index').fill('sbicard.com');
   await expect(page.getByRole('cell', { name: 'sbicard.com' })).toBeVisible();
+  await page.getByLabel('Search index').fill('');
+  await page.getByRole('button', { name: 'Load all 100,000 records' }).click();
+  await expect(
+    page.getByText('Full 100,000-record attempt log loaded'),
+  ).toBeVisible({ timeout: 30_000 });
+  await page.getByLabel('Search index').fill('sids.mg.gov.br');
+  await expect(
+    page.getByRole('cell', { name: 'sids.mg.gov.br' }),
+  ).toBeVisible();
+  await expect(
+    page.getByText('collection error', { exact: true }),
+  ).toBeVisible();
   await page.getByRole('link', { name: 'Read index methodology' }).click();
   await expect(
     page.getByRole('heading', { name: 'Methodology you can challenge' }),
@@ -91,12 +202,16 @@ test('readiness index API exposes a pinned, coverage-aware snapshot', async ({
     status: string;
     targetCount: number;
     attemptedCount: number;
+    validAttemptCount: number;
+    collectionErrorCount: number;
     source: { listId: string };
     coverage: { scored: number; robots_blocked: number };
   };
-  expect(snapshot.status).toBe('complete');
+  expect(snapshot.status).toBe('audited_partial');
   expect(snapshot.targetCount).toBe(100_000);
   expect(snapshot.attemptedCount).toBe(100_000);
+  expect(snapshot.validAttemptCount).toBe(65_380);
+  expect(snapshot.collectionErrorCount).toBe(34_620);
   expect(snapshot.source.listId).toBe('GQJJK');
   expect(
     snapshot.coverage.scored + snapshot.coverage.robots_blocked,
@@ -371,6 +486,7 @@ test('RSS, sitemap, and content API expose attributed indexable content', async 
   expect(sitemap.ok()).toBe(true);
   const sitemapBody = await sitemap.text();
   expect(sitemapBody).toContain('/learn/webmcp-vs-mcp');
+  expect(sitemapBody).toContain('/demos');
   expect(sitemapBody).toMatch(
     /<loc>https:\/\/iswebmcp\.com\/pulse<\/loc><lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/,
   );

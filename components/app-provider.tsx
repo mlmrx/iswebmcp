@@ -34,17 +34,23 @@ import {
   pulseGeneratedAt,
   type PulseTopic,
 } from '@/lib/pulse';
+import {
+  CLIENT_SCAN_TIMEOUT_MS,
+  parseScanApiResponse,
+  ScanClientError,
+  type ScanFailureStage,
+} from '@/lib/scan-client';
 import { calculateLift } from '@/lib/scoring';
 import type {
   DemoProduct,
   JourneyEvent,
   JourneyRun,
   LiftResult,
-  ScanErrorBody,
   ScanReport,
 } from '@/lib/types';
 
 type ActionOrigin = 'ui' | 'tool';
+type ScanStage = 'idle' | 'connecting' | 'fetching' | 'processing';
 
 interface DemoSnapshot {
   mode: 'baseline' | 'webmcp';
@@ -70,7 +76,10 @@ interface AppContextValue {
   scanDraft: { url: string; goal: string };
   setScanDraft: (draft: { url: string; goal: string }) => void;
   scanLoading: boolean;
+  scanStage: ScanStage;
   scanError: string | null;
+  scanErrorStage: ScanFailureStage | null;
+  scanErrorRetryable: boolean;
   currentReport: ScanReport | null;
   runScan: (
     url: string,
@@ -246,14 +255,23 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
 
+  const [scanLoading, setScanLoading] = useState(false);
+  const [scanStage, setScanStage] = useState<ScanStage>('idle');
+  const [scanError, setScanError] = useState<string | null>(null);
+  const [scanErrorMeta, setScanErrorMeta] = useState<{
+    stage: ScanFailureStage;
+    retryable: boolean;
+  } | null>(null);
   const [scanDraftState, setScanDraftState] = useState({ url: '', goal: '' });
   const scanDraftRef = useRef(scanDraftState);
   const setScanDraft = useCallback((draft: { url: string; goal: string }) => {
     scanDraftRef.current = draft;
     setScanDraftState(draft);
+    setScanError(null);
+    setScanErrorMeta(null);
   }, []);
-  const [scanLoading, setScanLoading] = useState(false);
-  const [scanError, setScanError] = useState<string | null>(null);
+  const activeScanControllerRef = useRef<AbortController | null>(null);
+  const scanSequenceRef = useRef(0);
   const [exportPrepared, setExportPrepared] = useState<ExportState | null>(
     null,
   );
@@ -303,54 +321,94 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const runScan = useCallback(
     async (url: string, goal = '', navigate = true, signal?: AbortSignal) => {
+      const sequence = scanSequenceRef.current + 1;
+      scanSequenceRef.current = sequence;
+      activeScanControllerRef.current?.abort(
+        new DOMException('A newer scan replaced this request.', 'AbortError'),
+      );
+      const requestController = new AbortController();
+      activeScanControllerRef.current = requestController;
+      let clientTimedOut = false;
+      const cancelFromCaller = () => requestController.abort(signal?.reason);
+      if (signal?.aborted) requestController.abort(signal.reason);
+      else signal?.addEventListener('abort', cancelFromCaller, { once: true });
+      const clientTimeout = setTimeout(() => {
+        clientTimedOut = true;
+        requestController.abort(
+          new DOMException('The client scan deadline elapsed.', 'TimeoutError'),
+        );
+      }, CLIENT_SCAN_TIMEOUT_MS);
+
       setScanDraft({ url, goal });
       setScanLoading(true);
+      setScanStage('connecting');
       setScanError(null);
+      setScanErrorMeta(null);
       try {
+        setScanStage('fetching');
         const response = await fetch('/api/scans', {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
           body: JSON.stringify({ url, goal: goal || undefined }),
-          signal,
+          signal: requestController.signal,
         });
-        const payload = (await response.json()) as
-          | ScanReport
-          | { error?: { code?: string; message?: string } };
-        if (!response.ok || !('id' in payload)) {
-          const supported = new Set<ScanErrorBody['error']['code']>([
-            'INVALID_INPUT',
-            'UNSAFE_TARGET',
-            'UNSUPPORTED_CONTENT',
+        if (scanSequenceRef.current === sequence) setScanStage('processing');
+        const report = await parseScanApiResponse(response);
+        if (scanSequenceRef.current !== sequence) {
+          throw new ScanClientError(
             'UPSTREAM_TIMEOUT',
-            'UPSTREAM_FAILURE',
-            'RESPONSE_TOO_LARGE',
-            'RATE_LIMITED',
-          ]);
-          const code =
-            'error' in payload &&
-            payload.error?.code &&
-            supported.has(payload.error.code as ScanErrorBody['error']['code'])
-              ? payload.error.code
-              : 'UPSTREAM_FAILURE';
-          toolFailure(
-            code,
-            'error' in payload
-              ? (payload.error?.message ?? 'The scan failed.')
-              : 'The scan failed.',
+            'A newer scan replaced this request. Review the latest scan instead.',
+            'request',
+            true,
           );
         }
-        setCurrentReport(payload);
-        if (navigate) router.push(`/reports/${payload.id}`);
-        return payload;
+        setCurrentReport(report);
+        if (navigate) router.push(`/reports/${report.id}`);
+        return report;
       } catch (error) {
-        const message =
-          error instanceof Error
-            ? error.message.replace(/^[A-Z_]+:\s*/, '')
-            : 'The scan could not be completed.';
-        setScanError(message);
-        throw error;
+        const failure =
+          error instanceof ScanClientError
+            ? error
+            : clientTimedOut
+              ? new ScanClientError(
+                  'UPSTREAM_TIMEOUT',
+                  `The scanner did not finish within ${CLIENT_SCAN_TIMEOUT_MS / 1_000} seconds. Retry once, or scan a more specific public page.`,
+                  'fetch',
+                  true,
+                )
+              : requestController.signal.aborted
+                ? new ScanClientError(
+                    'UPSTREAM_TIMEOUT',
+                    signal?.aborted
+                      ? 'The scan was cancelled before it completed. Retry when ready.'
+                      : 'A newer scan replaced this request. Review the latest scan instead.',
+                    'request',
+                    true,
+                  )
+                : new ScanClientError(
+                    'UPSTREAM_FAILURE',
+                    'The browser could not reach the scanner service. Check your connection and retry.',
+                    'request',
+                    true,
+                  );
+        if (scanSequenceRef.current === sequence) {
+          setScanError(failure.message);
+          setScanErrorMeta({
+            stage: failure.stage,
+            retryable: failure.retryable,
+          });
+        }
+        toolFailure(failure.code, failure.message);
       } finally {
-        setScanLoading(false);
+        clearTimeout(clientTimeout);
+        signal?.removeEventListener('abort', cancelFromCaller);
+        if (activeScanControllerRef.current === requestController) {
+          activeScanControllerRef.current = null;
+        }
+        if (scanSequenceRef.current === sequence) {
+          setScanLoading(false);
+          setScanStage('idle');
+        }
       }
     },
     [router, setCurrentReport, setScanDraft],
@@ -1641,7 +1699,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
       scanDraft: scanDraftState,
       setScanDraft,
       scanLoading,
+      scanStage,
       scanError,
+      scanErrorStage: scanErrorMeta?.stage ?? null,
+      scanErrorRetryable: scanErrorMeta?.retryable ?? false,
       currentReport: currentReportState,
       runScan,
       setCurrentReport,
@@ -1668,7 +1729,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
       scanDraftState,
       setScanDraft,
       scanLoading,
+      scanStage,
       scanError,
+      scanErrorMeta,
       currentReportState,
       runScan,
       setCurrentReport,
