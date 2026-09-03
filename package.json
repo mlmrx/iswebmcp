@@ -17,6 +17,8 @@
     "test:e2e": "npm run build && playwright test",
     "format": "oxfmt",
     "format:check": "oxfmt --check .",
+    "integrations:package": "node scripts/package-integrations.mjs",
+    "integrations:validate": "node scripts/validate-integrations.mjs && node integrations/vscode/tests/extension.test.cjs && node integrations/chrome-extension/tests/manifest.test.cjs",
     "index:download": "tsx scripts/web-index/download-tranco.ts",
     "index:crawl": "tsx scripts/web-index/crawl-index.ts",
     "index:build": "tsx scripts/web-index/build-snapshot.ts",
@@ -24,6 +26,7 @@
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",
+    "@modelcontextprotocol/sdk": "1.30.0",
     "@shadcn/react": "0.3.0",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",

@@ -1,0 +1,65 @@
+{
+  "name": "iswebmcp",
+  "displayName": "isWebMCP",
+  "description": "Audit a public web page for WebMCP actionability and source-level readiness without leaving your editor.",
+  "version": "1.0.0",
+  "publisher": "iswebmcp",
+  "license": "MIT",
+  "homepage": "https://iswebmcp.com/integrations",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mlmrx/iswebmcp.git"
+  },
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "categories": [
+    "Linters",
+    "Other"
+  ],
+  "keywords": [
+    "webmcp",
+    "mcp",
+    "audit",
+    "ai agents",
+    "web standards"
+  ],
+  "activationEvents": [],
+  "main": "./extension.js",
+  "icon": "assets/icon.png",
+  "contributes": {
+    "commands": [
+      {
+        "command": "iswebmcp.auditPublicUrl",
+        "title": "isWebMCP: Audit Public URL"
+      },
+      {
+        "command": "iswebmcp.auditSelectedUrl",
+        "title": "isWebMCP: Audit Selected URL"
+      },
+      {
+        "command": "iswebmcp.openLab",
+        "title": "isWebMCP: Open Web Audit Lab"
+      }
+    ],
+    "configuration": {
+      "title": "isWebMCP",
+      "properties": {
+        "iswebmcp.scanEndpoint": {
+          "type": "string",
+          "default": "https://iswebmcp.com/api/integrations/scan",
+          "description": "HTTPS endpoint used for public source audits. Change only when testing a trusted self-hosted deployment."
+        }
+      }
+    },
+    "menus": {
+      "editor/context": [
+        {
+          "command": "iswebmcp.auditSelectedUrl",
+          "when": "editorHasSelection",
+          "group": "navigation"
+        }
+      ]
+    }
+  }
+}

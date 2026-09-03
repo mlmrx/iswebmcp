@@ -1,0 +1,35 @@
+{
+  "productName": "isWebMCP",
+  "tagline": "Prove your web app is ready for AI agents",
+  "description": "Scan a public URL, lint WebMCP contracts, run matched UI-vs-tool trials, and explore 24 interactive patterns. isWebMCP keeps source clues, imported schemas, runtime evidence, and lift claims separate—so unknowns never become made-up scores.",
+  "url": "https://iswebmcp.com",
+  "pricing": "free",
+  "topics": ["AI Agents", "Developer Tools", "Web Development"],
+  "thumbnail": "../../public/product-hunt/thumbnail-240.png",
+  "gallery": [
+    "../../public/product-hunt/gallery/01-map-contract-prove.png",
+    "../../public/product-hunt/gallery/02-source-is-not-runtime.png",
+    "../../public/product-hunt/gallery/03-one-task-two-paths.png",
+    "../../public/product-hunt/gallery/04-four-level-evidence.png",
+    "../../public/product-hunt/gallery/05-24-patterns.png",
+    "../../public/product-hunt/gallery/06-audited-partial-index.png"
+  ],
+  "videoUrl": "OWNER_INPUT_REQUIRED",
+  "interactiveDemoUrl": "OWNER_INPUT_REQUIRED_OR_REMOVE",
+  "makerUsernames": ["OWNER_INPUT_REQUIRED"],
+  "makerDisplayName": "OWNER_INPUT_REQUIRED",
+  "productSocialHandle": "OWNER_INPUT_REQUIRED_OR_REMOVE",
+  "supportEmail": "OWNER_INPUT_REQUIRED",
+  "suggestedShoutouts": ["Next.js", "Vercel", "Playwright"],
+  "launchDate": "OWNER_INPUT_REQUIRED",
+  "truthLabels": {
+    "webmcpStatus": "Experimental Community Group work; not a W3C Standard",
+    "independence": "Independent project; not an official OpenAI, Google, Microsoft, Chrome, or W3C product",
+    "indexStatus": "Frozen, uncalibrated, audited-partial WRI v1",
+    "scheduledRanks": 100000,
+    "attemptedRanks": 100000,
+    "validCollectionOutcomes": 65380,
+    "quarantinedInfrastructureErrors": 34620,
+    "scoredRows": 36323
+  }
+}

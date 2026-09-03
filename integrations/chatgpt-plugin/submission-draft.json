@@ -1,0 +1,19 @@
+{
+  "name": "isWebMCP",
+  "tagline": "Turn public web interfaces into evidence-backed WebMCP action plans.",
+  "description": "isWebMCP audits a public page snapshot, identifies candidate actions, and explains what can and cannot be claimed from source evidence. It also reviews supplied tool contracts and renders the result as an interactive ChatGPT component. Runtime conformance and before/after lift are withheld until the required evidence is supplied.",
+  "category": "Developer Tools",
+  "mcp_server_url": "https://iswebmcp.com/mcp",
+  "homepage_url": "https://iswebmcp.com",
+  "privacy_policy_url": "https://iswebmcp.com/privacy",
+  "support_url": "https://iswebmcp.com/support",
+  "icon_path": "assets/icon.png",
+  "authentication": "none",
+  "owner_contact": "OWNER_INPUT_REQUIRED",
+  "review_notes": [
+    "audit_public_url and show_sample_audit render ui://iswebmcp/audit-v1.html.",
+    "audit_public_url is read-only and open-world because the server fetches the public URL selected by the user.",
+    "Reports are evidence-scoped; source collection failures and truncation remain visible.",
+    "No tool represents source-only results as runtime conformance or measured lift."
+  ]
+}

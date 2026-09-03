@@ -1,0 +1,13 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "iswebmcp",
+  "version": "1.0.0",
+  "description": "Audit public web pages and supplied tool contracts for evidence-backed WebMCP readiness.",
+  "author": {
+    "name": "isWebMCP"
+  },
+  "homepage": "https://iswebmcp.com/integrations",
+  "repository": "https://github.com/mlmrx/iswebmcp",
+  "license": "MIT",
+  "keywords": ["webmcp", "mcp", "audit", "web", "agents"]
+}

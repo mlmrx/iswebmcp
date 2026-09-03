@@ -13,6 +13,9 @@ export function SiteFooter() {
           </p>
         </div>
         <div className="flex max-w-xl flex-wrap items-start gap-x-5 gap-y-2 text-muted-foreground lg:justify-end">
+          <Link className="hover:text-foreground" href="/integrations">
+            Integrations
+          </Link>
           <Link className="hover:text-foreground" href="/readiness-index">
             Readiness index
           </Link>
@@ -27,6 +30,12 @@ export function SiteFooter() {
           </Link>
           <Link className="hover:text-foreground" href="/feed.xml">
             RSS feed
+          </Link>
+          <Link className="hover:text-foreground" href="/privacy">
+            Privacy
+          </Link>
+          <Link className="hover:text-foreground" href="/support">
+            Support
           </Link>
           <a
             className="hover:text-foreground"

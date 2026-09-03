@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "iswebmcp": {
+      "type": "http",
+      "url": "https://iswebmcp.com/mcp"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "version": "1.0.0",
+  "artifacts": [
+    {
+      "filename": "iswebmcp-vscode-1.0.0.vsix",
+      "bytes": 17191,
+      "sha256": "5ddc25eba2ccba37d346856af28c50912c0ee3a74058002d6ac74526f71f619d"
+    },
+    {
+      "filename": "iswebmcp-chatgpt-plugin-1.0.0.zip",
+      "bytes": 11501,
+      "sha256": "c0d20d3f3ef15ebbd91a2c0cc2196b09c5ff15f726a76da180d36614dfda5bfd"
+    },
+    {
+      "filename": "iswebmcp-claude-plugin-1.0.0.zip",
+      "bytes": 10337,
+      "sha256": "01f10ec393a1fd5f32ac36bdb378210e5a531f6dd88335c8613d08a730482574"
+    },
+    {
+      "filename": "iswebmcp-cursor-plugin-1.0.0.zip",
+      "bytes": 10348,
+      "sha256": "dd76200b6d61657f8eb2005d261c4f09fda65e9859a92f0d176816f3fd98ba0b"
+    },
+    {
+      "filename": "iswebmcp-chrome-extension-1.0.0.zip",
+      "bytes": 30607,
+      "sha256": "88e6109850267d5ec4c395e056797af4bc907c5a178febad4a72b819046787b2"
+    }
+  ]
+}

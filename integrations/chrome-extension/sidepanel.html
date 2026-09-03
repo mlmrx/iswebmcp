@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>isWebMCP audit</title>
+    <link rel="stylesheet" href="sidepanel.css" />
+  </head>
+  <body>
+    <header>
+      <div class="mark">W</div>
+      <div><strong>isWebMCP</strong><span>Evidence-backed web audit</span></div>
+    </header>
+    <main>
+      <p class="eyebrow">Current public page</p>
+      <h1 id="page-title">Loading tab…</h1>
+      <p id="page-url" class="url"></p>
+      <label for="goal"
+        >What should an agent accomplish here? <span>optional</span></label
+      >
+      <textarea
+        id="goal"
+        maxlength="300"
+        rows="3"
+        placeholder="Example: find a product and add it to a cart"
+      ></textarea>
+      <button id="audit" type="button">Audit this page</button>
+      <p id="status" role="status" aria-live="polite"></p>
+      <section id="report" hidden>
+        <div class="evidence">
+          <span id="source-status"></span><span id="evidence-scope"></span>
+        </div>
+        <div class="metrics">
+          <article>
+            <small>Before</small><strong id="before-score">—</strong
+            ><span>Suitability / 100</span>
+          </article>
+          <article>
+            <small>Model coverage</small><strong id="actionability">—</strong
+            ><span>Observable inputs</span>
+          </article>
+          <article>
+            <small>Source window</small><strong id="coverage">—</strong
+            ><span id="bytes">Bytes analyzed</span>
+          </article>
+          <article>
+            <small>After</small><strong>—</strong><span>Runtime required</span>
+          </article>
+        </div>
+        <div class="section">
+          <h2>Candidate actions <span id="action-count"></span></h2>
+          <ul id="actions"></ul>
+        </div>
+        <div class="section">
+          <h2>Findings</h2>
+          <ul id="findings"></ul>
+        </div>
+        <div class="section">
+          <h2>Recommended next moves</h2>
+          <ul id="recommendations"></ul>
+        </div>
+        <div class="section">
+          <h2>Evidence limits</h2>
+          <ul id="limitations"></ul>
+        </div>
+        <a
+          href="https://iswebmcp.com/methodology"
+          target="_blank"
+          rel="noreferrer"
+          >Read the scoring methodology →</a
+        >
+      </section>
+    </main>
+    <script src="sidepanel.js"></script>
+  </body>
+</html>
