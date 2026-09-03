@@ -12,7 +12,7 @@ The result is deliberately evidence-scoped. It reports what a bounded public-sou
 
 ## Privacy and networking
 
-The extension sends the URL you choose to `https://iswebmcp.com/api/integrations/scan`. The service fetches that public page. Do not submit private, authenticated, local-network, or secret-bearing URLs. You can point `iswebmcp.scanEndpoint` at a trusted compatible deployment.
+The extension sends the URL you choose to `https://iswebmcp.com/api/integrations/scan`. The service fetches that public page and retains the normalized public origin and path plus the outcome for 90 days. It does not store URL credentials, queries, fragments, goals, fetched markup, IP addresses, or user agents in the URL-attempt analytics table. Do not submit private, authenticated, local-network, or secret-bearing URLs. You can point `iswebmcp.scanEndpoint` at a trusted compatible deployment.
 
 ## Development
 

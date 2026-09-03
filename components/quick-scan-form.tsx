@@ -213,8 +213,10 @@ export function QuickScanForm() {
           />
           The scan fetches only the public page you provide. It does not sign
           in, execute the target&apos;s JavaScript, or use your browser cookies.
-          Do not paste signed or secret-bearing URLs; query values are not
-          retained in reports.
+          We retain the normalized public origin and path plus the outcome for
+          90 days, but never URL credentials, queries, fragments, goals, page
+          markup, IP addresses, or user agents. Do not paste signed or
+          secret-bearing URLs.
         </p>
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
           <button

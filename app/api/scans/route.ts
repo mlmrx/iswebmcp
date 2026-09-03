@@ -1,15 +1,9 @@
 import { z } from 'zod';
 
-import {
-  fetchPublicText,
-  MAX_RESPONSE_BYTES,
-  normalizePublicUrl,
-  ScanFailure,
-  toScanError,
-} from '@/lib/network';
+import { runPublicSourceScan } from '@/lib/integrations/public-scan';
+import { toScanError } from '@/lib/network';
 import { isCrossSiteMutation } from '@/lib/request-origin';
-import { analyzeSource } from '@/lib/scanner';
-import { acquireScanSlot, allowRequest, putReport } from '@/lib/scan-store';
+import { allowRequest } from '@/lib/scan-store';
 
 const requestSchema = z
   .object({
@@ -66,16 +60,6 @@ async function readBoundedJson(
     offset += chunk.byteLength;
   }
   return JSON.parse(new TextDecoder().decode(merged)) as unknown;
-}
-
-function reportSafeUrl(value: string): {
-  value: string;
-  queryRedacted: boolean;
-} {
-  const url = new URL(value);
-  const queryRedacted = Boolean(url.search);
-  url.search = '';
-  return { value: url.toString(), queryRedacted };
 }
 
 export async function POST(request: Request) {
@@ -169,60 +153,13 @@ export async function POST(request: Request) {
       );
     }
 
-    const normalized = normalizePublicUrl(parsed.data.url);
-    const releaseSlot = acquireScanSlot();
-    if (!releaseSlot) {
-      return Response.json(
-        {
-          error: {
-            code: 'RATE_LIMITED',
-            message:
-              'The scanner is at its safe concurrency limit. Try again shortly.',
-          },
-        },
-        { status: 503, headers: { 'retry-after': '5' } },
-      );
-    }
-    const chargedHosts = new Set<string>();
-    let fetched: Awaited<ReturnType<typeof fetchPublicText>>;
-    try {
-      fetched = await fetchPublicText(
-        normalized.toString(),
-        request.signal,
-        (target) => {
-          const host = target.hostname.toLowerCase().replace(/\.$/, '');
-          if (chargedHosts.has(host)) return;
-          chargedHosts.add(host);
-          if (!allowRequest(`host:${host}`, 30)) {
-            throw new ScanFailure(
-              'RATE_LIMITED',
-              'Too many scans for a redirect target. Try again in a minute.',
-              429,
-            );
-          }
-        },
-      );
-    } finally {
-      releaseSlot();
-    }
-    const normalizedForReport = reportSafeUrl(normalized.toString());
-    const finalForReport = reportSafeUrl(fetched.finalUrl);
-    const report = analyzeSource({
-      normalizedUrl: normalizedForReport.value,
-      finalUrl: finalForReport.value,
-      queryRedacted:
-        normalizedForReport.queryRedacted || finalForReport.queryRedacted,
-      goal: parsed.data.goal || undefined,
-      html: fetched.text,
-      status: fetched.status,
-      contentType: fetched.contentType,
-      bytesRead: fetched.bytesRead,
-      declaredBytes: fetched.declaredBytes,
-      analysisLimitBytes: MAX_RESPONSE_BYTES,
-      truncated: fetched.truncated,
-      redirects: fetched.redirects,
+    const report = await runPublicSourceScan({
+      url: parsed.data.url,
+      goal: parsed.data.goal,
+      signal: request.signal,
+      redirectRateLimitPrefix: 'host',
+      surface: 'web',
     });
-    putReport(report);
     return Response.json(report, {
       status: 201,
       headers: {

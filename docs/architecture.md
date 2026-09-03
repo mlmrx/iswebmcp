@@ -58,6 +58,8 @@ flowchart TD
 5. Manual redirects, hop and total deadlines, an HTML/XHTML allowlist, a 1 MB analysis window, and a neutral scanner identity bound the fetch.
 6. The analyzer removes executable/example-only regions from visible analysis, extracts semantic evidence, widens the score interval when the response is truncated, and discards the captured markup.
 7. The normalized report is stored for 15 minutes in the current isolate.
+8. When durable analytics is configured, the service stores a query-free,
+   credential-free URL attempt and its outcome for 90 days in Postgres.
 
 Quick Scan does not execute JavaScript, authenticate, inspect shadow DOM, or cross the browser same-origin boundary. A source occurrence of `document.modelContext` or `registerTool` is a hint, not runtime proof.
 
@@ -111,6 +113,6 @@ The learning and pulse catalog is exposed through server-rendered pages, `/api/c
 
 ## Storage and scale
 
-The current report store, rate windows, and concurrency counter live in server-instance memory. This is intentional for an account-free challenge MVP, but it means reports can expire or disappear across instances/deployments and rate enforcement is not globally coordinated. A multi-region production service should replace these with durable storage, a global rate-limit primitive, and controlled outbound egress.
+The current report store, rate windows, and concurrency counter live in server-instance memory. This is intentional for an account-free challenge MVP, but it means reports can expire or disappear across instances/deployments and rate enforcement is not globally coordinated. URL-attempt analytics are separate: when `DATABASE_URL` is configured, every admitted web, integration, or MCP scan records a sanitized target and completion outcome in Neon Postgres. The write path strips credentials, queries, and fragments, stores no goals or network identifiers, and prunes records older than 90 days during subsequent writes. Storage errors fail open so an analytics outage cannot break the scanner. A multi-region production service should still replace isolate-local rate controls with a global primitive and controlled outbound egress.
 
 Editorial history is durable through Git rather than server-instance memory. A larger publishing operation could move feed history, review workflow, and correction records to a durable database, but the current version favors a small auditable source catalog over an always-on ingestion database.

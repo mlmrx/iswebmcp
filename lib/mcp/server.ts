@@ -210,6 +210,7 @@ export function createIsWebMcpServer(requesterKey = 'anonymous') {
           url,
           goal,
           redirectRateLimitPrefix: 'mcp-host',
+          surface: 'mcp',
         });
         return reportResult(
           summarizeReport(report),

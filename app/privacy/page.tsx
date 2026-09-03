@@ -16,7 +16,7 @@ export default function PrivacyPage() {
       className="min-h-screen bg-background"
     >
       <article className="prose prose-neutral mx-auto max-w-3xl px-5 py-14 text-foreground lg:px-8">
-        <p className="eyebrow">Effective 2 September 2026</p>
+        <p className="eyebrow">Effective 3 September 2026</p>
         <h1 className="mt-3 text-5xl font-semibold tracking-[-.05em]">
           Privacy
         </h1>
@@ -33,8 +33,10 @@ export default function PrivacyPage() {
             <p className="mt-3">
               When you request an audit, the service processes the submitted
               public URL, optional goal text, fetched public response, and the
-              resulting report. Integrations may also process supplied
-              tool-contract text.
+              resulting report. The service retains the normalized public URL
+              and audit outcome for product analytics. URL credentials, query
+              strings, and fragments are removed before storage. Integrations
+              may also process supplied tool-contract text.
             </p>
           </section>
           <section>
@@ -42,11 +44,21 @@ export default function PrivacyPage() {
               Retention
             </h2>
             <p className="mt-3">
-              Interactive reports are held ephemerally for product operation and
-              are not published to the readiness index. Hosting,
-              abuse-prevention, and security providers may retain ordinary
-              request metadata—such as IP address, timestamp, user agent,
-              response status, and route—under their operational policies.
+              Sanitized URL-attempt records are retained for 90 days in the
+              project&apos;s managed Postgres store, then deleted during
+              subsequent writes. Each record contains the normalized origin and
+              path, hostname, entry surface, timestamp, outcome, response
+              status, error code, and report ID when one was created. Malformed,
+              credential-bearing, or locally addressed inputs are counted
+              without retaining the submitted value. Optional goals, fetched
+              markup, IP addresses, user agents, query strings, and fragments
+              are not stored in this analytics table.
+            </p>
+            <p className="mt-3">
+              Interactive reports remain ephemeral and are not published to the
+              readiness index. Vercel, Neon, and security infrastructure may
+              process ordinary request metadata under their operational
+              policies.
             </p>
           </section>
           <section>

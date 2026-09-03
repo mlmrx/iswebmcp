@@ -153,6 +153,7 @@ export async function POST(request: Request) {
       goal: parsed.data.goal,
       signal: request.signal,
       redirectRateLimitPrefix: 'integration-host',
+      surface: 'integration',
     });
 
     return Response.json(summarizeReport(report), { status: 201, headers });

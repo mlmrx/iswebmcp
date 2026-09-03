@@ -3,8 +3,8 @@
   "artifacts": [
     {
       "filename": "iswebmcp-vscode-1.0.0.vsix",
-      "bytes": 17211,
-      "sha256": "e45265e1ec7e5829245966150fabb0572ee16c000f750214f3eca75d83483a25"
+      "bytes": 17326,
+      "sha256": "afaae6be0b44af712224edfca3304af27f5197684c85a3ab14828177eb82362c"
     },
     {
       "filename": "iswebmcp-chatgpt-plugin-1.0.0.zip",
@@ -23,8 +23,8 @@
     },
     {
       "filename": "iswebmcp-chrome-extension-1.0.0.zip",
-      "bytes": 30607,
-      "sha256": "88e6109850267d5ec4c395e056797af4bc907c5a178febad4a72b819046787b2"
+      "bytes": 30740,
+      "sha256": "4add83495157ad16bd5dbc9f6b9f466640327160dc1a164491e309fe64af29bf"
     }
   ]
 }

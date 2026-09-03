@@ -76,7 +76,7 @@ npm ci
 npm run dev
 ```
 
-Open the URL printed by the development server. No environment variables, accounts, model API, or target-site credentials are required.
+Open the URL printed by the development server. No environment variables, accounts, model API, or target-site credentials are required. URL-attempt persistence is disabled locally unless `DATABASE_URL` points to a trusted Postgres database.
 
 ### Quality gates
 
@@ -107,7 +107,8 @@ Browser UI / WebMCP tools
           ├── Quick Scan API ── public-source fetch boundary
           ├── versioned editorial catalog + source-attributed pulse
           │
-          └── ephemeral normalized report store
+          ├── ephemeral normalized report store
+          └── 90-day sanitized URL-attempt store (Neon Postgres)
 ```
 
 Detailed design is in [docs/architecture.md](docs/architecture.md). Security assumptions and abuse cases are in [docs/threat-model.md](docs/threat-model.md).
@@ -120,6 +121,7 @@ Editorial cadence, approved sources, correction policy, and challenge-freeze beh
 - Fetched markup is untrusted input. It is analyzed in memory, never rendered as HTML, and target HTML is not retained in reports. At most the first 1 MB is analyzed and any truncation is carried into report coverage and confidence.
 - Imported manifests are user supplied and **not independently verified**. Raw defaults, examples, enums, credentials, and extension payloads are not retained.
 - Report storage, rate counters, and concurrency counters are ephemeral and server-instance-local in this MVP.
+- Admitted scan attempts are recorded across the web UI, native integrations, and MCP endpoint when `DATABASE_URL` is configured. Only the normalized public origin and path plus operational outcome fields are retained for 90 days; credentials, queries, fragments, goals, fetched markup, IP addresses, and user agents are excluded. Unsafe input is counted without storing its value.
 - Pulse updates are original summaries with direct primary-source links. There is no runtime feed ingestion in the site and no automated Devpost scraping; the checked-in catalog is reviewed, versioned, and safely rendered as text.
 
 Please report security issues using the process in [SECURITY.md](SECURITY.md).
