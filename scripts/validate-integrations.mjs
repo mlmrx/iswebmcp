@@ -9,6 +9,7 @@ const readJson = (...parts) =>
 
 const vscode = readJson('integrations', 'vscode', 'package.json');
 assert.equal(vscode.main, './extension.js');
+assert.equal(vscode.publisher, 'UnifyDynamics');
 assert.equal(vscode.engines.vscode, '^1.96.0');
 assert.deepEqual(
   vscode.contributes.commands.map((command) => command.command),

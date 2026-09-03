@@ -3,7 +3,7 @@
   "displayName": "isWebMCP",
   "description": "Audit a public web page for WebMCP actionability and source-level readiness without leaving your editor.",
   "version": "1.0.0",
-  "publisher": "iswebmcp",
+  "publisher": "UnifyDynamics",
   "license": "MIT",
   "homepage": "https://iswebmcp.com/integrations",
   "repository": {
