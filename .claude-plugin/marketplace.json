@@ -1,0 +1,21 @@
+{
+  "name": "iswebmcp-tools",
+  "owner": {
+    "name": "isWebMCP",
+    "url": "https://iswebmcp.com"
+  },
+  "plugins": [
+    {
+      "name": "iswebmcp",
+      "source": "./integrations/claude-plugin",
+      "description": "Audit public web pages and supplied tool contracts for evidence-backed WebMCP readiness.",
+      "version": "1.0.0",
+      "author": {
+        "name": "isWebMCP"
+      },
+      "homepage": "https://iswebmcp.com/integrations",
+      "repository": "https://github.com/mlmrx/iswebmcp",
+      "license": "MIT"
+    }
+  ]
+}
