@@ -9,5 +9,6 @@
   "homepage": "https://iswebmcp.com/integrations",
   "repository": "https://github.com/mlmrx/iswebmcp",
   "license": "MIT",
+  "logo": "assets/icon.png",
   "keywords": ["webmcp", "mcp", "audit", "web", "agents"]
 }

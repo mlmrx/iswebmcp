@@ -1,0 +1,16 @@
+{
+  "name": "iswebmcp-marketplace",
+  "owner": {
+    "name": "isWebMCP"
+  },
+  "metadata": {
+    "description": "Evidence-backed WebMCP readiness tools for developers and agent builders."
+  },
+  "plugins": [
+    {
+      "name": "iswebmcp",
+      "source": "integrations/cursor-plugin",
+      "description": "Audit public web pages and supplied tool contracts for evidence-backed WebMCP readiness."
+    }
+  ]
+}
