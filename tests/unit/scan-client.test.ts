@@ -26,6 +26,19 @@ describe('scan client URL normalization', () => {
       expect(() => normalizeScanUrlInput(input)).toThrow(ScanClientError);
     },
   );
+
+  it.each([
+    'http://127.0.0.1/admin',
+    'https://localhost/dashboard',
+    'https://192.168.1.10/',
+    'https://user:secret@example.com/',
+    'https://example.com:8443/',
+  ])(
+    'rejects an obviously unsafe target before making a request: %s',
+    (input) => {
+      expect(() => normalizeScanUrlInput(input)).toThrow(ScanClientError);
+    },
+  );
 });
 
 describe('scan API response parsing', () => {

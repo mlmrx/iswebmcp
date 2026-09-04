@@ -1,4 +1,5 @@
 import type { ScanErrorBody, ScanReport } from '@/lib/types';
+import { normalizePublicUrl, ScanFailure } from '@/lib/network';
 
 export const CLIENT_SCAN_TIMEOUT_MS = 18_000;
 
@@ -65,20 +66,17 @@ export function normalizeScanUrlInput(raw: string): string {
 
   let parsed: URL;
   try {
-    parsed = new URL(candidate);
-  } catch {
+    // Mirror the server's cheap URL checks in the browser so obviously unsafe
+    // targets fail immediately. DNS and redirect validation still remain
+    // authoritative on the server.
+    parsed = normalizePublicUrl(candidate);
+  } catch (error) {
+    if (error instanceof ScanFailure) {
+      throw new ScanClientError(error.code, error.message, 'validation', false);
+    }
     throw new ScanClientError(
       'INVALID_INPUT',
       'That website address is not valid. Try example.com or paste a complete HTTPS URL.',
-      'validation',
-      false,
-    );
-  }
-
-  if (!['http:', 'https:'].includes(parsed.protocol)) {
-    throw new ScanClientError(
-      'INVALID_INPUT',
-      'Only public HTTP and HTTPS websites can be scanned.',
       'validation',
       false,
     );

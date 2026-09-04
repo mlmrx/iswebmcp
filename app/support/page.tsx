@@ -75,6 +75,22 @@ export default function SupportPage() {
           );
         })}
       </section>
+      <section className="mx-auto max-w-5xl px-5 pb-14 lg:px-8">
+        <div className="rounded-2xl border border-border bg-card p-6">
+          <h2 className="text-xl font-semibold">Contact</h2>
+          <p className="mt-3 leading-7 text-muted-foreground">
+            Email{' '}
+            <a
+              className="text-signal-ink hover:underline"
+              href="mailto:research@iswebmcp.com"
+            >
+              research@iswebmcp.com
+            </a>{' '}
+            for product support, privacy questions, and responsible disclosure.
+            Do not include credentials, private URLs, or secret page content.
+          </p>
+        </div>
+      </section>
     </main>
   );
 }

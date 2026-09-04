@@ -28,9 +28,14 @@ test('landing communicates the product and opens a sample evidence report', asyn
   await page.goto('/');
   await expect(
     page.getByRole('heading', {
-      name: 'Turn UI guesswork into actions you can prove.',
+      name: "AI agents shouldn't have to guess where to click.",
     }),
   ).toBeVisible();
+  await expect(page.getByText('10 UI actions', { exact: true })).toBeVisible();
+  await page.getByRole('tab', { name: 'With WebMCP' }).click();
+  await expect(page.getByText('4 typed calls', { exact: true })).toBeVisible();
+  await expect(page.getByText('finish_demo_run')).toBeVisible();
+  await expect(page.getByText('7/7', { exact: true })).toBeVisible();
   await expect(page.getByLabel('Public URL')).toBeVisible();
   await page
     .getByRole('button', { name: 'Open sample evidence report' })

@@ -20,6 +20,18 @@ export const DEMO_TASK = {
   ],
 };
 
+export const CONTROLLED_REPLAY_FACTS = {
+  baseline: {
+    actionCount: 10,
+    elapsedMs: 46_200,
+  },
+  webmcp: {
+    actionCount: 4,
+    elapsedMs: 12_800,
+  },
+  assertionCount: DEMO_TASK.criteria.length,
+} as const;
+
 export const DEMO_PRODUCTS: DemoProduct[] = [
   {
     id: 'aurora-q45',
@@ -271,7 +283,7 @@ export function makeControlledRun(
   comparisonId = 'controlled_headset_v1',
 ): JourneyRun {
   const baseline = mode === 'baseline';
-  const elapsedMs = baseline ? 46_200 : 12_800;
+  const elapsedMs = CONTROLLED_REPLAY_FACTS[mode].elapsedMs;
   const assertions = evaluateDemoRun(
     ['aurora-q45', 'sonic-arc'],
     'aurora-q45',

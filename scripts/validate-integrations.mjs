@@ -23,7 +23,8 @@ const chatgpt = readJson(
 );
 assert.equal(chatgpt.mcp_server_url, endpoint);
 assert.equal(chatgpt.authentication, 'none');
-assert.ok(chatgpt.owner_contact.startsWith('OWNER_INPUT_REQUIRED'));
+assert.equal(chatgpt.owner_contact, 'research@iswebmcp.com');
+assert.equal(chatgpt.terms_url, 'https://iswebmcp.com/terms');
 
 const claudeManifest = readJson(
   'integrations',

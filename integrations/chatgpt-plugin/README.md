@@ -19,5 +19,6 @@ The server exposes a bounded public-source audit, a synthetic sample, imported c
 Before marketplace submission, replace every `OWNER_INPUT_REQUIRED` field with verified owner information and run the listed prompts against the deployed production connector.
 
 - Privacy: <https://iswebmcp.com/privacy>
+- Terms: <https://iswebmcp.com/terms>
 - Support: <https://iswebmcp.com/support>
 - Methodology: <https://iswebmcp.com/methodology>

@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
 
-import { evaluateDemoRun, makeControlledRun } from '@/lib/demo';
+import {
+  CONTROLLED_REPLAY_FACTS,
+  evaluateDemoRun,
+  makeControlledRun,
+} from '@/lib/demo';
 
 const goalFilters = {
   maxPrice: 300,
@@ -44,6 +48,15 @@ describe('proof-lab evidence', () => {
     );
     expect(webmcp.events.find((item) => item.id === 'w2')?.detail).toContain(
       'three eligible products',
+    );
+    expect(baseline.uiActionCount).toBe(
+      CONTROLLED_REPLAY_FACTS.baseline.actionCount,
+    );
+    expect(webmcp.webmcpCallCount).toBe(
+      CONTROLLED_REPLAY_FACTS.webmcp.actionCount,
+    );
+    expect(baseline.assertions).toHaveLength(
+      CONTROLLED_REPLAY_FACTS.assertionCount,
     );
   });
 });

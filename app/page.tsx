@@ -5,7 +5,6 @@ import {
   CheckCircle2,
   CircleDashed,
   Eye,
-  FlaskConical,
   Gauge,
   Layers3,
   MousePointer2,
@@ -16,6 +15,7 @@ import {
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
+import { ProofFirstHero } from '@/components/proof-first-hero';
 import { QuickScanForm } from '@/components/quick-scan-form';
 import { Button } from '@/components/ui/button';
 import { learningArticles } from '@/lib/content';
@@ -31,18 +31,18 @@ export const metadata: Metadata = {
 const proofSteps = [
   [
     '01',
-    'Map the friction',
-    'Find the named actions, missing semantics, and state transitions an agent would otherwise have to infer.',
+    'The page names the action',
+    'An agent can discover “search products” instead of reverse-engineering fields, buttons, and result cards.',
   ],
   [
     '02',
-    'Design the contract',
-    'Turn useful workflows into narrow typed tools with explicit safety and verification boundaries.',
+    'The schema checks the input',
+    'Price, rating, battery, and feature constraints arrive as typed fields instead of ambiguous prose.',
   ],
   [
     '03',
-    'Prove the lift',
-    'Run the same task both ways and publish success, effort, recovery, and postcondition evidence.',
+    'The result can be verified',
+    'Stable product IDs and visible cart state make success testable while checkout stays out of bounds.',
   ],
 ];
 
@@ -53,62 +53,7 @@ export default function Home() {
       tabIndex={-1}
       className="min-h-screen bg-background text-foreground"
     >
-      <section
-        id="top"
-        className="mx-auto grid max-w-7xl gap-12 px-5 py-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(390px,.95fr)] lg:px-8 lg:py-20"
-      >
-        <div className="flex flex-col justify-center">
-          <div className="mb-7 flex w-fit items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-muted-foreground">
-            <span className="size-1.5 rounded-full bg-signal" />
-            Evidence lab for the agent-native web
-          </div>
-          <p className="mb-3 font-mono text-sm font-medium text-signal-ink">
-            UI inference &rarr; typed action &rarr; verified result
-          </p>
-          <h1 className="max-w-3xl text-balance text-5xl font-semibold leading-[.98] tracking-[-.055em] sm:text-6xl lg:text-7xl">
-            Turn UI guesswork into actions you can prove.
-          </h1>
-          <p className="mt-6 max-w-2xl text-pretty text-lg leading-8 text-muted-foreground">
-            WebMCP gives agents explicit, typed, verifiable actions. isWebMCP
-            shows where that matters, audits the contracts, and separates source
-            clues from measured runtime proof.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center gap-4 text-sm font-medium">
-            <span>Map it.</span>
-            <ArrowRight
-              className="size-4 text-muted-foreground"
-              aria-hidden="true"
-            />
-            <span>Contract it.</span>
-            <ArrowRight
-              className="size-4 text-muted-foreground"
-              aria-hidden="true"
-            />
-            <span className="text-signal-ink">Prove it.</span>
-          </div>
-          <div className="mt-9 flex flex-wrap gap-3">
-            <Button
-              nativeButton={false}
-              size="lg"
-              className="h-10"
-              render={<Link href="/demos" />}
-            >
-              <Eye data-icon="inline-start" /> Explore 24 visual patterns
-            </Button>
-            <Button
-              nativeButton={false}
-              size="lg"
-              variant="outline"
-              className="h-10"
-              render={<Link href="/lab" />}
-            >
-              <FlaskConical data-icon="inline-start" /> Run the proof lab
-            </Button>
-          </div>
-        </div>
-
-        <QuickScanForm />
-      </section>
+      <ProofFirstHero />
 
       <section className="border-y border-border bg-card/75">
         <div className="mx-auto grid max-w-7xl divide-y divide-border px-5 md:grid-cols-3 md:divide-x md:divide-y-0 lg:px-8">
@@ -136,10 +81,46 @@ export default function Home() {
       </section>
 
       <section
-        className="mx-auto max-w-7xl px-5 py-16 lg:px-8"
+        id="audit"
+        className="mx-auto grid max-w-7xl scroll-mt-24 gap-8 px-5 py-16 lg:grid-cols-[.72fr_1.28fr] lg:items-start lg:px-8"
+        aria-labelledby="audit-heading"
+      >
+        <div className="lg:sticky lg:top-28">
+          <p className="eyebrow text-signal-ink">Try it on your website</p>
+          <h2
+            id="audit-heading"
+            className="mt-3 max-w-xl text-4xl font-semibold tracking-[-.05em] sm:text-5xl"
+          >
+            See what an agent would have to guess.
+          </h2>
+          <p className="mt-5 max-w-xl text-lg leading-8 text-muted-foreground">
+            Paste one public page. The source scan maps its forms, controls, and
+            likely actions, then separates what is visible from what still needs
+            runtime proof.
+          </p>
+          <div className="mt-7 grid gap-3 text-sm sm:grid-cols-3 lg:grid-cols-1">
+            {[
+              ['1', 'Map the existing action surface'],
+              ['2', 'Find the highest-value tool candidates'],
+              ['3', 'Get an evidence-linked implementation plan'],
+            ].map(([number, text]) => (
+              <div key={number} className="flex items-center gap-3">
+                <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-foreground font-mono text-[10px] text-background">
+                  {number}
+                </span>
+                <span>{text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <QuickScanForm />
+      </section>
+
+      <section
+        className="border-t border-border bg-card/65"
         aria-labelledby="result-preview"
       >
-        <div className="grid gap-8 lg:grid-cols-[.68fr_1.32fr] lg:items-center">
+        <div className="mx-auto grid max-w-7xl gap-8 px-5 py-16 lg:grid-cols-[.68fr_1.32fr] lg:items-center lg:px-8">
           <div>
             <p className="eyebrow text-signal-ink">The report is the product</p>
             <h2

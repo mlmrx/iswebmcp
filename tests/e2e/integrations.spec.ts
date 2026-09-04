@@ -87,8 +87,9 @@ test('remote MCP completes initialize, discovery, resource, and tool calls', asy
     'explain_evidence_level',
   ]);
   expect(tools[0]?.annotations).toMatchObject({
-    readOnlyHint: true,
-    openWorldHint: true,
+    readOnlyHint: false,
+    openWorldHint: false,
+    destructiveHint: false,
   });
   expect(tools[0]?._meta?.ui?.resourceUri).toBe('ui://iswebmcp/audit-v1.html');
 

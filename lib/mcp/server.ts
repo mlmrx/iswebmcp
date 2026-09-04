@@ -181,10 +181,10 @@ export function createIsWebMcpServer(requesterKey = 'anonymous') {
       },
       outputSchema: reportSummaryOutputShape,
       annotations: {
-        readOnlyHint: true,
+        readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: true,
-        openWorldHint: true,
+        openWorldHint: false,
       },
       _meta: {
         ui: { resourceUri: AUDIT_WIDGET_URI },
@@ -231,7 +231,7 @@ export function createIsWebMcpServer(requesterKey = 'anonymous') {
       inputSchema: {},
       outputSchema: reportSummaryOutputShape,
       annotations: {
-        readOnlyHint: true,
+        readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: true,
         openWorldHint: false,
@@ -268,7 +268,7 @@ export function createIsWebMcpServer(requesterKey = 'anonymous') {
       },
       outputSchema: reportSummaryOutputShape,
       annotations: {
-        readOnlyHint: true,
+        readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: true,
         openWorldHint: false,

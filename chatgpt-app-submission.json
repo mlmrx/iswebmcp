@@ -1,0 +1,128 @@
+{
+  "$schema": "https://developers.openai.com/apps-sdk/schemas/chatgpt-app-submission.v1.json",
+  "schema_version": 1,
+  "app_info": {
+    "display_name": "isWebMCP",
+    "subtitle": "Audit WebMCP readiness",
+    "description": "isWebMCP examines bounded public-page source evidence, identifies candidate agent actions, audits sanitized WebMCP tool contracts, and explains what additional runtime evidence is required before claiming readiness or measured lift.",
+    "category": "DEVELOPER_TOOLS"
+  },
+  "tools": {
+    "audit_public_url": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Stores a privacy-safe audit-attempt record and an ephemeral report while analyzing the selected public page.",
+        "open_world_justification": "Fetches public source but does not publish, submit, or otherwise change public internet or third-party state.",
+        "destructive_justification": "Does not delete, overwrite, revoke access, transact, or perform another irreversible action."
+      }
+    },
+    "show_sample_audit": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Creates a short-lived internal report record for the labeled synthetic sample.",
+        "open_world_justification": "Uses an internal synthetic fixture and does not change public or third-party systems.",
+        "destructive_justification": "Does not delete, overwrite, revoke access, transact, or perform another irreversible action."
+      }
+    },
+    "audit_tool_contracts": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Creates a short-lived derived report from sanitized contract metadata supplied by the user.",
+        "open_world_justification": "Processes contract metadata within the service and does not change public or third-party systems.",
+        "destructive_justification": "Does not delete, overwrite, revoke access, transact, or perform another irreversible action."
+      }
+    },
+    "explain_evidence_level": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Returns a static explanation without creating or updating data.",
+        "open_world_justification": "Does not access or change an external system.",
+        "destructive_justification": "Does not delete, overwrite, revoke access, transact, or perform another irreversible action."
+      }
+    }
+  },
+  "test_cases": [
+    {
+      "description": "Show the synthetic report before auditing a live page.",
+      "user_prompt": "Show me a sample isWebMCP audit so I can understand the evidence model.",
+      "file_attachment_urls": null,
+      "tools_triggered": "show_sample_audit",
+      "expected_output": "Returns a clearly labeled synthetic report with actionability, evidence labels, findings, limitations, and next steps.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Audit a simple public page using bounded source evidence.",
+      "user_prompt": "Audit https://example.com for WebMCP readiness and explain the strongest evidence.",
+      "file_attachment_urls": null,
+      "tools_triggered": "audit_public_url",
+      "expected_output": "Returns a source-only report for example.com and explicitly withholds runtime readiness and measured lift.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Reject a local-network target without fetching it.",
+      "user_prompt": "Audit http://127.0.0.1:3000 for WebMCP readiness.",
+      "file_attachment_urls": null,
+      "tools_triggered": "audit_public_url",
+      "expected_output": "Returns a safe validation error explaining that private or local targets cannot be audited.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Explain the distinction between source and runtime evidence.",
+      "user_prompt": "What is the difference between source actionability and runtime readiness?",
+      "file_attachment_urls": null,
+      "tools_triggered": "explain_evidence_level",
+      "expected_output": "Explains the requested evidence level and states the evidence required to support it.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Audit a sanitized contract after a source scan.",
+      "user_prompt": "Using the scan report I just created, audit this sanitized WebMCP contract: name search_products, description Search the public catalog, inputSchema with a query string, readOnlyHint true, and verification Product results are shown.",
+      "file_attachment_urls": null,
+      "tools_triggered": "audit_tool_contracts",
+      "expected_output": "Returns an imported-contract audit tied to the active scan and labels the contract evidence as not independently verified.",
+      "expected_output_url": null
+    }
+  ],
+  "negative_test_cases": [
+    {
+      "description": "Do not invoke the app for unrelated calendar work.",
+      "user_prompt": "What meetings do I have tomorrow?",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "The plugin should not be invoked because calendar access is outside its supported workflows.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Do not invoke the app to modify a third-party website.",
+      "user_prompt": "Log in to this website and submit its contact form for me.",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "The plugin should not be invoked because it performs source analysis and does not authenticate, submit forms, or mutate target sites.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Do not invoke the app for unsupported private-code review.",
+      "user_prompt": "Review my private repository and fix every security vulnerability.",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "The plugin should not be invoked because it audits public web-page evidence and sanitized WebMCP contracts, not private repositories.",
+      "expected_output_url": null
+    }
+  ]
+}
