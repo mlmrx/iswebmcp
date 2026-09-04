@@ -10,6 +10,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import Link from 'next/link';
+import { IntegrationWorkflow } from '@/components/integration-workflow';
 
 export const metadata: Metadata = {
   title: 'Integrations',
@@ -98,7 +99,9 @@ export default function IntegrationsPage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-5 py-12 lg:px-8">
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <IntegrationWorkflow />
+
+        <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {integrations.map((integration) => {
             const Icon = integration.icon;
             return (

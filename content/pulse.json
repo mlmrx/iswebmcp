@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-02T08:47:12-07:00",
+  "generatedAt": "2026-09-04T10:56:01-07:00",
   "policy": "Source-verified updates only. An hourly check may read approved machine-oriented official feeds, but new editorial entries require a primary source and a material change. Devpost observations are manual.",
   "challenge": {
     "name": "The WebMCP Challenge",
@@ -23,6 +23,18 @@
     ]
   },
   "updates": [
+    {
+      "id": "webmcp-consequential-hint-7b3f50f",
+      "title": "WebMCP adds a consequential-action annotation",
+      "summary": "Commit 7b3f50f adds the consequentialHint tool annotation so clients and agents can identify actions with significant, real-world, or non-reversible effects and apply confirmation safeguards. The annotation is a signal rather than an enforcement mechanism; WebMCP remains an experimental Community Group draft, not a W3C Standard.",
+      "publishedAt": "2026-09-03",
+      "observedAt": "2026-09-04T10:56:01-07:00",
+      "sourceName": "WebMCP specification repository",
+      "sourceUrl": "https://github.com/webmachinelearning/webmcp/commit/7b3f50f31848b529e69bedbbdf8da0edccba055f",
+      "topic": "webmcp",
+      "status": "draft",
+      "tags": ["specification", "security", "consequential-actions"]
+    },
     {
       "id": "webmcp-agent-support-55fb7ee",
       "title": "WebMCP implementation status adds agent support",

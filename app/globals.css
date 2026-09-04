@@ -341,6 +341,56 @@ code {
     var(--font-geist-mono), ui-monospace, SFMono-Regular, Consolas, monospace;
 }
 
+@keyframes integration-signal-travel {
+  0%,
+  8% {
+    left: 0;
+    opacity: 0;
+  }
+  15%,
+  85% {
+    opacity: 1;
+  }
+  92%,
+  100% {
+    left: calc(100% - 0.65rem);
+    opacity: 0;
+  }
+}
+
+@keyframes integration-step-breathe {
+  0%,
+  18%,
+  100% {
+    border-color: var(--border);
+    box-shadow: none;
+    transform: translateY(0);
+  }
+  7% {
+    border-color: color-mix(in oklch, var(--signal) 65%, var(--border));
+    box-shadow: 0 12px 30px color-mix(in oklch, var(--signal) 12%, transparent);
+    transform: translateY(-3px);
+  }
+}
+
+.integration-signal-dot {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 0.65rem;
+  height: 0.65rem;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  background: var(--signal);
+  box-shadow: 0 0 0 5px color-mix(in oklch, var(--signal) 16%, transparent);
+  animation: integration-signal-travel 5.6s ease-in-out infinite;
+}
+
+.integration-step {
+  animation: integration-step-breathe 5.6s ease-in-out infinite;
+  animation-delay: var(--step-delay);
+}
+
 ::selection {
   background: oklch(0.91 0.23 126 / 0.6);
   color: oklch(0.18 0.016 115);
