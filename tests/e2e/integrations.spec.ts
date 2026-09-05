@@ -8,7 +8,7 @@ const mcpHeaders = {
 test('integration gallery exposes five honest, downloadable surfaces', async ({
   page,
   request,
-}) => {
+}, testInfo) => {
   await page.goto('/integrations');
   await expect(
     page.getByRole('heading', {
@@ -27,6 +27,36 @@ test('integration gallery exposes five honest, downloadable surfaces', async ({
   }
   await expect(page.getByText('https://iswebmcp.com/mcp')).toBeVisible();
   await expect(page.getByText('The unknowns stay visible')).toBeVisible();
+  await page.getByRole('link', { name: /SDK, CLI, and CI adapter/ }).click();
+  await expect(page).toHaveURL(/\/developers$/);
+  await expect(
+    page.getByRole('heading', { name: 'Find a problem. Fix it. Check again.' }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: 'Run your first check' }),
+  ).toHaveAttribute('href', '#quickstart');
+  await expect(
+    page.getByRole('link', { name: /Download CI adapter/ }),
+  ).toHaveAttribute(
+    'href',
+    '/developer-tools/iswebmcp-developer-tools-0.1.0.zip',
+  );
+  const developerManifest = await request.get(
+    '/developer-tools/checksums.json',
+  );
+  expect(developerManifest.ok()).toBe(true);
+  const developerArtifact = await developerManifest.json();
+  const developerDownload = await request.get(
+    `/developer-tools/${developerArtifact.filename}`,
+  );
+  expect(developerDownload.ok()).toBe(true);
+  expect((await developerDownload.body()).byteLength).toBe(
+    developerArtifact.bytes,
+  );
+  await page.screenshot({
+    path: testInfo.outputPath('developer-page.png'),
+    fullPage: true,
+  });
 
   const checksumsResponse = await request.get('/downloads/checksums.json');
   expect(checksumsResponse.ok()).toBe(true);

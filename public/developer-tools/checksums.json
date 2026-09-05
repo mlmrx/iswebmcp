@@ -1,0 +1,20 @@
+{
+  "version": "0.1.0",
+  "filename": "iswebmcp-developer-tools-0.1.0.zip",
+  "bytes": 20855,
+  "sha256": "40d0080273a1e14e671b8b289c0fb00740af5f8206f1490c4f54d523dd5f0168",
+  "files": [
+    "integrations/developer-kit/package.json",
+    "integrations/developer-kit/index.mjs",
+    "integrations/developer-kit/index.d.ts",
+    "integrations/developer-kit/bin/iswebmcp.mjs",
+    "integrations/developer-kit/README.md",
+    "integrations/developer-kit/LICENSE",
+    "integrations/developer-kit/tests/client.test.mjs",
+    "integrations/developer-kit/tests/cli.test.mjs",
+    "integrations/github-action/action.yml",
+    "integrations/github-action/run.mjs",
+    "integrations/github-action/README.md",
+    "integrations/github-action/tests/action.test.mjs"
+  ]
+}

@@ -19,6 +19,7 @@ export function GET() {
     { path: '/lab', lastmod: '2026-09-01' },
     { path: '/demos', lastmod: '2026-09-01' },
     { path: '/integrations', lastmod: '2026-09-02' },
+    { path: '/developers', lastmod: '2026-09-05' },
     { path: '/privacy', lastmod: '2026-09-03' },
     { path: '/terms', lastmod: '2026-09-03' },
     { path: '/support', lastmod: '2026-09-03' },

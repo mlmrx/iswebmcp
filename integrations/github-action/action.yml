@@ -1,0 +1,27 @@
+name: isWebMCP source check
+description: Scan a public URL and optionally compare a saved source-evidence baseline.
+inputs:
+  url:
+    description: Public URL to inspect. Queries are removed before transmission.
+    required: true
+  baseline:
+    description: Optional path to a trusted baseline JSON in the checked-out repository.
+    required: false
+  output:
+    description: Path for the current source summary. Use a new path, separate from your baseline.
+    default: iswebmcp-current.json
+  comparison-output:
+    description: Path for the comparison result when a baseline is provided.
+    default: iswebmcp-comparison.json
+runs:
+  using: composite
+  steps:
+    - name: Inspect public source
+      shell: bash
+      env:
+        ISWEBMCP_ACTION_PATH: ${{ github.action_path }}
+        ISWEBMCP_TARGET: ${{ inputs.url }}
+        ISWEBMCP_BASELINE: ${{ inputs.baseline }}
+        ISWEBMCP_OUTPUT: ${{ inputs.output }}
+        ISWEBMCP_DIFF: ${{ inputs.comparison-output }}
+      run: node "$ISWEBMCP_ACTION_PATH/run.mjs"

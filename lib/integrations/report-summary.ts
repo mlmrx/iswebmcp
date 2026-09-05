@@ -1,6 +1,7 @@
 import type { ScanReport } from '@/lib/types';
 
 export interface IntegrationReportSummary extends Record<string, unknown> {
+  summarySchemaVersion: 'iswebmcp-summary/v1';
   reportId: string;
   reportKind: ScanReport['reportKind'];
   url: string;
@@ -14,6 +15,7 @@ export interface IntegrationReportSummary extends Record<string, unknown> {
     truncated: boolean;
   };
   actionability: {
+    modelVersion: string | null;
     value: number | null;
     coverage: number;
     confidence: string;
@@ -44,6 +46,7 @@ export interface IntegrationReportSummary extends Record<string, unknown> {
 
 export function summarizeReport(report: ScanReport): IntegrationReportSummary {
   return {
+    summarySchemaVersion: 'iswebmcp-summary/v1',
     reportId: report.id,
     reportKind: report.reportKind,
     url: report.finalUrl,
@@ -60,6 +63,7 @@ export function summarizeReport(report: ScanReport): IntegrationReportSummary {
       truncated: report.response.truncated,
     },
     actionability: {
+      modelVersion: report.baselineActionability.modelVersion ?? null,
       value: report.baselineActionability.value,
       coverage: report.baselineActionability.coverage,
       confidence: report.baselineActionability.confidence ?? 'low',

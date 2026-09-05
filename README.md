@@ -7,10 +7,12 @@
 **Map it. Contract it. Prove it.**
 
 - Production domain: [iswebmcp.com](https://iswebmcp.com) via Vercel GitHub deployment
-- Private source repository: [mlmrx/iswebmcp](https://github.com/mlmrx/iswebmcp)
+- Source repository (currently private; access required): [mlmrx/iswebmcp](https://github.com/mlmrx/iswebmcp)
 
-The source repository remains private at the owner’s instruction. The live
-product is deployed only through the native Next.js + Vercel path.
+isWebMCP is an independent, long-term developer utility and evidence platform.
+It did not participate in the WebMCP Challenge and is not a challenge submission.
+The live product is deployed through the native Next.js + Vercel path.
+Repository visibility is private as verified on September 5, 2026. The public website and its integration downloads do not require repository access; do not change access controls as part of maintenance.
 
 The product answers a harder question than protocol detection: can an agent use the exposed tools successfully, safely, and with an observable improvement over the human UI path?
 
@@ -21,12 +23,11 @@ The product answers a harder question than protocol detection: can an agent use 
 - **Imported contract evidence** accepts a sanitized tool inventory, retains only bounded schema summaries, labels its provenance, and creates an immutable derived report.
 - **Proof Lab** runs the same synthetic headset task through an accessible UI-only path and a WebMCP tool path backed by the same state and services.
 - **Interactive Pattern Gallery** contains exactly 24 synthetic before/after patterns across value, contract design, security, and reliability, each with a contract, example input/result, verification seam, and human confirmation boundary.
-- **Audited Index** preserves the frozen WRI v1 crawl while publishing its real collection health: 100,000 scheduled ranks, 65,380 valid collection outcomes, and 34,620 quarantined scanner-infrastructure errors.
+- **Audited Index** preserves frozen WRI v1 with status `audited_partial`: 100,000 scheduled and attempted ranks, 65,380 valid collection outcomes, 34,620 quarantined scanner-infrastructure errors, and 36,323 scored rows. It is partial and uncalibrated, not a product-quality ranking, market-adoption measure, or certification.
 - **Contract Workbench** provides deterministic feedback on tool names, descriptions, schemas, annotations, and source-visible state/verification signals.
-- **Learning Center** publishes ten substantial explainers, how-tos, architecture guides, security reviews, testing methods, and challenge field guides with direct primary-source references.
-- **WebMCP FAQ** answers thirty common questions across fundamentals, building, testing, security, and challenge participation.
-- **WebMCP Pulse** keeps normative WebMCP changes, vendor implementation news, broader MCP ecosystem releases, and challenge signals visibly separate. RSS, sitemap, and JSON indexes are included.
-- **Challenge Pulse** records a timestamped public participant aggregate and project-gallery status without treating participants as submissions or collecting identities.
+- **Learning Center** publishes explainers, how-tos, architecture guides, security reviews, and testing methods with direct primary-source references.
+- **WebMCP FAQ** covers fundamentals, building, testing, and security. Retained challenge references are historical context, not project participation claims.
+- **WebMCP Pulse** separates WebMCP changes and vendor implementation news from the broader MCP ecosystem. RSS, sitemap, and JSON indexes are included. Historical challenge observations retain their original timestamps and distinguish registrations, projects, and eligible submissions; they are not a current count or a reason to access Devpost.
 - **Exports** include normalized JSON and print-friendly reports without requiring an account.
 
 ## Measurements
@@ -69,6 +70,14 @@ The three catalog tools are exposed only on the Proof Lab in WebMCP mode. Report
 
 ## Run locally
 
+### Developer tools without a site installation
+
+The [developer quickstart](https://iswebmcp.com/developers) provides a downloadable Node SDK, command-line scanner, and local GitHub Actions adapter. The archive includes source, types, tests, and setup examples; no repository access or runtime dependencies are needed. These tools compare bounded source summaries, not runtime task success.
+
+Maintainers verify the toolkit with `npm run test:developer`, rebuild the allowlisted download with `npm run developer:package`, and check archive/source consistency with `npm run developer:check`.
+
+The working [adoption strategy](docs/adoption-strategy.md) and [research paper draft](docs/research/agent-ready-web-evaluation.md) describe the next experiments and evidence still required.
+
 Prerequisites: Node.js 22.13 or newer and npm.
 
 ```bash
@@ -84,9 +93,10 @@ Open the URL printed by the development server. No environment variables, accoun
 npm run typecheck
 npm run lint
 npm test
+npm audit
 npm run build
 npx playwright install chromium
-npm run test:e2e
+npx playwright test
 ```
 
 Additional commands:
@@ -94,6 +104,10 @@ Additional commands:
 - `npm run format:check` checks formatting.
 - `npm run format` applies the repository formatter.
 - `npm run start` runs the built Next.js production server locally.
+- `npm run test:e2e` combines the production build and browser suite when a build has not already been run.
+- `npm run integrations:validate` checks the integration manifests and packaged extension behavior.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, change review, and evidence requirements. The legacy `index:*` commands are not onboarding steps: WRI v1 is frozen and its collection must never be restarted or rewritten.
 
 ## Architecture
 
@@ -112,7 +126,7 @@ Browser UI / WebMCP tools
 ```
 
 Detailed design is in [docs/architecture.md](docs/architecture.md). Security assumptions and abuse cases are in [docs/threat-model.md](docs/threat-model.md).
-Editorial cadence, approved sources, correction policy, and challenge-freeze behavior are in [docs/content-operations.md](docs/content-operations.md).
+Editorial cadence, approved sources, and correction policy are in [docs/content-operations.md](docs/content-operations.md).
 
 ## Security and evidence boundaries
 
@@ -141,14 +155,14 @@ Authoritative references:
 
 The production target is native Next.js on Vercel through its GitHub integration. `vercel.json` declares the framework and otherwise leaves the build and output conventions to Vercel's zero-configuration Next.js support. Set `SITE_URL=https://iswebmcp.com` in Vercel so canonical URLs, RSS, robots, and sitemap output remain stable. There is no OpenAI Sites configuration or source remote in this repository.
 
-## Challenge submission kit
+## Maintainer resources
 
 - [Manual verification checklist](docs/manual-webmcp-test.md)
-- [Under-three-minute demo script](docs/demo-script.md)
-- [Devpost draft](docs/devpost-draft.md)
-- [Submission checklist](docs/challenge-checklist.md)
+- [Product demo script](docs/demo-script.md)
+- [URL-attempt storage and privacy](docs/url-attempt-analytics.md)
+- [Repository hygiene audit](docs/repository-hygiene.md)
 
-The owner requested a **private** GitHub repository for this build. The WebMCP Challenge calls for a public repository with a visible open-source license, so the checklist intentionally keeps “make the repository public” open; the project must not claim challenge eligibility until that step is completed.
+Old challenge preparation documents are retained as explicitly superseded history. They are not submission records or current release instructions. No challenge judging freeze applies to this independent product; the separate WRI v1 data freeze remains in force.
 
 ## License
 

@@ -1,5 +1,7 @@
 # Devpost draft
 
+> **Superseded historical draft — September 5, 2026.** This copy was never a submission record. isWebMCP did not participate in the WebMCP Challenge and is an independent developer utility. The old visibility, submission, and freeze instructions below do not apply; retain this file only as project history. Do not access Devpost as part of maintenance. Current product and evidence policy is in [content operations](content-operations.md).
+
 ## Title
 
 **isWebMCP — From Tools Detected to Agent Action Proven**

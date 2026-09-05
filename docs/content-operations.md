@@ -1,5 +1,11 @@
 # Content and pulse operations
 
+## Product direction
+
+isWebMCP is an independent, long-term developer utility and evidence platform for agent-ready web applications. It did not participate in the WebMCP Challenge and must never be described as submitted or eligible. Product and editorial work should improve developer usefulness, trustworthy evaluation, interoperability, adoption, reliability, and sustainable distribution.
+
+The owner confirmed that challenge submission restrictions do not apply to this product. There is no challenge-based repository or deployment freeze. This does not lift the separate, permanent WRI v1 collection freeze described below.
+
 ## Editorial promise
 
 isWebMCP publishes useful material when there is something worth saying. It does not manufacture an article every hour to satisfy a volume target.
@@ -9,17 +15,14 @@ isWebMCP publishes useful material when there is something worth saying. It does
 - Several times weekly: publish or revise an evergreen guide after technical review.
 - Immediately: correct a material factual error, label the correction, and retain the Git history.
 
-All status-sensitive claims include a review or observation date. WebMCP and the broader MCP protocol remain separate topics and labels.
+All status-sensitive claims include a review or observation date. WebMCP remains experimental and is not a W3C Standard. WebMCP browser work and the broader MCP protocol remain separate topics and labels.
 
 ## Approved hourly sources
 
-The maintenance task may read these primary, machine-oriented sources with conditional requests and a clear user agent:
+The hourly maintenance task may read only these approved official machine-readable sources, using conditional requests where supported and a clear user agent:
 
 - WebMCP specification commits: <https://github.com/webmachinelearning/webmcp/commits/main.atom>
-- Canonical WebMCP Community Group report: <https://webmachinelearning.github.io/webmcp/>
 - Chrome Developers RSS, filtered to WebMCP: <https://developer.chrome.com/static/blog/feed.xml>
-- WebMCP browser status: <https://chromestatus.com/feature/5117755740913664>
-- WebMCP web-platform test results: <https://wpt.fyi/results/webmcp>
 - Official MCP blog RSS: <https://blog.modelcontextprotocol.io/index.xml>
 - MCP specification releases: <https://github.com/modelcontextprotocol/modelcontextprotocol/releases.atom>
 - MCP specification commits: <https://github.com/modelcontextprotocol/modelcontextprotocol/commits/main.atom>
@@ -27,11 +30,13 @@ The maintenance task may read these primary, machine-oriented sources with condi
 
 SDK release feeds may be added only for official SDKs, and every SDK item remains labeled “MCP ecosystem,” not WebMCP.
 
+The canonical [WebMCP Community Group report](https://webmachinelearning.github.io/webmcp/), [browser status page](https://chromestatus.com/feature/5117755740913664), and [web-platform test dashboard](https://wpt.fyi/results/webmcp) remain references for a separate technical review. These human-facing pages are not hourly scraping targets. A status or test-result API must be explicitly documented and approved here before the hourly task uses it; do not guess replacement endpoints or broaden a feed check into crawling linked pages.
+
 ## Devpost boundary
 
-Do not programmatically scrape, crawl, paginate, authenticate to, or mirror Devpost participant, update, or project-gallery pages. The current public pages provide only an aggregate participant counter, require login for identities, and do not publish the project gallery. Devpost's terms prohibit automated scraping.
+Never access, authenticate to, scrape, crawl, spider, paginate, mirror, or automate requests to any Devpost page, including participant, update, and project-gallery pages. An existing signed-in browser session does not change this boundary. Do not infer current page availability or counts from old observations.
 
-Challenge values in `content/pulse.json` are manual observations with an exact timestamp, source URL, and uncertainty note. The submission count remains `null` until a public, permitted source exposes a value. Even then, label it “public gallery entries,” because moderation and review can make that count differ from projects received or eligible.
+Retained challenge values in `content/pulse.json` are historical observations with an exact timestamp, source URL, and uncertainty note. Preserve them as historical evidence; do not refresh them by accessing Devpost. Unknown submission counts stay `null`. Registrations, projects, public gallery entries, and eligible submissions are distinct quantities and must never be substituted for one another. Historical links are attribution, not permission to fetch those pages.
 
 ## Material-change gate
 
@@ -50,14 +55,20 @@ Never copy an article body. Store a short original summary and link to the sourc
 
 1. Read the existing pulse snapshot and deduplicate by canonical URL and stable source ID.
 2. Update `content/pulse.json`; preserve prior observations and correction history.
-3. Run formatting, type checking, lint, unit tests, the production build, and browser tests.
+3. Run formatting, type checking, lint, unit tests, dependency audit, the native Next.js production build, and the production browser suite. Address findings before publication; never infer that a local pass proves deployment success.
 4. Review the rendered labels, dates, attribution, feed, and content API.
-5. Commit and push only the exact validated source.
-6. Push the validated commit and verify the connected Vercel production deployment succeeds.
+5. Commit and push only the exact validated source to `main` in the existing GitHub repository. Repository visibility is currently private, verified September 5, 2026; do not change access controls or assume public access from earlier instructions.
+6. Verify GitHub Actions and the connected Vercel production deployment for that commit, then verify the production content and labels. A push alone is not proof of publication.
 7. If there is no material change, make no source-control or hosting change.
 
-## Challenge freeze
+## Frozen WRI v1 evidence
 
-Devpost currently lists the submission cutoff as September 3, 2026 at 1:00 PM Pacific and instructs entrants not to change the submission, repository, video, or live project during judging. The hourly task must stop all edits, commits, pushes, and deployments at that cutoff until the owner explicitly confirms the judging freeze has ended.
+The one-time WRI v1 artifact has status `audited_partial`, with 100,000 scheduled and attempted ranks, 65,380 valid collection outcomes, 34,620 quarantined scanner-infrastructure collection errors, and 36,323 scored rows. It remains frozen, partial, and uncalibrated. It is not a complete 100,000-site observation, a product-quality ranking, a market-adoption measure, or a certification.
 
-Read-only monitoring may continue in the task thread, but it must not mutate the submitted artifact. Experimental work belongs in a separate fork after the deadline.
+Never restart, resume, rewrite, or silently reinterpret the raw attempt log. Do not run the legacy `index:*` collection commands as part of maintenance. Any new research must use a separately identified dataset and methodology; it cannot revise the meaning of WRI v1.
+
+The index API and readiness-index domains are optional read-only health signals only when a material index or deployment problem is suspected. Do not poll them as an hourly ritual.
+
+## Hosting and access
+
+Use native Next.js and the existing Vercel GitHub integration. OpenAI Sites is retired: do not invoke Sites tools, push to a Sites source repository, recreate `.openai/hosting.json`, restore `@openai/sites-vite-plugin` or Cloudflare deployment adapters, or publish to a `chatgpt.site` origin. Do not change GitHub or Vercel access controls automatically.

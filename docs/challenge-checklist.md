@@ -1,5 +1,7 @@
 # Challenge release checklist
 
+> **Superseded historical draft — September 5, 2026.** isWebMCP did not participate in the WebMCP Challenge and is not a challenge submission. The unchecked submission steps, visibility instructions, historical test counts, and freeze language below are not current instructions or release evidence. Follow [CONTRIBUTING.md](../CONTRIBUTING.md) and [content operations](content-operations.md) for current maintenance. The WRI v1 data freeze still applies.
+
 This file is intentionally truthful. A checked engineering item does not imply submission eligibility.
 
 ## Product

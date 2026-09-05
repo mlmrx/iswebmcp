@@ -46,6 +46,7 @@ const countsSchema = z.object({
 });
 
 const reportSummaryOutputShape = {
+  summarySchemaVersion: z.literal('iswebmcp-summary/v1'),
   reportId: z.string(),
   reportKind: z.enum(['observed_source', 'synthetic_fixture']),
   url: z.string(),
@@ -65,6 +66,7 @@ const reportSummaryOutputShape = {
     truncated: z.boolean(),
   }),
   actionability: z.object({
+    modelVersion: z.string().nullable(),
     value: z.number().nullable(),
     coverage: z.number(),
     confidence: z.string(),

@@ -101,6 +101,23 @@ export default function IntegrationsPage() {
       <section className="mx-auto max-w-7xl px-5 py-12 lg:px-8">
         <IntegrationWorkflow />
 
+        <Link
+          href="/developers"
+          className="mt-8 block rounded-2xl border border-border bg-card p-6 hover:border-signal-ink"
+        >
+          <p className="eyebrow text-signal-ink">SDK, CLI, and CI adapter</p>
+          <h2 className="mt-2 text-2xl font-semibold">
+            Build a check into your workflow
+          </h2>
+          <p className="mt-3 leading-7 text-muted-foreground">
+            Run a public-source scan, save the evidence, and compare changes
+            from your terminal or GitHub Actions.
+          </p>
+          <span className="mt-4 inline-block text-sm font-semibold text-signal-ink">
+            Open the developer quickstart →
+          </span>
+        </Link>
+
         <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {integrations.map((integration) => {
             const Icon = integration.icon;
