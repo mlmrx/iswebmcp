@@ -115,6 +115,8 @@ test('remote MCP completes initialize, discovery, resource, and tool calls', asy
     'show_sample_audit',
     'audit_tool_contracts',
     'explain_evidence_level',
+    'get_implementation_recipe',
+    'compare_source_reports',
   ]);
   expect(tools[0]?.annotations).toMatchObject({
     readOnlyHint: false,

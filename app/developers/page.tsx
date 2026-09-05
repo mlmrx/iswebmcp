@@ -88,6 +88,42 @@ export default function DevelopersPage() {
             Read the data policy
           </Link>
         </section>
+        <section
+          id="mcp"
+          className="rounded-2xl border border-border bg-card p-6 sm:p-8"
+        >
+          <p className="eyebrow text-signal-ink">Inside your coding agent</p>
+          <h2 className="mt-3 text-3xl font-semibold">
+            Check → implement → compare
+          </h2>
+          <p className="mt-3 leading-7 text-muted-foreground">
+            Connect a Streamable HTTP MCP client to https://iswebmcp.com/mcp.
+            Ask for a source audit, request a matching implementation recipe,
+            review the code locally, then compare your saved before-and-after
+            summaries.
+          </p>
+          <blockquote className="mt-5 border-l-2 border-signal-ink pl-4 leading-7">
+            “Audit my public search page. Show me the accessible-controls
+            recipe. Explain the proposed changes before editing. After I deploy,
+            compare my baseline and current source summaries. Keep runtime
+            claims separate.”
+          </blockquote>
+          <p className="mt-4 text-sm leading-6 text-muted-foreground">
+            Six tools on one endpoint, including get_implementation_recipe and
+            compare_source_reports. Your agent needs separate local editing
+            permission; this server cannot change your repository, deploy, or
+            control your browser. Only send summaries you are comfortable
+            sharing with the service and your agent host. Use the local CLI for
+            sensitive evidence.
+          </p>
+          <Link
+            href="/developers/recipes"
+            className="mt-5 inline-flex items-center gap-2 font-semibold text-signal-ink hover:underline"
+          >
+            Explore implementation recipes{' '}
+            <ArrowRight className="size-4" aria-hidden="true" />
+          </Link>
+        </section>
         <div className="grid gap-6 md:grid-cols-2">
           <section className="rounded-2xl border border-border bg-card p-6">
             <Code2 className="size-6 text-signal-ink" aria-hidden="true" />

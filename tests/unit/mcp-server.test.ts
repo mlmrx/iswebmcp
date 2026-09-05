@@ -4,6 +4,31 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 import { AUDIT_WIDGET_URI } from '@/lib/mcp/audit-widget';
 import { createIsWebMcpServer } from '@/lib/mcp/server';
+import { analyzeSource } from '@/lib/scanner';
+import { summarizeReport } from '@/lib/integrations/report-summary';
+import { sourceComparisonContext } from '@/lib/integrations/comparison-context';
+
+function sourceSummary(
+  html = '<main><h1>Search</h1><label for="q">Search</label><input id="q"></main>',
+) {
+  const url = 'https://example.com/';
+  return summarizeReport({
+    ...analyzeSource({
+      normalizedUrl: url,
+      finalUrl: url,
+      html,
+      status: 200,
+      contentType: 'text/html',
+      bytesRead: html.length,
+      redirects: 0,
+    }),
+    comparisonContext: sourceComparisonContext({
+      requestedUrl: url,
+      finalUrl: url,
+      analysisLimitBytes: 1_000_000,
+    }),
+  });
+}
 
 describe('isWebMCP remote MCP server', () => {
   let client: Client;
@@ -31,6 +56,8 @@ describe('isWebMCP remote MCP server', () => {
       'show_sample_audit',
       'audit_tool_contracts',
       'explain_evidence_level',
+      'get_implementation_recipe',
+      'compare_source_reports',
     ]);
     const audit = tools.find((tool) => tool.name === 'audit_public_url');
     expect(audit?.annotations?.readOnlyHint).toBe(false);
@@ -39,6 +66,94 @@ describe('isWebMCP remote MCP server', () => {
     expect(
       (audit?._meta?.ui as { resourceUri?: string } | undefined)?.resourceUri,
     ).toBe(AUDIT_WIDGET_URI);
+    for (const tool of tools.slice(4)) {
+      expect(tool.annotations).toMatchObject({
+        readOnlyHint: true,
+        destructiveHint: false,
+        openWorldHint: false,
+      });
+      expect(tool.outputSchema).toBeDefined();
+      expect(tool._meta?.ui).toBeUndefined();
+    }
+  });
+
+  it.each(['search-tool', 'accessible-controls'])(
+    'returns the %s recipe without applying it',
+    async (recipe) => {
+      const result = await client.callTool({
+        name: 'get_implementation_recipe',
+        arguments: { recipe },
+      });
+      expect(result.isError).not.toBe(true);
+      expect(result.structuredContent).toMatchObject({
+        id: recipe,
+        status: 'review-required',
+        evidenceScope: 'implementation-guidance',
+      });
+    },
+  );
+
+  it('compares real scanner summaries through the MCP schema', async () => {
+    const baseline = sourceSummary();
+    const current = sourceSummary('<main><h1>Search</h1><input id="q"></main>');
+    const result = await client.callTool({
+      name: 'compare_source_reports',
+      arguments: {
+        baselineJson: JSON.stringify(baseline),
+        currentJson: JSON.stringify(current),
+      },
+    });
+    expect(result.isError).not.toBe(true);
+    expect(result.structuredContent).toMatchObject({
+      regressed: true,
+      evidenceScope: 'source-only',
+      inputProvenance: 'user-supplied-not-independently-authenticated',
+    });
+    const unchanged = await client.callTool({
+      name: 'compare_source_reports',
+      arguments: {
+        baselineJson: JSON.stringify(baseline),
+        currentJson: JSON.stringify(baseline),
+      },
+    });
+    expect(unchanged.isError).not.toBe(true);
+    expect(unchanged.structuredContent).toMatchObject({ regressed: false });
+  });
+
+  it.each([
+    'model',
+    'url',
+    'context',
+    'partial',
+    'imported',
+    'synthetic',
+    'chronology',
+    'inventory',
+    'oversize',
+    'json',
+  ])('rejects %s evidence instead of passing it', async (kind) => {
+    const baseline = sourceSummary();
+    const current = structuredClone(baseline);
+    if (kind === 'model') current.actionability.modelVersion = 'different';
+    if (kind === 'url') current.url = 'https://other.example/';
+    if (kind === 'context') current.comparisonContext = null;
+    if (kind === 'partial') current.collection.truncated = true;
+    if (kind === 'imported')
+      current.labels.contract = 'imported-not-independently-verified';
+    if (kind === 'synthetic') current.reportKind = 'synthetic_fixture';
+    if (kind === 'chronology') current.scannedAt = '2000-01-01T00:00:00.000Z';
+    if (kind === 'inventory') current.findingsCoverage.total += 1;
+    if (kind === 'oversize')
+      current.findings = Array(101).fill(current.findings[0]);
+    const result = await client.callTool({
+      name: 'compare_source_reports',
+      arguments: {
+        baselineJson: JSON.stringify(baseline),
+        currentJson: kind === 'json' ? '{broken}' : JSON.stringify(current),
+      },
+    });
+    expect(result.isError).toBe(true);
+    expect(result.structuredContent).toBeUndefined();
   });
 
   it('returns the render-only audit widget as an MCP App resource', async () => {

@@ -11,6 +11,7 @@ import {
   type IntegrationReportSummary,
 } from '@/lib/integrations/report-summary';
 import { AUDIT_WIDGET_URI, auditWidgetHtml } from '@/lib/mcp/audit-widget';
+import { registerWorkflowTools } from '@/lib/mcp/workflow-tools';
 import { toScanError } from '@/lib/network';
 import { makeDemoReport } from '@/lib/scanner';
 import { allowRequest, getReport, putReport } from '@/lib/scan-store';
@@ -140,7 +141,7 @@ function failureResult(error: unknown) {
 export function createIsWebMcpServer(requesterKey = 'anonymous') {
   const server = new McpServer({
     name: 'isWebMCP',
-    version: '1.0.0',
+    version: '1.1.0',
     websiteUrl: 'https://iswebmcp.com',
   });
 
@@ -396,5 +397,6 @@ export function createIsWebMcpServer(requesterKey = 'anonymous') {
     },
   );
 
+  registerWorkflowTools(server);
   return server;
 }

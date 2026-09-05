@@ -160,11 +160,25 @@ export default function IntegrationsPage() {
               MCP clients that support Streamable HTTP can connect directly to
               the production endpoint. It offers public-source audits, a
               synthetic walkthrough, imported contract review, and
-              evidence-level guidance.
+              evidence-level guidance. You can also get reviewable
+              implementation recipes and compare two saved source summaries with
+              the same rules as the CLI.
             </p>
             <code className="mt-5 block overflow-x-auto rounded-xl border border-border bg-background p-4 text-sm">
               https://iswebmcp.com/mcp
             </code>
+            <p className="mt-4 text-sm leading-6 text-muted-foreground">
+              Endpoint v1.1 adds two data-only tools. Refresh your client’s tool
+              list after connecting. Directory approvals and packaged review
+              kits are separate; their availability is not implied by this
+              endpoint update.
+            </p>
+            <Link
+              href="/developers#mcp"
+              className="mt-5 inline-block font-semibold text-signal-ink hover:underline"
+            >
+              Try the check → implement → compare workflow
+            </Link>
           </section>
           <section className="rounded-2xl border border-border bg-card p-6">
             <p className="eyebrow">Honest by construction</p>
