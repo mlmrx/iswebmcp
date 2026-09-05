@@ -29,8 +29,20 @@ test('landing communicates the product and opens a sample evidence report', asyn
   await expect(
     page.getByRole('heading', {
       level: 1,
-      name: /Check your site.[\s\S]*Fix the gaps.[\s\S]*Catch regressions/,
+      name: /Help AI agents[\s\S]*use your website/,
     }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: 'See starter code', exact: true }),
+  ).toHaveAttribute('href', '/developers/recipes');
+  await expect(
+    page.getByText(
+      'You review and apply the code. We don’t change or deploy your site.',
+      { exact: true },
+    ),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: '2. Get starter code', exact: true }),
   ).toBeVisible();
   await expect(page.getByText('10 UI actions', { exact: true })).toBeVisible();
   await page.getByRole('tab', { name: 'With WebMCP' }).click();

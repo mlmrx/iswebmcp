@@ -35,7 +35,7 @@ test('source finding leads to evidence, a valid CI baseline, and a deliberate re
   });
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toContainText(
-    'Check your site.',
+    'Help AI agents',
   );
   await page.screenshot({
     path: testInfo.outputPath('home.png'),

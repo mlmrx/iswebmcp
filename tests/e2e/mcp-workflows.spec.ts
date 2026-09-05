@@ -3,9 +3,9 @@ import { expect, test } from '@playwright/test';
 test('developer workflow leads to accessible, bounded implementation recipes', async ({
   page,
 }) => {
-  await page.goto('/developers');
+  await page.goto('/');
   await page
-    .getByRole('link', { name: 'Explore implementation recipes' })
+    .getByRole('link', { name: 'See starter code', exact: true })
     .click();
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
     'Turn a finding into a first fix.',

@@ -8,6 +8,7 @@ import {
   LockKeyhole,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useState, type SyntheticEvent } from 'react';
 
 import { useApp } from '@/components/app-provider';
@@ -99,9 +100,9 @@ export function QuickScanForm() {
       />
       <div className="mb-6 flex items-start justify-between gap-4">
         <div>
-          <p className="eyebrow">Start with your page</p>
+          <p className="eyebrow">No account needed</p>
           <h2 className="mt-2 text-xl font-semibold tracking-tight">
-            What can we find in your page source?
+            Check a public page
           </h2>
         </div>
         <span className="status-chip">
@@ -133,7 +134,7 @@ export function QuickScanForm() {
             className="h-12 rounded-lg border-border bg-card px-4 text-base shadow-none"
           />
           <p id="url-help" className="mt-1.5 text-xs text-muted-foreground">
-            A missing scheme is safely normalized to HTTPS.
+            Enter your website address. We’ll use HTTPS if you leave it out.
           </p>
         </div>
         <div>
@@ -211,12 +212,14 @@ export function QuickScanForm() {
             className="mt-0.5 size-3.5 shrink-0"
             aria-hidden="true"
           />
-          The scan fetches only the public page you provide. It does not sign
-          in, execute the target&apos;s JavaScript, or use your browser cookies.
-          We retain the normalized public origin and path plus the outcome for
-          90 days, but never URL credentials, queries, fragments, goals, page
-          markup, IP addresses, or user agents. Do not paste signed or
-          secret-bearing URLs.
+          <span>
+            Public pages only. No sign-in, JavaScript execution, or browser
+            cookies. We store the sanitized URL path and origin plus the outcome
+            for 90 days. Do not paste signed or secret-bearing URLs.{' '}
+            <Link href="/privacy" className="underline underline-offset-2">
+              Privacy details
+            </Link>
+          </span>
         </p>
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
           <button

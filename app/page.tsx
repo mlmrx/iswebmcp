@@ -22,6 +22,9 @@ import { learningArticles } from '@/lib/content';
 import { formatPulseDate, pulseUpdates } from '@/lib/pulse';
 
 export const metadata: Metadata = {
+  title: 'Help AI agents use your website',
+  description:
+    'Check a public page, get clear recommendations and starter code for supported fixes, then compare your changes with the isWebMCP developer toolkit.',
   alternates: {
     canonical: '/',
     types: { 'application/rss+xml': '/feed.xml' },
