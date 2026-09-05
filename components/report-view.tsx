@@ -22,6 +22,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { useApp } from '@/components/app-provider';
 import { ScoreRing } from '@/components/score-ring';
+import { ReportOverview } from '@/components/report-overview';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import {
@@ -107,6 +108,32 @@ export function ReportView({ scanId }: { scanId: string }) {
   const [importLoading, setImportLoading] = useState(false);
   const [importMessage, setImportMessage] = useState<string | null>(null);
   const report = currentReport?.id === scanId ? currentReport : null;
+
+  useEffect(() => {
+    let closed: HTMLDetailsElement[] = [];
+    const beforePrint = () => {
+      closed = Array.from(
+        document.querySelectorAll<HTMLDetailsElement>(
+          '#main-content details:not([open])',
+        ),
+      );
+      closed.forEach((item) => {
+        item.open = true;
+      });
+    };
+    const afterPrint = () => {
+      closed.forEach((item) => {
+        item.open = false;
+      });
+      closed = [];
+    };
+    window.addEventListener('beforeprint', beforePrint);
+    window.addEventListener('afterprint', afterPrint);
+    return () => {
+      window.removeEventListener('beforeprint', beforePrint);
+      window.removeEventListener('afterprint', afterPrint);
+    };
+  }, []);
 
   useEffect(() => {
     if (report) {
@@ -425,446 +452,471 @@ export function ReportView({ scanId }: { scanId: string }) {
           </aside>
         )}
 
-        <section aria-labelledby="measurement-heading">
-          <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
-            <div>
-              <p className="eyebrow">Evidence report</p>
-              <h2
-                id="measurement-heading"
-                className="mt-2 text-3xl font-semibold tracking-[-.04em]"
-              >
-                Four evidence boundaries. No blended score.
-              </h2>
-            </div>
-            <span className="font-mono text-xs text-muted-foreground">
-              Report ID {report.id}
-            </span>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            <ScoreRing
-              value={report.baselineActionability.value}
-              label="Source actionability"
-              detail={
-                report.response.truncated
-                  ? `${report.baselineActionability.coverage}% captured-prefix model-input coverage. The point estimate applies only to that prefix; the complete-page score is unknown (0–100).`
-                  : `${report.baselineActionability.coverage}% model-input coverage. Measures named controls, bounded actions, semantics, and feedback visible in captured HTML—not WebMCP quality.`
-              }
-            />
-            <ScoreRing
-              value={report.webmcpQuality?.value ?? null}
-              label="Contract lint"
-              detail={
-                report.importedProof
-                  ? `${report.webmcpQuality?.coverage ?? 0}% imported evidence coverage. Contract audit only—not independently verified runtime behavior.`
-                  : 'Not evaluated. Quick Scan never converts a source hint into contract or runtime quality.'
-              }
-              tone="neutral"
-            />
-            <ScoreRing
-              value={null}
-              label="Runtime readiness"
-              detail="Not measured. Requires observed discovery, authorization, execution, verification, recovery, and lifecycle trials."
-              tone="muted"
-            />
-            <ScoreRing
-              value={null}
-              label="WebMCP Lift"
-              detail="Not calculated. Requires paired interactive runs of the same task and fixture; authored replay never receives a number."
-              tone="muted"
-            />
-          </div>
-          <div className="mt-4 grid gap-3 rounded-xl border border-border bg-card p-4 text-xs leading-5 text-muted-foreground sm:grid-cols-3">
-            <div>
-              <span className="block font-mono uppercase tracking-wider text-foreground">
-                Model
-              </span>
-              {report.baselineActionability.modelVersion ?? 'legacy-source'}
-            </div>
-            <div>
-              <span className="block font-mono uppercase tracking-wider text-foreground">
-                Confidence
-              </span>
-              {report.baselineActionability.confidence ?? 'not declared'}
-              {report.response.truncated
-                ? ' · complete-page score unknown (0–100)'
-                : report.baselineActionability.interval
-                  ? report.baselineActionability.interval.lower ===
-                    report.baselineActionability.interval.upper
-                    ? ` · bounded point result ${report.baselineActionability.interval.lower}`
-                    : ` · ${report.baselineActionability.interval.lower}–${report.baselineActionability.interval.upper} evidence-bounded range`
-                  : ''}
-            </div>
-            <div>
-              <span className="block font-mono uppercase tracking-wider text-foreground">
-                Source window
-              </span>
-              {report.response.bytesRead.toLocaleString()} bytes analyzed
-              {report.response.declaredBytes
-                ? ` of ${report.response.declaredBytes.toLocaleString()} declared`
-                : ''}
-              {report.response.truncated
-                ? ' · partial'
-                : ' · complete response'}
-            </div>
-            {report.baselineActionability.coverageNote && (
-              <p className="sm:col-span-3">
-                {report.baselineActionability.coverageNote}
-              </p>
-            )}
-          </div>
-        </section>
+        <ReportOverview key={report.id} report={report} />
 
-        <section
-          className="instrument-card overflow-hidden"
-          aria-labelledby="import-heading"
+        <details
+          className="rounded-2xl border border-border p-5 sm:p-6"
+          id="report-details"
+          open={Boolean(report.importedProof)}
         >
-          <div className="grid gap-6 p-5 sm:p-6 lg:grid-cols-[.72fr_1.28fr]">
-            <div>
-              <p className="eyebrow">Imported contract evidence</p>
-              <h2 id="import-heading" className="mt-2 text-xl font-semibold">
-                Audit exported tool contracts
-              </h2>
-              <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                Paste a sanitized export or a canonical same-origin probe
-                envelope. Manual imports are bound to this report but remain
-                user-supplied; isWebMCP never claims they were observed or
-                executed.
-              </p>
-              <div className="mt-4 rounded-lg border border-warning/25 bg-warning/8 p-3 text-xs leading-5 text-muted-foreground">
-                <strong className="text-foreground">
-                  Remove secrets and customer data.
-                </strong>{' '}
-                Tool contracts should never contain credentials.
-              </div>
-              {report.importedProof && (
-                <div className="mt-4 flex items-center gap-2 text-sm font-medium text-positive">
-                  <FileCheck2 className="size-4" aria-hidden="true" />{' '}
-                  {report.importedProof.tools.length} imported contract
-                  {report.importedProof.tools.length === 1 ? '' : 's'} attached
+          <summary className="cursor-pointer text-lg font-semibold">
+            Scores, contracts and full evidence
+          </summary>
+          <div className="mt-6 space-y-8">
+            <section aria-labelledby="measurement-heading">
+              <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+                <div>
+                  <p className="eyebrow">Evidence report</p>
+                  <h2
+                    id="measurement-heading"
+                    className="mt-2 text-3xl font-semibold tracking-[-.04em]"
+                  >
+                    Four evidence boundaries. No blended score.
+                  </h2>
                 </div>
-              )}
-            </div>
-            <div>
-              <Textarea
-                value={manifestText}
-                onChange={(event) => setManifestText(event.target.value)}
-                rows={9}
-                maxLength={128_000}
-                spellCheck={false}
-                aria-label="Sanitized tool manifest JSON"
-                placeholder={
-                  '{"tools":[{"name":"search_catalog","description":"..."}]}'
-                }
-                className="font-mono text-xs"
-              />
-              <div className="mt-3 flex flex-wrap items-center gap-2">
-                <Button
-                  onClick={importManifest}
-                  disabled={!manifestText.trim() || importLoading}
-                >
-                  <Upload data-icon="inline-start" />{' '}
-                  {importLoading ? 'Validating…' : 'Import and audit'}
-                </Button>
-                <Button
-                  nativeButton={false}
-                  variant="outline"
-                  render={
-                    <label
-                      htmlFor="manifest-file"
-                      aria-label="Choose JSON file"
-                    />
-                  }
-                >
-                  Choose JSON file
-                </Button>
-                <input
-                  id="manifest-file"
-                  className="sr-only"
-                  tabIndex={-1}
-                  aria-hidden="true"
-                  type="file"
-                  accept="application/json,.json"
-                  onChange={(event) =>
-                    void loadManifestFile(event.target.files?.[0])
+                <span className="font-mono text-xs text-muted-foreground">
+                  Report ID {report.id}
+                </span>
+              </div>
+              <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                <ScoreRing
+                  value={report.baselineActionability.value}
+                  label="Source actionability"
+                  detail={
+                    report.response.truncated
+                      ? `${report.baselineActionability.coverage}% captured-prefix model-input coverage. The point estimate applies only to that prefix; the complete-page score is unknown (0–100).`
+                      : `${report.baselineActionability.coverage}% model-input coverage. Measures named controls, bounded actions, semantics, and feedback visible in captured HTML—not WebMCP quality.`
                   }
                 />
-                <button
-                  type="button"
-                  className="text-xs font-semibold underline underline-offset-4"
-                  onClick={loadExampleManifest}
-                >
-                  Load example
-                </button>
+                <ScoreRing
+                  value={report.webmcpQuality?.value ?? null}
+                  label="Contract lint"
+                  detail={
+                    report.importedProof
+                      ? `${report.webmcpQuality?.coverage ?? 0}% imported evidence coverage. Contract audit only—not independently verified runtime behavior.`
+                      : 'Not evaluated. Quick Scan never converts a source hint into contract or runtime quality.'
+                  }
+                  tone="neutral"
+                />
+                <ScoreRing
+                  value={null}
+                  label="Runtime readiness"
+                  detail="Not measured. Requires observed discovery, authorization, execution, verification, recovery, and lifecycle trials."
+                  tone="muted"
+                />
+                <ScoreRing
+                  value={null}
+                  label="WebMCP Lift"
+                  detail="Not calculated. Requires paired interactive runs of the same task and fixture; authored replay never receives a number."
+                  tone="muted"
+                />
               </div>
-              {importMessage && (
-                <output
-                  className="mt-3 block text-xs leading-5 text-muted-foreground"
-                  aria-live="polite"
-                >
-                  {importMessage}
-                </output>
-              )}
-            </div>
-          </div>
-        </section>
-
-        <aside
-          className="grid gap-4 rounded-xl border border-warning/25 bg-warning/8 p-5 md:grid-cols-[auto_1fr]"
-          aria-labelledby="limits-heading"
-        >
-          <AlertTriangle
-            className="mt-0.5 size-5 text-warning"
-            aria-hidden="true"
-          />
-          <div>
-            <h2 id="limits-heading" className="font-semibold">
-              What this scan cannot establish
-            </h2>
-            <ul className="mt-2 grid gap-2 text-sm leading-6 text-muted-foreground md:grid-cols-2">
-              {report.limitations.map((limitation) => (
-                <li key={limitation}>— {limitation}</li>
-              ))}
-            </ul>
-          </div>
-        </aside>
-
-        <section
-          className="grid gap-5 xl:grid-cols-[.82fr_1.18fr]"
-          aria-labelledby="baseline-heading"
-        >
-          <div className="instrument-card p-5 sm:p-6">
-            <p className="eyebrow">
-              {report.reportKind === 'synthetic_fixture'
-                ? 'Synthetic source fixture'
-                : 'Observed source'}
-            </p>
-            <h2 id="baseline-heading" className="mt-2 text-xl font-semibold">
-              Source actionability categories
-            </h2>
-            <div className="mt-6 space-y-5">
-              {report.baselineActionability.categories.map((category) => (
-                <div key={category.id}>
-                  <div className="mb-2 flex items-center justify-between gap-3 text-sm">
-                    <span className="font-medium">{category.label}</span>
-                    <span className="font-mono text-xs text-muted-foreground">
-                      {category.score ?? 'N/O'} ·{' '}
-                      {categoryInputCoverage(category)}% input coverage ·{' '}
-                      {category.weight}% weight
-                    </span>
-                  </div>
-                  <div
-                    className="h-1.5 overflow-hidden rounded-full bg-muted"
-                    aria-hidden="true"
-                  >
-                    <span
-                      className="block h-full rounded-full bg-signal-ink"
-                      style={{ width: `${category.score ?? 0}%` }}
-                    />
-                  </div>
-                  <p className="mt-2 text-xs leading-5 text-muted-foreground">
-                    {category.explanation}
-                  </p>
-                  {category.metrics?.length ? (
-                    <details className="mt-3 rounded-lg border border-border bg-muted/30 px-3 py-2">
-                      <summary className="cursor-pointer text-xs font-semibold">
-                        Show {category.metrics.length} scoring inputs
-                      </summary>
-                      <div className="mt-3 space-y-2">
-                        {category.metrics.map((metric) => (
-                          <div
-                            key={metric.id}
-                            className="grid gap-1 border-t border-border pt-2 text-xs sm:grid-cols-[1fr_auto]"
-                          >
-                            <div>
-                              <p className="font-medium text-foreground">
-                                {metric.label}
-                              </p>
-                              <p className="mt-0.5 leading-5 text-muted-foreground">
-                                {metric.value} · {metric.rationale}
-                              </p>
-                            </div>
-                            <span className="font-mono text-muted-foreground">
-                              {metric.observed
-                                ? `${metric.points}/${metric.possible} pts`
-                                : 'not observed'}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </details>
-                  ) : null}
+              <div className="mt-4 grid gap-3 rounded-xl border border-border bg-card p-4 text-xs leading-5 text-muted-foreground sm:grid-cols-3">
+                <div>
+                  <span className="block font-mono uppercase tracking-wider text-foreground">
+                    Model
+                  </span>
+                  {report.baselineActionability.modelVersion ?? 'legacy-source'}
                 </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="instrument-card p-5 sm:p-6">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="eyebrow">Coverage layers</p>
-                <h2 className="mt-2 text-xl font-semibold">
-                  Action Surface Map
-                </h2>
+                <div>
+                  <span className="block font-mono uppercase tracking-wider text-foreground">
+                    Confidence
+                  </span>
+                  {report.baselineActionability.confidence ?? 'not declared'}
+                  {report.response.truncated
+                    ? ' · complete-page score unknown (0–100)'
+                    : report.baselineActionability.interval
+                      ? report.baselineActionability.interval.lower ===
+                        report.baselineActionability.interval.upper
+                        ? ` · bounded point result ${report.baselineActionability.interval.lower}`
+                        : ` · ${report.baselineActionability.interval.lower}–${report.baselineActionability.interval.upper} evidence-bounded range`
+                      : ''}
+                </div>
+                <div>
+                  <span className="block font-mono uppercase tracking-wider text-foreground">
+                    Source window
+                  </span>
+                  {report.response.bytesRead.toLocaleString()} bytes analyzed
+                  {report.response.declaredBytes
+                    ? ` of ${report.response.declaredBytes.toLocaleString()} declared`
+                    : ''}
+                  {report.response.truncated
+                    ? ' · partial'
+                    : ' · complete response'}
+                </div>
+                {report.baselineActionability.coverageNote && (
+                  <p className="sm:col-span-3">
+                    {report.baselineActionability.coverageNote}
+                  </p>
+                )}
               </div>
-              <span className="status-chip">
-                {report.actionSurface.length} candidates
-              </span>
-            </div>
-            {report.actionSurface.length ? (
-              <div className="mt-6 overflow-x-auto pb-1">
-                <div className="min-w-[440px] space-y-2">
-                  <div className="grid grid-cols-[minmax(0,1fr)_72px_72px_84px] gap-2 px-3 font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
-                    <span>Action</span>
-                    <span>Human UI</span>
-                    <span>Agent UI</span>
-                    <span>WebMCP</span>
+            </section>
+
+            <section
+              className="instrument-card overflow-hidden"
+              aria-labelledby="import-heading"
+            >
+              <div className="grid gap-6 p-5 sm:p-6 lg:grid-cols-[.72fr_1.28fr]">
+                <div>
+                  <p className="eyebrow">Imported contract evidence</p>
+                  <h2
+                    id="import-heading"
+                    className="mt-2 text-xl font-semibold"
+                  >
+                    Audit exported tool contracts
+                  </h2>
+                  <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                    Paste a sanitized export or a canonical same-origin probe
+                    envelope. Manual imports are bound to this report but remain
+                    user-supplied; isWebMCP never claims they were observed or
+                    executed.
+                  </p>
+                  <div className="mt-4 rounded-lg border border-warning/25 bg-warning/8 p-3 text-xs leading-5 text-muted-foreground">
+                    <strong className="text-foreground">
+                      Remove secrets and customer data.
+                    </strong>{' '}
+                    Tool contracts should never contain credentials.
                   </div>
-                  {report.actionSurface.map((action) => (
-                    <div
-                      key={action.id}
-                      className="grid grid-cols-[minmax(0,1fr)_72px_72px_84px] items-center gap-2 rounded-lg border border-border bg-card p-3 text-sm"
+                  {report.importedProof && (
+                    <div className="mt-4 flex items-center gap-2 text-sm font-medium text-positive">
+                      <FileCheck2 className="size-4" aria-hidden="true" />{' '}
+                      {report.importedProof.tools.length} imported contract
+                      {report.importedProof.tools.length === 1 ? '' : 's'}{' '}
+                      attached
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <Textarea
+                    value={manifestText}
+                    onChange={(event) => setManifestText(event.target.value)}
+                    rows={9}
+                    maxLength={128_000}
+                    spellCheck={false}
+                    aria-label="Sanitized tool manifest JSON"
+                    placeholder={
+                      '{"tools":[{"name":"search_catalog","description":"..."}]}'
+                    }
+                    className="font-mono text-xs"
+                  />
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    <Button
+                      onClick={importManifest}
+                      disabled={!manifestText.trim() || importLoading}
                     >
-                      <div className="min-w-0">
-                        <p className="truncate font-medium">{action.name}</p>
-                        <p className="truncate text-xs text-muted-foreground">
-                          {action.risk.replaceAll('_', ' ')}
-                        </p>
+                      <Upload data-icon="inline-start" />{' '}
+                      {importLoading ? 'Validating…' : 'Import and audit'}
+                    </Button>
+                    <Button
+                      nativeButton={false}
+                      variant="outline"
+                      render={
+                        <label
+                          htmlFor="manifest-file"
+                          aria-label="Choose JSON file"
+                        />
+                      }
+                    >
+                      Choose JSON file
+                    </Button>
+                    <input
+                      id="manifest-file"
+                      className="sr-only"
+                      tabIndex={-1}
+                      aria-hidden="true"
+                      type="file"
+                      accept="application/json,.json"
+                      onChange={(event) =>
+                        void loadManifestFile(event.target.files?.[0])
+                      }
+                    />
+                    <button
+                      type="button"
+                      className="text-xs font-semibold underline underline-offset-4"
+                      onClick={loadExampleManifest}
+                    >
+                      Load example
+                    </button>
+                  </div>
+                  {importMessage && (
+                    <output
+                      className="mt-3 block text-xs leading-5 text-muted-foreground"
+                      aria-live="polite"
+                    >
+                      {importMessage}
+                    </output>
+                  )}
+                </div>
+              </div>
+            </section>
+
+            <aside
+              className="grid gap-4 rounded-xl border border-warning/25 bg-warning/8 p-5 md:grid-cols-[auto_1fr]"
+              aria-labelledby="limits-heading"
+            >
+              <AlertTriangle
+                className="mt-0.5 size-5 text-warning"
+                aria-hidden="true"
+              />
+              <div>
+                <h2 id="limits-heading" className="font-semibold">
+                  What this scan cannot establish
+                </h2>
+                <ul className="mt-2 grid gap-2 text-sm leading-6 text-muted-foreground md:grid-cols-2">
+                  {report.limitations.map((limitation) => (
+                    <li key={limitation}>— {limitation}</li>
+                  ))}
+                </ul>
+              </div>
+            </aside>
+
+            <section
+              className="grid gap-5 xl:grid-cols-[.82fr_1.18fr]"
+              aria-labelledby="baseline-heading"
+            >
+              <div className="instrument-card p-5 sm:p-6">
+                <p className="eyebrow">
+                  {report.reportKind === 'synthetic_fixture'
+                    ? 'Synthetic source fixture'
+                    : 'Observed source'}
+                </p>
+                <h2
+                  id="baseline-heading"
+                  className="mt-2 text-xl font-semibold"
+                >
+                  Source actionability categories
+                </h2>
+                <div className="mt-6 space-y-5">
+                  {report.baselineActionability.categories.map((category) => (
+                    <div key={category.id}>
+                      <div className="mb-2 flex items-center justify-between gap-3 text-sm">
+                        <span className="font-medium">{category.label}</span>
+                        <span className="font-mono text-xs text-muted-foreground">
+                          {category.score ?? 'N/O'} ·{' '}
+                          {categoryInputCoverage(category)}% input coverage ·{' '}
+                          {category.weight}% weight
+                        </span>
                       </div>
-                      <span
-                        className={`coverage-pill ${action.humanUiAvailable ? 'coverage-yes' : 'coverage-unknown'}`}
+                      <div
+                        className="h-1.5 overflow-hidden rounded-full bg-muted"
+                        aria-hidden="true"
                       >
-                        {action.humanUiAvailable ? 'Yes' : 'Not seen'}
-                      </span>
-                      <span className="coverage-pill coverage-inferred">
-                        {action.agentUiConfidence}
-                      </span>
-                      <span
-                        className={`coverage-pill ${action.webmcpStatus === 'imported' ? 'coverage-inferred' : action.webmcpStatus === 'verified' ? 'coverage-yes' : 'coverage-unknown'}`}
-                      >
-                        {action.webmcpStatus === 'imported'
-                          ? 'Imported'
-                          : action.webmcpStatus === 'verified'
-                            ? 'Verified'
-                            : action.webmcpStatus === 'withheld'
-                              ? 'Withheld'
-                              : 'Unknown'}
-                      </span>
+                        <span
+                          className="block h-full rounded-full bg-signal-ink"
+                          style={{ width: `${category.score ?? 0}%` }}
+                        />
+                      </div>
+                      <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                        {category.explanation}
+                      </p>
+                      {category.metrics?.length ? (
+                        <details className="mt-3 rounded-lg border border-border bg-muted/30 px-3 py-2">
+                          <summary className="cursor-pointer text-xs font-semibold">
+                            Show {category.metrics.length} scoring inputs
+                          </summary>
+                          <div className="mt-3 space-y-2">
+                            {category.metrics.map((metric) => (
+                              <div
+                                key={metric.id}
+                                className="grid gap-1 border-t border-border pt-2 text-xs sm:grid-cols-[1fr_auto]"
+                              >
+                                <div>
+                                  <p className="font-medium text-foreground">
+                                    {metric.label}
+                                  </p>
+                                  <p className="mt-0.5 leading-5 text-muted-foreground">
+                                    {metric.value} · {metric.rationale}
+                                  </p>
+                                </div>
+                                <span className="font-mono text-muted-foreground">
+                                  {metric.observed
+                                    ? `${metric.points}/${metric.possible} pts`
+                                    : 'not observed'}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </details>
+                      ) : null}
                     </div>
                   ))}
                 </div>
               </div>
-            ) : (
-              <div className="mt-6 rounded-lg border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
-                No task-oriented source actions were confidently inferred.
-              </div>
-            )}
-          </div>
-        </section>
 
-        <section aria-labelledby="findings-heading">
-          <div className="mb-5">
-            <p className="eyebrow">Prioritized remediation</p>
-            <h2
-              id="findings-heading"
-              className="mt-2 text-2xl font-semibold tracking-tight"
-            >
-              Findings
-            </h2>
-          </div>
-          <div className="grid gap-4 lg:grid-cols-3">
-            {findingGroups.map((group) => (
-              <div key={group.priority} className="instrument-card p-5">
-                <div className="mb-4 flex items-center justify-between">
-                  <span
-                    className={`priority-badge priority-${group.priority.toLowerCase()}`}
-                  >
-                    {group.priority}
-                  </span>
-                  <span className="text-xs text-muted-foreground">
-                    {group.findings.length} finding
-                    {group.findings.length === 1 ? '' : 's'}
+              <div className="instrument-card p-5 sm:p-6">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="eyebrow">Coverage layers</p>
+                    <h2 className="mt-2 text-xl font-semibold">
+                      Action Surface Map
+                    </h2>
+                  </div>
+                  <span className="status-chip">
+                    {report.actionSurface.length} candidates
                   </span>
                 </div>
-                <div className="space-y-3">
-                  {group.findings.map((finding) => {
-                    const Icon = statusIcon[finding.status];
-                    return (
-                      <article
-                        key={finding.id}
-                        className="rounded-lg border border-border bg-card p-4"
-                      >
-                        <div className="flex gap-2.5">
-                          <Icon
-                            className={`mt-0.5 size-4 shrink-0 ${statusClass[finding.status]}`}
-                            aria-hidden="true"
-                          />
-                          <div>
-                            <h3 className="text-sm font-semibold">
-                              {finding.title}
-                            </h3>
-                            <p className="mt-2 text-xs leading-5 text-muted-foreground">
-                              {finding.recommendation}
+                {report.actionSurface.length ? (
+                  <div className="mt-6 overflow-x-auto pb-1">
+                    <div className="min-w-[440px] space-y-2">
+                      <div className="grid grid-cols-[minmax(0,1fr)_72px_72px_84px] gap-2 px-3 font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
+                        <span>Action</span>
+                        <span>Human UI</span>
+                        <span>Agent UI</span>
+                        <span>WebMCP</span>
+                      </div>
+                      {report.actionSurface.map((action) => (
+                        <div
+                          key={action.id}
+                          className="grid grid-cols-[minmax(0,1fr)_72px_72px_84px] items-center gap-2 rounded-lg border border-border bg-card p-3 text-sm"
+                        >
+                          <div className="min-w-0">
+                            <p className="truncate font-medium">
+                              {action.name}
                             </p>
-                            <span className="mt-3 inline-block font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
-                              {finding.status.replaceAll('_', ' ')}
-                            </span>
+                            <p className="truncate text-xs text-muted-foreground">
+                              {action.risk.replaceAll('_', ' ')}
+                            </p>
                           </div>
+                          <span
+                            className={`coverage-pill ${action.humanUiAvailable ? 'coverage-yes' : 'coverage-unknown'}`}
+                          >
+                            {action.humanUiAvailable ? 'Yes' : 'Not seen'}
+                          </span>
+                          <span className="coverage-pill coverage-inferred">
+                            {action.agentUiConfidence}
+                          </span>
+                          <span
+                            className={`coverage-pill ${action.webmcpStatus === 'imported' ? 'coverage-inferred' : action.webmcpStatus === 'verified' ? 'coverage-yes' : 'coverage-unknown'}`}
+                          >
+                            {action.webmcpStatus === 'imported'
+                              ? 'Imported'
+                              : action.webmcpStatus === 'verified'
+                                ? 'Verified'
+                                : action.webmcpStatus === 'withheld'
+                                  ? 'Withheld'
+                                  : 'Unknown'}
+                          </span>
                         </div>
-                      </article>
-                    );
-                  })}
-                </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="mt-6 rounded-lg border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
+                    No task-oriented source actions were confidently inferred.
+                  </div>
+                )}
               </div>
-            ))}
-          </div>
-        </section>
+            </section>
 
-        <section
-          className="instrument-card overflow-hidden"
-          aria-labelledby="evidence-heading"
-        >
-          <div className="border-b border-border p-5 sm:p-6">
-            <p className="eyebrow">Inspectable proof</p>
-            <h2 id="evidence-heading" className="mt-2 text-xl font-semibold">
-              Evidence ledger
-            </h2>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Fetched page text is treated as untrusted data, reduced to
-              sanitized evidence, and never executed here.
-            </p>
+            <section aria-labelledby="findings-heading">
+              <div className="mb-5">
+                <p className="eyebrow">Prioritized remediation</p>
+                <h2
+                  id="findings-heading"
+                  className="mt-2 text-2xl font-semibold tracking-tight"
+                >
+                  Findings
+                </h2>
+              </div>
+              <div className="grid gap-4 lg:grid-cols-3">
+                {findingGroups.map((group) => (
+                  <div key={group.priority} className="instrument-card p-5">
+                    <div className="mb-4 flex items-center justify-between">
+                      <span
+                        className={`priority-badge priority-${group.priority.toLowerCase()}`}
+                      >
+                        {group.priority}
+                      </span>
+                      <span className="text-xs text-muted-foreground">
+                        {group.findings.length} finding
+                        {group.findings.length === 1 ? '' : 's'}
+                      </span>
+                    </div>
+                    <div className="space-y-3">
+                      {group.findings.map((finding) => {
+                        const Icon = statusIcon[finding.status];
+                        return (
+                          <article
+                            key={finding.id}
+                            className="rounded-lg border border-border bg-card p-4"
+                          >
+                            <div className="flex gap-2.5">
+                              <Icon
+                                className={`mt-0.5 size-4 shrink-0 ${statusClass[finding.status]}`}
+                                aria-hidden="true"
+                              />
+                              <div>
+                                <h3 className="text-sm font-semibold">
+                                  {finding.title}
+                                </h3>
+                                <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                                  {finding.recommendation}
+                                </p>
+                                <span className="mt-3 inline-block font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
+                                  {finding.status.replaceAll('_', ' ')}
+                                </span>
+                              </div>
+                            </div>
+                          </article>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section
+              className="instrument-card overflow-hidden"
+              aria-labelledby="evidence-heading"
+            >
+              <div className="border-b border-border p-5 sm:p-6">
+                <p className="eyebrow">Inspectable proof</p>
+                <h2
+                  id="evidence-heading"
+                  className="mt-2 text-xl font-semibold"
+                >
+                  Evidence ledger
+                </h2>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Fetched page text is treated as untrusted data, reduced to
+                  sanitized evidence, and never executed here.
+                </p>
+              </div>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Source</TableHead>
+                    <TableHead>Category</TableHead>
+                    <TableHead>Evidence</TableHead>
+                    <TableHead>Confidence</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {report.evidence.map((item) => (
+                    <TableRow key={item.id}>
+                      <TableCell>
+                        <span className="source-badge">{item.source}</span>
+                      </TableCell>
+                      <TableCell className="font-medium">
+                        {item.category.replaceAll('_', ' ')}
+                      </TableCell>
+                      <TableCell className="min-w-[360px] whitespace-normal">
+                        <p className="font-medium">{item.summary}</p>
+                        <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                          {item.detail}
+                        </p>
+                      </TableCell>
+                      <TableCell>
+                        <span className="capitalize">{item.confidence}</span>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </section>
           </div>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Source</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Evidence</TableHead>
-                <TableHead>Confidence</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {report.evidence.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell>
-                    <span className="source-badge">{item.source}</span>
-                  </TableCell>
-                  <TableCell className="font-medium">
-                    {item.category.replaceAll('_', ' ')}
-                  </TableCell>
-                  <TableCell className="min-w-[360px] whitespace-normal">
-                    <p className="font-medium">{item.summary}</p>
-                    <p className="mt-1 text-xs leading-5 text-muted-foreground">
-                      {item.detail}
-                    </p>
-                  </TableCell>
-                  <TableCell>
-                    <span className="capitalize">{item.confidence}</span>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </section>
+        </details>
 
         <section
           className="rounded-xl bg-ink p-6 text-paper sm:p-8"
@@ -872,24 +924,24 @@ export function ReportView({ scanId }: { scanId: string }) {
         >
           <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
             <div>
-              <p className="eyebrow text-signal">Next: behavioral proof</p>
+              <p className="eyebrow text-signal">Build a repeatable workflow</p>
               <h2
                 id="next-heading"
                 className="mt-3 text-3xl font-semibold tracking-[-.04em]"
               >
-                A source scan is the beginning, not the verdict.
+                Make the next release easier to review.
               </h2>
               <p className="mt-4 max-w-lg leading-7 text-paper/65">
-                Run the identical headset task through an accessible UI and
-                structured WebMCP tools, then compare observed state
-                transitions.
+                Review a baseline, make a change, and compare compatible source
+                findings with the developer toolkit. Keep browser task tests
+                separate: this source check does not replace them.
               </p>
               <Button
                 nativeButton={false}
                 className="mt-6 bg-signal text-ink hover:bg-signal/85"
-                render={<Link href="/lab" />}
+                render={<Link href="/developers" />}
               >
-                Open the proof lab <ArrowRight data-icon="inline-end" />
+                Get SDK + CI toolkit <ArrowRight data-icon="inline-end" />
               </Button>
             </div>
             <ol className="space-y-3">

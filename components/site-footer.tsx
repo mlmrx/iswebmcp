@@ -8,11 +8,14 @@ export function SiteFooter() {
           <p className="font-semibold">isWebMCP</p>
           <p className="mt-2 max-w-2xl leading-6 text-muted-foreground">
             WebMCP is an experimental browser API proposal. isWebMCP is an
-            independent testing project and is not an official OpenAI, Google,
-            Microsoft, Chrome, or W3C product.
+            independent developer utility, not a challenge submission or an
+            official OpenAI, Google, Microsoft, Chrome, or W3C product.
           </p>
         </div>
         <div className="flex max-w-xl flex-wrap items-start gap-x-5 gap-y-2 text-muted-foreground lg:justify-end">
+          <Link className="hover:text-foreground" href="/developers">
+            Developer toolkit
+          </Link>
           <Link className="hover:text-foreground" href="/integrations">
             Integrations
           </Link>

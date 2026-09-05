@@ -1179,15 +1179,17 @@ export function AppProvider({ children }: { children: ReactNode }) {
       },
       {
         name: 'get_challenge_pulse',
-        title: 'Read WebMCP Challenge pulse',
+        title: 'Read historical external-event observations',
         description:
-          'Read the timestamped public participant aggregate, project-gallery status, deadline, and evidence caveats.',
+          'Read archived external-event observations, not current event status. isWebMCP did not participate in the challenge.',
         inputSchema: emptySchema,
         annotations: { readOnlyHint: true, untrustedContentHint: true },
         execute: (raw) => {
           exactRecord(raw, []);
           return {
-            checked_at: pulseGeneratedAt,
+            historical: true,
+            project_participation: false,
+            checked_at: challengeSnapshot.participantCountObservedAt,
             participant_count: challengeSnapshot.participantCount,
             participant_count_observed_at:
               challengeSnapshot.participantCountObservedAt,

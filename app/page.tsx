@@ -16,7 +16,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import { ProofFirstHero } from '@/components/proof-first-hero';
-import { QuickScanForm } from '@/components/quick-scan-form';
+import { UtilityHero } from '@/components/utility-hero';
 import { Button } from '@/components/ui/button';
 import { learningArticles } from '@/lib/content';
 import { formatPulseDate, pulseUpdates } from '@/lib/pulse';
@@ -53,6 +53,7 @@ export default function Home() {
       tabIndex={-1}
       className="min-h-screen bg-background text-foreground"
     >
+      <UtilityHero />
       <ProofFirstHero />
 
       <section className="border-y border-border bg-card/75">
@@ -78,42 +79,6 @@ export default function Home() {
             </article>
           ))}
         </div>
-      </section>
-
-      <section
-        id="audit"
-        className="mx-auto grid max-w-7xl scroll-mt-24 gap-8 px-5 py-16 lg:grid-cols-[.72fr_1.28fr] lg:items-start lg:px-8"
-        aria-labelledby="audit-heading"
-      >
-        <div className="lg:sticky lg:top-28">
-          <p className="eyebrow text-signal-ink">Try it on your website</p>
-          <h2
-            id="audit-heading"
-            className="mt-3 max-w-xl text-4xl font-semibold tracking-[-.05em] sm:text-5xl"
-          >
-            See what an agent would have to guess.
-          </h2>
-          <p className="mt-5 max-w-xl text-lg leading-8 text-muted-foreground">
-            Paste one public page. The source scan maps its forms, controls, and
-            likely actions, then separates what is visible from what still needs
-            runtime proof.
-          </p>
-          <div className="mt-7 grid gap-3 text-sm sm:grid-cols-3 lg:grid-cols-1">
-            {[
-              ['1', 'Map the existing action surface'],
-              ['2', 'Find the highest-value tool candidates'],
-              ['3', 'Get an evidence-linked implementation plan'],
-            ].map(([number, text]) => (
-              <div key={number} className="flex items-center gap-3">
-                <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-foreground font-mono text-[10px] text-background">
-                  {number}
-                </span>
-                <span>{text}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        <QuickScanForm />
       </section>
 
       <section
@@ -215,7 +180,7 @@ export default function Home() {
       <section className="border-y border-border bg-ink text-paper">
         <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 lg:grid-cols-[.72fr_1.28fr] lg:px-8">
           <div>
-            <p className="eyebrow text-signal">Challenge-defining proof</p>
+            <p className="eyebrow text-signal">Explore the interaction model</p>
             <h2 className="mt-3 max-w-md text-4xl font-semibold tracking-[-.05em]">
               Same task. Same app. Two paths.
             </h2>
@@ -391,7 +356,7 @@ export default function Home() {
                   className="mt-5 inline-flex items-center gap-2 text-sm font-semibold"
                   href="/pulse"
                 >
-                  See source and challenge tracker{' '}
+                  See source-linked updates{' '}
                   <ArrowRight className="size-4" aria-hidden="true" />
                 </Link>
               </article>

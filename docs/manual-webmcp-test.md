@@ -143,4 +143,4 @@ Expected trace: `compare_demo_runs`.
 - [ ] UI and tool state stayed synchronized.
 - [ ] Cleanup tests passed.
 - [ ] Screenshots and traces contain no secrets or personal data.
-- [ ] Commit/tag and deployment URL are recorded in the challenge checklist.
+- [ ] Commit/tag and deployment URL are recorded in the release verification notes.

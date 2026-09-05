@@ -11,7 +11,7 @@ isWebMCP is one web application with nine connected surfaces:
 5. Interactive Pattern Gallery
 6. Learning Center and detail guides
 7. WebMCP FAQ
-8. WebMCP Pulse and Challenge Pulse
+8. WebMCP Pulse and archived external-event observations
 9. Audited WebMCP Readiness Index
 
 The browser UI and WebMCP handlers call the same domain services. There is no second “agent-only” state model.
@@ -107,12 +107,12 @@ Evergreen resources are typed, reviewed block data rather than remote HTML or ex
 
 The pulse is a versioned JSON snapshot with separate `publishedAt`, `observedAt`, source, topic, and status fields. The site does not fetch external feeds during a visitor request. An external hourly maintenance task may examine approved machine-readable official feeds, but it updates the checked-in snapshot only for a material, source-verified change and only after the release gates pass. No-change checks produce no commit or deployment.
 
-Devpost is deliberately different: its public aggregate is a timestamped manual observation. Participant identities require login, the project gallery is not yet published, and Devpost's terms prohibit automated scraping. The site never infers a submission total from a participant counter.
+Devpost is deliberately different: its public aggregate is a timestamped manual observation. Historical gallery and counter observations retain their original timestamps; current event status is not inferred. Devpost is excluded from all automated access. The site never infers a submission total from a participant counter.
 
 The learning and pulse catalog is exposed through server-rendered pages, `/api/content`, `/feed.xml`, and four read-only WebMCP tools. `/sitemap.xml` includes durable public content but excludes ephemeral reports and APIs.
 
 ## Storage and scale
 
-The current report store, rate windows, and concurrency counter live in server-instance memory. This is intentional for an account-free challenge MVP, but it means reports can expire or disappear across instances/deployments and rate enforcement is not globally coordinated. URL-attempt analytics are separate: when `DATABASE_URL` is configured, every admitted web, integration, or MCP scan records a sanitized target and completion outcome in Neon Postgres. The write path strips credentials, queries, and fragments, stores no goals or network identifiers, and prunes records older than 90 days during subsequent writes. Storage errors fail open so an analytics outage cannot break the scanner. A multi-region production service should still replace isolate-local rate controls with a global primitive and controlled outbound egress.
+The current report store, rate windows, and concurrency counter live in server-instance memory. This is intentional for an account-free initial utility release, but it means reports can expire or disappear across instances/deployments and rate enforcement is not globally coordinated. URL-attempt analytics are separate: when `DATABASE_URL` is configured, every admitted web, integration, or MCP scan records a sanitized target and completion outcome in Neon Postgres. The write path strips credentials, queries, and fragments, stores no goals or network identifiers, and prunes records older than 90 days during subsequent writes. Storage errors fail open so an analytics outage cannot break the scanner. A multi-region production service should still replace isolate-local rate controls with a global primitive and controlled outbound egress.
 
 Editorial history is durable through Git rather than server-instance memory. A larger publishing operation could move feed history, review workflow, and correction records to a durable database, but the current version favors a small auditable source catalog over an always-on ingestion database.

@@ -40,7 +40,7 @@ export interface LearningArticle {
 
 export interface FrequentlyAskedQuestion {
   id: string;
-  category: 'Fundamentals' | 'Building' | 'Testing' | 'Security' | 'Challenge';
+  category: 'Fundamentals' | 'Building' | 'Testing' | 'Security' | 'Product';
   question: string;
   answer: string;
 }
@@ -591,7 +591,7 @@ export const learningArticles: LearningArticle[] = [
     title: 'Measure WebMCP lift without inventing a universal ROI number',
     dek: 'Compare equivalent completed journeys and publish the counting rules, evidence, and limitations behind the result.',
     kind: 'field-guide',
-    audience: 'Product teams, performance engineers, and challenge builders',
+    audience: 'Product teams and performance engineers',
     publishedAt: '2026-08-31',
     updatedAt: '2026-08-31',
     minutes: 7,
@@ -643,23 +643,22 @@ export const learningArticles: LearningArticle[] = [
   },
   {
     slug: 'webmcp-challenge-submission-checklist',
-    title:
-      'The WebMCP Challenge submission checklist, without deadline surprises',
-    dek: 'A practical field guide to the live app, public source, demo, evidence, and freeze discipline the challenge expects.',
+    title: 'Archived: WebMCP Challenge reference',
+    dek: 'Historical external-event coverage. isWebMCP did not participate in this challenge; these are not product release instructions.',
     kind: 'field-guide',
-    audience: 'WebMCP Challenge builders and reviewers',
+    audience: 'Readers of historical event coverage',
     publishedAt: '2026-08-31',
-    updatedAt: '2026-08-31',
+    updatedAt: '2026-09-05',
     minutes: 6,
     tags: ['challenge', 'Devpost', 'submission', 'demo'],
     takeaway:
-      'Submission readiness is a reproducible judge journey, not merely a form filled in before the deadline.',
+      'isWebMCP is an independent developer utility, not a challenge submission. This archived guide does not govern its development or deployments.',
     sections: [
       {
         id: 'required-assets',
         heading: 'Confirm the required assets',
         paragraphs: [
-          'Devpost currently lists a working hosted project, a description of the WebMCP fit and capability, a public code repository with an open-source license, and a short demo video. Read the live rules again before submitting because event requirements can change.',
+          'At original publication on August 31, 2026, this guide listed a working hosted project, a description of the WebMCP fit and capability, a public code repository with an open-source license, and a short demo video. Read the live rules again before submitting because event requirements can change.',
         ],
       },
       {
@@ -680,20 +679,23 @@ export const learningArticles: LearningArticle[] = [
         id: 'public-repo',
         heading: 'Make the submitted repository reviewable',
         paragraphs: [
-          'The challenge FAQ says the source repository must be public and include an open-source license. Add setup instructions, architecture, supported test environment, security notes, and the exact commit or tag demonstrated in the video. Remove secrets and confirm a clean clone can build.',
+          'The event FAQ cited at original publication said the source repository must be public and include an open-source license. Add setup instructions, architecture, supported test environment, security notes, and the exact commit or tag demonstrated in the video. Remove secrets and confirm a clean clone can build.',
         ],
       },
       {
         id: 'freeze',
-        heading: 'Respect the judging freeze',
+        heading: 'Historical freeze wording — not applicable to isWebMCP',
         paragraphs: [
-          'The current FAQ says not to edit the Devpost submission, repository, or live site after submissions close on September 3 at 1:00 PM Pacific until winners are announced. Pause deployment automations before that cutoff. Continue experiments only in a separate fork that cannot change the submitted artifact.',
+          'The event FAQ cited at original publication described a post-deadline freeze for submitted artifacts, beginning September 3 at 1:00 PM Pacific. This is retained only as historical external-event coverage. It is not an instruction to freeze isWebMCP development, its repository, or its deployments.',
         ],
-        note: 'The isWebMCP hourly monitor is designed to stop publishing changes at the challenge cutoff while continuing read-only observation.',
+        note: 'Correction, September 5, 2026: isWebMCP was not submitted to the challenge. Event freeze requirements do not apply to this product. The separate WRI v1 research artifact remains frozen.',
       },
     ],
     sources: [devpostResources],
-    cta: { label: 'Open the live challenge tracker', href: '/pulse#challenge' },
+    cta: {
+      label: 'View historical event observations',
+      href: '/pulse#challenge',
+    },
   },
 ];
 
@@ -856,33 +858,33 @@ export const frequentlyAskedQuestions: FrequentlyAskedQuestion[] = [
   ],
   [
     'faq-026',
-    'Challenge',
-    'Are Devpost participants the same as submissions?',
-    'No. The participant counter reflects registrations, while submitted projects appear in the project gallery. isWebMCP never infers one from the other.',
+    'Product',
+    'Was isWebMCP submitted to the WebMCP Challenge?',
+    'No. isWebMCP did not participate in the WebMCP Challenge. It is an independent, long-term developer utility. Historical event coverage is not a participation or submission record.',
   ],
   [
     'faq-027',
-    'Challenge',
-    'Can isWebMCP list participant identities?',
-    'The public participants page currently requires login to browse identities. The tracker records only public aggregate observations and does not bypass that boundary.',
+    'Product',
+    'Can I use isWebMCP before implementing WebMCP?',
+    'Yes. A public-source scan can identify source-visible controls, naming issues and transport evidence. It does not require installed WebMCP tools or establish runtime task success.',
   ],
   [
     'faq-028',
-    'Challenge',
-    'What does the WebMCP Challenge require?',
-    'The current FAQ lists a working hosted project, project description, public licensed source repository, and a short demo video. Verify the live rules before submission.',
+    'Product',
+    'How can I repeat checks in development?',
+    'Use the downloadable Node SDK, CLI and GitHub Actions adapter. Review a source-only baseline and compare subsequent scans with matching inputs and scoring models.',
   ],
   [
     'faq-029',
-    'Challenge',
-    'When is the current submission deadline?',
-    'Devpost currently lists September 3, 2026 at 1:00 PM Pacific. Use the live challenge page as the authority.',
+    'Product',
+    'Are evidence reports stored permanently?',
+    'No. Hosted reports are temporary and may expire or disappear across deployments. Download the full evidence or a compatible CI baseline for your own storage.',
   ],
   [
     'faq-030',
-    'Challenge',
-    'Should the site keep deploying during judging?',
-    'No. The current challenge FAQ says to stop editing the submission, repository, and live site after the deadline until winners are announced.',
+    'Product',
+    'Does a challenge freeze apply to this website?',
+    'No. isWebMCP continues normal development and deployment as an independent product. The audited-partial WRI v1 research corpus has its own permanent collection freeze, unrelated to challenge participation.',
   ],
 ].map(([id, category, question, answer]) => ({
   id,

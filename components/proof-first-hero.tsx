@@ -66,9 +66,9 @@ export function ProofFirstHero() {
             <span className="size-1.5 rounded-full bg-signal" />
             Same task · same app · two action surfaces
           </div>
-          <h1 className="mt-6 max-w-3xl text-balance text-4xl font-semibold leading-[.96] tracking-[-.06em] sm:text-5xl lg:text-6xl">
+          <h2 className="mt-6 max-w-3xl text-balance text-4xl font-semibold leading-[.96] tracking-[-.06em] sm:text-5xl lg:text-6xl">
             AI agents shouldn&apos;t have to guess where to click.
-          </h1>
+          </h2>
           <p className="mt-5 max-w-2xl text-pretty text-base leading-7 text-paper/68 sm:text-lg">
             WebMCP lets a website expose actions like search, compare, and add
             to cart as typed tools. isWebMCP shows what changes—and checks

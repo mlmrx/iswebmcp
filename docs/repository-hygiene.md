@@ -7,7 +7,7 @@ Reviewed September 5, 2026. This is a bounded repository inspection, not a full 
 - The README describes the independent developer utility and current private repository visibility, verified through GitHub on September 5, 2026. Earlier public-repository assumptions were corrected; no access controls were changed. Challenge-submission instructions are superseded.
 - Content operations now follows the owner's long-term product direction and removes the challenge deployment freeze while explicitly preserving the WRI v1 data freeze.
 - Contribution instructions cover local setup, verification, evidence provenance, safe handling of configuration, and the native Next.js/Vercel release path.
-- Historical challenge preparation documents have conspicuous superseded notices. Their content is retained for history and is not current release guidance or proof of participation.
+- Unused challenge preparation documents are isolated under `docs/archive/challenge/`, with conspicuous superseded notices. Their content is retained for history and is not current release guidance or proof of participation. The archived website article, event observations, and machine-readable outputs explicitly distinguish historical coverage from this independent utility.
 
 ## Tracked-file findings
 

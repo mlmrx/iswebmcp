@@ -139,7 +139,7 @@ export default function LearnPage() {
               hand-waving.
             </h2>
             <p className="mt-4 max-w-lg leading-7 text-paper/60">
-              Browser support, schemas, security, evidence, challenge tracking,
+              Browser support, schemas, security, evidence, developer workflows,
               and the difference between MCP and WebMCP.
             </p>
             <Button

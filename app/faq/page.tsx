@@ -14,7 +14,7 @@ import { frequentlyAskedQuestions } from '@/lib/content';
 export const metadata: Metadata = {
   title: 'WebMCP FAQ',
   description:
-    'Direct answers about WebMCP, MCP, browser support, implementation, testing, security, and the WebMCP Challenge.',
+    'Direct answers about WebMCP, MCP, browser support, implementation, testing, security, and the isWebMCP developer utility.',
   alternates: { canonical: '/faq' },
 };
 
@@ -23,7 +23,7 @@ const categories = [
   'Building',
   'Testing',
   'Security',
-  'Challenge',
+  'Product',
 ] as const;
 
 export default function FaqPage() {

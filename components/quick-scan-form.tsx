@@ -99,9 +99,9 @@ export function QuickScanForm() {
       />
       <div className="mb-6 flex items-start justify-between gap-4">
         <div>
-          <p className="eyebrow">Source Opportunity Scan</p>
+          <p className="eyebrow">Start with your page</p>
           <h2 className="mt-2 text-xl font-semibold tracking-tight">
-            Map a public page’s action surface
+            What can we find in your page source?
           </h2>
         </div>
         <span className="status-chip">
@@ -169,7 +169,7 @@ export function QuickScanForm() {
             </>
           ) : (
             <>
-              Map this page <ArrowRight data-icon="inline-end" />
+              Check my website <ArrowRight data-icon="inline-end" />
             </>
           )}
         </Button>

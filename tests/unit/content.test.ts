@@ -52,6 +52,18 @@ describe('editorial content', () => {
     expect(related.every((item) => item.slug !== article?.slug)).toBe(true);
   });
 
+  it('keeps external-event history separate from product participation', () => {
+    const archived = getLearningArticle(
+      'webmcp-challenge-submission-checklist',
+    );
+    expect(archived?.title).toMatch(/^Archived:/);
+    expect(archived?.dek).toMatch(/did not participate/);
+    expect(archived?.updatedAt).toBe('2026-09-05');
+    expect(
+      frequentlyAskedQuestions.find((item) => item.id === 'faq-030')?.answer,
+    ).toMatch(/No\./);
+  });
+
   it('publishes a broad FAQ without duplicate questions', () => {
     expect(frequentlyAskedQuestions).toHaveLength(30);
     expect(
@@ -64,7 +76,7 @@ describe('editorial content', () => {
     ).toBe(false);
     expect(
       frequentlyAskedQuestions.find((item) => item.id === 'faq-026')?.answer,
-    ).toMatch(/participant counter.*submitted projects/i);
+    ).toMatch(/did not participate/i);
   });
 });
 

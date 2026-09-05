@@ -47,24 +47,24 @@ The controlled replay is an authored teaching timeline, not a model trial. Its n
 
 The top-level application feature-detects `document.modelContext.registerTool` and registers tools with route-aware `AbortSignal` cleanup. All handlers validate untrusted input and use the same application services as the visible UI.
 
-| Tool                       | Purpose                                                  |
-| -------------------------- | -------------------------------------------------------- |
-| `scan_public_url`          | Run a source-only public scan and open its report        |
-| `get_scan_summary`         | Read scores, evidence, limitations, and recommendations  |
-| `list_action_surface`      | List inferred actions and coverage classes               |
-| `get_finding_details`      | Read one finding with its supporting evidence            |
-| `search_webmcp_library`    | Find reviewed explainers, guides, and security resources |
-| `get_webmcp_resource`      | Read one resource with sections and primary references   |
-| `list_mcp_updates`         | List labeled WebMCP, MCP, or challenge updates           |
-| `get_challenge_pulse`      | Read public aggregate observations and caveats           |
-| `select_demo_mode`         | Reset and select baseline or WebMCP lab mode             |
-| `start_demo_run`           | Start the supported synthetic journey                    |
-| `search_demo_products`     | Filter the synthetic catalog and update visible state    |
-| `compare_demo_products`    | Compare two to four stable product IDs                   |
-| `add_demo_product_to_cart` | Add a synthetic item; no purchase occurs                 |
-| `finish_demo_run`          | Verify deterministic postconditions                      |
-| `compare_demo_runs`        | Calculate WebMCP Lift from paired completed runs         |
-| `export_current_report`    | Prepare a visible JSON or print export                   |
+| Tool                       | Purpose                                                       |
+| -------------------------- | ------------------------------------------------------------- |
+| `scan_public_url`          | Run a source-only public scan and open its report             |
+| `get_scan_summary`         | Read scores, evidence, limitations, and recommendations       |
+| `list_action_surface`      | List inferred actions and coverage classes                    |
+| `get_finding_details`      | Read one finding with its supporting evidence                 |
+| `search_webmcp_library`    | Find reviewed explainers, guides, and security resources      |
+| `get_webmcp_resource`      | Read one resource with sections and primary references        |
+| `list_mcp_updates`         | List labeled WebMCP, MCP, or challenge updates                |
+| `get_challenge_pulse`      | Read archived external-event observations, not current status |
+| `select_demo_mode`         | Reset and select baseline or WebMCP lab mode                  |
+| `start_demo_run`           | Start the supported synthetic journey                         |
+| `search_demo_products`     | Filter the synthetic catalog and update visible state         |
+| `compare_demo_products`    | Compare two to four stable product IDs                        |
+| `add_demo_product_to_cart` | Add a synthetic item; no purchase occurs                      |
+| `finish_demo_run`          | Verify deterministic postconditions                           |
+| `compare_demo_runs`        | Calculate WebMCP Lift from paired completed runs              |
+| `export_current_report`    | Prepare a visible JSON or print export                        |
 
 The three catalog tools are exposed only on the Proof Lab in WebMCP mode. Report readers remain report-route scoped. The four content and pulse tools are read-only and available across the product. The application remains fully usable when WebMCP is unavailable.
 
@@ -164,7 +164,7 @@ The production target is native Next.js on Vercel through its GitHub integration
 - [URL-attempt storage and privacy](docs/url-attempt-analytics.md)
 - [Repository hygiene audit](docs/repository-hygiene.md)
 
-Old challenge preparation documents are retained as explicitly superseded history. They are not submission records or current release instructions. No challenge judging freeze applies to this independent product; the separate WRI v1 data freeze remains in force.
+Unused challenge preparation documents are isolated in [the historical archive](docs/archive/challenge/README.md). They were never submitted and are not current release instructions. No challenge judging freeze applies to this independent product; the separate WRI v1 data freeze remains in force.
 
 ## License
 

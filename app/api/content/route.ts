@@ -24,11 +24,15 @@ export function GET() {
         }),
       ),
       latest_updates: pulseUpdates,
-      challenge: challengeSnapshot,
+      challenge: {
+        ...challengeSnapshot,
+        historical: true,
+        projectParticipation: false,
+      },
       provenance: {
         policy: 'Original summaries with direct primary-source links.',
         devpost:
-          'Timestamped public aggregate observation; no identities or inferred submissions.',
+          'Archived external-event observations, not current status. isWebMCP did not participate. No identities or inferred submissions.',
       },
     },
     {

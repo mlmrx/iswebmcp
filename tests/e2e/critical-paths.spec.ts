@@ -28,7 +28,8 @@ test('landing communicates the product and opens a sample evidence report', asyn
   await page.goto('/');
   await expect(
     page.getByRole('heading', {
-      name: "AI agents shouldn't have to guess where to click.",
+      level: 1,
+      name: /Check your site.[\s\S]*Fix the gaps.[\s\S]*Catch regressions/,
     }),
   ).toBeVisible();
   await expect(page.getByText('10 UI actions', { exact: true })).toBeVisible();
@@ -39,6 +40,12 @@ test('landing communicates the product and opens a sample evidence report', asyn
   await expect(page.getByLabel('Public URL')).toBeVisible();
   await page
     .getByRole('button', { name: 'Open sample evidence report' })
+    .click();
+  await expect(
+    page.getByRole('button', { name: 'Export CI baseline' }),
+  ).toBeDisabled();
+  await page
+    .getByText('Scores, contracts and full evidence', { exact: true })
     .click();
   await expect(
     page.getByRole('heading', {
@@ -58,7 +65,7 @@ test('landing communicates the product and opens a sample evidence report', asyn
 test('private targets fail closed', async ({ page }) => {
   await page.goto('/');
   await page.getByLabel('Public URL').fill('http://127.0.0.1/admin');
-  await page.getByRole('button', { name: 'Map this page' }).click();
+  await page.getByRole('button', { name: 'Check my website' }).click();
   await expect(
     page.getByText(/private, reserved, and special-purpose/i),
   ).toBeVisible();
@@ -258,6 +265,9 @@ test('a manifest import creates a refreshable derived report with explicit prove
   await page
     .getByRole('button', { name: 'Open sample evidence report' })
     .click();
+  await page
+    .getByText('Scores, contracts and full evidence', { exact: true })
+    .click();
   await page.getByRole('button', { name: 'Load example' }).click();
   const originalUrl = page.url();
   await page.getByRole('button', { name: 'Import and audit' }).click();
@@ -381,11 +391,19 @@ test('registered WebMCP tools execute the complete journey and return structured
   expect(completed.success).toBe(true);
   await expect(page.getByText('Aurora Q45').last()).toBeVisible();
 
-  const methodology = page.getByRole('link', { name: 'Methodology' });
-  if (!(await methodology.isVisible())) {
-    await page.getByLabel('Open primary navigation').click();
+  const navigation = page.getByRole('navigation', {
+    name: 'Primary',
+    exact: true,
+  });
+  const toggle = page.getByLabel('Open primary navigation');
+  if (await toggle.isVisible()) {
+    await toggle.click();
+  } else {
+    await navigation.getByText('Resources', { exact: true }).click();
   }
-  await methodology.click();
+  await navigation
+    .getByRole('link', { name: 'Methodology', exact: true })
+    .click();
   await expect
     .poll(() =>
       page.evaluate(() => {
@@ -416,13 +434,19 @@ test('primary navigation remains reachable at every configured viewport', async 
   ).toBeFocused();
   await page.keyboard.press('Enter');
   await expect(page.locator('#main-content')).toBeFocused();
-  const methodology = page.getByRole('link', { name: 'Methodology' });
-  if (!(await methodology.isVisible())) {
-    await expect(page.getByTestId('mobile-menu')).toBeHidden();
-    await page.getByLabel('Open primary navigation').click();
-    await expect(page.getByTestId('mobile-menu')).toBeVisible();
+  const navigation = page.getByRole('navigation', {
+    name: 'Primary',
+    exact: true,
+  });
+  const toggle = page.getByLabel('Open primary navigation');
+  if (await toggle.isVisible()) {
+    await toggle.click();
+  } else {
+    await navigation.getByText('Resources', { exact: true }).click();
   }
-  await methodology.click();
+  await navigation
+    .getByRole('link', { name: 'Methodology', exact: true })
+    .click();
   await expect(
     page.getByRole('heading', { name: 'Presence is not readiness.' }),
   ).toBeVisible();
@@ -472,6 +496,11 @@ test('FAQ and pulse preserve experimental status and challenge provenance', asyn
   await page.getByRole('button', { name: 'Is WebMCP a W3C Standard?' }).click();
   await expect(page.getByText(/not on the W3C Standards Track/i)).toBeVisible();
   await page.goto('/pulse');
+  await page
+    .getByText('Historical event observations — not a project submission', {
+      exact: true,
+    })
+    .click();
   await expect(
     page.getByRole('heading', { name: 'Registrations are not submissions.' }),
   ).toBeVisible();

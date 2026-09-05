@@ -13,12 +13,12 @@ import {
 export const metadata: Metadata = {
   title: 'WebMCP pulse',
   description:
-    'A source-linked feed of WebMCP and relevant MCP ecosystem changes, plus an honest WebMCP Challenge aggregate tracker.',
+    'A source-linked feed of WebMCP and relevant MCP ecosystem changes, with separately labeled historical event observations.',
   alternates: { canonical: '/pulse' },
   openGraph: {
     title: 'WebMCP pulse · isWebMCP',
     description:
-      'Source-linked WebMCP news, relevant MCP ecosystem changes, and challenge signals.',
+      'Source-linked WebMCP news, relevant MCP ecosystem changes, and historical event observations.',
     type: 'website',
     url: '/pulse',
     images: [
@@ -74,7 +74,8 @@ export default function PulsePage() {
             <div>
               <p className="text-lg leading-8 text-muted-foreground">
                 Primary-source updates for WebMCP, clearly separated from
-                broader MCP protocol news and challenge activity.
+                broader MCP protocol news. Historical event coverage is archived
+                below.
               </p>
               <p className="mt-4 font-mono text-xs leading-5 text-muted-foreground">
                 Feed checked {formatObserved(pulseGeneratedAt)} · {pulsePolicy}
@@ -85,14 +86,19 @@ export default function PulsePage() {
       </section>
 
       <div className="mx-auto max-w-7xl space-y-14 px-5 py-10 lg:px-8">
-        <section
+        <details
           id="challenge"
           className="scroll-mt-24"
           aria-labelledby="challenge-heading"
         >
+          <summary className="cursor-pointer font-semibold">
+            Historical event observations — not a project submission
+          </summary>
           <div className="grid gap-5 lg:grid-cols-[.72fr_1.28fr]">
             <div className="rounded-xl bg-ink p-7 text-paper">
-              <p className="eyebrow text-signal">Challenge pulse</p>
+              <p className="eyebrow text-signal">
+                Archived external-event coverage
+              </p>
               <h2
                 id="challenge-heading"
                 className="mt-3 text-3xl font-semibold tracking-[-.04em]"
@@ -100,10 +106,9 @@ export default function PulsePage() {
                 Registrations are not submissions.
               </h2>
               <p className="mt-4 text-sm leading-6 text-paper/60">
-                Devpost exposes an aggregate participant counter publicly,
-                requires login for identities, and has not published the project
-                gallery. We do not bypass that boundary or infer a submission
-                count.
+                isWebMCP did not participate in the WebMCP Challenge. The
+                observations below retain their original timestamps and are not
+                current event status. We do not access Devpost to refresh them.
               </p>
               <div className="mt-7 flex flex-wrap gap-3 text-sm font-semibold">
                 <a
@@ -130,7 +135,7 @@ export default function PulsePage() {
                   Participants observed
                 </h3>
                 <p className="mt-2 text-xs leading-5 text-muted-foreground">
-                  Latest public counter, observed{' '}
+                  Historical counter, observed{' '}
                   {formatObserved(challengeSnapshot.participantCountObservedAt)}
                   .
                 </p>
@@ -147,8 +152,8 @@ export default function PulsePage() {
                   Submitted projects
                 </h3>
                 <p className="mt-2 text-xs leading-5 text-muted-foreground">
-                  The gallery is not live, so the correct value is unknown—not
-                  zero.
+                  At the recorded observation, the gallery was unavailable.
+                  Current submission counts remain unknown.
                 </p>
               </article>
               <article className="bg-card p-6">
@@ -161,8 +166,8 @@ export default function PulsePage() {
                 </p>
                 <h3 className="mt-2 text-sm font-semibold">Pacific deadline</h3>
                 <p className="mt-2 text-xs leading-5 text-muted-foreground">
-                  Freeze the submitted repo, video, entry, and live app after
-                  the cutoff.
+                  Historical event deadline. No challenge-based freeze applies
+                  to isWebMCP.
                 </p>
               </article>
             </div>
@@ -181,7 +186,7 @@ export default function PulsePage() {
               {challengeSnapshot.galleryNote}
             </p>
           </div>
-        </section>
+        </details>
 
         <section aria-labelledby="updates-heading">
           <div className="grid gap-6 lg:grid-cols-[.5fr_1.5fr]">
