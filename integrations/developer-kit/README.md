@@ -25,9 +25,11 @@ node integrations/developer-kit/bin/iswebmcp.mjs compare .reports/baseline.json 
 
 Choose fresh output paths on each run. The CLI refuses to overwrite an existing file. Review a new report before explicitly adopting it as the next baseline. Keep your baseline in your own artifact store; a service report ID is not a durable copy.
 
-Scan output is the API summary itself. Comparison output identifies changes, new or worsened partial/failing findings, and findings no longer present in the summary. Comparisons require the same final URL, a complete collection, the supported summary schema, and the same nonempty scoring model version. Older API summaries missing these versions can be viewed and saved but cannot pass the comparison gate.
+Scan output is the API summary itself. Comparison output identifies changes by stable `ruleId`, provides regression reasons (`new-problem`, `status-worsened`, `severity-increased`), and lists rule IDs no longer reported. Comparisons require two `iswebmcp-summary/v2` reports, complete source collection and finding inventories, the same final URL, the same nonempty scoring model version, and matching input fingerprints. Imported contract audits are excluded from this source-only gate. Older summaries remain readable but cannot pass the comparison gate: rescan and review a new baseline.
 
-The API returns at most 12 findings. The comparison matches their titles; it does not compare the full underlying report. Missing findings may have moved out of the summary, so they are never counted as verified fixes. A same-model comparison can still vary with page content, CDN behavior, geography, and deployment state. Use the exact same target, query option, and goal between runs. Do not use comparisons across preview hostnames as if they were like-for-like measurements.
+The v2 API returns every finding with `findingsCoverage` declaring total and returned counts. Display titles can change without creating a false new finding. Missing findings are never counted as verified fixes. Actions and recommendations remain bounded display summaries; this gate compares findings only. A same-model comparison can still vary with page content, CDN behavior, geography, and deployment state. Do not use comparisons across preview hostnames as if they were like-for-like measurements.
+
+`comparisonContext` fingerprints the normalized requested URL, actual final URL (including any query), trimmed goal, and source analysis byte limit before report URL redaction. Different effective queries, redirect destinations, goals, or limits refuse comparison even if the displayed URL is identical. Reports created before input provenance was captured have a null context and must be rescanned. The fingerprint does not cover authenticated sessions, browser state, or actual page content, and it is not a signature authenticating saved reports.
 
 | Exit | Meaning                                                                                                       |
 | ---- | ------------------------------------------------------------------------------------------------------------- |
@@ -70,6 +72,8 @@ try {
 The target URL and optional goal are sent to iswebmcp.com. The service records URL attempts and can store the source report; consult the [privacy policy](https://iswebmcp.com/privacy) before sending data. Query strings and fragments are removed **before transmission** by default. `--include-query` explicitly includes the query when it is necessary to select the page; returned service summaries still redact the query. Paths and goal text can contain sensitive information—do not send secrets. No browser cookies or authorization headers are forwarded by this client. Output files can contain app URLs and findings, so choose their retention and visibility deliberately.
 
 Stripping a query can select a different page. If queries determine application behavior, choose that option deliberately and keep it consistent with your baseline.
+
+The comparison context contains a SHA-256 digest, not raw query values or goal text. A deterministic digest is equality metadata, not encryption or anonymization: predictable inputs can be guessed, and saved reports still require appropriate access and retention. Never send secret-bearing inputs.
 
 ## Local package and verification
 

@@ -154,6 +154,11 @@ export interface ImportedManifestAudit {
 
 export interface ScanReport {
   id: string;
+  /** Captured before report URL redaction; absent on older stored reports. */
+  comparisonContext?: {
+    version: 'source-input/v1';
+    fingerprint: string;
+  };
   parentReportId?: string;
   reportKind: 'observed_source' | 'synthetic_fixture';
   normalizedUrl: string;

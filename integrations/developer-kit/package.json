@@ -1,6 +1,6 @@
 {
   "name": "@iswebmcp/developer-kit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Node SDK and CLI for bounded isWebMCP public source scans and summary comparisons",
   "type": "module",
   "engines": {

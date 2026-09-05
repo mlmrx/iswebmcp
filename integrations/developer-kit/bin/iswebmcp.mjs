@@ -14,6 +14,7 @@ Source-only inspection. No browser execution or runtime proof.
 URLs and optional goals are sent to iswebmcp.com. Queries/fragments are stripped
 before transmission by default. --include-query sends the query explicitly.
 Output files are created exclusively: use a new path for each report.
+Comparisons require two v2 reports with identical scan inputs and complete findings.
 Exit codes: 0 completed/no summary regression; 1 summary regression;
 2 invalid input, unavailable service, partial collection, or not comparable.
 `;
@@ -121,7 +122,7 @@ export async function main(
       );
       for (const change of value.changes.filter((item) => item.regressed))
         stdout.write(
-          `- ${clean(change.title)}: ${clean(change.after.status)} (${clean(change.after.severity)})\n  ${clean(change.recommendation)}\n`,
+          `- ${clean(change.title)} [${clean(change.ruleId)}]: ${clean(change.after.status)} (${clean(change.after.severity)})\n  Reasons: ${change.regressionReasons.map(clean).join(', ')}\n  ${clean(change.recommendation)}\n`,
         );
       for (const limitation of value.limitations)
         stdout.write(`Limit: ${clean(limitation)}\n`);

@@ -51,17 +51,27 @@ function detectAction(value: string): string | undefined {
   return ACTION_WORDS.find((word) => padded.includes(` ${word} `));
 }
 
-function renderedMarkup(html: string): string {
+// Source heuristic, not an HTML parser or a computed accessibility tree.
+// Exclude inert examples before checking scripts, structured data or identity.
+function activeSourceMarkup(html: string): string {
   return html
     .replace(/<!--[\s\S]*?-->/g, ' ')
-    .replace(
-      /<(script|style|template|noscript|pre|code)\b[^>]*>[\s\S]*?<\/\1>/gi,
-      ' ',
-    );
+    .replace(/<(template|noscript|pre|code)\b[^>]*>[\s\S]*?<\/\1>/gi, ' ');
+}
+
+function renderedMarkup(html: string): string {
+  return activeSourceMarkup(html).replace(
+    /<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi,
+    ' ',
+  );
 }
 
 function executableScriptSource(html: string): string {
-  return Array.from(html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi))
+  return Array.from(
+    activeSourceMarkup(html).matchAll(
+      /<script\b([^>]*)>([\s\S]*?)<\/script>/gi,
+    ),
+  )
     .filter(
       (match) => !/\btype\s*=\s*["']application\/ld\+json["']/i.test(match[1]),
     )
@@ -121,7 +131,7 @@ function getCounts(html: string): ScanCounts {
     textareas: countMatches(visible, /<textarea\b[^>]*>/gi),
     labels: countMatches(visible, /<label\b[^>]*>/gi),
     structuredData: countMatches(
-      html,
+      activeSourceMarkup(html),
       /<script\b[^>]*type\s*=\s*["']application\/ld\+json["'][^>]*>/gi,
     ),
     headings: countMatches(visible, /<h[1-6]\b[^>]*>/gi),
@@ -163,10 +173,7 @@ function extractActionCandidates(
       purpose: `A source-visible control appears to support ${action}.`,
       sourceEvidenceIds: [evidenceId],
       humanUiAvailable: true,
-      agentUiConfidence:
-        tag.startsWith('<button') || tag.startsWith('<form')
-          ? 'high'
-          : 'medium',
+      agentUiConfidence: /^<(button|form)\b/i.test(tag) ? 'high' : 'medium',
       webmcpStatus: 'unknown',
       risk: consequential
         ? 'consequential_write'
@@ -178,24 +185,50 @@ function extractActionCandidates(
   return Array.from(candidates.values()).slice(0, 10);
 }
 
+function referencedName(tag: string, visible: string): boolean {
+  const ids = decodeEntities(extractAttribute(tag, 'aria-labelledby') ?? '')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+  if (!ids.length) return false;
+  // Lookahead visits nested elements too. Only literal nonempty source text
+  // counts here; resolving CSS, shadow roots and full AccName needs a browser.
+  for (const match of visible.matchAll(
+    /(?=<([a-z][\w:-]*)\b([^>]*)>([\s\S]*?)<\/\1\s*>)/gi,
+  )) {
+    const id = extractAttribute(`<${match[1]}${match[2]}>`, 'id');
+    if (id && ids.includes(decodeEntities(id)) && safeText(match[3]))
+      return true;
+  }
+  return false;
+}
+
+function explicitName(tag: string, visible: string): boolean {
+  return Boolean(
+    safeText(extractAttribute(tag, 'aria-label') ?? '') ||
+    referencedName(tag, visible) ||
+    safeText(extractAttribute(tag, 'title') ?? ''),
+  );
+}
+
 function namedControlStats(html: string): { total: number; named: number } {
   const visible = renderedMarkup(html);
   const inputs = Array.from(
     visible.matchAll(/<(input|select|textarea)\b[^>]*>/gi),
   ).map((match) => match[0]);
   const labelFors = new Set(
-    Array.from(
-      visible.matchAll(
-        /<label\b[^>]*\bfor\s*=\s*(?:["']([^"']+)["']|([^\s>]+))[^>]*>/gi,
-      ),
-    ).map((match) => match[1] ?? match[2]),
+    Array.from(visible.matchAll(/<label\b[^>]*>[\s\S]*?<\/label>/gi))
+      .filter((match) => safeText(match[0]))
+      .map((match) => extractAttribute(match[0].split('>')[0] + '>', 'for')),
   );
   const wrappingLabelControls = new Set(
     Array.from(
       visible.matchAll(
         /<label\b[^>]*>[\s\S]*?(<(?:input|select|textarea)\b[^>]*>)[\s\S]*?<\/label>/gi,
       ),
-    ).map((match) => match[1].replace(/\s+/g, ' ').trim().toLowerCase()),
+    )
+      .filter((match) => safeText(match[0]))
+      .map((match) => match[1].replace(/\s+/g, ' ').trim().toLowerCase()),
   );
   const assessable = inputs.filter((tag) => {
     const type = extractAttribute(tag, 'type')?.toLowerCase();
@@ -206,9 +239,7 @@ function namedControlStats(html: string): { total: number; named: number } {
   const named = assessable.filter((tag) => {
     const id = extractAttribute(tag, 'id');
     return Boolean(
-      extractAttribute(tag, 'aria-label') ||
-      extractAttribute(tag, 'aria-labelledby') ||
-      extractAttribute(tag, 'title') ||
+      explicitName(tag, visible) ||
       (id && labelFors.has(id)) ||
       wrappingLabelControls.has(tag.replace(/\s+/g, ' ').trim().toLowerCase()),
     );
@@ -224,12 +255,7 @@ function namedInteractiveStats(html: string): { total: number; named: number } {
     ),
   ).map((match) => match[0]);
   const named = controls.filter((tag) =>
-    Boolean(
-      safeText(tag, 160) ||
-      extractAttribute(tag, 'aria-label') ||
-      extractAttribute(tag, 'aria-labelledby') ||
-      extractAttribute(tag, 'title'),
-    ),
+    Boolean(safeText(tag, 160) || explicitName(tag, visible)),
   ).length;
   return { total: controls.length, named };
 }
@@ -305,7 +331,7 @@ function makeCategories(
     /\saria-disabled\s*=/i,
     /\sdisabled(?:\s|=|>)/i,
   ].filter((pattern) => pattern.test(visible)).length;
-  const hasTitle = /<title\b[^>]*>\s*[^<]+<\/title>/i.test(html);
+  const hasTitle = /<title\b[^>]*>\s*[^<]+<\/title>/i.test(visible);
 
   const category = (
     id: string,
@@ -770,7 +796,7 @@ export function analyzeSource(input: AnalyzeInput): ScanReport {
   );
   const baselineActionability = calculateWeightedScore(categories, {
     fullResultUnknown: Boolean(input.truncated),
-    modelVersion: 'source-actionability-v2.1',
+    modelVersion: 'source-actionability-v2.2',
     confidence: input.truncated ? 'low' : 'medium',
     coverageNote: input.truncated
       ? 'The point estimate and model-input coverage describe only the captured prefix. Unseen markup can raise or lower the complete-page result, so its range is 0–100.'

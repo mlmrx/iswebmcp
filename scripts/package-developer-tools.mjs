@@ -22,7 +22,15 @@ const root = process.cwd();
 const output = resolve(root, 'public/developer-tools');
 const checkOnly = process.argv.includes('--check');
 if (!checkOnly) mkdirSync(output, { recursive: true });
-const filename = 'iswebmcp-developer-tools-0.1.0.zip';
+const version = JSON.parse(
+  readFileSync(
+    resolve(root, 'integrations/developer-kit/package.json'),
+    'utf8',
+  ),
+).version;
+if (!/^\d+\.\d+\.\d+$/.test(version))
+  throw new Error('Invalid release version.');
+const filename = `iswebmcp-developer-tools-${version}.zip`;
 const archive = zipSync(
   Object.fromEntries(
     files.map((file) => [
@@ -41,7 +49,7 @@ const archive = zipSync(
 );
 const manifest = `${JSON.stringify(
   {
-    version: '0.1.0',
+    version,
     filename,
     bytes: archive.byteLength,
     sha256: createHash('sha256').update(archive).digest('hex'),

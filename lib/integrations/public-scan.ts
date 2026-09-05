@@ -8,6 +8,7 @@ import {
 import { analyzeSource } from '@/lib/scanner';
 import { acquireScanSlot, allowRequest, putReport } from '@/lib/scan-store';
 import type { ScanReport } from '@/lib/types';
+import { sourceComparisonContext } from '@/lib/integrations/comparison-context';
 import {
   beginUrlAttempt,
   completeUrlAttempt,
@@ -97,6 +98,12 @@ export async function runPublicSourceScan({
       redirects: fetched.redirects,
     });
 
+    report.comparisonContext = sourceComparisonContext({
+      requestedUrl: normalized.toString(),
+      finalUrl: fetched.finalUrl,
+      goal,
+      analysisLimitBytes: MAX_RESPONSE_BYTES,
+    });
     putReport(report);
     await completeUrlAttempt(attempt, {
       outcome: 'succeeded',

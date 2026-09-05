@@ -16,6 +16,7 @@ import { makeDemoReport } from '@/lib/scanner';
 import { allowRequest, getReport, putReport } from '@/lib/scan-store';
 
 const findingSchema = z.object({
+  ruleId: z.string(),
   title: z.string(),
   status: z.string(),
   severity: z.string(),
@@ -46,7 +47,18 @@ const countsSchema = z.object({
 });
 
 const reportSummaryOutputShape = {
-  summarySchemaVersion: z.literal('iswebmcp-summary/v1'),
+  summarySchemaVersion: z.literal('iswebmcp-summary/v2'),
+  comparisonContext: z
+    .object({
+      version: z.literal('source-input/v1'),
+      fingerprint: z.string(),
+    })
+    .nullable(),
+  findingsCoverage: z.object({
+    status: z.literal('complete'),
+    total: z.number(),
+    returned: z.number(),
+  }),
   reportId: z.string(),
   reportKind: z.enum(['observed_source', 'synthetic_fixture']),
   url: z.string(),

@@ -15,6 +15,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:developer": "node --test integrations/developer-kit/tests/*.test.mjs integrations/github-action/tests/*.test.mjs",
+    "test:research": "tsx --test scripts/research/consistency-harness.test.ts",
     "test:e2e": "npm run build && playwright test",
     "format": "oxfmt",
     "format:check": "oxfmt --check .",

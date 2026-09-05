@@ -2,7 +2,7 @@
 
 Research working draft · 5 September 2026 · version 0.1
 
-**Status:** methods and system-description draft with an audited dataset accounting example. The proposed agent experiments have not been conducted for this paper. This document does not establish WebMCP efficacy, adoption, certification, or return on investment. Authorship, affiliations, and a submission venue remain to be confirmed by the project owner.
+**Status:** methods and system-description draft with an audited dataset accounting example. The proposed agent experiments have not been conducted for this paper. This document does not establish WebMCP efficacy, adoption, certification, or return on investment. The owner intends an arXiv preprint; this working draft is not submission-ready. Authorship and affiliations remain to be confirmed. The [research prospectus](arxiv-research-directions.md) refines candidate empirical contributions and the evidence required before submission.
 
 ## Abstract
 
@@ -126,6 +126,8 @@ Release synthetic fixtures, tool and task versions, evaluator code, aggregate ou
 The inspected implementation demonstrates useful separations between source inspection, imported contracts, interactive observations, and authored demonstrations. The frozen accounting example demonstrates why attempted collection volume cannot stand in for valid evidence. The next empirical step is a small opt-in feasibility study that validates instrumentation and outcome predicates, followed by a preregistered paired study. Publication of a measured-efficacy paper depends on that new evidence. This working draft can presently support review of the proposed method and system boundaries.
 
 ## References
+
+Draft preparation used substantial generative-AI assistance. The final human authors must independently review the manuscript, references, and analysis, take responsibility for its contents, and include an accurate assistance disclosure. No AI tool is an author.
 
 All external sources below were checked on 5 September 2026. Living documents require a pinned revision in the eventual experiment artifact.
 

@@ -13,7 +13,9 @@ Help developers find actionable evidence about agent-facing web workflows, fix p
 3. Add the same check to the release workflow so the developer returns when a change needs verification.
 4. Introduce connected-browser evaluation for task completion, then measure paired UI/tool runs under controlled conditions.
 
-The initial developer release covers source summaries, a Node SDK/CLI, and a GitHub Actions adapter. These checks cannot establish runtime tool success, authenticated workflow correctness, security certification, or agent efficiency. Source summary comparisons are scoped to the bounded findings returned by the existing API.
+The initial developer release covers source summaries, a Node SDK/CLI, and a GitHub Actions adapter. These checks cannot establish runtime tool success, authenticated workflow correctness, security certification, or agent efficiency. Toolkit 0.2 compares complete finding inventories for bounded source scans, guarded by matching input fingerprints and scoring versions. Older baselines require explicit recapture and review.
+
+The concrete three-track delivery plan and independent-versus-external dependencies are in [execution-roadmap.md](execution-roadmap.md). The verified candidate pipeline and personalized pilot proposals are in [partners/README.md](partners/README.md).
 
 ## Distribution
 

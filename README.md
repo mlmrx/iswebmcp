@@ -76,7 +76,9 @@ The [developer quickstart](https://iswebmcp.com/developers) provides a downloada
 
 Maintainers verify the toolkit with `npm run test:developer`, rebuild the allowlisted download with `npm run developer:package`, and check archive/source consistency with `npm run developer:check`.
 
-The working [adoption strategy](docs/adoption-strategy.md) and [research paper draft](docs/research/agent-ready-web-evaluation.md) describe the next experiments and evidence still required.
+The [three-track execution roadmap](docs/execution-roadmap.md) connects developer tooling, research and design-partner pilots. Toolkit 0.2 migration and source model corrections are documented in the [release notes](docs/developer-release-0.2.md).
+
+The [automated consistency pilot](docs/research/automated-consistency/README.md) includes an executed baseline, separately recorded post-fix results and a research paper draft. These internal synthetic results are not agent-performance validation. The [partner pipeline](docs/partners/README.md) contains six researched prospects and three tailored outreach drafts; no outreach or partnership is implied. The longer-term [adoption strategy](docs/adoption-strategy.md) and [runtime evaluation methods draft](docs/research/agent-ready-web-evaluation.md) describe evidence still required.
 
 Prerequisites: Node.js 22.13 or newer and npm.
 

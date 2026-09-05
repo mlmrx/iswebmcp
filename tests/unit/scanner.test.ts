@@ -29,7 +29,7 @@ describe('source analyzer', () => {
     expect(report.baselineActionability.value).toBeGreaterThan(60);
     expect(report.baselineActionability.coverage).toBe(100);
     expect(report.baselineActionability.modelVersion).toBe(
-      'source-actionability-v2.1',
+      'source-actionability-v2.2',
     );
     expect(
       report.baselineActionability.categories.every(

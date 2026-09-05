@@ -1,0 +1,238 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-05",
+  "status": "researched_not_contacted",
+  "repositoryVisibility": "private",
+  "publicToolkitUrl": "https://iswebmcp.com/developers",
+  "evidencePolicy": "Official primary sources inspected on the review date. Capability fit is an inference; no prospect integration was executed and no partnership is claimed.",
+  "communicationPolicy": "No messages, forms, community posts, issues, or applications have been sent. Sending requires an authorized owner account and a resolved appropriate route. Do not infer consent or a response.",
+  "prospects": [
+    {
+      "id": "checkly",
+      "name": "Checkly",
+      "priority": 1,
+      "category": "source_ci_distribution",
+      "observedCapability": "JavaScript/TypeScript CLI and GitHub Actions workflows.",
+      "capabilitySourceUrl": "https://www.checklyhq.com/docs/cli/overview/",
+      "evidenceDate": "2026-09-05",
+      "channel": {
+        "type": "published_company_email",
+        "address": "info@checklyhq.com",
+        "url": "https://www.checklyhq.com/about/",
+        "verification": "Company email visible under Contact Us. No individual email inferred."
+      },
+      "proposedPilot": "Separate source-audit CI job next to one willing application's existing release checks.",
+      "partnerValueHypothesis": "A reproducible complementary example and evidence about whether source findings improve developer diagnosis.",
+      "feasibility": "Current SDK/CLI can be evaluated in a separate Node CI job; hosted Checkly runtime compatibility remains untested.",
+      "unverifiedAssumptions": [
+        "A developer-relations or integrations owner wants the example",
+        "One willing team has an approved public page and two releases to compare"
+      ],
+      "proposedSignals": [
+        "Reviewed actionable findings / all reviewed findings",
+        "Rejected and unresolved findings",
+        "Owner-initiated check on a later release",
+        "Owner elects to retain the check"
+      ],
+      "draftStatus": "ready_in_readme",
+      "draftSection": "Checkly",
+      "sendBlockers": [
+        "Authorized outbound email account not established for this work"
+      ],
+      "sentAt": null,
+      "responseAt": null,
+      "pilotAcceptedAt": null,
+      "nextAction": "Route the personalized draft through the owner's authorized email account."
+    },
+    {
+      "id": "trigger-dev",
+      "name": "Trigger.dev",
+      "priority": 2,
+      "category": "source_api_distribution",
+      "observedCapability": "TypeScript tasks with JSON-serializable outputs and configurable retries.",
+      "capabilitySourceUrl": "https://trigger.dev/docs/tasks/overview",
+      "evidenceDate": "2026-09-05",
+      "channel": {
+        "type": "official_contact_form",
+        "address": null,
+        "url": "https://trigger.dev/contact",
+        "verification": "Public form includes name, email, message, and reCAPTCHA."
+      },
+      "proposedPilot": "Release-triggered audit task that returns structured source findings for one application.",
+      "partnerValueHypothesis": "A focused task example with explicit error handling and a real adopter's feedback.",
+      "feasibility": "API/Node fit is plausible; provider execution and retry behavior must be tested.",
+      "unverifiedAssumptions": [
+        "A release-audit example fits Trigger.dev's priorities",
+        "Pilot request limits and retries can be agreed"
+      ],
+      "proposedSignals": [
+        "Active setup minutes with help recorded separately",
+        "Valid completed checks / attempted checks",
+        "Reviewed fix with before/after source evidence",
+        "Owner elects to run again"
+      ],
+      "draftStatus": "ready_in_readme",
+      "draftSection": "Trigger.dev",
+      "sendBlockers": [
+        "Owner sending identity and form interaction are not established; reCAPTCHA may require owner action"
+      ],
+      "sentAt": null,
+      "responseAt": null,
+      "pilotAcceptedAt": null,
+      "nextAction": "Use the official form with the owner's identity and the prepared routing request."
+    },
+    {
+      "id": "pipedream",
+      "name": "Pipedream",
+      "priority": 3,
+      "category": "source_api_distribution",
+      "observedCapability": "Node.js workflow steps issue HTTP requests and pass JSON output; the App Partners program describes integration development.",
+      "capabilitySourceUrl": "https://pipedream.com/docs/workflows/building-workflows/code/nodejs",
+      "additionalEvidenceUrl": "https://pipedream.com/docs/apps/app-partners",
+      "evidenceDate": "2026-09-05",
+      "channel": {
+        "type": "official_partner_routing_link",
+        "address": null,
+        "url": "https://pipedream.com/support",
+        "sourceUrl": "https://pipedream.com/docs/apps/app-partners",
+        "verification": "The App Partners contact link resolves to support; its form was not readable in this session."
+      },
+      "proposedPilot": "One API action accepting an owner-approved public URL and returning source findings.",
+      "partnerValueHypothesis": "An audit step that users can compose with existing workflows, supported by documented failure cases.",
+      "feasibility": "HTTP action avoids depending on an unpublished npm package. Program acceptance and test requirements are unknown.",
+      "unverifiedAssumptions": [
+        "The integration program accepts the current API and testing arrangement",
+        "The support route reaches the integrations team"
+      ],
+      "proposedSignals": [
+        "Successful first valid action output",
+        "API failure classifications",
+        "Actionable findings reviewed by one adopter",
+        "Voluntary repeat use"
+      ],
+      "draftStatus": "ready_in_readme",
+      "draftSection": "Pipedream",
+      "sendBlockers": [
+        "Support destination form and authorized sending identity need resolution"
+      ],
+      "sentAt": null,
+      "responseAt": null,
+      "pilotAcceptedAt": null,
+      "nextAction": "Resolve the documented support route in an owner-authorized session, then route the prepared integration inquiry."
+    },
+    {
+      "id": "inngest",
+      "name": "Inngest",
+      "priority": 4,
+      "category": "source_api_distribution",
+      "observedCapability": "TypeScript functions triggered by events with retryable steps.",
+      "capabilitySourceUrl": "https://www.inngest.com/docs/learn/inngest-functions",
+      "evidenceDate": "2026-09-05",
+      "channel": {
+        "type": "official_sales_form_routing_only",
+        "address": null,
+        "url": "https://www.inngest.com/contact",
+        "alternativeUrl": "https://www.inngest.com/discord",
+        "verification": "Contact form is sales-specific; official page also links to community access. Neither establishes a partnership contact."
+      },
+      "proposedPilot": "An audit function with bounded retries and results retained by the adopting application's backend.",
+      "partnerValueHypothesis": "An event-workflow example that demonstrates external evidence collection and explicit error classification.",
+      "feasibility": "Plausible Node/API integration, untested; hosted isWebMCP history is unavailable.",
+      "unverifiedAssumptions": [
+        "An integrations owner exists and is interested",
+        "The adopter supplies storage and request-budget requirements"
+      ],
+      "proposedSignals": [
+        "Correct handling of invalid and unavailable API responses",
+        "Reviewed useful finding",
+        "Voluntary check after another release"
+      ],
+      "draftStatus": "outline_only",
+      "draftSection": null,
+      "sendBlockers": [
+        "Appropriate integrations contact and authorized outbound channel unresolved"
+      ],
+      "sentAt": null,
+      "responseAt": null,
+      "pilotAcceptedAt": null,
+      "nextAction": "Qualify an appropriate integrations route; do not present a partnership inquiry as purchase intent."
+    },
+    {
+      "id": "refine",
+      "name": "Refine",
+      "priority": 5,
+      "category": "conditional_template_design_partner",
+      "observedCapability": "Business-app framework with form, authentication, and Next.js integration documentation.",
+      "capabilitySourceUrl": "https://refine.dev/core/docs/",
+      "evidenceDate": "2026-09-05",
+      "channel": {
+        "type": "published_company_email",
+        "address": "info@refine.dev",
+        "url": "https://refine.dev/core",
+        "verification": "Company contact email and contact-form link visible in the official Core page footer."
+      },
+      "proposedPilot": "Qualify a public source-visible template and document both useful findings and coverage limits.",
+      "partnerValueHypothesis": "An evidence-based template guide that prevents users mistaking absent source for absent runtime functionality.",
+      "feasibility": "Conditional: client-rendered and authenticated pages are outside current public-source coverage. No drop-in React adapter is claimed.",
+      "unverifiedAssumptions": [
+        "A suitable public/source-visible fixture exists",
+        "Maintainers want agent-facing evaluation guidance"
+      ],
+      "proposedSignals": [
+        "Qualifiable source coverage on a selected fixture",
+        "Maintainer-reviewed findings",
+        "Useful correction retained in the template"
+      ],
+      "draftStatus": "outline_only",
+      "draftSection": null,
+      "sendBlockers": [
+        "Qualifying fixture and authorized outbound account not established"
+      ],
+      "sentAt": null,
+      "responseAt": null,
+      "pilotAcceptedAt": null,
+      "nextAction": "Qualify a fixture before offering a source-check integration; otherwise defer to runtime work."
+    },
+    {
+      "id": "browserbase-stagehand",
+      "name": "Browserbase / Stagehand",
+      "priority": 6,
+      "category": "future_runtime_partner",
+      "observedCapability": "Hosted browser session connections and documented integration request route.",
+      "capabilitySourceUrl": "https://docs.browserbase.com/platform/browser/getting-started/using-browser-session",
+      "additionalEvidenceUrl": "https://docs.browserbase.com/integrations/get-started",
+      "evidenceDate": "2026-09-05",
+      "channel": {
+        "type": "official_partner_request_link",
+        "address": null,
+        "url": "https://www.browserbase.com/partner",
+        "sourceUrl": "https://docs.browserbase.com/integrations/get-started",
+        "verification": "Official documentation links to this request page; the destination form was not successfully inspected."
+      },
+      "proposedPilot": "Future experiment pairing source findings with consented browser traces and independent task postconditions.",
+      "partnerValueHypothesis": "A reproducible method for separating discoverability evidence from execution outcomes.",
+      "feasibility": "Blocked on a browser adapter and controlled fixtures; cloud credentials, budget, and actual browser/WebMCP compatibility must be verified.",
+      "unverifiedAssumptions": [
+        "Required experimental browser features are available in the selected environment",
+        "The provider accepts the proposed integration",
+        "Trace handling satisfies pilot requirements"
+      ],
+      "proposedSignals": [
+        "Independent postcondition outcome per attempted task",
+        "Explicitly classified infrastructure failures",
+        "Reproducible trace-to-source evidence pairing"
+      ],
+      "draftStatus": "deferred_until_runtime_prototype",
+      "draftSection": null,
+      "sendBlockers": [
+        "Runtime prototype absent",
+        "Partner form contents and authorized sending account unresolved"
+      ],
+      "sentAt": null,
+      "responseAt": null,
+      "pilotAcceptedAt": null,
+      "nextAction": "Build and validate a local runtime prototype before requesting a provider integration pilot."
+    }
+  ],
+  "events": []
+}

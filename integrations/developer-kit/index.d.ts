@@ -1,5 +1,5 @@
 export declare const DEFAULT_ENDPOINT: 'https://iswebmcp.com/api/integrations/scan';
-export declare const SUMMARY_SCHEMA_VERSION: 'iswebmcp-summary/v1';
+export declare const SUMMARY_SCHEMA_VERSION: 'iswebmcp-summary/v2';
 export type FindingStatus =
   | 'pass'
   | 'partial'
@@ -8,6 +8,8 @@ export type FindingStatus =
   | 'not_applicable';
 export type Severity = 'info' | 'low' | 'medium' | 'high' | 'blocker';
 export interface SourceFinding {
+  /** Required in v2. Older scan summaries remain readable but cannot be compared. */
+  ruleId?: string;
   title: string;
   status: FindingStatus;
   severity: Severity;
@@ -15,6 +17,15 @@ export interface SourceFinding {
 }
 export interface SourceSummary {
   summarySchemaVersion?: string;
+  comparisonContext?: {
+    version: 'source-input/v1';
+    fingerprint: string;
+  } | null;
+  findingsCoverage?: {
+    status: 'complete' | 'partial';
+    total: number;
+    returned: number;
+  };
   reportId: string;
   reportKind: 'observed_source';
   url: string;
@@ -58,7 +69,7 @@ export interface ScanOptions {
   fetch?: typeof globalThis.fetch;
 }
 export interface SourceComparison {
-  schemaVersion: 'iswebmcp-source-comparison/v1';
+  schemaVersion: 'iswebmcp-source-comparison/v2';
   evidenceScope: 'source-only';
   baselineReportId: string;
   currentReportId: string;
@@ -67,10 +78,14 @@ export interface SourceComparison {
   regressed: boolean;
   regressionCount: number;
   changes: Array<{
+    ruleId: string;
     title: string;
     before: { status: FindingStatus; severity: Severity } | null;
     after: { status: FindingStatus; severity: Severity };
     regressed: boolean;
+    regressionReasons: Array<
+      'new-problem' | 'status-worsened' | 'severity-increased'
+    >;
     recommendation: string;
   }>;
   noLongerReported: string[];

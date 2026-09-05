@@ -1,7 +1,7 @@
 import { isIP } from 'node:net';
 
 export const DEFAULT_ENDPOINT = 'https://iswebmcp.com/api/integrations/scan';
-export const SUMMARY_SCHEMA_VERSION = 'iswebmcp-summary/v1';
+export const SUMMARY_SCHEMA_VERSION = 'iswebmcp-summary/v2';
 const MAX_RESPONSE_BYTES = 2_000_000;
 const statuses = new Set([
   'pass',
@@ -145,19 +145,45 @@ export function validateSummary(value) {
   } catch {
     fail();
   }
-  const titles = new Set();
+  const version2 = value.summarySchemaVersion === SUMMARY_SCHEMA_VERSION;
+  if (version2) {
+    const coverage = value.findingsCoverage;
+    const context = value.comparisonContext;
+    if (
+      !object(coverage) ||
+      !['complete', 'partial'].includes(coverage.status) ||
+      !Number.isSafeInteger(coverage.total) ||
+      !Number.isSafeInteger(coverage.returned) ||
+      coverage.returned !== value.findings.length ||
+      coverage.total < coverage.returned ||
+      (coverage.status === 'complete' &&
+        coverage.total !== coverage.returned) ||
+      !(
+        context === null ||
+        (object(context) &&
+          context.version === 'source-input/v1' &&
+          typeof context.fingerprint === 'string' &&
+          /^sha256:[a-f0-9]{64}$/.test(context.fingerprint))
+      )
+    )
+      fail();
+  }
+  const identities = new Set();
   for (const finding of value.findings) {
+    const identity = version2 ? finding?.ruleId : finding?.title;
     if (
       !object(finding) ||
       typeof finding.title !== 'string' ||
       !finding.title ||
-      titles.has(finding.title) ||
+      typeof identity !== 'string' ||
+      !identity.trim() ||
+      identities.has(identity) ||
       !statuses.has(finding.status) ||
       !severities.includes(finding.severity) ||
       typeof finding.recommendation !== 'string'
     )
       fail();
-    titles.add(finding.title);
+    identities.add(identity);
   }
   return value;
 }
@@ -317,7 +343,7 @@ export function compare(baseline, current) {
     current.summarySchemaVersion !== SUMMARY_SCHEMA_VERSION
   )
     reasons.push(
-      'A supported summary schema version is required on both reports.',
+      'Comparison requires summary/v2 on both reports. Rescan legacy baselines with the current service.',
     );
   if (
     typeof baseline.actionability.modelVersion !== 'string' ||
@@ -327,6 +353,36 @@ export function compare(baseline, current) {
     reasons.push('Both reports must identify the same scoring model version.');
   if (baseline.url !== current.url)
     reasons.push('Both reports must have the same final URL.');
+  if (
+    !baseline.comparisonContext ||
+    !current.comparisonContext ||
+    baseline.comparisonContext.version !== current.comparisonContext.version ||
+    baseline.comparisonContext.fingerprint !==
+      current.comparisonContext.fingerprint
+  )
+    reasons.push(
+      'Both reports must identify the same source input context (requested URL, final URL, query, goal, and analysis limit). Rescan if input context is missing.',
+    );
+  if (
+    [baseline, current].some(
+      (report) =>
+        !report.findingsCoverage ||
+        report.findingsCoverage.status !== 'complete' ||
+        report.findingsCoverage.total !== report.findings.length ||
+        report.findingsCoverage.returned !== report.findings.length,
+    )
+  )
+    reasons.push(
+      'Both reports must contain a complete finding inventory. Partial finding summaries cannot gate releases.',
+    );
+  if (
+    [baseline, current].some(
+      (report) => report.labels.contract !== 'not-provided',
+    )
+  )
+    reasons.push(
+      'Imported contract audits cannot be used for a source-only comparison. Rescan the public source.',
+    );
   if (Date.parse(current.scannedAt) < Date.parse(baseline.scannedAt))
     reasons.push('The current report must not predate the baseline.');
   if (
@@ -341,38 +397,48 @@ export function compare(baseline, current) {
   if (reasons.length)
     throw new IsWebMCPError('NOT_COMPARABLE', reasons.join(' '));
   const previous = new Map(
-    baseline.findings.map((finding) => [finding.title, finding]),
+    baseline.findings.map((finding) => [finding.ruleId, finding]),
   );
   const changes = [];
   for (const finding of current.findings) {
-    const before = previous.get(finding.title);
+    const before = previous.get(finding.ruleId);
     const rank = problemRank(finding);
-    const regressed =
-      rank > 0 &&
-      (!before ||
-        rank > problemRank(before) ||
-        (rank === problemRank(before) &&
+    const regressionReasons = [];
+    if (rank > 0) {
+      if (!before || problemRank(before) === 0)
+        regressionReasons.push('new-problem');
+      else {
+        if (rank > problemRank(before))
+          regressionReasons.push('status-worsened');
+        if (
           severities.indexOf(finding.severity) >
-            severities.indexOf(before.severity)));
+          severities.indexOf(before.severity)
+        )
+          regressionReasons.push('severity-increased');
+      }
+    }
+    const regressed = regressionReasons.length > 0;
     if (
       !before ||
       before.status !== finding.status ||
       before.severity !== finding.severity
     ) {
       changes.push({
+        ruleId: finding.ruleId,
         title: finding.title,
         before: before
           ? { status: before.status, severity: before.severity }
           : null,
         after: { status: finding.status, severity: finding.severity },
         regressed,
+        regressionReasons,
         recommendation: finding.recommendation,
       });
     }
   }
   const regressions = changes.filter((change) => change.regressed);
   return {
-    schemaVersion: 'iswebmcp-source-comparison/v1',
+    schemaVersion: 'iswebmcp-source-comparison/v2',
     evidenceScope: 'source-only',
     baselineReportId: baseline.reportId,
     currentReportId: current.reportId,
@@ -384,13 +450,13 @@ export function compare(baseline, current) {
     noLongerReported: baseline.findings
       .filter(
         (finding) =>
-          !current.findings.some((item) => item.title === finding.title),
+          !current.findings.some((item) => item.ruleId === finding.ruleId),
       )
-      .map((finding) => finding.title),
+      .map((finding) => finding.ruleId),
     limitations: [
-      'Compares only the reported summary findings (at most 12), matched by title. Missing findings are not evidence of a fix.',
+      'Compares all reported source findings by stable rule ID. Missing findings are not evidence of a fix.',
       'A pass means no new or worsened partial/failing findings in this summary. It does not establish runtime success, safety, WebMCP support, or lift.',
-      'The public API does not record scan goal or query choice in this summary. Keep those inputs identical between runs.',
+      'Input fingerprints establish equality of declared scan inputs, not authenticity, identical server responses, or user sessions. They are not anonymization; protect saved reports.',
       'WebMCP is experimental. The actionability model is a heuristic, not certification.',
     ],
   };

@@ -1,7 +1,13 @@
 import type { ScanReport } from '@/lib/types';
 
 export interface IntegrationReportSummary extends Record<string, unknown> {
-  summarySchemaVersion: 'iswebmcp-summary/v1';
+  summarySchemaVersion: 'iswebmcp-summary/v2';
+  comparisonContext: NonNullable<ScanReport['comparisonContext']> | null;
+  findingsCoverage: {
+    status: 'complete';
+    total: number;
+    returned: number;
+  };
   reportId: string;
   reportKind: ScanReport['reportKind'];
   url: string;
@@ -30,6 +36,7 @@ export interface IntegrationReportSummary extends Record<string, unknown> {
     webmcpStatus: string;
   }>;
   findings: Array<{
+    ruleId: string;
     title: string;
     status: string;
     severity: string;
@@ -45,11 +52,20 @@ export interface IntegrationReportSummary extends Record<string, unknown> {
 }
 
 export function summarizeReport(report: ScanReport): IntegrationReportSummary {
+  const displayUrl = new URL(report.finalUrl);
+  displayUrl.search = '';
+  displayUrl.hash = '';
   return {
-    summarySchemaVersion: 'iswebmcp-summary/v1',
+    summarySchemaVersion: 'iswebmcp-summary/v2',
+    comparisonContext: report.comparisonContext ?? null,
+    findingsCoverage: {
+      status: 'complete',
+      total: report.findings.length,
+      returned: report.findings.length,
+    },
     reportId: report.id,
     reportKind: report.reportKind,
-    url: report.finalUrl,
+    url: displayUrl.toString(),
     scannedAt: report.scannedAt,
     evidenceScope:
       report.reportKind === 'synthetic_fixture'
@@ -77,7 +93,8 @@ export function summarizeReport(report: ScanReport): IntegrationReportSummary {
       agentUiConfidence: action.agentUiConfidence,
       webmcpStatus: action.webmcpStatus,
     })),
-    findings: report.findings.slice(0, 12).map((finding) => ({
+    findings: report.findings.map((finding) => ({
+      ruleId: finding.ruleId,
       title: finding.title,
       status: finding.status,
       severity: finding.severity,

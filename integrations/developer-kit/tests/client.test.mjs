@@ -9,8 +9,12 @@ import {
 } from '../index.mjs';
 
 export function fixture(overrides = {}) {
-  return {
-    summarySchemaVersion: 'iswebmcp-summary/v1',
+  const report = {
+    summarySchemaVersion: 'iswebmcp-summary/v2',
+    comparisonContext: {
+      version: 'source-input/v1',
+      fingerprint: `sha256:${'a'.repeat(64)}`,
+    },
     reportId: 'test-report',
     reportKind: 'observed_source',
     url: 'https://example.com/',
@@ -45,6 +49,16 @@ export function fixture(overrides = {}) {
     labels: { runtime: 'unknown', lift: 'withheld', contract: 'not-provided' },
     ...overrides,
   };
+  report.findings = report.findings.map((finding) => ({
+    ruleId: finding.title,
+    ...finding,
+  }));
+  report.findingsCoverage ??= {
+    status: 'complete',
+    total: report.findings.length,
+    returned: report.findings.length,
+  };
+  return report;
 }
 const response = (body, status = 201, headers = {}) =>
   new Response(JSON.stringify(body), { status, headers });
@@ -273,7 +287,7 @@ test('rejects partial, mismatched, unversioned, or chronologically reversed comp
     assert.throws(() => compare(baseline, current), { code: 'NOT_COMPARABLE' });
 });
 
-test('validates finding statuses and duplicate titles instead of silently passing malformed files', () => {
+test('validates finding statuses and duplicate rule IDs instead of silently passing malformed files', () => {
   assert.throws(
     () =>
       validateSummary(
@@ -292,7 +306,115 @@ test('validates finding statuses and duplicate titles instead of silently passin
   );
   const duplicate = fixture();
   duplicate.findings.push({ ...duplicate.findings[0] });
+  duplicate.findingsCoverage = { status: 'complete', total: 2, returned: 2 };
   assert.throws(() => validateSummary(duplicate), { code: 'INVALID_RESPONSE' });
+});
+
+test('legacy summaries remain readable but cannot silently gate a release', () => {
+  const legacy = fixture({ summarySchemaVersion: 'iswebmcp-summary/v1' });
+  delete legacy.comparisonContext;
+  delete legacy.findingsCoverage;
+  delete legacy.findings[0].ruleId;
+  assert.equal(validateSummary(legacy), legacy);
+  assert.throws(() => compare(legacy, fixture()), { code: 'NOT_COMPARABLE' });
+});
+
+test('stable rule IDs survive changed titles and duplicate display titles', () => {
+  const baseline = fixture();
+  const current = fixture({
+    findings: [{ ...baseline.findings[0], title: 'Renamed label check' }],
+  });
+  assert.deepEqual(compare(baseline, current).changes, []);
+  const duplicateTitle = fixture({
+    findings: [
+      { ...baseline.findings[0], ruleId: 'one' },
+      { ...baseline.findings[0], ruleId: 'two' },
+    ],
+  });
+  assert.equal(validateSummary(duplicateTitle), duplicateTitle);
+});
+
+test('detects problems beyond twelve findings with explicit regression reasons', () => {
+  const findings = Array.from({ length: 15 }, (_, index) => ({
+    ruleId: `rule-${index}`,
+    title: `Rule ${index}`,
+    status: 'pass',
+    severity: 'medium',
+    recommendation: 'Fix this rule.',
+  }));
+  const baseline = fixture({ findings });
+  const current = structuredClone(baseline);
+  current.findings[14].status = 'partial';
+  let result = compare(baseline, current);
+  assert.equal(result.regressionCount, 1);
+  assert.deepEqual(result.changes[0].regressionReasons, ['new-problem']);
+  const worsened = structuredClone(current);
+  worsened.findings[14].status = 'fail';
+  worsened.findings[14].severity = 'blocker';
+  result = compare(current, worsened);
+  assert.deepEqual(result.changes[0].regressionReasons, [
+    'status-worsened',
+    'severity-increased',
+  ]);
+});
+
+test('missing context, changed inputs, partial finding inventories, and imports cannot pass CI', () => {
+  for (const overrides of [
+    { comparisonContext: null },
+    {
+      comparisonContext: {
+        version: 'source-input/v1',
+        fingerprint: `sha256:${'b'.repeat(64)}`,
+      },
+    },
+    { findingsCoverage: { status: 'partial', total: 15, returned: 1 } },
+    {
+      labels: {
+        runtime: 'unknown',
+        lift: 'withheld',
+        contract: 'imported-not-independently-verified',
+      },
+    },
+  ]) {
+    assert.throws(() => compare(fixture(), fixture(overrides)), {
+      code: 'NOT_COMPARABLE',
+    });
+  }
+});
+
+test('rejects malformed context and dishonest finding coverage', () => {
+  for (const overrides of [
+    { comparisonContext: undefined },
+    {
+      comparisonContext: {
+        version: 'source-input/v1',
+        fingerprint: 'secret-query',
+      },
+    },
+    {
+      comparisonContext: {
+        version: 'future',
+        fingerprint: `sha256:${'a'.repeat(64)}`,
+      },
+    },
+    { findingsCoverage: { status: 'complete', total: 15, returned: 1 } },
+    { findingsCoverage: { status: 'partial', total: 15, returned: 0 } },
+    { findingsCoverage: { status: 'complete', total: 1.5, returned: 1 } },
+    {
+      findings: [
+        {
+          title: 'Labels',
+          ruleId: '',
+          status: 'pass',
+          severity: 'low',
+          recommendation: '',
+        },
+      ],
+    },
+  ])
+    assert.throws(() => validateSummary(fixture(overrides)), {
+      code: 'INVALID_RESPONSE',
+    });
 });
 
 test('validates every declared summary field before exposing the typed SDK result', () => {

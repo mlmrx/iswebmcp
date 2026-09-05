@@ -58,9 +58,21 @@ describe('isWebMCP remote MCP server', () => {
     });
     expect(result.isError).not.toBe(true);
     expect(result.structuredContent).toMatchObject({
+      summarySchemaVersion: 'iswebmcp-summary/v2',
+      comparisonContext: null,
+      findingsCoverage: { status: 'complete' },
       evidenceScope: 'synthetic-fixture',
       collection: { status: 'complete', truncated: false },
       labels: { runtime: 'unknown', lift: 'withheld' },
     });
+    const summary = result.structuredContent as {
+      findings: Array<{ ruleId: string }>;
+      findingsCoverage: { total: number; returned: number };
+    };
+    expect(summary.findingsCoverage.total).toBe(summary.findings.length);
+    expect(summary.findingsCoverage.returned).toBe(summary.findings.length);
+    expect(summary.findings.every((finding) => Boolean(finding.ruleId))).toBe(
+      true,
+    );
   });
 });

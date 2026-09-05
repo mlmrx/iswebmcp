@@ -39,7 +39,7 @@ test('integration gallery exposes five honest, downloadable surfaces', async ({
     page.getByRole('link', { name: /Download CI adapter/ }),
   ).toHaveAttribute(
     'href',
-    '/developer-tools/iswebmcp-developer-tools-0.1.0.zip',
+    '/developer-tools/iswebmcp-developer-tools-0.2.0.zip',
   );
   const developerManifest = await request.get(
     '/developer-tools/checksums.json',

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   alternates: { canonical: '/developers' },
 };
 
-const download = '/developer-tools/iswebmcp-developer-tools-0.1.0.zip';
+const download = '/developer-tools/iswebmcp-developer-tools-0.2.0.zip';
 const quickstart = `# Download and extract the developer tools ZIP, then open that folder.
 node integrations/developer-kit/bin/iswebmcp.mjs scan https://example.com --output baseline.json
 # After changing your public page, save a second result:
@@ -132,11 +132,19 @@ export default function DevelopersPage() {
         <section className="rounded-2xl border border-border p-6 sm:p-8">
           <h2 className="text-2xl font-semibold">What this check tells you</h2>
           <p className="mt-3 max-w-4xl leading-7 text-muted-foreground">
-            The comparison reports changes in the bounded source findings
-            returned by the API. A passing comparison means it found no new or
-            worsened failing findings in comparable summaries. Existing issues
-            may remain. It does not execute your tools, verify an authenticated
-            journey, or measure agent success.
+            Version 0.2 compares the complete finding inventory returned for
+            each bounded source scan, using stable rule identifiers and matching
+            scan-input fingerprints. A passing comparison means it found no new
+            or worsened failing findings in comparable summaries. Existing
+            issues may remain. It does not execute your tools, verify an
+            authenticated journey, or measure agent success.
+          </p>
+          <p className="mt-3 max-w-4xl leading-7 text-muted-foreground">
+            Upgrading from 0.1? Capture a fresh baseline with the new toolkit.
+            Older summaries lack the provenance required for release
+            comparisons. Model changes also require a new, reviewed baseline; do
+            not treat scores from different model versions as improvements or
+            regressions.
           </p>
           <p className="mt-3 max-w-4xl leading-7 text-muted-foreground">
             Runtime verification needs a connected browser, a defined task, and
