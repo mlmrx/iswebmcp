@@ -19,6 +19,9 @@ export function SiteFooter() {
           <Link className="hover:text-foreground" href="/integrations">
             Integrations
           </Link>
+          <Link className="hover:text-foreground" href="/enterprise">
+            Enterprise pilots
+          </Link>
           <Link className="hover:text-foreground" href="/readiness-index">
             Readiness index
           </Link>
