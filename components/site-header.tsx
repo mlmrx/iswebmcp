@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 
 const resources = [
-  { href: '/enterprise', label: 'Enterprise pilots' },
   { href: '/learn', label: 'Guides' },
   { href: '/demos', label: 'Demos' },
   { href: '/lab', label: 'Experimental lab' },

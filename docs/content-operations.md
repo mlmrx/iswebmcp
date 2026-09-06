@@ -6,6 +6,10 @@ isWebMCP is an independent, long-term developer utility and evidence platform fo
 
 The owner confirmed that challenge submission restrictions do not apply to this product. There is no challenge-based repository or deployment freeze. This does not lift the separate, permanent WRI v1 collection freeze described below.
 
+## Private planning versus public product
+
+Enterprise opportunity research, named-company prospect dossiers, partner scoring and outreach drafts are private planning material, not public product offerings. The owner requested removal of the enterprise research pack on September 5, 2026. Do not republish it, restore its navigation or sitemap entries, or replace actual enterprise functionality with prospect pages without new explicit approval. Retained research under `docs/enterprise` and `lib/enterprise` is not authorized public content. Useful, tested product capabilities and their accurate usage documentation are a separate development track.
+
 ## Editorial promise
 
 isWebMCP publishes useful material when there is something worth saying. It does not manufacture an article every hour to satisfy a volume target.

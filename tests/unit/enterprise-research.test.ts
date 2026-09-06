@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { GET as getResearchPack } from '@/app/enterprise/research-pack/route';
-import { GET as getPilotWorksheet } from '@/app/enterprise/pilot-worksheet/route';
+import { GET as getWithdrawnEnterprise } from '@/app/enterprise/[[...path]]/route';
+import { GET as getSitemap } from '@/app/sitemap.xml/route';
 import { enterpriseScenarios } from '@/lib/enterprise/scenarios';
 import { partnerProspects } from '@/lib/enterprise/partners';
 import {
@@ -47,7 +47,7 @@ function expectOfficialUrl(company: string, input: string) {
   ).toBe(true);
 }
 
-describe('enterprise research integrity', () => {
+describe('private retained enterprise research integrity', () => {
   it('keeps exactly five illustrative scenarios and five uncontacted prospects', () => {
     expect(enterpriseScenarios.map((item) => item.company).sort()).toEqual(
       ['Cisco', 'Akamai', 'Microsoft', 'Adobe', 'Salesforce'].sort(),
@@ -170,7 +170,7 @@ describe('enterprise research integrity', () => {
     }
   });
 
-  it('exports all ten briefs with sources, dates, fit definitions, and no implied results', () => {
+  it('retains internal text generation with sources, dates, and no implied results', () => {
     const pack = researchPackMarkdown();
     expect(pack).toBe(researchPackMarkdown());
     expect(pack).toContain(enterpriseDisclosure);
@@ -198,7 +198,7 @@ describe('enterprise research integrity', () => {
     expect(pack).toContain(pilotWorksheet);
   });
 
-  it('keeps the downloadable worksheet private-by-default and decision-oriented', () => {
+  it('keeps the retained worksheet private-by-default and decision-oriented', () => {
     for (const required of [
       'no results collected',
       'retain privately',
@@ -219,32 +219,28 @@ describe('enterprise research integrity', () => {
       expect(pilotWorksheet).toContain(required);
   });
 
-  it.each([
-    [
-      'research pack',
-      getResearchPack,
-      'iswebmcp-enterprise-research-2026-09-05.md',
-      researchPackMarkdown,
-    ],
-    [
-      'pilot worksheet',
-      getPilotWorksheet,
-      'iswebmcp-enterprise-pilot-worksheet.md',
-      (): string => pilotWorksheet,
-    ],
-  ] as const)(
-    'serves the %s as a safe markdown attachment',
-    async (_label, handler, filename, expectedBody) => {
-      const response = handler();
-      expect(response.status).toBe(200);
-      expect(response.headers.get('content-type')).toBe(
-        'text/markdown; charset=utf-8',
-      );
-      expect(response.headers.get('content-disposition')).toBe(
-        `attachment; filename="${filename}"`,
-      );
-      expect(response.headers.get('x-content-type-options')).toBe('nosniff');
-      expect(await response.text()).toBe(expectedBody());
-    },
-  );
+  it('withdraws all enterprise routes without exposing any dossier or download', async () => {
+    const response = getWithdrawnEnterprise();
+    expect(response.status).toBe(410);
+    expect(response.headers.get('content-type')).toBe(
+      'text/plain; charset=utf-8',
+    );
+    expect(response.headers.get('cache-control')).toBe('no-store');
+    expect(response.headers.get('x-robots-tag')).toBe('noindex, nofollow');
+    expect(response.headers.get('content-disposition')).toBeNull();
+    expect(response.headers.get('x-content-type-options')).toBe('nosniff');
+    const body = await response.text();
+    expect(body).toBe('This page is no longer available.\n');
+    for (const dossier of [...enterpriseScenarios, ...partnerProspects]) {
+      expect(body).not.toContain(dossier.company);
+      expect(body).not.toContain(dossier.title);
+      expect(body).not.toContain(dossier.summary);
+    }
+  });
+
+  it('does not publish enterprise research in the sitemap', async () => {
+    const response = getSitemap();
+    expect(response.status).toBe(200);
+    expect(await response.text()).not.toContain('/enterprise');
+  });
 });
