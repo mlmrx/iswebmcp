@@ -1,0 +1,14 @@
+{
+  "name": "iswebmcp-private-reviewer",
+  "version": "0.1.1",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "description": "Private reviewer build for offline provided-HTML findings. Not a hosted enterprise service.",
+  "scripts": {
+    "test": "tsx --test tests/*.test.ts"
+  }
+}
