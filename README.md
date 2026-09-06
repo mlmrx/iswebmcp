@@ -19,6 +19,7 @@ The product answers a harder question than protocol detection: can an agent use 
 ## What works
 
 - **Source Opportunity Scan** performs a bounded, unauthenticated fetch of public HTML/XHTML, inventories semantic controls, and reports source evidence without executing target JavaScript. Large responses produce an explicitly partial 1 MB analysis window instead of a false unreachable error.
+- **Offline Checker (developer preview)** analyzes approved local HTML exports without uploading them, provides source-level remediation guidance, and compares releases for new/worsened findings. The standalone download includes a runnable label-fix/regression example. It does not capture authenticated browsers, execute tools, or automatically change an application.
 - **Evidence reports** keep source actionability, imported contract lint, runtime readiness, and measured WebMCP Lift separate. Every v2.1 category exposes its scoring inputs, model-input coverage, confidence, and uncertainty range.
 - **Imported contract evidence** accepts a sanitized tool inventory, retains only bounded schema summaries, labels its provenance, and creates an immutable derived report.
 - **Proof Lab** runs the same synthetic headset task through an accessible UI-only path and a WebMCP tool path backed by the same state and services.
@@ -75,6 +76,12 @@ The three catalog tools are exposed only on the Proof Lab in WebMCP mode. Report
 The [developer quickstart](https://iswebmcp.com/developers) provides a downloadable Node SDK, command-line scanner, and local GitHub Actions adapter. The archive includes source, types, tests, and setup examples; no repository access or runtime dependencies are needed. These tools compare bounded source summaries, not runtime task success.
 
 Maintainers verify the toolkit with `npm run test:developer`, rebuild the allowlisted download with `npm run developer:package`, and check archive/source consistency with `npm run developer:check`.
+
+### Offline checks for local HTML exports
+
+The [Offline Checker quickstart](https://iswebmcp.com/developers/offline) provides a separate standalone ZIP for teams that need local processing. Download and extract it, then run `node examples/run-demo.mjs` to exercise the actual before/fix/regression workflow. Node 22.13+ is required; the runtime needs no npm install, repository access, or hosted API account. Reports are explicitly supplied-HTML evidence, not live-page or runtime verification.
+
+Maintainers run `npm run test:offline`, stage privately with `npm run offline:stage`, prepare an explicitly authorized public release with `npm run offline:package`, and verify the exact public artifact with `npm run offline:check` and `npm run test:offline-package`. The packager uses exact file and runtime-import allowlists; CI checks the committed download instead of silently replacing it. The older private-review artifacts and all company/partner research remain private.
 
 The [three-track execution roadmap](docs/execution-roadmap.md) connects developer tooling, research and design-partner pilots. Toolkit 0.2 migration and source model corrections are documented in the [release notes](docs/developer-release-0.2.md).
 

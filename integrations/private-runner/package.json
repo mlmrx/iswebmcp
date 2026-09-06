@@ -1,13 +1,13 @@
 {
-  "name": "iswebmcp-private-reviewer",
-  "version": "0.1.1",
+  "name": "iswebmcp-offline-checker",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "license": "MIT",
   "engines": {
     "node": ">=22.13.0"
   },
-  "description": "Private reviewer build for offline provided-HTML findings. Not a hosted enterprise service.",
+  "description": "Developer preview for offline provided-HTML checks and local regression comparisons. Distributed as a standalone ZIP, not an npm package.",
   "scripts": {
     "test": "tsx --test tests/*.test.ts"
   }

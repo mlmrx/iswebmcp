@@ -10,6 +10,8 @@ The owner confirmed that challenge submission restrictions do not apply to this 
 
 Enterprise opportunity research, named-company prospect dossiers, partner scoring and outreach drafts are private planning material, not public product offerings. The owner requested removal of the enterprise research pack on September 5, 2026. Do not republish it, restore its navigation or sitemap entries, or replace actual enterprise functionality with prospect pages without new explicit approval. Retained research under `docs/enterprise` and `lib/enterprise` is not authorized public content. Useful, tested product capabilities and their accurate usage documentation are a separate development track.
 
+On September 6, 2026, the owner authorized public distribution of the offline HTML checker developer preview, installation guidance, and owned synthetic examples at `/developers/offline`. Its allowlisted versioned artifacts live in `public/developer-tools`. This authorization does not include the retained company/partner research or the old private-review artifacts. Keep `/enterprise` and all its withdrawn descendants unavailable; do not restore those research routes.
+
 ## Editorial promise
 
 isWebMCP publishes useful material when there is something worth saying. It does not manufacture an article every hour to satisfy a volume target.

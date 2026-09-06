@@ -1,25 +1,50 @@
-# isWebMCP offline HTML reviewer — private reviewer build
+# isWebMCP offline checker — developer preview
 
-Version 0.1.1. This is a small, working local review utility, **not a publicly released enterprise platform**. It applies isWebMCP's existing source analyzer to an HTML file supplied by its owner and compares saved local findings. No account, hosted API, cloud storage, or npm installation is required by the bundled runtime.
+Version 0.2.0. Check an HTML export locally, get source-level recommendations, and compare the next export to catch new or worsened findings. This public developer preview applies isWebMCP's existing source analyzer; it is not a hosted enterprise platform or runtime browser verifier.
 
-## Run the reviewed bundle
+## Download, extract, and run
 
-Use Node.js 22.13 or later and the extracted private reviewer package. Run these commands from the directory containing `iswebmcp-private.mjs`:
+Download the [offline-checker 0.2.0 ZIP](https://iswebmcp.com/developer-tools/iswebmcp-offline-checker-0.2.0.zip) from the [developer guide](https://iswebmcp.com/developers/offline) and extract it to a writable, trusted local folder. [Published checksums](https://iswebmcp.com/developer-tools/iswebmcp-offline-checker-0.2.0.checksums.json) support file-integrity checking, not publisher identity or a security certification. Use **Node.js 22.13 or later**. The extracted folder contains `iswebmcp-offline.mjs`, this guide, and the `examples` directory. No isWebMCP account, API key, hosted service, npm registry installation, or `npm install` is needed. The package manifest deliberately prevents accidental npm publication; the supported distribution is the ZIP.
+
+Open a terminal in the extracted folder and run:
 
 ```sh
-node iswebmcp-private.mjs --help
-node iswebmcp-private.mjs audit ./exports/search-before.html --app catalog-search --output ./reports/baseline.json
-node iswebmcp-private.mjs audit ./exports/search-after.html --app catalog-search --output ./reports/current.json
-node iswebmcp-private.mjs compare ./reports/baseline.json ./reports/current.json --output ./reports/comparison.json
+node iswebmcp-offline.mjs --help
+node examples/run-demo.mjs
 ```
 
-Create the `reports` directory yourself. Outputs must be new files; the runner never overwrites an existing baseline, file, or symlink. Use a stable, non-sensitive identifier for the **same app and page/export scope**, not a hostname, customer name, filesystem path, URL, token, or different application. App IDs start with a lowercase letter and allow up to 64 lowercase letters, digits, underscores, and hyphens.
+The demo uses only the included, owned synthetic examples. `examples/before.html` contains one unnamed search field; `examples/after.html` adds its explicit label. It audits before, fixed, and the original defect again, then verifies both comparisons. Expected output:
+
+```text
+Before: UI_ACCESSIBLE_NAMES = fail
+After adding a label: UI_ACCESSIBLE_NAMES = pass
+Fix comparison: exit 0; 0 new or worsened findings
+Removing the label again: exit 1; 1 new problem
+Results retained in ./demo-results-<unique-id>/
+Runtime remains unknown. This demo verifies a source-level label change, not task success.
+```
+
+Each run creates a fresh `demo-results-*` directory in the extracted folder and retains five JSON artifacts. Running it repeatedly is safe: the demo never deletes or replaces results. Its overall exit is `0` when all assertions pass, including the intentionally failing regression comparison; an unexpected result exits `2`. No HTML is executed and no data is uploaded.
+
+To run the included fixtures manually, first create a new `reports` folder, then use:
+
+```sh
+node iswebmcp-offline.mjs audit ./examples/before.html --app catalog-search --output ./reports/before.json
+node iswebmcp-offline.mjs audit ./examples/after.html --app catalog-search --output ./reports/fixed.json
+node iswebmcp-offline.mjs compare ./reports/before.json ./reports/fixed.json --output ./reports/fix-comparison.json
+node iswebmcp-offline.mjs audit ./examples/before.html --app catalog-search --output ./reports/regressed.json
+node iswebmcp-offline.mjs compare ./reports/fixed.json ./reports/regressed.json --output ./reports/regression-comparison.json
+```
+
+The first comparison exits `0`; the final comparison intentionally exits `1`. Outputs must be new files; the checker never overwrites an existing baseline, file, or symlink. For your own exports, choose a stable, non-sensitive identifier for the **same app and page/export scope**, not a hostname, customer name, filesystem path, URL, token, or different application. App IDs start with a lowercase letter and allow up to 64 lowercase letters, digits, underscores, and hyphens.
 
 The HTML export must already exist on a trusted local disk. The runner does not sign in, capture a browser, run a site's JavaScript, follow links, download assets, use cookies, or provision fixes. Source recommendations tell developers what to change; developers change their application and provide a new export. A practical first check is adding an explicit label to an unnamed form field, then comparing before and after.
 
 ## What the report means
 
 The format is `iswebmcp-provided-html/v1`, not the hosted scanner's report schema. It records `reportKind: provided_html`, `acquisition: user-supplied`, `sourceScope: provided-html-only`, a SHA-256 hash of the exact input bytes, byte count, stable app/page ID, analysis timestamp, and pinned model `provided-html-v1/source-actionability-v2.2`.
+
+Version 0.2.0 changes the distribution label, not the scanner, schema, scoring model, or comparison policy. New reports start their limitations with “Developer preview.” The validator also accepts the exact earlier 0.1.1 limitations list with its original private-release wording. This narrow wording compatibility does not rewrite legacy reports or reinterpret their origin; arbitrary edits remain invalid.
 
 All four applicable checks are included with stable rule IDs, status, severity, trusted finding titles, and remediation suggestions:
 
@@ -52,8 +77,8 @@ Supply a reviewed baseline and your new export through your own trusted local wo
 
 ```sh
 set -eu
-node ./reviewer/iswebmcp-private.mjs audit ./exports/search.html --app catalog-search --output ./local-results/current.json
-node ./reviewer/iswebmcp-private.mjs compare ./reviewed-baselines/search.json ./local-results/current.json --output ./local-results/comparison.json
+node ./checker/iswebmcp-offline.mjs audit ./exports/search.html --app catalog-search --output ./local-results/current.json
+node ./checker/iswebmcp-offline.mjs compare ./reviewed-baselines/search.json ./local-results/current.json --output ./local-results/comparison.json
 ```
 
 This intentionally does not fetch a baseline, invoke a remote scanner, upload artifacts, replace a baseline automatically, or change access controls. Decide how to review and retain results within your organization. Do not automatically approve a release or replace a baseline just because a comparison exits 0. An existing output from an earlier CI run causes a safe refusal: provision a fresh local output directory per run.
@@ -74,4 +99,4 @@ The runtime bundle uses Node built-ins and the existing isWebMCP scanner/scoring
 npx tsx --test integrations/private-runner/tests/*.test.ts
 ```
 
-Tests compile a temporary standalone bundle to exercise the shipped ESM worker path; direct `tsx` execution of `src/cli.ts` is not the supported distribution command. Synthetic owned fixtures cover actual scanner output, before/after labels, strict malicious-report validation, secret stripping, bounds, symlinks/junctions, concurrent file changes, exclusive writes, trapped network calls, and a timed-out hostile reference-heavy export. Neither the tests nor the runner scan a third-party site.
+Tests compile a temporary standalone bundle to exercise the shipped ESM worker path and run the extracted demo repeatedly; direct `tsx` execution of `src/cli.ts` is not the supported distribution command. Synthetic owned fixtures cover actual scanner output, before/after labels, strict malicious-report validation, legacy wording compatibility, secret stripping, bounds, symlinks/junctions, concurrent file changes, exclusive writes, trapped network calls, and a timed-out hostile reference-heavy export. Neither the tests nor the runner scan a third-party site.

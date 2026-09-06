@@ -330,3 +330,21 @@ void test('JSON parser rejects duplicate decoded keys, invalid syntax, excessive
     audit(),
   );
 });
+
+void test('developer-preview wording accepts exact legacy reports without rewriting their evidence', () => {
+  const current = audit();
+  assert.ok(current.limitations[0].startsWith('Developer preview:'));
+  const legacy = structuredClone(current);
+  legacy.limitations[0] =
+    'Private reviewer build: analyzes only the bytes of a user-provided HTML artifact. It does not establish the artifact origin or that it represents the complete page.';
+  const original = JSON.stringify(legacy);
+  assert.equal(validateLocalReport(legacy), legacy);
+  assert.equal(JSON.stringify(legacy), original);
+  assert.equal(compareLocalReports(legacy, current).regressed, false);
+  assert.equal(compareLocalReports(current, legacy).regressed, false);
+  for (const index of [0, 1, 4]) {
+    const altered = structuredClone(legacy);
+    altered.limitations[index] += ' arbitrary edit';
+    assert.throws(() => validateLocalReport(altered));
+  }
+});

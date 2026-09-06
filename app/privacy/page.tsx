@@ -16,14 +16,15 @@ export default function PrivacyPage() {
       className="min-h-screen bg-background"
     >
       <article className="prose prose-neutral mx-auto max-w-3xl px-5 py-14 text-foreground lg:px-8">
-        <p className="eyebrow">Effective 3 September 2026</p>
+        <p className="eyebrow">Updated 6 September 2026</p>
         <h1 className="mt-3 text-5xl font-semibold tracking-[-.05em]">
           Privacy
         </h1>
         <p className="mt-6 text-lg leading-8 text-muted-foreground">
-          isWebMCP is a public-web analysis project. You choose what URL to
-          audit. Do not provide private, authenticated, local-network, or
-          secret-bearing URLs.
+          The hosted isWebMCP scanner analyzes public websites. You choose what
+          URL to audit; do not submit private, authenticated, local-network, or
+          secret-bearing URLs. The separate Offline Checker processes supplied
+          HTML files locally, as described below.
         </p>
         <div className="mt-10 space-y-8 leading-7 text-muted-foreground">
           <section>
@@ -31,13 +32,43 @@ export default function PrivacyPage() {
               What is processed
             </h2>
             <p className="mt-3">
-              When you request an audit, the service processes the submitted
-              public URL, optional goal text, fetched public response, and the
-              resulting report. The service retains the normalized public URL
-              and audit outcome for product analytics. URL credentials, query
-              strings, and fragments are removed before storage. Integrations
-              may also process supplied tool-contract text.
+              When you request a hosted audit, the service processes the
+              submitted public URL, optional goal text, fetched public response,
+              and the resulting report. The service retains the normalized
+              public URL and audit outcome for product analytics. URL
+              credentials, query strings, and fragments are removed before
+              storage. Integrations may also process supplied tool-contract
+              text.
             </p>
+          </section>
+          <section>
+            <h2 className="text-2xl font-semibold text-foreground">
+              Offline Checker
+            </h2>
+            <p className="mt-3">
+              The downloaded Offline Checker makes no application network calls
+              or telemetry requests. It reads the local HTML or report files you
+              select and writes new local JSON reports. It does not upload those
+              files, execute page scripts, sign in to a website, or send an
+              audit attempt to the hosted service. Default reports omit HTML,
+              source excerpts, file paths, and page URLs; they retain an
+              app/page ID you choose, source hash, byte count, timestamp, and
+              findings. Protect these reports and use non-sensitive identifiers.
+            </p>
+            <p className="mt-3">
+              Your operating system, synced folders, network-mounted storage, or
+              CI provider may handle files separately. Use trusted local storage
+              and your own access and network controls. Downloading the checker
+              or visiting this website still involves ordinary hosting request
+              metadata. The bundled demo uses synthetic examples and retains its
+              results locally.
+            </p>
+            <Link
+              href="/developers/offline"
+              className="font-semibold underline"
+            >
+              Offline Checker instructions and limits
+            </Link>
           </section>
           <section>
             <h2 className="text-2xl font-semibold text-foreground">

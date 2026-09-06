@@ -30,9 +30,9 @@ jobs:
       - run: npm test
       - run: npm run test:developer
       - run: npm run test:research
-      - run: npm run test:private
-      - run: npm run private:package
-      - run: npm run test:private-package
+      - run: npm run test:offline
+      - run: npm run offline:check
+      - run: npm run test:offline-package
       - run: npm run developer:check
       - run: npm audit --audit-level=high
       - run: npm run build

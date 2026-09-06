@@ -5,6 +5,7 @@ import {
   mkdir,
   mkdtemp,
   readFile,
+  readdir,
   realpath,
   rm,
   writeFile,
@@ -16,15 +17,21 @@ import { after, before, test } from 'node:test';
 import { unzipSync } from 'fflate';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
-const artifactDirectory = resolve(root, 'artifacts/private-runner');
+const artifactDirectory = resolve(
+  root,
+  process.env.ISWEBMCP_OFFLINE_STAGE === '1'
+    ? 'artifacts/offline-checker'
+    : 'public/developer-tools',
+);
+const smokeDirectory = resolve(root, 'artifacts/offline-checker');
 const sourcePackage = JSON.parse(
   await readFile(
     resolve(root, 'integrations/private-runner/package.json'),
     'utf8',
   ),
 );
-const archiveName = `iswebmcp-private-runner-${sourcePackage.version}.zip`;
-const executable = 'iswebmcp-private.mjs';
+const archiveName = `iswebmcp-offline-checker-${sourcePackage.version}.zip`;
+const executable = 'iswebmcp-offline.mjs';
 const lexical = (left, right) => String(left).localeCompare(String(right));
 const sourcePaths = [
   'integrations/private-runner/src/cli.ts',
@@ -42,6 +49,9 @@ const expectedFiles = [
   'LICENSE',
   'package.json',
   'build-provenance.json',
+  'examples/before.html',
+  'examples/after.html',
+  'examples/run-demo.mjs',
   ...sourcePaths.map((path) => `source/${path}`),
 ].sort(lexical);
 const allowedBuiltins = new Set([
@@ -110,10 +120,10 @@ function confinedPath(name) {
   return target;
 }
 
-function run(args, timeout = 15_000) {
+function run(args, timeout = 15_000, entry = executable) {
   const result = spawnSync(
     process.execPath,
-    ['--no-warnings', '--import', guardUrl, confinedPath(executable), ...args],
+    ['--no-warnings', '--import', guardUrl, confinedPath(entry), ...args],
     {
       cwd: sandbox,
       encoding: 'utf8',
@@ -128,7 +138,7 @@ function run(args, timeout = 15_000) {
         TEMP: sandbox,
         TMP: sandbox,
         NODE_PATH: '',
-        NODE_OPTIONS: '',
+        NODE_OPTIONS: `--import=${guardUrl}`,
         PRIVATE_RUNNER_TEST_SECRET: environmentSecret,
       },
     },
@@ -212,8 +222,21 @@ before(async () => {
     'Artifact directory must not redirect through a link.',
   );
   assert.ok(!(await lstat(artifactDirectory)).isSymbolicLink());
-  sandbox = await mkdtemp(resolve(artifactDirectory, 'package-smoke-'));
-  assert.equal(dirname(sandbox), artifactDirectory);
+  for (
+    let cursor = smokeDirectory;
+    cursor !== dirname(cursor);
+    cursor = dirname(cursor)
+  ) {
+    try {
+      assert.ok(!(await lstat(cursor)).isSymbolicLink());
+    } catch (error) {
+      if (error.code !== 'ENOENT') throw error;
+    }
+  }
+  await mkdir(smokeDirectory, { recursive: true, mode: 0o700 });
+  assert.equal(await realpath(smokeDirectory), smokeDirectory);
+  sandbox = await mkdtemp(resolve(smokeDirectory, 'package-smoke-'));
+  assert.equal(dirname(sandbox), smokeDirectory);
   assert.ok(basename(sandbox).startsWith('package-smoke-'));
   assert.equal(await realpath(sandbox), sandbox);
   for (const [name, bytes] of Object.entries(files)) {
@@ -229,19 +252,19 @@ before(async () => {
 after(async () => {
   if (!sandbox) return;
   // Never recursively remove an unchecked computed path or the artifact root.
-  assert.equal(dirname(sandbox), artifactDirectory);
+  assert.equal(dirname(sandbox), smokeDirectory);
   assert.ok(basename(sandbox).startsWith('package-smoke-'));
-  assert.notEqual(sandbox, artifactDirectory);
-  assert.equal(await realpath(artifactDirectory), artifactDirectory);
+  assert.notEqual(sandbox, smokeDirectory);
+  assert.equal(await realpath(smokeDirectory), smokeDirectory);
   assert.equal(await realpath(sandbox), sandbox);
   assert.ok((await lstat(sandbox)).isDirectory());
   assert.ok(!(await lstat(sandbox)).isSymbolicLink());
   await rm(sandbox, { recursive: true, force: true });
 });
 
-test('private ZIP, every entry, and normalized source provenance match the checksum ledger', async () => {
-  assert.equal(manifest.schemaVersion, 'iswebmcp-private-build/v1');
-  assert.equal(manifest.distribution, 'private-review-artifact');
+test('public ZIP, every entry, and normalized source provenance match the checksum ledger', async () => {
+  assert.equal(manifest.schemaVersion, 'iswebmcp-offline-build/v1');
+  assert.equal(manifest.distribution, 'developer-preview');
   assert.equal(manifest.version, sourcePackage.version);
   assert.equal(manifest.filename, archiveName);
   assert.equal(manifest.bytes, archive.byteLength);
@@ -281,7 +304,7 @@ test('private ZIP, every entry, and normalized source provenance match the check
   }
 });
 
-test('artifact contains no public distribution, secrets, dependency tree, or unreviewed runtime imports', () => {
+test('artifact contains no private research, secrets, dependency tree, or unreviewed runtime imports', () => {
   for (const name of Object.keys(files)) {
     assert.ok(
       !/(^|\/)(?:public|node_modules|\.git|\.env(?:\..*)?|credentials|research|enterprise|attempts)(\/|$)/i.test(
@@ -331,7 +354,7 @@ test('artifact contains no public distribution, secrets, dependency tree, or unr
 test('extracted executable runs help and rejects invalid arguments without a dependency install', () => {
   const help = run(['--help']);
   assert.equal(help.status, 0, help.stderr);
-  assert.match(help.stdout, /private reviewer build/);
+  assert.match(help.stdout, /developer preview/);
   assert.match(help.stdout, /No application network calls/);
   assert.equal(help.stderr, '');
   for (const args of [
@@ -526,4 +549,45 @@ test('shipped CLI bounds repeated missing aria-labelledby work without writing a
   assert.match(result.stderr, /ERROR \[ANALYSIS_LIMIT\]/);
   assert.equal(result.stdout, '');
   await absent('analysis-limit.json');
+});
+
+test('bundled example runs twice with real comparisons and preserves each local result', async () => {
+  const outputs = [];
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    const result = run([], 30_000, 'examples/run-demo.mjs');
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(
+      result.stdout,
+      /Fix comparison: exit 0; 0 new or worsened findings/,
+    );
+    assert.match(
+      result.stdout,
+      /Removing the label again: exit 1; 1 new problem/,
+    );
+    assert.match(result.stdout, /Runtime remains unknown/);
+    const match = result.stdout.match(
+      /Results retained in \.\/(demo-results-[a-zA-Z0-9]+)\//,
+    );
+    assert.ok(match);
+    assert.ok(!outputs.includes(match[1]));
+    outputs.push(match[1]);
+  }
+  for (const directory of outputs) {
+    const paths = (await readdir(confinedPath(directory))).sort(lexical);
+    assert.deepEqual(
+      paths,
+      [
+        'before.json',
+        'fix-comparison.json',
+        'fixed.json',
+        'regressed.json',
+        'regression-comparison.json',
+      ].sort(lexical),
+    );
+    const fix = await json(`${directory}/fix-comparison.json`);
+    const regression = await json(`${directory}/regression-comparison.json`);
+    assert.equal(fix.regressed, false);
+    assert.equal(regression.regressionCount, 1);
+    assert.equal(regression.runtime, 'unknown');
+  }
 });

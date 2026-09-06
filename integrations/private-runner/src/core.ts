@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { analyzeSource } from '../../../lib/scanner';
 import type { Finding } from '../../../lib/types';
 
-export const VERSION = '0.1.1';
+export const VERSION = '0.2.0';
 export const MAX_INPUT_BYTES = 2 * 1024 * 1024;
 export const REPORT_SCHEMA = 'iswebmcp-provided-html/v1' as const;
 export const MODEL_VERSION = 'provided-html-v1/source-actionability-v2.2';
@@ -55,11 +55,17 @@ const RULE_TEXT: Record<string, { titles: string[]; recommendation: string }> =
   };
 
 export const LIMITATIONS = [
-  'Private reviewer build: analyzes only the bytes of a user-provided HTML artifact. It does not establish the artifact origin or that it represents the complete page.',
+  'Developer preview: analyzes only the bytes of a user-provided HTML artifact. It does not establish the artifact origin or that it represents the complete page.',
   'No page JavaScript runs and no linked assets, URLs, cookies, or authenticated sessions are retrieved. Exported HTML may omit runtime, shadow-DOM, or authenticated state.',
   'Complete means all applicable checks ran on the entire provided artifact within the fixed input limit. HTTP transport is excluded; no HTTP status, score, or runtime success is asserted.',
   'A source hash binds these supplied bytes at report generation; it is not authenticity, proof of ownership, anonymization, or tamper-proof report signing. Protect reports and choose a non-sensitive app/page identifier.',
   'Source heuristics can be wrong. WebMCP remains experimental; these findings are not certification, security approval, accessibility conformance, or evidence of task success or ROI.',
+];
+// Narrow distribution-label migration only: preserve earlier report text without
+// changing the evidence model, interpreting its origin, or rewriting its bytes.
+const LEGACY_LIMITATIONS = [
+  'Private reviewer build: analyzes only the bytes of a user-provided HTML artifact. It does not establish the artifact origin or that it represents the complete page.',
+  ...LIMITATIONS.slice(1),
 ];
 
 export class PrivateRunnerError extends Error {
@@ -285,7 +291,10 @@ export function validateLocalReport(value: unknown): LocalReport {
     value.findings.length !== RULE_IDS.length ||
     !Array.isArray(value.limitations) ||
     value.limitations.length !== LIMITATIONS.length ||
-    !value.limitations.every((item, index) => item === LIMITATIONS[index])
+    (!value.limitations.every((item, index) => item === LIMITATIONS[index]) &&
+      !value.limitations.every(
+        (item, index) => item === LEGACY_LIMITATIONS[index],
+      ))
   )
     return invalid();
   const seen = new Set<string>();

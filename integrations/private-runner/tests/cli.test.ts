@@ -25,7 +25,7 @@ const execute = (args: string[]) =>
 
 before(async () => {
   directory = await fs.mkdtemp(path.join(os.tmpdir(), 'iswebmcp-private-cli-'));
-  bundle = path.join(directory, 'iswebmcp-private.mjs');
+  bundle = path.join(directory, 'iswebmcp-offline.mjs');
   // Exercise the exact standalone ESM runtime, including its self-hosted worker.
   await build({
     entryPoints: [fileURLToPath(new URL('../src/cli.ts', import.meta.url))],
@@ -51,7 +51,8 @@ after(async () => {
 void test('bundled help/audit/compare work with outbound network functions trapped in main and worker', async () => {
   const help = execute(['--help']);
   assert.equal(help.status, 0, help.stderr);
-  assert.match(help.stdout, /private reviewer build/);
+  assert.match(help.stdout, /developer preview/);
+  assert.match(help.stdout, /iswebmcp-offline\.mjs/);
   const input = path.join(directory, 'owned.html');
   const baselinePath = path.join(directory, 'baseline.json');
   const currentPath = path.join(directory, 'current.json');
@@ -205,4 +206,69 @@ void test('hostile repeated references are terminated at the analysis deadline w
     'The child must exit after terminating the blocked worker.',
   );
   await assert.rejects(fs.stat(output), { code: 'ENOENT' });
+});
+
+void test('extracted demo works repeatedly from another directory with network calls trapped', async () => {
+  const exampleSource = fileURLToPath(new URL('../examples/', import.meta.url));
+  const exampleDestination = path.join(directory, 'examples');
+  await fs.mkdir(exampleDestination);
+  for (const name of ['before.html', 'after.html', 'run-demo.mjs']) {
+    await fs.copyFile(
+      path.join(exampleSource, name),
+      path.join(exampleDestination, name),
+    );
+  }
+  const previousDirectories = new Set(await fs.readdir(directory));
+  const outputs: string[] = [];
+  for (let count = 0; count < 2; count += 1) {
+    const result = spawnSync(
+      process.execPath,
+      [path.join(exampleDestination, 'run-demo.mjs')],
+      {
+        cwd: os.tmpdir(),
+        shell: false,
+        windowsHide: true,
+        encoding: 'utf8',
+        timeout: 15_000,
+        env: {
+          ...process.env,
+          NODE_OPTIONS: `${process.env.NODE_OPTIONS ?? ''} --require ${JSON.stringify(networkTrap)}`,
+        },
+      },
+    );
+    assert.equal(result.error, undefined);
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(
+      result.stdout,
+      /Fix comparison: exit 0; 0 new or worsened findings/,
+    );
+    assert.match(
+      result.stdout,
+      /Removing the label again: exit 1; 1 new problem/,
+    );
+    assert.match(result.stdout, /Runtime remains unknown/);
+    assert.ok(!result.stdout.includes(directory));
+    outputs.push(result.stdout);
+  }
+  const resultDirectories = (await fs.readdir(directory)).filter(
+    (name) =>
+      name.startsWith('demo-results-') && !previousDirectories.has(name),
+  );
+  assert.equal(resultDirectories.length, 2);
+  assert.notEqual(outputs[0], outputs[1]);
+  for (const name of resultDirectories) {
+    const outputRoot = path.join(directory, name);
+    assert.equal((await fs.readdir(outputRoot)).length, 5);
+    const fix = JSON.parse(
+      await fs.readFile(path.join(outputRoot, 'fix-comparison.json'), 'utf8'),
+    );
+    const regression = JSON.parse(
+      await fs.readFile(
+        path.join(outputRoot, 'regression-comparison.json'),
+        'utf8',
+      ),
+    );
+    assert.equal(fix.regressionCount, 0);
+    assert.equal(regression.regressionCount, 1);
+  }
 });

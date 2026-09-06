@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "iswebmcp-offline-build/v1",
+  "distribution": "developer-preview",
+  "version": "0.2.0",
+  "compiler": {
+    "name": "esbuild",
+    "version": "0.28.1",
+    "target": "node22.13"
+  },
+  "entry": "iswebmcp-offline.mjs",
+  "runtimeDependencies": [
+    "node:crypto",
+    "node:fs",
+    "node:fs/promises",
+    "node:path",
+    "node:url",
+    "node:worker_threads"
+  ],
+  "inputs": [
+    {
+      "path": "integrations/private-runner/src/cli.ts",
+      "sha256": "3ee711b0e3aa122edf59d6ad9ebabd7c6c923768bfe00b72de0a1c7f91b6250c"
+    },
+    {
+      "path": "integrations/private-runner/src/analysis.ts",
+      "sha256": "20cdb3cc33163d4d8598b5d14260f923f3e8a06c6712236df5ada0d7a8663dab"
+    },
+    {
+      "path": "integrations/private-runner/src/core.ts",
+      "sha256": "8ff166beb855a0d426e7bb64a76ec4f51dd46416429bb89752690fdec1ba85bc"
+    },
+    {
+      "path": "integrations/private-runner/src/files.ts",
+      "sha256": "292bf7e14986e8b5ed4451fac7f966d77df4d6619133652566546c3939be99e0"
+    },
+    {
+      "path": "lib/scanner.ts",
+      "sha256": "5481af942a8cd13f74b1629a320bab1b1dea331b8f7496446d57e927cbe2e6dd"
+    },
+    {
+      "path": "lib/scoring.ts",
+      "sha256": "3ff1579d97a350de5fefeef09f90217ac7aa4ba2a5c8117ce44d2895967090e5"
+    },
+    {
+      "path": "lib/demo.ts",
+      "sha256": "d39c45cc755f2933927eb5be769f09122fe692dc2d9e8c9dbf67ca986d6b2298"
+    },
+    {
+      "path": "lib/types.ts",
+      "sha256": "5c2c341f894e40a6e8a9b6875a44d15f20038d510d5f23aa499b738f7d443b89"
+    }
+  ],
+  "limitations": [
+    "Checksums bind bytes, not publisher identity or evidence authenticity.",
+    "Provided HTML is not live HTTP or browser evidence.",
+    "This artifact is not an enterprise security certification or hosted service."
+  ],
+  "filename": "iswebmcp-offline-checker-0.2.0.zip",
+  "bytes": 58218,
+  "sha256": "f61788252717c00baf456f20a56d0de10035e66a08bdaa638c75a4a3c8b5f908",
+  "files": [
+    {
+      "path": "iswebmcp-offline.mjs",
+      "bytes": 61633,
+      "sha256": "b8290986bd978803adee682846b1c8db5351f83777ab1d650a4b57bade3f0f76"
+    },
+    {
+      "path": "README.md",
+      "bytes": 11809,
+      "sha256": "8c823f0e0db1e50768a1fa11d16584115009c966d1f7ea55585382fa9ac70835"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1078,
+      "sha256": "d31f173202bb244bd4bda09a7dc1312eeae23b10bed9711d7bf025dbeaceaf2f"
+    },
+    {
+      "path": "package.json",
+      "bytes": 385,
+      "sha256": "23055efd7a7920d956e331127822e48f5c99bae1e35c18aa98285eded5b92ab6"
+    },
+    {
+      "path": "examples/before.html",
+      "bytes": 315,
+      "sha256": "4da500852a1ccb61d25e35a430ba541d65b5cf5582a4a32d4f2d8845b4fb862f"
+    },
+    {
+      "path": "examples/after.html",
+      "bytes": 375,
+      "sha256": "3d992071811c4f409af776f1c88ebf28e162f918345bf716a2e0ed75fed6de0d"
+    },
+    {
+      "path": "examples/run-demo.mjs",
+      "bytes": 4929,
+      "sha256": "b6298ed94c4c2a441adb73c6e19cb34e60fdf9079cdc9f7d2ddf9bacd44a0393"
+    },
+    {
+      "path": "source/integrations/private-runner/src/cli.ts",
+      "bytes": 4943,
+      "sha256": "3ee711b0e3aa122edf59d6ad9ebabd7c6c923768bfe00b72de0a1c7f91b6250c"
+    },
+    {
+      "path": "source/integrations/private-runner/src/analysis.ts",
+      "bytes": 3742,
+      "sha256": "20cdb3cc33163d4d8598b5d14260f923f3e8a06c6712236df5ada0d7a8663dab"
+    },
+    {
+      "path": "source/integrations/private-runner/src/core.ts",
+      "bytes": 18349,
+      "sha256": "8ff166beb855a0d426e7bb64a76ec4f51dd46416429bb89752690fdec1ba85bc"
+    },
+    {
+      "path": "source/integrations/private-runner/src/files.ts",
+      "bytes": 8177,
+      "sha256": "292bf7e14986e8b5ed4451fac7f966d77df4d6619133652566546c3939be99e0"
+    },
+    {
+      "path": "source/lib/scanner.ts",
+      "bytes": 34042,
+      "sha256": "5481af942a8cd13f74b1629a320bab1b1dea331b8f7496446d57e927cbe2e6dd"
+    },
+    {
+      "path": "source/lib/scoring.ts",
+      "bytes": 6748,
+      "sha256": "3ff1579d97a350de5fefeef09f90217ac7aa4ba2a5c8117ce44d2895967090e5"
+    },
+    {
+      "path": "source/lib/demo.ts",
+      "bytes": 12497,
+      "sha256": "d39c45cc755f2933927eb5be769f09122fe692dc2d9e8c9dbf67ca986d6b2298"
+    },
+    {
+      "path": "source/lib/types.ts",
+      "bytes": 6487,
+      "sha256": "5c2c341f894e40a6e8a9b6875a44d15f20038d510d5f23aa499b738f7d443b89"
+    },
+    {
+      "path": "build-provenance.json",
+      "bytes": 1776,
+      "sha256": "40d833e0bc7bdace6ac0d376f68342b1dfa3864288dad80870607aa4c228bb3e"
+    }
+  ]
+}

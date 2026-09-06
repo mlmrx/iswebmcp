@@ -5,9 +5,23 @@ import { resolve, relative, isAbsolute, dirname } from 'node:path';
 import { build, version as esbuildVersion } from 'esbuild';
 import { zipSync } from 'fflate';
 
-// Private review artifact only. Never write into public/ or include workspace data.
+// Public distribution requires an explicit mode and contains only reviewed files.
 const root = process.cwd();
-const output = resolve(root, 'artifacts/private-runner');
+const args = process.argv.slice(2);
+if (
+  args.length > 1 ||
+  (args.length === 1 && !['--publish', '--check'].includes(args[0]))
+) {
+  throw new Error(
+    'Use no option for private staging, --publish to prepare the public artifact, or --check for read-only verification.',
+  );
+}
+const checking = args[0] === '--check';
+const publicOutput = checking || args[0] === '--publish';
+const output = resolve(
+  root,
+  publicOutput ? 'public/developer-tools' : 'artifacts/offline-checker',
+);
 const packagePath = 'integrations/private-runner/package.json';
 const entry = 'integrations/private-runner/src/cli.ts';
 const packageInfo = JSON.parse(
@@ -15,7 +29,7 @@ const packageInfo = JSON.parse(
 );
 if (!/^\d+\.\d+\.\d+$/.test(packageInfo.version))
   throw new Error('Invalid version.');
-const filename = `iswebmcp-private-runner-${packageInfo.version}.zip`;
+const filename = `iswebmcp-offline-checker-${packageInfo.version}.zip`;
 const sourceAllowlist = [
   entry,
   'integrations/private-runner/src/analysis.ts',
@@ -38,7 +52,7 @@ const allowedBuiltins = new Set([
 const bundled = await build({
   absWorkingDir: root,
   entryPoints: [entry],
-  outfile: 'iswebmcp-private.mjs',
+  outfile: 'iswebmcp-offline.mjs',
   bundle: true,
   format: 'esm',
   platform: 'node',
@@ -70,19 +84,25 @@ const textBytes = async (path) =>
     (await readFile(resolve(root, path), 'utf8')).replace(/\r\n/g, '\n'),
   );
 const files = {
-  'iswebmcp-private.mjs': bundled.outputFiles[0].contents,
+  'iswebmcp-offline.mjs': bundled.outputFiles[0].contents,
   'README.md': await textBytes('integrations/private-runner/README.md'),
   LICENSE: await textBytes('integrations/private-runner/LICENSE'),
   'package.json': await textBytes(packagePath),
 };
+const examples = ['before.html', 'after.html', 'run-demo.mjs'];
+for (const name of examples) {
+  files[`examples/${name}`] = await textBytes(
+    `integrations/private-runner/examples/${name}`,
+  );
+}
 for (const path of sourceAllowlist)
   files[`source/${path}`] = await textBytes(path);
 const provenance = {
-  schemaVersion: 'iswebmcp-private-build/v1',
-  distribution: 'private-review-artifact',
+  schemaVersion: 'iswebmcp-offline-build/v1',
+  distribution: 'developer-preview',
   version: packageInfo.version,
   compiler: { name: 'esbuild', version: esbuildVersion, target: 'node22.13' },
-  entry: 'iswebmcp-private.mjs',
+  entry: 'iswebmcp-offline.mjs',
   runtimeDependencies: [
     ...new Set(
       Object.values(bundled.metafile.outputs).flatMap((info) =>
@@ -132,7 +152,7 @@ for (let path = output; path !== dirname(path); path = dirname(path)) {
     if (error.code !== 'ENOENT') throw error;
   }
 }
-await mkdir(output, { recursive: true });
+if (!checking) await mkdir(output, { recursive: true });
 const resolvedOutput = await realpath(output);
 const withinRoot = relative(await realpath(root), resolvedOutput);
 if (
@@ -141,18 +161,20 @@ if (
   relative(output, resolvedOutput) !== ''
 )
   throw new Error(
-    'Artifact output must remain in the exact private artifact directory.',
+    'Artifact output must remain in the exact selected artifact directory.',
   );
 async function writeExclusiveOrIdentical(path, bytes) {
   let handle;
   try {
+    if (checking)
+      throw Object.assign(new Error('Verify only'), { code: 'EEXIST' });
     handle = await open(path, 'wx', 0o600);
   } catch (error) {
     if (error.code !== 'EEXIST') throw error;
     const info = await lstat(path);
     if (!info.isFile() || info.isSymbolicLink() || info.size !== bytes.length)
       throw new Error(
-        'An output already exists; preserve it and choose a new review version.',
+        'An output already exists; preserve it and choose a new version.',
       );
     const reader = await open(
       path,
@@ -194,7 +216,7 @@ async function writeExclusiveOrIdentical(path, bytes) {
         !existing.equals(Buffer.from(bytes))
       )
         throw new Error(
-          'An output differs or changed; preserve it and choose a new review version.',
+          'An output differs or changed; preserve it and choose a new version.',
         );
     } finally {
       await reader.close();
@@ -207,7 +229,7 @@ async function writeExclusiveOrIdentical(path, bytes) {
     await handle.close();
   }
 }
-// Generated, unpublished review artifacts. Never overwrite a previous build or a symlink.
+// Only explicitly selected, versioned distribution files. Never overwrite a previous build or a symlink.
 await writeExclusiveOrIdentical(resolve(resolvedOutput, filename), archive);
 await writeExclusiveOrIdentical(
   resolve(resolvedOutput, filename.replace('.zip', '.checksums.json')),
@@ -219,6 +241,7 @@ console.log(
     bytes: archive.byteLength,
     sha256: sha256(archive),
     output: resolvedOutput,
-    public: false,
+    public: publicOutput,
+    checked: checking,
   }),
 );

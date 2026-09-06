@@ -11,12 +11,13 @@ import {
 import { auditIsolated } from './analysis';
 import { readBoundedFile, writeExclusiveJson } from './files';
 
-export const HELP = `isWebMCP offline HTML reviewer ${VERSION} (private reviewer build)
+export const HELP = `isWebMCP offline checker ${VERSION} (developer preview)
 
 Usage:
-  node iswebmcp-private.mjs audit <local-export.html> --app <app-page-id> --output <report.json>
-  node iswebmcp-private.mjs compare <baseline.json> <current.json> --output <comparison.json>
-  node iswebmcp-private.mjs --help
+  node iswebmcp-offline.mjs audit <local-export.html> --app <app-page-id> --output <report.json>
+  node iswebmcp-offline.mjs compare <baseline.json> <current.json> --output <comparison.json>
+  node iswebmcp-offline.mjs --help
+  node examples/run-demo.mjs
 
 Node 22.13+ required. Files must be regular, valid UTF-8, nonempty, and <= 2 MiB.
 Analysis uses a disposable worker: 5-second deadline, 128 MiB old-generation heap.

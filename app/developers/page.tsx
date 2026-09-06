@@ -5,7 +5,7 @@ import { ArrowRight, Code2, GitCompareArrows, Terminal } from 'lucide-react';
 export const metadata: Metadata = {
   title: 'Developer toolkit',
   description:
-    'Run a public-source audit, save the evidence, and compare changes from your terminal or CI workflow.',
+    'Audit a public URL or check an HTML export locally, then save findings and compare changes from your terminal or CI workflow.',
   alternates: { canonical: '/developers' },
 };
 
@@ -32,9 +32,9 @@ export default function DevelopersPage() {
             Find a problem. Fix it. Check again.
           </h1>
           <p className="mt-6 max-w-3xl text-lg leading-8 text-muted-foreground">
-            Bring source evidence into your development workflow. Inspect a
-            public page, save the result, and compare its reported findings
-            after your next change.
+            Check a public URL through our hosted scanner, or analyze an HTML
+            export locally. Save the findings, make a change in your app, and
+            compare the next result.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <a
@@ -51,9 +51,45 @@ export default function DevelopersPage() {
             </a>
           </div>
           <p className="mt-5 text-sm text-muted-foreground">
-            Node.js 22.13+ · No SDK dependencies · Public-source evidence ·
+            Node.js 22.13+ · No SDK dependencies · Source-level evidence ·
             Experimental WebMCP
           </p>
+          <div
+            aria-label="Choose your source-check workflow"
+            className="mt-8 grid gap-4 sm:grid-cols-2"
+          >
+            <div className="rounded-xl border border-border bg-card p-5">
+              <h2 className="text-lg font-semibold">Have a public URL?</h2>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                Use the hosted-source toolkit below to scan a public page
+                through the isWebMCP service and save its findings.
+              </p>
+              <a
+                href="#quickstart"
+                className="mt-3 inline-flex items-center gap-2 font-semibold text-signal-ink hover:underline"
+              >
+                Public URL quickstart
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </a>
+            </div>
+            <div className="rounded-xl border border-border bg-card p-5">
+              <h2 className="text-lg font-semibold">
+                Have an exported HTML file?
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                Run the Offline Checker on your own machine. Try its bundled
+                label-fix demo, then compare your own exports. No npm install or
+                login required.
+              </p>
+              <Link
+                href="/developers/offline"
+                className="mt-3 inline-flex items-center gap-2 font-semibold text-signal-ink hover:underline"
+              >
+                Offline Checker quickstart
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
       <div className="mx-auto max-w-6xl space-y-10 px-5 py-12 lg:px-8">
