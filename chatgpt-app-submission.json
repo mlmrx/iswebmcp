@@ -11,12 +11,12 @@
     "audit_public_url": {
       "annotations": {
         "readOnlyHint": false,
-        "openWorldHint": false,
+        "openWorldHint": true,
         "destructiveHint": false
       },
       "justifications": {
         "read_only_justification": "Stores a privacy-safe audit-attempt record and an ephemeral report while analyzing the selected public page.",
-        "open_world_justification": "Fetches public source but does not publish, submit, or otherwise change public internet or third-party state.",
+        "open_world_justification": "Fetches the user-selected public URL over HTTPS while remaining bounded, non-destructive, and unable to authenticate or submit actions on the target site.",
         "destructive_justification": "Does not delete, overwrite, revoke access, transact, or perform another irreversible action."
       }
     },
@@ -55,6 +55,30 @@
         "open_world_justification": "Does not access or change an external system.",
         "destructive_justification": "Does not delete, overwrite, revoke access, transact, or perform another irreversible action."
       }
+    },
+    "get_implementation_recipe": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Returns a versioned implementation template and verification steps without applying code or changing a deployment.",
+        "open_world_justification": "Does not publish content or change an external system.",
+        "destructive_justification": "Does not delete, overwrite, revoke access, transact, or perform another irreversible action."
+      }
+    },
+    "compare_source_reports": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Validates and compares two user-supplied source summaries in memory without fetching, storing, or modifying them.",
+        "open_world_justification": "Does not publish content or change an external system.",
+        "destructive_justification": "Does not delete, overwrite, revoke access, transact, or perform another irreversible action."
+      }
     }
   },
   "test_cases": [
@@ -67,11 +91,11 @@
       "expected_output_url": null
     },
     {
-      "description": "Audit a simple public page using bounded source evidence.",
-      "user_prompt": "Audit https://example.com for WebMCP readiness and explain the strongest evidence.",
+      "description": "Audit a public page and then review a sanitized contract for it.",
+      "user_prompt": "Audit https://example.com, then review this sanitized WebMCP contract for the resulting scan: name search_products, description Search the public catalog, inputSchema with a query string, readOnlyHint true, and verification Product results are shown.",
       "file_attachment_urls": null,
-      "tools_triggered": "audit_public_url",
-      "expected_output": "Returns a source-only report for example.com and explicitly withholds runtime readiness and measured lift.",
+      "tools_triggered": "audit_public_url, audit_tool_contracts",
+      "expected_output": "Returns a source-only report followed by an imported-contract audit tied to it, while labeling the contract evidence as not independently verified.",
       "expected_output_url": null
     },
     {
@@ -83,19 +107,19 @@
       "expected_output_url": null
     },
     {
-      "description": "Explain the distinction between source and runtime evidence.",
-      "user_prompt": "What is the difference between source actionability and runtime readiness?",
+      "description": "Explain the evidence boundary and return a relevant implementation recipe.",
+      "user_prompt": "Explain the difference between source actionability and runtime readiness, then show me the accessible-controls implementation recipe without changing my application.",
       "file_attachment_urls": null,
-      "tools_triggered": "explain_evidence_level",
-      "expected_output": "Explains the requested evidence level and states the evidence required to support it.",
+      "tools_triggered": "explain_evidence_level, get_implementation_recipe",
+      "expected_output": "Explains the evidence distinction, then returns the versioned accessible-controls template and verification steps for local review.",
       "expected_output_url": null
     },
     {
-      "description": "Audit a sanitized contract after a source scan.",
-      "user_prompt": "Using the scan report I just created, audit this sanitized WebMCP contract: name search_products, description Search the public catalog, inputSchema with a query string, readOnlyHint true, and verification Product results are shown.",
+      "description": "Compare two complete source summaries created with the same settings.",
+      "user_prompt": "Audit https://example.com twice with the same settings, then compare the two complete source summaries and explain whether the comparison found a regression.",
       "file_attachment_urls": null,
-      "tools_triggered": "audit_tool_contracts",
-      "expected_output": "Returns an imported-contract audit tied to the active scan and labels the contract evidence as not independently verified.",
+      "tools_triggered": "audit_public_url, compare_source_reports",
+      "expected_output": "Returns two source-only reports and a comparison that preserves the complete findings and explicitly makes no runtime or ROI claim.",
       "expected_output_url": null
     }
   ],

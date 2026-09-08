@@ -61,7 +61,7 @@ describe('isWebMCP remote MCP server', () => {
     ]);
     const audit = tools.find((tool) => tool.name === 'audit_public_url');
     expect(audit?.annotations?.readOnlyHint).toBe(false);
-    expect(audit?.annotations?.openWorldHint).toBe(false);
+    expect(audit?.annotations?.openWorldHint).toBe(true);
     expect(audit?.annotations?.destructiveHint).toBe(false);
     expect(
       (audit?._meta?.ui as { resourceUri?: string } | undefined)?.resourceUri,

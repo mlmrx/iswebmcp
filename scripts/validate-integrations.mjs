@@ -50,6 +50,7 @@ const cursorManifestProperties = new Set([
   'homepage',
   'repository',
   'license',
+  'logo',
   'keywords',
   'extensions',
 ]);

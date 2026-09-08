@@ -199,7 +199,7 @@ export function createIsWebMcpServer(requesterKey = 'anonymous') {
         readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: true,
-        openWorldHint: false,
+        openWorldHint: true,
       },
       _meta: {
         ui: { resourceUri: AUDIT_WIDGET_URI },

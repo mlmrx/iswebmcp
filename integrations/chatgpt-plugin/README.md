@@ -8,7 +8,7 @@ Use the public MCP endpoint:
 
 `https://iswebmcp.com/mcp`
 
-The server exposes a bounded public-source audit, a synthetic sample, imported contract analysis, and evidence-level explanations. Audit results render in a compact MCP App UI. The public audit tool is read-only but open-world because it retrieves the user-supplied public URL.
+The server exposes a bounded public-source audit, a synthetic sample, imported contract analysis, and evidence-level explanations. Audit results render in a compact MCP App UI. The public audit tool is non-destructive but not read-only because it stores a privacy-safe attempt record and a short-lived report. It is open-world because it retrieves the user-supplied public URL.
 
 ## Submission artifacts
 

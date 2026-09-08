@@ -13,7 +13,7 @@
   "owner_contact": "research@iswebmcp.com",
   "review_notes": [
     "audit_public_url and show_sample_audit render ui://iswebmcp/audit-v1.html.",
-    "audit_public_url writes a privacy-safe audit-attempt record and an ephemeral report, so readOnlyHint is false. It does not change public internet state, so openWorldHint is false.",
+    "audit_public_url writes a privacy-safe audit-attempt record and an ephemeral report, so readOnlyHint is false. It fetches the user-selected public URL, so openWorldHint is true; it does not authenticate, submit actions, or modify the target site.",
     "Reports are evidence-scoped; source collection failures and truncation remain visible.",
     "No tool represents source-only results as runtime conformance or measured lift."
   ]
