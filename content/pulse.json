@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-04T13:59:04-07:00",
+  "generatedAt": "2026-09-08T09:14:21-07:00",
   "policy": "Source-verified updates only. An hourly check may read approved machine-oriented official feeds, but new editorial entries require a primary source and a material change. Devpost observations are manual.",
   "challenge": {
     "name": "The WebMCP Challenge",
@@ -23,6 +23,18 @@
     ]
   },
   "updates": [
+    {
+      "id": "mcp-filesystems-wg-aa8ce04",
+      "title": "MCP repository merges a filesystems working-group proposal",
+      "summary": "Commit aa8ce04 adds a proposal for a dedicated filesystems working group to the MCP specification repository. Filesystem implementers now have a governance effort to track, but this is a proposal rather than a released protocol change, and it belongs to the broader MCP ecosystem rather than the experimental WebMCP browser API.",
+      "publishedAt": "2026-09-08",
+      "observedAt": "2026-09-08T09:14:21-07:00",
+      "sourceName": "Model Context Protocol specification repository",
+      "sourceUrl": "https://github.com/modelcontextprotocol/modelcontextprotocol/commit/aa8ce049f089f92618340190d4ece141f663310d",
+      "topic": "mcp",
+      "status": "published",
+      "tags": ["governance", "filesystems", "working-group"]
+    },
     {
       "id": "webmcp-headless-scope-50c4b7f",
       "title": "WebMCP explicitly brings headless handoffs into scope",
