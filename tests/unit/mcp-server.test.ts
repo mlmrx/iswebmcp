@@ -95,7 +95,7 @@ describe('isWebMCP remote MCP server', () => {
         scope: 'tranco-top-10000',
         scheduledCount: 10_000,
         attemptedCount: 10_000,
-        detectedCount: 11,
+        detectedCount: 13,
         namedToolDefinitions: 2,
         dataUrl: 'https://iswebmcp.com/data/adoption-census/2026-09-10.json',
       },
