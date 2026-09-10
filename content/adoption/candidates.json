@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-10T14:00:40.944Z",
+  "generatedAt": "2026-09-10T17:38:06.351Z",
   "policy": "Unpublished discovery leads only. A repository match is not a deployment and is never promoted without first-party page or runtime evidence.",
-  "previousCandidateCount": 150,
+  "previousCandidateCount": 0,
   "candidateCount": 0,
   "candidates": []
 }

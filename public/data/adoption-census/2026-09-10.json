@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-10T13:27:27.241Z",
+  "generatedAt": "2026-09-10T17:02:37.658Z",
   "scope": "tranco-top-10000",
   "source": {
     "name": "Tranco",
@@ -12,17 +12,17 @@
   "coverage": {
     "scheduledCount": 10000,
     "attemptedCount": 10000,
-    "detectedCount": 12,
-    "notDetectedCount": 5308,
-    "robotsBlockedCount": 906,
-    "unreachableCount": 3745,
-    "unsupportedCount": 29,
-    "documentSurfaceCount": 2,
-    "navigatorSurfaceCount": 4,
-    "bridgeSurfaceCount": 10,
+    "detectedCount": 13,
+    "notDetectedCount": 5050,
+    "robotsBlockedCount": 879,
+    "unreachableCount": 4031,
+    "unsupportedCount": 27,
+    "documentSurfaceCount": 3,
+    "navigatorSurfaceCount": 5,
+    "bridgeSurfaceCount": 11,
     "namedToolDefinitions": 2
   },
-  "auditDigest": "89e780a6a6857529e7cf3ba42da2426f29949e5532961ff1545c1682ec656872",
+  "auditDigest": "513180076aa8431a66e5a60e67cd3f2ea042a603c933641bc05958f8e3153df5",
   "rowPolicy": "The denominator includes every scheduled domain and every collection outcome. The retained detections array contains only positive WebMCP source signals; not-detected and blocked domains remain represented in coverage counts.",
   "detections": [
     {
@@ -34,8 +34,25 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": ["switch_site_language"],
-      "checkedAt": "2026-09-10T13:27:27.241Z",
-      "bytesRead": 289314,
+      "checkedAt": "2026-09-10T17:02:37.658Z",
+      "bytesRead": 270450,
+      "redirects": 1
+    },
+    {
+      "popularityRank": 328,
+      "domain": "hostinger.com",
+      "url": "https://hostinger.com/",
+      "finalUrl": "https://www.hostinger.com/",
+      "state": "detected",
+      "surface": "mixed",
+      "signals": [
+        "document.modelContext",
+        "navigator.modelContext",
+        "registerTool"
+      ],
+      "tools": [],
+      "checkedAt": "2026-09-10T17:02:37.658Z",
+      "bytesRead": 870022,
       "redirects": 1
     },
     {
@@ -47,8 +64,8 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-09-10T13:27:27.241Z",
-      "bytesRead": 457084,
+      "checkedAt": "2026-09-10T17:02:37.658Z",
+      "bytesRead": 456905,
       "redirects": 1
     },
     {
@@ -64,7 +81,7 @@
         "WebMCP bridge or manifest marker"
       ],
       "tools": [],
-      "checkedAt": "2026-09-10T13:27:27.241Z",
+      "checkedAt": "2026-09-10T17:02:37.658Z",
       "bytesRead": 1000000,
       "redirects": 1
     },
@@ -77,8 +94,8 @@
       "surface": "navigator",
       "signals": ["navigator.modelContext", "registerTool"],
       "tools": [],
-      "checkedAt": "2026-09-10T13:27:27.241Z",
-      "bytesRead": 401540,
+      "checkedAt": "2026-09-10T17:02:37.658Z",
+      "bytesRead": 401233,
       "redirects": 1
     },
     {
@@ -90,8 +107,8 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-09-10T13:27:27.241Z",
-      "bytesRead": 485779,
+      "checkedAt": "2026-09-10T17:02:37.658Z",
+      "bytesRead": 485777,
       "redirects": 0
     },
     {
@@ -107,7 +124,7 @@
         "WebMCP bridge or manifest marker"
       ],
       "tools": [],
-      "checkedAt": "2026-09-10T13:27:27.241Z",
+      "checkedAt": "2026-09-10T17:02:37.658Z",
       "bytesRead": 435329,
       "redirects": 1
     },
@@ -120,8 +137,8 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-09-10T13:27:27.241Z",
-      "bytesRead": 581964,
+      "checkedAt": "2026-09-10T17:02:37.658Z",
+      "bytesRead": 582527,
       "redirects": 0
     },
     {
@@ -133,7 +150,7 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-09-10T13:27:27.241Z",
+      "checkedAt": "2026-09-10T17:02:37.658Z",
       "bytesRead": 527614,
       "redirects": 2
     },
@@ -146,7 +163,7 @@
       "surface": "navigator",
       "signals": ["navigator.modelContext", "registerTool"],
       "tools": ["navigate_by_use_case"],
-      "checkedAt": "2026-09-10T13:27:27.241Z",
+      "checkedAt": "2026-09-10T17:02:37.658Z",
       "bytesRead": 613503,
       "redirects": 0
     },
@@ -159,8 +176,8 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-09-10T13:27:27.241Z",
-      "bytesRead": 442714,
+      "checkedAt": "2026-09-10T17:02:37.658Z",
+      "bytesRead": 441027,
       "redirects": 1
     },
     {
@@ -172,7 +189,7 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-09-10T13:27:27.241Z",
+      "checkedAt": "2026-09-10T17:02:37.658Z",
       "bytesRead": 739434,
       "redirects": 1
     },
@@ -185,8 +202,8 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-09-10T13:27:27.241Z",
-      "bytesRead": 429037,
+      "checkedAt": "2026-09-10T17:02:37.658Z",
+      "bytesRead": 429039,
       "redirects": 1
     }
   ]
