@@ -33,6 +33,7 @@
     "index:build": "tsx scripts/web-index/build-snapshot.ts",
     "index:full": "tsx scripts/web-index/run-full.ts",
     "adoption:discover": "tsx scripts/adoption/discover-github.ts",
+    "adoption:census": "tsx scripts/adoption/crawl-top-sites.ts",
     "adoption:generate": "tsx scripts/adoption/generate-daily.ts",
     "adoption:index": "tsx scripts/adoption/submit-indexnow.ts"
   },

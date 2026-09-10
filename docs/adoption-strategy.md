@@ -21,6 +21,8 @@ The concrete three-track delivery plan and independent-versus-external dependenc
 
 ChatGPT, Claude, Cursor, VS Code, and Chrome integrations are entry points to the shared evidence model. Marketplace review is separate from product usefulness; do not represent submitted extensions as approved. The SDK lets platform backends consume structured evidence. CI adapters fit existing release workflows. Future browser adapters should import observed traces with browser/API/model versions and explicit postconditions.
 
+The daily adoption report starts with a robots-aware source pass over the Tranco top 10,000 domains. Every scheduled domain contributes a collection outcome to the denominator; only positive WebMCP source signals are retained in the downloadable detection ledger. The census is a popularity-ranked coverage proxy, not a traffic measurement, runtime success rate, or claim that an unreachable or blocked domain has no WebMCP implementation.
+
 The first audience is teams already implementing agent interactions. Start with a small cohort before broad framework/platform distribution. Seek ten design-partner teams; aim for five verified fixes, three weekly repeat users, and two reproducible case studies. Measure apps with repeat useful checks and verified fixes. URL count, registrations, downloads, and marketplace installs are reach indicators and do not establish active adoption.
 
 ## Candidate design partners

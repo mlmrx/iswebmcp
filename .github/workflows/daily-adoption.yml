@@ -23,6 +23,8 @@ jobs:
           cache: npm
           cache-dependency-path: package-lock.json
       - run: npm ci
+      - name: Crawl Tranco top 10,000 domains
+        run: npm run adoption:census
       - name: Discover implementation candidates
         run: npm run adoption:discover
         env:
@@ -45,7 +47,7 @@ jobs:
           report_date=$(node -p "require('./content/adoption/index.json')[0].date")
           git config user.name "isWebMCP adoption bot"
           git config user.email "research@iswebmcp.com"
-          git add content/adoption
+          git add content/adoption public/data/adoption-census
           git commit -m "Publish WebMCP adoption report ${report_date}"
           git push origin HEAD:main
           echo "changed=true" >> "$GITHUB_OUTPUT"

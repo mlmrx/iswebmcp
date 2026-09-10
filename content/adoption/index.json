@@ -2,11 +2,11 @@
   {
     "schemaVersion": 1,
     "date": "2026-09-10",
-    "generatedAt": "2026-09-10T07:49:33.508Z",
+    "generatedAt": "2026-09-10T12:41:27.937Z",
     "title": "WebMCP Adoption Report — September 10, 2026",
-    "dek": "The first isWebMCP adoption baseline separates organizations from deployments, platform-inherited tools from provider engineering, and current document.modelContext implementations from legacy surfaces.",
+    "dek": "A daily first-pass census checks the Tranco top 10,000 public domains for source-level WebMCP signals, then separates those detections from directly inspected implementation records.",
     "status": "published",
-    "changeSummary": "No material implementation change identified; all scheduled source rechecks reproduced their expected signals.",
+    "changeSummary": "The implementation ledger changed; review the dated finding records and evidence trails for details.",
     "previousReportDate": null,
     "summary": {
       "organizationsNamed": 7,
@@ -18,6 +18,10 @@
       "legacyOnlyDeployments": 6
     },
     "analysis": [
+      {
+        "heading": "Top-10,000 coverage sets the denominator",
+        "body": "The first-pass Tranco census scheduled 10,000 domains and recorded 10,000 collection outcomes. It found 11 positive WebMCP source signals; 5,227 domains had no detected signal, while 801 were blocked by robots policy and 3,933 were unreachable or timed out."
+      },
       {
         "heading": "Deployment count overstates independent adoption",
         "body": "The best public census located for this report found 81 WebMCP-bearing provider sites, but attributed 72 of them to one ReadMe-hosted search_docs bundle. The more decision-useful number is therefore nine provider-engineered deployments, not 81 independent implementation decisions."
@@ -48,7 +52,7 @@
         "deploymentCount": 2,
         "deploymentCountBasis": "Third-party census; not independently recounted by isWebMCP.",
         "summary": "Cloudflare announced a developer preview that injects a same-origin bridge at the edge and registers tool packs. Its homepage exposed a WebMCP JSON manifest with two read-only discovery tools when inspected for this report.",
-        "observedAt": "2026-09-10T07:49:33.508Z",
+        "observedAt": "2026-09-10T12:41:27.937Z",
         "pages": ["https://www.cloudflare.com/"],
         "tools": [
           {
@@ -91,7 +95,7 @@
         "dailyRecheck": {
           "slug": "cloudflare",
           "status": "confirmed",
-          "checkedAt": "2026-09-10T07:49:33.508Z",
+          "checkedAt": "2026-09-10T12:41:27.937Z",
           "note": "All 3 expected source signals were recovered."
         }
       },
@@ -107,7 +111,7 @@
         "deploymentCount": 1,
         "deploymentCountBasis": "One inspected public property.",
         "summary": "Render's homepage embedded five read-only documentation and content-index tools. The bootstrap selected navigator.modelContext and included a provideContext fallback, so the source is clear but tied to an older proposal surface on this report date.",
-        "observedAt": "2026-09-10T07:49:33.508Z",
+        "observedAt": "2026-09-10T12:41:27.937Z",
         "pages": ["https://render.com/"],
         "tools": [
           {
@@ -156,7 +160,7 @@
         "dailyRecheck": {
           "slug": "render",
           "status": "confirmed",
-          "checkedAt": "2026-09-10T07:49:33.508Z",
+          "checkedAt": "2026-09-10T12:41:27.937Z",
           "note": "All 6 expected source signals were recovered."
         }
       },
@@ -172,7 +176,7 @@
         "deploymentCount": 2,
         "deploymentCountBasis": "The publisher identifies homepage and Stack surfaces; this report directly inspected the homepage.",
         "summary": "APIs.io prefers document.modelContext.registerTool and falls back to the older navigator context. Its homepage registers catalog search and network-description tools and records capability and invocation telemetry.",
-        "observedAt": "2026-09-10T07:49:33.508Z",
+        "observedAt": "2026-09-10T12:41:27.937Z",
         "pages": ["https://apis.io/", "https://apis.io/stack/"],
         "tools": [
           {
@@ -209,7 +213,7 @@
         "dailyRecheck": {
           "slug": "apis-io",
           "status": "confirmed",
-          "checkedAt": "2026-09-10T07:49:33.508Z",
+          "checkedAt": "2026-09-10T12:41:27.937Z",
           "note": "All 3 expected source signals were recovered."
         }
       },
@@ -260,7 +264,7 @@
         "deploymentCount": 1,
         "deploymentCountBasis": "APIs.io census.",
         "summary": "Zapier was named among provider-engineered deployments. Its public homepage included a WebMCP origin-trial token on this report date, but this report did not recover a complete first-party tool inventory from the loaded bundles.",
-        "observedAt": "2026-09-10T07:49:33.508Z",
+        "observedAt": "2026-09-10T12:41:27.937Z",
         "pages": ["https://zapier.com/"],
         "tools": [],
         "sources": [
@@ -284,7 +288,7 @@
         "dailyRecheck": {
           "slug": "zapier",
           "status": "confirmed",
-          "checkedAt": "2026-09-10T07:49:33.508Z",
+          "checkedAt": "2026-09-10T12:41:27.937Z",
           "note": "All 1 expected source signals were recovered."
         }
       },
@@ -300,7 +304,7 @@
         "deploymentCount": 1,
         "deploymentCountBasis": "APIs.io census.",
         "summary": "Nylas was named among provider-engineered deployments. Its homepage loaded a same-origin MCP connector asset on this report date, but the asset name is not treated as proof of a current WebMCP tool surface.",
-        "observedAt": "2026-09-10T07:49:33.508Z",
+        "observedAt": "2026-09-10T12:41:27.937Z",
         "pages": ["https://www.nylas.com/"],
         "tools": [],
         "sources": [
@@ -324,7 +328,7 @@
         "dailyRecheck": {
           "slug": "nylas",
           "status": "confirmed",
-          "checkedAt": "2026-09-10T07:49:33.508Z",
+          "checkedAt": "2026-09-10T12:41:27.937Z",
           "note": "All 1 expected source signals were recovered."
         }
       },
@@ -340,7 +344,7 @@
         "deploymentCount": 1,
         "deploymentCountBasis": "Project source; included with an explicit self-report disclosure.",
         "summary": "isWebMCP registers a global evidence, learning, news, demo, and export surface, plus three route-scoped product-demo tools. This record is self-reported from the same repository that publishes the adoption report and should not be treated as independent validation.",
-        "observedAt": "2026-09-10T07:49:33.508Z",
+        "observedAt": "2026-09-10T12:41:27.937Z",
         "pages": ["https://iswebmcp.com/", "https://iswebmcp.com/lab"],
         "tools": [
           {
@@ -467,13 +471,13 @@
         "dailyRecheck": {
           "slug": "iswebmcp",
           "status": "confirmed",
-          "checkedAt": "2026-09-10T07:49:33.508Z",
+          "checkedAt": "2026-09-10T12:41:27.937Z",
           "note": "All 4 expected source signals were recovered."
         }
       }
     ],
     "methodology": {
-      "scope": "Public WebMCP browser-tool adoption. Remote MCP servers are excluded unless a page bridges them into document.modelContext or the legacy navigator surface.",
+      "scope": "Public WebMCP browser-tool adoption, including a robots-aware source census of the Tranco top 10,000 domains. Remote MCP servers are excluded unless a page bridges them into document.modelContext or the legacy navigator surface.",
       "unitPolicy": "Organizations, independently engineered implementations, public properties, and platform-inherited deployments are counted separately.",
       "evidenceLevels": [
         {
@@ -498,13 +502,197 @@
         "Tool names are published only when visible in source or a specifically linked census.",
         "A token, package name, MCP endpoint, or marketing claim alone is not counted as a WebMCP tool implementation.",
         "Unknown fields remain unknown; they are not scored as absent.",
-        "Daily reports are append-only snapshots. Later corrections appear as new reports with a change note."
+        "Daily reports are append-only snapshots. Later corrections appear as new reports with a change note.",
+        "The census audit digest is 8ae3602d497459707d7ee44110e2c98be8726f9ecf057f9ace777acefe747020; the list source and positive detections are linked from the dated report.",
+        "The daily first-pass census checks the Tranco top 10,000 domains, records every collection outcome, and retains only positive WebMCP detections in the downloadable ledger.",
+        "The census audit digest is aa847922e0bf1723989ddddc5adb9c18ce8ff76b0932b511ff1f1a4d32af98e8; the list source and positive detections are linked from the dated report."
       ]
     },
     "collection": {
       "checked": 6,
       "confirmed": 6,
       "failed": 0
+    },
+    "census": {
+      "scope": "tranco-top-10000",
+      "generatedAt": "2026-09-10T12:03:18.753Z",
+      "source": {
+        "name": "Tranco",
+        "listId": "94XL2",
+        "listUrl": "https://tranco-list.eu/list/94XL2/full",
+        "listDate": "2026-09-09",
+        "description": "A reproducible research ranking of popular domains; used as a popularity proxy, not direct traffic measurement."
+      },
+      "scheduledCount": 10000,
+      "attemptedCount": 10000,
+      "detectedCount": 11,
+      "notDetectedCount": 5227,
+      "robotsBlockedCount": 801,
+      "unreachableCount": 3933,
+      "unsupportedCount": 28,
+      "documentSurfaceCount": 3,
+      "navigatorSurfaceCount": 4,
+      "bridgeSurfaceCount": 10,
+      "namedToolDefinitions": 2,
+      "auditDigest": "aa847922e0bf1723989ddddc5adb9c18ce8ff76b0932b511ff1f1a4d32af98e8",
+      "dataUrl": "/data/adoption-census/2026-09-10.json",
+      "detections": [
+        {
+          "popularityRank": 270,
+          "domain": "forter.com",
+          "url": "https://forter.com/",
+          "finalUrl": "https://www.forter.com/",
+          "state": "detected",
+          "surface": "bridge",
+          "signals": ["WebMCP bridge or manifest marker"],
+          "tools": ["switch_site_language"],
+          "checkedAt": "2026-09-10T12:03:18.753Z",
+          "bytesRead": 289314,
+          "redirects": 1
+        },
+        {
+          "popularityRank": 328,
+          "domain": "hostinger.com",
+          "url": "https://hostinger.com/",
+          "finalUrl": "https://www.hostinger.com/",
+          "state": "detected",
+          "surface": "mixed",
+          "signals": [
+            "document.modelContext",
+            "navigator.modelContext",
+            "registerTool"
+          ],
+          "tools": [],
+          "checkedAt": "2026-09-10T12:03:18.753Z",
+          "bytesRead": 869547,
+          "redirects": 1
+        },
+        {
+          "popularityRank": 727,
+          "domain": "asus.com",
+          "url": "https://asus.com/",
+          "finalUrl": "https://www.asus.com/",
+          "state": "detected",
+          "surface": "bridge",
+          "signals": ["WebMCP bridge or manifest marker"],
+          "tools": [],
+          "checkedAt": "2026-09-10T12:03:18.753Z",
+          "bytesRead": 457016,
+          "redirects": 1
+        },
+        {
+          "popularityRank": 1125,
+          "domain": "usercentrics.eu",
+          "url": "https://usercentrics.eu/",
+          "finalUrl": "https://usercentrics.com/",
+          "state": "detected",
+          "surface": "mixed",
+          "signals": [
+            "document.modelContext",
+            "navigator.modelContext",
+            "WebMCP bridge or manifest marker"
+          ],
+          "tools": [],
+          "checkedAt": "2026-09-10T12:03:18.753Z",
+          "bytesRead": 1000000,
+          "redirects": 1
+        },
+        {
+          "popularityRank": 2240,
+          "domain": "customer.io",
+          "url": "https://customer.io/",
+          "finalUrl": "https://customer.io/",
+          "state": "detected",
+          "surface": "bridge",
+          "signals": ["WebMCP bridge or manifest marker"],
+          "tools": [],
+          "checkedAt": "2026-09-10T12:03:18.753Z",
+          "bytesRead": 485734,
+          "redirects": 0
+        },
+        {
+          "popularityRank": 2282,
+          "domain": "cookiebot.com",
+          "url": "https://cookiebot.com/",
+          "finalUrl": "https://www.cookiebot.com/",
+          "state": "detected",
+          "surface": "mixed",
+          "signals": [
+            "document.modelContext",
+            "navigator.modelContext",
+            "WebMCP bridge or manifest marker"
+          ],
+          "tools": [],
+          "checkedAt": "2026-09-10T12:03:18.753Z",
+          "bytesRead": 435333,
+          "redirects": 1
+        },
+        {
+          "popularityRank": 2919,
+          "domain": "zapier.com",
+          "url": "https://zapier.com/",
+          "finalUrl": "https://zapier.com/",
+          "state": "detected",
+          "surface": "bridge",
+          "signals": ["WebMCP bridge or manifest marker"],
+          "tools": [],
+          "checkedAt": "2026-09-10T12:03:18.753Z",
+          "bytesRead": 581964,
+          "redirects": 0
+        },
+        {
+          "popularityRank": 3127,
+          "domain": "chatgpt.site",
+          "url": "https://chatgpt.site/",
+          "finalUrl": "https://learn.chatgpt.com/docs/sites",
+          "state": "detected",
+          "surface": "bridge",
+          "signals": ["WebMCP bridge or manifest marker"],
+          "tools": [],
+          "checkedAt": "2026-09-10T12:03:18.753Z",
+          "bytesRead": 527614,
+          "redirects": 2
+        },
+        {
+          "popularityRank": 3245,
+          "domain": "monday.com",
+          "url": "https://monday.com/",
+          "finalUrl": "https://monday.com/",
+          "state": "detected",
+          "surface": "navigator",
+          "signals": ["navigator.modelContext", "registerTool"],
+          "tools": ["navigate_by_use_case"],
+          "checkedAt": "2026-09-10T12:03:18.753Z",
+          "bytesRead": 613503,
+          "redirects": 0
+        },
+        {
+          "popularityRank": 6210,
+          "domain": "chavesnamao.com.br",
+          "url": "https://chavesnamao.com.br/",
+          "finalUrl": "https://www.chavesnamao.com.br/",
+          "state": "detected",
+          "surface": "bridge",
+          "signals": ["WebMCP bridge or manifest marker"],
+          "tools": [],
+          "checkedAt": "2026-09-10T12:03:18.753Z",
+          "bytesRead": 442714,
+          "redirects": 1
+        },
+        {
+          "popularityRank": 9060,
+          "domain": "flexport.com",
+          "url": "https://flexport.com/",
+          "finalUrl": "https://www.flexport.com/",
+          "state": "detected",
+          "surface": "bridge",
+          "signals": ["WebMCP bridge or manifest marker"],
+          "tools": [],
+          "checkedAt": "2026-09-10T12:03:18.753Z",
+          "bytesRead": 739434,
+          "redirects": 1
+        }
+      ]
     }
   }
 ]

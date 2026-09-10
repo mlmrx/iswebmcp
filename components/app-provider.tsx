@@ -1177,6 +1177,27 @@ export function AppProvider({ children }: { children: ReactNode }) {
               named_tools: finding.tools.map((tool) => tool.name),
               limitations: finding.limitations,
             })),
+            census: report.census
+              ? {
+                  scope: report.census.scope,
+                  generated_at: report.census.generatedAt,
+                  source: report.census.source,
+                  scheduled_count: report.census.scheduledCount,
+                  attempted_count: report.census.attemptedCount,
+                  detected_count: report.census.detectedCount,
+                  not_detected_count: report.census.notDetectedCount,
+                  robots_blocked_count: report.census.robotsBlockedCount,
+                  unreachable_count: report.census.unreachableCount,
+                  unsupported_count: report.census.unsupportedCount,
+                  document_surface_count: report.census.documentSurfaceCount,
+                  navigator_surface_count: report.census.navigatorSurfaceCount,
+                  bridge_surface_count: report.census.bridgeSurfaceCount,
+                  named_tool_definitions: report.census.namedToolDefinitions,
+                  audit_digest: report.census.auditDigest,
+                  data_url: report.census.dataUrl,
+                  detections: report.census.detections,
+                }
+              : undefined,
             url: `/adoption/${report.date}`,
             json_url: `/adoption/${report.date}/report.json`,
             citation_policy:

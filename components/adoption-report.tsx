@@ -195,6 +195,68 @@ export function AdoptionReportView({ report }: { report: AdoptionReport }) {
           </div>
         </section>
 
+        {report.census ? (
+          <section
+            className="instrument-card overflow-hidden"
+            aria-labelledby="census-heading"
+          >
+            <div className="grid gap-7 p-6 lg:grid-cols-[.7fr_1.3fr] lg:p-8">
+              <div>
+                <p className="eyebrow">First-pass census</p>
+                <h2
+                  id="census-heading"
+                  className="mt-2 text-2xl font-semibold tracking-[-.035em]"
+                >
+                  Top {report.census.scheduledCount.toLocaleString()} domains,
+                  one consistent denominator
+                </h2>
+                <p className="mt-4 text-sm leading-6 text-muted-foreground">
+                  A robots-aware homepage source pass records every outcome.
+                  Positive detections are retained with their source signals and
+                  any recoverable tool names; absence is never treated as proof
+                  that a site has no WebMCP.
+                </p>
+                <Link
+                  className="mt-5 inline-flex items-center gap-2 text-sm font-semibold"
+                  href={report.census.dataUrl}
+                >
+                  Download positive detections{' '}
+                  <ArrowRight className="size-4" aria-hidden="true" />
+                </Link>
+              </div>
+              <div className="grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
+                {[
+                  [report.census.detectedCount, 'Source signals'],
+                  [report.census.notDetectedCount, 'No signal'],
+                  [report.census.robotsBlockedCount, 'Robots blocked'],
+                  [report.census.unreachableCount, 'Unavailable'],
+                ].map(([value, label]) => (
+                  <div key={String(label)} className="bg-card p-5">
+                    <p className="text-3xl font-semibold tracking-[-.05em]">
+                      {Number(value).toLocaleString()}
+                    </p>
+                    <p className="mt-2 text-xs font-semibold text-muted-foreground">
+                      {label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="border-t border-border bg-muted/25 px-6 py-4 text-xs leading-5 text-muted-foreground lg:px-8">
+              Tranco list{' '}
+              <a
+                className="font-semibold underline underline-offset-4"
+                href={report.census.source.listUrl}
+              >
+                {report.census.source.listId}
+              </a>{' '}
+              ({report.census.source.listDate}) ·{' '}
+              {report.census.namedToolDefinitions} tool names recovered · audit
+              digest <code>{report.census.auditDigest.slice(0, 12)}…</code>
+            </div>
+          </section>
+        ) : null}
+
         <AdoptionExplorer findings={report.findings} />
 
         <section

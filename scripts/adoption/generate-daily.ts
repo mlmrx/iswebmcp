@@ -1,6 +1,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
+import type { AdoptionCensus } from '../../lib/adoption-census';
 import type { AdoptionFinding, AdoptionReport } from '../../lib/adoption';
 
 const root = process.cwd();
@@ -134,6 +135,34 @@ async function runProbe(probe: Probe, checkedAt: string): Promise<ProbeResult> {
 function stableFingerprint(report: AdoptionReport): string {
   return JSON.stringify({
     summary: report.summary,
+    census: report.census
+      ? {
+          scope: report.census.scope,
+          source: report.census.source,
+          scheduledCount: report.census.scheduledCount,
+          attemptedCount: report.census.attemptedCount,
+          detectedCount: report.census.detectedCount,
+          notDetectedCount: report.census.notDetectedCount,
+          robotsBlockedCount: report.census.robotsBlockedCount,
+          unreachableCount: report.census.unreachableCount,
+          unsupportedCount: report.census.unsupportedCount,
+          documentSurfaceCount: report.census.documentSurfaceCount,
+          navigatorSurfaceCount: report.census.navigatorSurfaceCount,
+          bridgeSurfaceCount: report.census.bridgeSurfaceCount,
+          namedToolDefinitions: report.census.namedToolDefinitions,
+          auditDigest: report.census.auditDigest,
+          detections: report.census.detections.map((detection) => ({
+            popularityRank: detection.popularityRank,
+            domain: detection.domain,
+            url: detection.url,
+            finalUrl: detection.finalUrl,
+            state: detection.state,
+            surface: detection.surface,
+            signals: detection.signals,
+            tools: detection.tools,
+          })),
+        }
+      : null,
     analysis: report.analysis,
     findings: report.findings.map((finding) => ({
       slug: finding.slug,
@@ -164,6 +193,28 @@ function updateFinding(
   };
 }
 
+function censusSummary(census: AdoptionCensus, date: string) {
+  return {
+    scope: census.scope,
+    generatedAt: census.generatedAt,
+    source: census.source,
+    scheduledCount: census.coverage.scheduledCount,
+    attemptedCount: census.coverage.attemptedCount,
+    detectedCount: census.coverage.detectedCount,
+    notDetectedCount: census.coverage.notDetectedCount,
+    robotsBlockedCount: census.coverage.robotsBlockedCount,
+    unreachableCount: census.coverage.unreachableCount,
+    unsupportedCount: census.coverage.unsupportedCount,
+    documentSurfaceCount: census.coverage.documentSurfaceCount,
+    navigatorSurfaceCount: census.coverage.navigatorSurfaceCount,
+    bridgeSurfaceCount: census.coverage.bridgeSurfaceCount,
+    namedToolDefinitions: census.coverage.namedToolDefinitions,
+    auditDigest: census.auditDigest,
+    dataUrl: `/data/adoption-census/${date}.json`,
+    detections: census.detections,
+  };
+}
+
 const raw = await readFile(indexPath, 'utf8');
 const reports = JSON.parse(raw) as AdoptionReport[];
 const latest = [...reports].sort((a, b) => b.date.localeCompare(a.date))[0];
@@ -172,6 +223,16 @@ if (!latest) throw new Error('At least one adoption report is required.');
 const now = new Date();
 const generatedAt = now.toISOString();
 const date = pacificDate(now);
+const censusPath = path.join(
+  root,
+  'public',
+  'data',
+  'adoption-census',
+  `${date}.json`,
+);
+const census = await readFile(censusPath, 'utf8')
+  .then((value) => JSON.parse(value) as AdoptionCensus)
+  .catch(() => undefined);
 const results = await Promise.all(
   probes.map((probe) => runProbe(probe, generatedAt)),
 );
@@ -187,6 +248,29 @@ report.previousReportDate =
 report.findings = report.findings.map((finding) =>
   updateFinding(finding, resultBySlug.get(finding.slug)),
 );
+if (census) {
+  report.census = censusSummary(census, date);
+  report.analysis = [
+    {
+      heading: 'Top-10,000 coverage sets the denominator',
+      body: `The first-pass Tranco census scheduled ${census.coverage.scheduledCount.toLocaleString()} domains and recorded ${census.coverage.attemptedCount.toLocaleString()} collection outcomes. It found ${census.coverage.detectedCount.toLocaleString()} positive WebMCP source signals; ${census.coverage.notDetectedCount.toLocaleString()} domains had no detected signal, while ${census.coverage.robotsBlockedCount.toLocaleString()} were blocked by robots policy and ${census.coverage.unreachableCount.toLocaleString()} were unreachable or timed out.`,
+    },
+    ...report.analysis.filter(
+      (item) => item.heading !== 'Top-10,000 coverage sets the denominator',
+    ),
+  ];
+  report.dek = `A daily first-pass census checks the Tranco top ${census.coverage.scheduledCount.toLocaleString()} public domains for source-level WebMCP signals, then separates those detections from directly inspected implementation records.`;
+  report.methodology.scope = `Public WebMCP browser-tool adoption, including a robots-aware source census of the Tranco top ${census.coverage.scheduledCount.toLocaleString()} domains. Remote MCP servers are excluded unless a page bridges them into document.modelContext or the legacy navigator surface.`;
+  report.methodology.collectionNotes = [
+    ...report.methodology.collectionNotes.filter(
+      (note) => !note.startsWith('The daily first-pass census'),
+    ),
+    `The daily first-pass census checks the Tranco top ${census.coverage.scheduledCount.toLocaleString()} domains, records every collection outcome, and retains only positive WebMCP detections in the downloadable ledger.`,
+    `The census audit digest is ${census.auditDigest}; the list source and positive detections are linked from the dated report.`,
+  ];
+} else {
+  delete report.census;
+}
 report.summary.namedToolDefinitions = report.findings.reduce(
   (total, finding) => total + finding.tools.length,
   0,

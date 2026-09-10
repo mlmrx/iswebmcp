@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-10T12:03:18.753Z",
+  "scope": "tranco-top-10000",
+  "source": {
+    "name": "Tranco",
+    "listId": "94XL2",
+    "listUrl": "https://tranco-list.eu/list/94XL2/full",
+    "listDate": "2026-09-09",
+    "description": "A reproducible research ranking of popular domains; used as a popularity proxy, not direct traffic measurement."
+  },
+  "coverage": {
+    "scheduledCount": 10000,
+    "attemptedCount": 10000,
+    "detectedCount": 11,
+    "notDetectedCount": 5227,
+    "robotsBlockedCount": 801,
+    "unreachableCount": 3933,
+    "unsupportedCount": 28,
+    "documentSurfaceCount": 3,
+    "navigatorSurfaceCount": 4,
+    "bridgeSurfaceCount": 10,
+    "namedToolDefinitions": 2
+  },
+  "auditDigest": "aa847922e0bf1723989ddddc5adb9c18ce8ff76b0932b511ff1f1a4d32af98e8",
+  "rowPolicy": "The denominator includes every scheduled domain and every collection outcome. The retained detections array contains only positive WebMCP source signals; not-detected and blocked domains remain represented in coverage counts.",
+  "detections": [
+    {
+      "popularityRank": 270,
+      "domain": "forter.com",
+      "url": "https://forter.com/",
+      "finalUrl": "https://www.forter.com/",
+      "state": "detected",
+      "surface": "bridge",
+      "signals": ["WebMCP bridge or manifest marker"],
+      "tools": ["switch_site_language"],
+      "checkedAt": "2026-09-10T12:03:18.753Z",
+      "bytesRead": 289314,
+      "redirects": 1
+    },
+    {
+      "popularityRank": 328,
+      "domain": "hostinger.com",
+      "url": "https://hostinger.com/",
+      "finalUrl": "https://www.hostinger.com/",
+      "state": "detected",
+      "surface": "mixed",
+      "signals": [
+        "document.modelContext",
+        "navigator.modelContext",
+        "registerTool"
+      ],
+      "tools": [],
+      "checkedAt": "2026-09-10T12:03:18.753Z",
+      "bytesRead": 869547,
+      "redirects": 1
+    },
+    {
+      "popularityRank": 727,
+      "domain": "asus.com",
+      "url": "https://asus.com/",
+      "finalUrl": "https://www.asus.com/",
+      "state": "detected",
+      "surface": "bridge",
+      "signals": ["WebMCP bridge or manifest marker"],
+      "tools": [],
+      "checkedAt": "2026-09-10T12:03:18.753Z",
+      "bytesRead": 457016,
+      "redirects": 1
+    },
+    {
+      "popularityRank": 1125,
+      "domain": "usercentrics.eu",
+      "url": "https://usercentrics.eu/",
+      "finalUrl": "https://usercentrics.com/",
+      "state": "detected",
+      "surface": "mixed",
+      "signals": [
+        "document.modelContext",
+        "navigator.modelContext",
+        "WebMCP bridge or manifest marker"
+      ],
+      "tools": [],
+      "checkedAt": "2026-09-10T12:03:18.753Z",
+      "bytesRead": 1000000,
+      "redirects": 1
+    },
+    {
+      "popularityRank": 2240,
+      "domain": "customer.io",
+      "url": "https://customer.io/",
+      "finalUrl": "https://customer.io/",
+      "state": "detected",
+      "surface": "bridge",
+      "signals": ["WebMCP bridge or manifest marker"],
+      "tools": [],
+      "checkedAt": "2026-09-10T12:03:18.753Z",
+      "bytesRead": 485734,
+      "redirects": 0
+    },
+    {
+      "popularityRank": 2282,
+      "domain": "cookiebot.com",
+      "url": "https://cookiebot.com/",
+      "finalUrl": "https://www.cookiebot.com/",
+      "state": "detected",
+      "surface": "mixed",
+      "signals": [
+        "document.modelContext",
+        "navigator.modelContext",
+        "WebMCP bridge or manifest marker"
+      ],
+      "tools": [],
+      "checkedAt": "2026-09-10T12:03:18.753Z",
+      "bytesRead": 435333,
+      "redirects": 1
+    },
+    {
+      "popularityRank": 2919,
+      "domain": "zapier.com",
+      "url": "https://zapier.com/",
+      "finalUrl": "https://zapier.com/",
+      "state": "detected",
+      "surface": "bridge",
+      "signals": ["WebMCP bridge or manifest marker"],
+      "tools": [],
+      "checkedAt": "2026-09-10T12:03:18.753Z",
+      "bytesRead": 581964,
+      "redirects": 0
+    },
+    {
+      "popularityRank": 3127,
+      "domain": "chatgpt.site",
+      "url": "https://chatgpt.site/",
+      "finalUrl": "https://learn.chatgpt.com/docs/sites",
+      "state": "detected",
+      "surface": "bridge",
+      "signals": ["WebMCP bridge or manifest marker"],
+      "tools": [],
+      "checkedAt": "2026-09-10T12:03:18.753Z",
+      "bytesRead": 527614,
+      "redirects": 2
+    },
+    {
+      "popularityRank": 3245,
+      "domain": "monday.com",
+      "url": "https://monday.com/",
+      "finalUrl": "https://monday.com/",
+      "state": "detected",
+      "surface": "navigator",
+      "signals": ["navigator.modelContext", "registerTool"],
+      "tools": ["navigate_by_use_case"],
+      "checkedAt": "2026-09-10T12:03:18.753Z",
+      "bytesRead": 613503,
+      "redirects": 0
+    },
+    {
+      "popularityRank": 6210,
+      "domain": "chavesnamao.com.br",
+      "url": "https://chavesnamao.com.br/",
+      "finalUrl": "https://www.chavesnamao.com.br/",
+      "state": "detected",
+      "surface": "bridge",
+      "signals": ["WebMCP bridge or manifest marker"],
+      "tools": [],
+      "checkedAt": "2026-09-10T12:03:18.753Z",
+      "bytesRead": 442714,
+      "redirects": 1
+    },
+    {
+      "popularityRank": 9060,
+      "domain": "flexport.com",
+      "url": "https://flexport.com/",
+      "finalUrl": "https://www.flexport.com/",
+      "state": "detected",
+      "surface": "bridge",
+      "signals": ["WebMCP bridge or manifest marker"],
+      "tools": [],
+      "checkedAt": "2026-09-10T12:03:18.753Z",
+      "bytesRead": 739434,
+      "redirects": 1
+    }
+  ]
+}

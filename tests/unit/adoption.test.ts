@@ -6,8 +6,34 @@ import {
   getAdoptionReport,
   latestAdoptionReport,
 } from '@/lib/adoption';
+import { detectWebMcpSource } from '@/lib/adoption-census';
 
 describe('WebMCP adoption reports', () => {
+  it('detects current, legacy, and bridge source signals without treating prose as adoption', () => {
+    const current = detectWebMcpSource(
+      `<script>document.modelContext.registerTool({name: 'search_docs'})</script>`,
+    );
+    expect(current).toMatchObject({
+      detected: true,
+      surface: 'document',
+      signals: ['document.modelContext', 'registerTool'],
+      tools: ['search_docs'],
+    });
+
+    const legacy = detectWebMcpSource(
+      `<script>navigator.modelContext.registerTool({name: 'legacy_search'})</script>`,
+    );
+    expect(legacy.surface).toBe('navigator');
+    expect(legacy.tools).toEqual(['legacy_search']);
+
+    expect(
+      detectWebMcpSource('<p>WebMCP is an experimental proposal.</p>'),
+    ).toMatchObject({
+      detected: false,
+      tools: [],
+    });
+  });
+
   it('keeps the archive newest-first with stable dated lookup', () => {
     expect(adoptionReports.length).toBeGreaterThan(0);
     expect(adoptionReports[0]).toBe(latestAdoptionReport);
@@ -35,6 +61,19 @@ describe('WebMCP adoption reports', () => {
       report.summary.thirdPartyObservedDeployments,
     );
     expect(report.summary.platformInheritedDeployments).toBe(72);
+  });
+
+  it('publishes the dated top-10,000 census alongside the evidence ledger', () => {
+    const census = latestAdoptionReport.census;
+    expect(census?.scope).toBe('tranco-top-10000');
+    expect(census?.scheduledCount).toBe(10_000);
+    expect(census?.attemptedCount).toBe(10_000);
+    expect(census?.detectedCount).toBeGreaterThan(0);
+    expect(census?.dataUrl).toBe(
+      `/data/adoption-census/${latestAdoptionReport.date}.json`,
+    );
+    expect(census?.auditDigest).toMatch(/^[a-f0-9]{64}$/);
+    expect(census?.detections.length).toBe(census?.detectedCount);
   });
 
   it('requires sources and explicit limitations for every organization', () => {

@@ -1,5 +1,10 @@
 import adoptionData from '@/content/adoption/index.json';
 
+import type {
+  AdoptionCensusDetection,
+  AdoptionCensusSource,
+} from '@/lib/adoption-census';
+
 export type AdoptionEvidenceLevel =
   | 'runtime-verified'
   | 'source-confirmed'
@@ -59,6 +64,25 @@ export interface AdoptionReport {
     providerEngineeredDeployments: number;
     legacyOnlyDeployments: number;
   };
+  census?: {
+    scope: 'tranco-top-10000';
+    generatedAt: string;
+    source: AdoptionCensusSource;
+    scheduledCount: number;
+    attemptedCount: number;
+    detectedCount: number;
+    notDetectedCount: number;
+    robotsBlockedCount: number;
+    unreachableCount: number;
+    unsupportedCount: number;
+    documentSurfaceCount: number;
+    navigatorSurfaceCount: number;
+    bridgeSurfaceCount: number;
+    namedToolDefinitions: number;
+    auditDigest: string;
+    dataUrl: string;
+    detections: AdoptionCensusDetection[];
+  };
   analysis: Array<{ heading: string; body: string }>;
   findings: AdoptionFinding[];
   methodology: {
@@ -108,5 +132,9 @@ export function adoptionReportMarkdown(report: AdoptionReport): string {
     })
     .join('\n\n');
 
-  return `# ${report.title}\n\nPublished: ${report.date}\nGenerated: ${report.generatedAt}\n\n${report.dek}\n\n## Headline numbers\n\n- ${report.summary.organizationsNamed} named organizations\n- ${report.summary.directlyInspectedOrganizations} directly inspected organizations\n- ${report.summary.namedToolDefinitions} named tool definitions\n- ${report.summary.thirdPartyObservedDeployments} deployments in the linked external census\n- ${report.summary.platformInheritedDeployments} platform-inherited deployments\n- ${report.summary.providerEngineeredDeployments} provider-engineered deployments in that census\n- ${report.summary.legacyOnlyDeployments} legacy-only deployments in that census\n\n## What changed\n\n${report.changeSummary}\n\n## Analysis\n\n${report.analysis.map((item) => `### ${item.heading}\n\n${item.body}`).join('\n\n')}\n\n${findings}\n\n## Methodology\n\n${report.methodology.scope}\n\n${report.methodology.unitPolicy}\n\n${report.methodology.collectionNotes.map((note) => `- ${note}`).join('\n')}\n`;
+  const census = report.census
+    ? `## Tranco top-10,000 first-pass coverage\n\n- ${report.census.scheduledCount.toLocaleString()} domains scheduled\n- ${report.census.attemptedCount.toLocaleString()} collection outcomes recorded\n- ${report.census.detectedCount.toLocaleString()} domains with a WebMCP source signal\n- ${report.census.notDetectedCount.toLocaleString()} domains without a detected signal\n- ${report.census.robotsBlockedCount.toLocaleString()} domains blocked by robots policy\n- ${report.census.unreachableCount.toLocaleString()} domains unreachable or timed out\n- ${report.census.namedToolDefinitions.toLocaleString()} tool names recovered from positive source matches\n\nSource list: [Tranco ${report.census.source.listId}](${report.census.source.listUrl}) (${report.census.source.listDate}). [Download the positive-detection ledger](${report.census.dataUrl}). The audit digest is \`${report.census.auditDigest}\`.\n\nThe scan is source-only: a detected signal is not proof that a browser exposed or successfully invoked the tool.`
+    : '';
+
+  return `# ${report.title}\n\nPublished: ${report.date}\nGenerated: ${report.generatedAt}\n\n${report.dek}\n\n## Headline numbers\n\n- ${report.summary.organizationsNamed} named organizations\n- ${report.summary.directlyInspectedOrganizations} directly inspected organizations\n- ${report.summary.namedToolDefinitions} named tool definitions in the evidence ledger\n- ${report.summary.thirdPartyObservedDeployments} deployments in the linked external census\n- ${report.summary.platformInheritedDeployments} platform-inherited deployments\n- ${report.summary.providerEngineeredDeployments} provider-engineered deployments in that census\n- ${report.summary.legacyOnlyDeployments} legacy-only deployments in that census\n\n${census}\n\n## What changed\n\n${report.changeSummary}\n\n## Analysis\n\n${report.analysis.map((item) => `### ${item.heading}\n\n${item.body}`).join('\n\n')}\n\n${findings}\n\n## Methodology\n\n${report.methodology.scope}\n\n${report.methodology.unitPolicy}\n\n${report.methodology.collectionNotes.map((note) => `- ${note}`).join('\n')}\n`;
 }

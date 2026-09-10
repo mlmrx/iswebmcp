@@ -91,6 +91,14 @@ describe('isWebMCP remote MCP server', () => {
         providerEngineeredDeployments: 9,
         platformInheritedDeployments: 72,
       },
+      census: {
+        scope: 'tranco-top-10000',
+        scheduledCount: 10_000,
+        attemptedCount: 10_000,
+        detectedCount: 11,
+        namedToolDefinitions: 2,
+        dataUrl: 'https://iswebmcp.com/data/adoption-census/2026-09-10.json',
+      },
     });
 
     const implementers = await client.callTool({
