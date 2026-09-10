@@ -114,6 +114,8 @@ test('remote MCP completes initialize, discovery, resource, and tool calls', asy
     'audit_public_url',
     'show_sample_audit',
     'audit_tool_contracts',
+    'get_adoption_report',
+    'list_adoption_implementers',
     'explain_evidence_level',
     'get_implementation_recipe',
     'compare_source_reports',
