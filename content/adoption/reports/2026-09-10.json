@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "date": "2026-09-10",
-  "generatedAt": "2026-09-10T07:18:26.423Z",
+  "generatedAt": "2026-09-10T07:49:33.508Z",
   "title": "WebMCP Adoption Report — September 10, 2026",
   "dek": "The first isWebMCP adoption baseline separates organizations from deployments, platform-inherited tools from provider engineering, and current document.modelContext implementations from legacy surfaces.",
   "status": "published",
@@ -47,7 +47,7 @@
       "deploymentCount": 2,
       "deploymentCountBasis": "Third-party census; not independently recounted by isWebMCP.",
       "summary": "Cloudflare announced a developer preview that injects a same-origin bridge at the edge and registers tool packs. Its homepage exposed a WebMCP JSON manifest with two read-only discovery tools when inspected for this report.",
-      "observedAt": "2026-09-10T07:18:26.423Z",
+      "observedAt": "2026-09-10T07:49:33.508Z",
       "pages": ["https://www.cloudflare.com/"],
       "tools": [
         {
@@ -90,7 +90,7 @@
       "dailyRecheck": {
         "slug": "cloudflare",
         "status": "confirmed",
-        "checkedAt": "2026-09-10T07:18:26.423Z",
+        "checkedAt": "2026-09-10T07:49:33.508Z",
         "note": "All 3 expected source signals were recovered."
       }
     },
@@ -106,7 +106,7 @@
       "deploymentCount": 1,
       "deploymentCountBasis": "One inspected public property.",
       "summary": "Render's homepage embedded five read-only documentation and content-index tools. The bootstrap selected navigator.modelContext and included a provideContext fallback, so the source is clear but tied to an older proposal surface on this report date.",
-      "observedAt": "2026-09-10T07:18:26.423Z",
+      "observedAt": "2026-09-10T07:49:33.508Z",
       "pages": ["https://render.com/"],
       "tools": [
         {
@@ -155,7 +155,7 @@
       "dailyRecheck": {
         "slug": "render",
         "status": "confirmed",
-        "checkedAt": "2026-09-10T07:18:26.423Z",
+        "checkedAt": "2026-09-10T07:49:33.508Z",
         "note": "All 6 expected source signals were recovered."
       }
     },
@@ -171,7 +171,7 @@
       "deploymentCount": 2,
       "deploymentCountBasis": "The publisher identifies homepage and Stack surfaces; this report directly inspected the homepage.",
       "summary": "APIs.io prefers document.modelContext.registerTool and falls back to the older navigator context. Its homepage registers catalog search and network-description tools and records capability and invocation telemetry.",
-      "observedAt": "2026-09-10T07:18:26.423Z",
+      "observedAt": "2026-09-10T07:49:33.508Z",
       "pages": ["https://apis.io/", "https://apis.io/stack/"],
       "tools": [
         {
@@ -208,7 +208,7 @@
       "dailyRecheck": {
         "slug": "apis-io",
         "status": "confirmed",
-        "checkedAt": "2026-09-10T07:18:26.423Z",
+        "checkedAt": "2026-09-10T07:49:33.508Z",
         "note": "All 3 expected source signals were recovered."
       }
     },
@@ -259,7 +259,7 @@
       "deploymentCount": 1,
       "deploymentCountBasis": "APIs.io census.",
       "summary": "Zapier was named among provider-engineered deployments. Its public homepage included a WebMCP origin-trial token on this report date, but this report did not recover a complete first-party tool inventory from the loaded bundles.",
-      "observedAt": "2026-09-10T07:18:26.423Z",
+      "observedAt": "2026-09-10T07:49:33.508Z",
       "pages": ["https://zapier.com/"],
       "tools": [],
       "sources": [
@@ -283,7 +283,7 @@
       "dailyRecheck": {
         "slug": "zapier",
         "status": "confirmed",
-        "checkedAt": "2026-09-10T07:18:26.423Z",
+        "checkedAt": "2026-09-10T07:49:33.508Z",
         "note": "All 1 expected source signals were recovered."
       }
     },
@@ -299,7 +299,7 @@
       "deploymentCount": 1,
       "deploymentCountBasis": "APIs.io census.",
       "summary": "Nylas was named among provider-engineered deployments. Its homepage loaded a same-origin MCP connector asset on this report date, but the asset name is not treated as proof of a current WebMCP tool surface.",
-      "observedAt": "2026-09-10T07:18:26.423Z",
+      "observedAt": "2026-09-10T07:49:33.508Z",
       "pages": ["https://www.nylas.com/"],
       "tools": [],
       "sources": [
@@ -323,7 +323,7 @@
       "dailyRecheck": {
         "slug": "nylas",
         "status": "confirmed",
-        "checkedAt": "2026-09-10T07:18:26.423Z",
+        "checkedAt": "2026-09-10T07:49:33.508Z",
         "note": "All 1 expected source signals were recovered."
       }
     },
@@ -339,7 +339,7 @@
       "deploymentCount": 1,
       "deploymentCountBasis": "Project source; included with an explicit self-report disclosure.",
       "summary": "isWebMCP registers a global evidence, learning, news, demo, and export surface, plus three route-scoped product-demo tools. This record is self-reported from the same repository that publishes the adoption report and should not be treated as independent validation.",
-      "observedAt": "2026-09-10T07:18:26.423Z",
+      "observedAt": "2026-09-10T07:49:33.508Z",
       "pages": ["https://iswebmcp.com/", "https://iswebmcp.com/lab"],
       "tools": [
         {
@@ -466,7 +466,7 @@
       "dailyRecheck": {
         "slug": "iswebmcp",
         "status": "confirmed",
-        "checkedAt": "2026-09-10T07:18:26.423Z",
+        "checkedAt": "2026-09-10T07:49:33.508Z",
         "note": "All 4 expected source signals were recovered."
       }
     }
