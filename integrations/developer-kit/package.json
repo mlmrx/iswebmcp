@@ -3,12 +3,33 @@
   "version": "0.2.0",
   "description": "Node SDK and CLI for bounded isWebMCP public source scans and summary comparisons",
   "type": "module",
+  "main": "./index.mjs",
+  "types": "./index.d.ts",
+  "sideEffects": false,
   "engines": {
     "node": ">=22.13.0"
   },
   "license": "MIT",
+  "author": "Mahesh A. Lambe",
+  "homepage": "https://iswebmcp.com/developers",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mlmrx/iswebmcp.git",
+    "directory": "integrations/developer-kit"
+  },
+  "bugs": {
+    "url": "https://github.com/mlmrx/iswebmcp/issues"
+  },
+  "keywords": [
+    "webmcp",
+    "mcp",
+    "agent-ready",
+    "web-audit",
+    "cli",
+    "developer-tools"
+  ],
   "bin": {
-    "iswebmcp": "./bin/iswebmcp.mjs"
+    "iswebmcp": "bin/iswebmcp.mjs"
   },
   "exports": {
     ".": {
@@ -23,7 +44,12 @@
     "README.md",
     "LICENSE"
   ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "prepublishOnly": "npm test"
   }
 }

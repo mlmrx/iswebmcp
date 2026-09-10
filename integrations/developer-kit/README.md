@@ -2,11 +2,23 @@
 
 A zero-dependency Node SDK and CLI for one public source scan, a saved local report, and a repeatable comparison of source-summary findings. Requires Node 22.13 or later. WebMCP is experimental.
 
-This package is available in the developer-tools download and in this repository. It has **not been published to npm**; the package name is proposed and does not establish registry ownership. There is no remote installer to run.
+## Install
+
+```sh
+npm install --save-dev @iswebmcp/developer-kit
+```
+
+The same source is also available in the versioned developer-tools download and in the public repository. Review the privacy and evidence boundaries below before scanning a production URL.
 
 ## First scan
 
-From the extracted developer-tools folder (or the repository root):
+With the npm package installed:
+
+```sh
+npx iswebmcp scan https://example.com --output .reports/baseline.json
+```
+
+From the extracted developer-tools folder or repository root, the equivalent command is:
 
 ```sh
 node integrations/developer-kit/bin/iswebmcp.mjs scan https://example.com --output .reports/baseline.json
@@ -41,14 +53,10 @@ A scan returning `0` can still contain failing findings; the scan command report
 
 ## SDK
 
-From a script in the extracted developer-tools folder (or the repository root):
+From an application with the npm package installed:
 
 ```js
-import {
-  scan,
-  compare,
-  IsWebMCPError,
-} from './integrations/developer-kit/index.mjs';
+import { scan, compare, IsWebMCPError } from '@iswebmcp/developer-kit';
 import { readFile, writeFile } from 'node:fs/promises';
 
 try {
@@ -83,6 +91,6 @@ npm test
 npm pack
 ```
 
-`npm pack` creates `iswebmcp-developer-kit-0.1.0.tgz` locally; it does not publish to a registry. A consumer can install that local tarball and use `import { scan } from '@iswebmcp/developer-kit'` or the installed `iswebmcp` command. The package includes TypeScript declarations and no runtime dependencies. Registry publication requires a separately chosen account and release process.
+`npm pack` creates `iswebmcp-developer-kit-0.2.0.tgz` locally; it does not publish to a registry. A consumer can install that local tarball and use `import { scan } from '@iswebmcp/developer-kit'` or the installed `iswebmcp` command. The package includes TypeScript declarations and no runtime dependencies.
 
 The test suite uses fake API responses; it makes no external scans. Runtime browser adapters and task-success evaluation are separate work beyond this source-only package.
