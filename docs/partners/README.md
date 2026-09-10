@@ -2,7 +2,7 @@
 
 Reviewed September 5, 2026. These are researched prospects, not existing partners, endorsements, or confirmed users. No outreach has been sent. Technical fit below is an inference from official documentation; an integration is not validated until it runs in that provider's environment.
 
-The immediate offer is a small source-evidence pilot: inspect an owner-approved public URL, preserve the bounded findings, review one proposed fix, and compare a later release. The current Node SDK, CLI, and local GitHub Actions adapter are available through the [developer quickstart](https://iswebmcp.com/developers). The GitHub repository is private, as recorded in [content operations](../content-operations.md); the pilot must not depend on anonymous repository access or an assumed npm release.
+The immediate offer is a small source-evidence pilot: inspect an owner-approved public URL, preserve the bounded findings, review one proposed fix, and compare a later release. The current Node SDK and CLI are published as [`@iswebmcp/developer-kit`](https://www.npmjs.com/package/@iswebmcp/developer-kit); the public source repository and local GitHub Actions adapter are linked from the [developer quickstart](https://iswebmcp.com/developers). Pin the package or source revision used in a pilot.
 
 ## Outreach order
 
@@ -28,7 +28,7 @@ What needs another party: an authorized outbound account or owner submission, a 
 
 ## First messages
 
-Drafts are ready for owner review and routing. Do not add an unverified customer count, performance gain, marketplace approval, npm install command, or public GitHub claim. The name below is the proposed sender; the actual sending account must belong to the owner.
+Drafts are ready for owner review and routing. Do not add an unverified customer count, performance gain, marketplace approval, or adoption claim. The public npm package and GitHub repository may be linked using their verified canonical URLs. The name below is the proposed sender; the actual sending account must belong to the owner.
 
 ### Checkly
 

@@ -33,8 +33,12 @@ test('integration gallery exposes five honest, downloadable surfaces', async ({
     page.getByRole('heading', { name: 'Find a problem. Fix it. Check again.' }),
   ).toBeVisible();
   await expect(
-    page.getByRole('link', { name: 'Run your first check' }),
-  ).toHaveAttribute('href', '#quickstart');
+    page.getByRole('link', { name: 'Install from npm' }),
+  ).toHaveAttribute(
+    'href',
+    'https://www.npmjs.com/package/@iswebmcp/developer-kit',
+  );
+  await expect(page.getByText('npm install --save-dev')).toBeVisible();
   await expect(
     page.getByRole('link', { name: /Download CI adapter/ }),
   ).toHaveAttribute(

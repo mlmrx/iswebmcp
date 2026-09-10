@@ -2,7 +2,7 @@
 
 isWebMCP helps developers inspect and improve agent-ready web applications. Useful contributions include reproducible bug reports, clearer evidence and limitations, accessible workflows, reliable integrations, and tests that catch actual regressions.
 
-The source repository is currently private. The source checkout and pull-request instructions below apply to collaborators with existing access. The public website and integration downloads can be used without GitHub repository access; the MIT license does not imply that the repository is publicly accessible.
+The source repository is public. The source checkout and pull-request instructions below apply to contributors, and the public website and integration downloads can also be used without cloning the repository.
 
 ## Local setup
 

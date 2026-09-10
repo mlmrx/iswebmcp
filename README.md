@@ -7,12 +7,12 @@
 **Map it. Contract it. Prove it.**
 
 - Production domain: [iswebmcp.com](https://iswebmcp.com) via Vercel GitHub deployment
-- Source repository (currently private; access required): [mlmrx/iswebmcp](https://github.com/mlmrx/iswebmcp)
+- Public source repository: [mlmrx/iswebmcp](https://github.com/mlmrx/iswebmcp)
 
 isWebMCP is an independent, long-term developer utility and evidence platform.
 It did not participate in the WebMCP Challenge and is not a challenge submission.
 The live product is deployed through the native Next.js + Vercel path.
-Repository visibility is private as verified on September 5, 2026. The public website and its integration downloads do not require repository access; do not change access controls as part of maintenance.
+Repository visibility is public as verified on September 10, 2026. The public website and its integration downloads do not require repository access; do not change access controls as part of maintenance.
 
 The product answers a harder question than protocol detection: can an agent use the exposed tools successfully, safely, and with an observable improvement over the human UI path?
 
@@ -73,7 +73,7 @@ The three catalog tools are exposed only on the Proof Lab in WebMCP mode. Report
 
 ### Developer tools without a site installation
 
-The [developer quickstart](https://iswebmcp.com/developers) provides a downloadable Node SDK, command-line scanner, and local GitHub Actions adapter. The archive includes source, types, tests, and setup examples; no repository access or runtime dependencies are needed. These tools compare bounded source summaries, not runtime task success.
+The [developer quickstart](https://iswebmcp.com/developers) provides the public [`@iswebmcp/developer-kit`](https://www.npmjs.com/package/@iswebmcp/developer-kit) package: a zero-runtime-dependency Node SDK and command-line scanner. Install it with `npm install --save-dev @iswebmcp/developer-kit`, or download the versioned source bundle and local GitHub Actions adapter. These tools compare bounded source summaries, not runtime task success.
 
 Maintainers verify the toolkit with `npm run test:developer`, rebuild the allowlisted download with `npm run developer:package`, and check archive/source consistency with `npm run developer:check`.
 

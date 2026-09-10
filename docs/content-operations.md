@@ -63,7 +63,7 @@ Never copy an article body. Store a short original summary and link to the sourc
 2. Update `content/pulse.json`; preserve prior observations and correction history.
 3. Run formatting, type checking, lint, unit tests, dependency audit, the native Next.js production build, and the production browser suite. Address findings before publication; never infer that a local pass proves deployment success.
 4. Review the rendered labels, dates, attribution, feed, and content API.
-5. Commit and push only the exact validated source to `main` in the existing GitHub repository. Repository visibility is currently private, verified September 5, 2026; do not change access controls or assume public access from earlier instructions.
+5. Commit and push only the exact validated source to `main` in the existing GitHub repository. Repository visibility is public, verified September 10, 2026; do not change access controls automatically.
 6. Verify GitHub Actions and the connected Vercel production deployment for that commit, then verify the production content and labels. A push alone is not proof of publication.
 7. If there is no material change, make no source-control or hosting change.
 

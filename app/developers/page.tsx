@@ -10,11 +10,14 @@ export const metadata: Metadata = {
 };
 
 const download = '/developer-tools/iswebmcp-developer-tools-0.2.0.zip';
-const quickstart = `# Download and extract the developer tools ZIP, then open that folder.
-node integrations/developer-kit/bin/iswebmcp.mjs scan https://example.com --output baseline.json
+const npmPackage = 'https://www.npmjs.com/package/@iswebmcp/developer-kit';
+const quickstart = `npm install --save-dev @iswebmcp/developer-kit
+
+# Save a baseline from your public deployment.
+npx iswebmcp scan https://example.com --output baseline.json
 # After changing your public page, save a second result:
-node integrations/developer-kit/bin/iswebmcp.mjs scan https://example.com --output current.json
-node integrations/developer-kit/bin/iswebmcp.mjs compare baseline.json current.json`;
+npx iswebmcp scan https://example.com --output current.json
+npx iswebmcp compare baseline.json current.json`;
 
 export default function DevelopersPage() {
   return (
@@ -38,10 +41,12 @@ export default function DevelopersPage() {
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <a
-              href="#quickstart"
+              href={npmPackage}
+              target="_blank"
+              rel="noreferrer"
               className="rounded-xl bg-primary px-5 py-3 font-semibold text-primary-foreground"
             >
-              Run your first check
+              Install from npm
             </a>
             <a
               href={download}
@@ -102,8 +107,8 @@ export default function DevelopersPage() {
             A repeatable check from your terminal
           </h2>
           <p className="mt-3 leading-7 text-muted-foreground">
-            Download and extract the toolkit, then replace the example URL with
-            your public page. No repository access, dependency installation, or
+            Install the zero-runtime-dependency package, then replace the
+            example URL with your public page. No repository access or
             application deployment is needed. Use a new output filename for each
             scan.
           </p>
@@ -172,10 +177,12 @@ export default function DevelopersPage() {
               evidence together in your own interface.
             </p>
             <a
-              href={download}
+              href={npmPackage}
+              target="_blank"
+              rel="noreferrer"
               className="mt-5 inline-flex items-center gap-2 font-semibold text-signal-ink hover:underline"
             >
-              Download SDK with examples{' '}
+              View the SDK on npm{' '}
               <ArrowRight className="size-4" aria-hidden="true" />
             </a>
           </section>

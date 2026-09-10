@@ -33,6 +33,17 @@ export function UtilityHero() {
             >
               Automate checks with the SDK + CI toolkit
             </Link>
+            <div
+              aria-label="CLI quickstart"
+              className="mt-5 max-w-xl overflow-x-auto rounded-xl border border-border bg-background px-4 py-3"
+            >
+              <p className="text-xs font-semibold uppercase tracking-[.16em] text-muted-foreground">
+                Run from any Node project
+              </p>
+              <code className="mt-2 block whitespace-nowrap text-sm font-semibold text-foreground">
+                npx @iswebmcp/developer-kit scan https://your-site.example
+              </code>
+            </div>
             <a
               href="#audit"
               className="mt-4 block text-sm font-semibold underline underline-offset-4 lg:hidden"

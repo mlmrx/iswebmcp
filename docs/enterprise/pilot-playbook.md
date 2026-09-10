@@ -54,19 +54,24 @@ The customer retains its own original evidence bundle. A proposed starting point
 
 ## 3. Install and rehearse without a customer scan
 
-Use the versioned ZIP and checksum linked from [Developer toolkit](https://iswebmcp.com/developers). Record the exact package version and checksum, review the source, and retain the downloaded artifact. There is no published npm installation command to assume. Node 22.13 or later is required; the CLI needs no dependency install or build for normal use.
+Install the public package at an explicitly pinned version, or use the versioned ZIP and checksum linked from [Developer toolkit](https://iswebmcp.com/developers). Record the exact package version and provenance, review the source, and retain the relevant lockfile or downloaded artifact. Node 22.13 or later is required; the CLI has no runtime dependencies or build step for normal use.
 
-From the extracted toolkit root, run the local help command first:
+```sh
+npm install --save-dev @iswebmcp/developer-kit@0.2.0
+npx --no-install iswebmcp --help
+```
+
+From an extracted source bundle, the equivalent local help command is:
 
 ```sh
 node integrations/developer-kit/bin/iswebmcp.mjs --help
 ```
 
-For CI, commit reviewed copies of both `integrations/developer-kit` and `integrations/github-action` to the application repository, preserving their relative paths. Use the [adapter instructions](../../integrations/github-action/README.md), pin third-party actions to reviewed commit SHAs, set `permissions: contents: read`, and keep the initial check advisory. Do not require anonymous access to isWebMCP's private source repository.
+For CI, install the pinned npm package directly or commit reviewed copies of both `integrations/developer-kit` and `integrations/github-action` to the application repository, preserving their relative paths. Use the [adapter instructions](../../integrations/github-action/README.md), pin third-party actions to reviewed commit SHAs, set `permissions: contents: read`, and keep the initial check advisory.
 
 Set explicit artifact access and retention in the customer's workflow. Run only after the approved deployment is ready, with serialized checks for this target. Begin with at most six deliberately initiated scans across the pilot unless the owner agrees a revised budget. This is a proposed request budget, not an API entitlement. The shared service has rate and concurrency limits; the toolkit does not retry automatically. Honor `Retry-After` and retain failed attempts rather than looping or changing identities to evade limits.
 
-Known packaging documentation follow-up, identified during this review: the developer-kit README's `npm pack` example still names `0.1.0`, although the current package manifest is `0.2.0`; the GitHub Actions README still says a bounded subset of findings, although summary/v2 supplies a complete finding inventory for its bounded source scan. Use the checked package manifest and returned `findingsCoverage` rather than those stale sentences. This playbook does not alter an existing versioned download or claim those packaged documents have been corrected. Any correction needs a separately versioned, checksum-verified release.
+Package 0.2.0 and the matching source bundle use the current filename and describe summary/v2 as the complete finding inventory returned for its bounded source scan. Continue to check the installed manifest, lockfile, and returned `findingsCoverage`; a complete bounded inventory is not a whole-application or runtime test.
 
 ## 4. Capture a baseline and review actionability
 
