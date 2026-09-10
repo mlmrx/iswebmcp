@@ -1,0 +1,65 @@
+name: Daily WebMCP adoption report
+
+on:
+  schedule:
+    - cron: '23 13 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-webmcp-adoption
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22.13.0
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - name: Discover implementation candidates
+        run: npm run adoption:discover
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Generate evidence-scoped daily report
+        run: npm run adoption:generate
+      - run: npm run format:check
+      - run: npm run typecheck
+      - run: npm test -- tests/unit/adoption.test.ts
+      - name: Publish changed report source
+        id: publish
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          report_date=$(node -p "require('./content/adoption/index.json')[0].date")
+          git config user.name "isWebMCP adoption bot"
+          git config user.email "research@iswebmcp.com"
+          git add content/adoption
+          git commit -m "Publish WebMCP adoption report ${report_date}"
+          git push origin HEAD:main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          echo "report_date=${report_date}" >> "$GITHUB_OUTPUT"
+      - name: Wait for the public report
+        if: steps.publish.outputs.changed == 'true'
+        shell: bash
+        run: |
+          for attempt in {1..60}; do
+            if curl --fail --silent --show-error "https://iswebmcp.com/adoption/${{ steps.publish.outputs.report_date }}/report.json" | grep --quiet '"date":"${{ steps.publish.outputs.report_date }}"'; then
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "The deployment did not expose the new report within 10 minutes."
+          exit 1
+      - name: Notify participating search indexes
+        if: steps.publish.outputs.changed == 'true'
+        run: npm run adoption:index -- "${{ steps.publish.outputs.report_date }}"

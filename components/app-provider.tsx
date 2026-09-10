@@ -29,6 +29,13 @@ import {
   type ContentKind,
 } from '@/lib/content';
 import {
+  adoptionReports,
+  getAdoptionReport,
+  latestAdoptionReport,
+  type AdoptionEvidenceLevel,
+  type AdoptionSurfaceStatus,
+} from '@/lib/adoption';
+import {
   challengeSnapshot,
   listPulseUpdates,
   pulseGeneratedAt,
@@ -1128,6 +1135,148 @@ export function AppProvider({ children }: { children: ReactNode }) {
                 : article.sections.map(({ id, heading }) => ({ id, heading })),
             sources: article.sources,
             next_action: article.cta,
+          };
+        },
+      },
+      {
+        name: 'get_webmcp_adoption_report',
+        title: 'Read a WebMCP adoption report',
+        description:
+          'Read the latest or a dated evidence-scoped report of WebMCP implementers, tools, API surfaces, and attribution.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            date: {
+              type: 'string',
+              enum: adoptionReports.map((report) => report.date),
+              description: 'Optional published report date in YYYY-MM-DD form.',
+            },
+          },
+          additionalProperties: false,
+        },
+        annotations: { readOnlyHint: true, untrustedContentHint: true },
+        execute: (raw) => {
+          const input = exactRecord(raw, ['date']);
+          const date = stringInput(input, 'date');
+          const report = date ? getAdoptionReport(date) : latestAdoptionReport;
+          if (!report) toolFailure('NOT_FOUND', 'The report date is unknown.');
+          return {
+            date: report.date,
+            generated_at: report.generatedAt,
+            title: report.title,
+            summary: report.summary,
+            change_summary: report.changeSummary,
+            analysis: report.analysis,
+            organizations: report.findings.map((finding) => ({
+              organization: finding.organization,
+              evidence_level: finding.evidenceLevel,
+              attribution: finding.attribution,
+              surface: finding.surface,
+              surface_status: finding.surfaceStatus,
+              deployment_count: finding.deploymentCount,
+              named_tools: finding.tools.map((tool) => tool.name),
+              limitations: finding.limitations,
+            })),
+            url: `/adoption/${report.date}`,
+            json_url: `/adoption/${report.date}/report.json`,
+            citation_policy:
+              'Preserve date, evidence level, attribution, surface status, and limitations. Cite the dated report and underlying finding source.',
+          };
+        },
+      },
+      {
+        name: 'list_webmcp_adopters',
+        title: 'List observed WebMCP adopters',
+        description:
+          'Search the latest adoption ledger by organization or tool and filter by evidence level or API surface status.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            query: {
+              type: 'string',
+              maxLength: 120,
+              description:
+                'Optional organization, implementation, or tool query.',
+            },
+            evidence: {
+              type: 'string',
+              enum: [
+                'runtime-verified',
+                'source-confirmed',
+                'third-party-observed',
+                'announced',
+              ],
+            },
+            surface_status: {
+              type: 'string',
+              enum: ['current', 'legacy', 'mixed', 'unknown'],
+            },
+            limit: {
+              type: 'integer',
+              minimum: 1,
+              maximum: 20,
+            },
+          },
+          additionalProperties: false,
+        },
+        annotations: { readOnlyHint: true, untrustedContentHint: true },
+        execute: (raw) => {
+          const input = exactRecord(raw, [
+            'query',
+            'evidence',
+            'surface_status',
+            'limit',
+          ]);
+          const query = stringInput(input, 'query', { max: 120 })
+            ?.trim()
+            .toLowerCase();
+          const evidence = stringInput(input, 'evidence') as
+            | AdoptionEvidenceLevel
+            | undefined;
+          const surfaceStatus = stringInput(input, 'surface_status') as
+            | AdoptionSurfaceStatus
+            | undefined;
+          const limit =
+            numberInput(input, 'limit', {
+              integer: true,
+              min: 1,
+              max: 20,
+            }) ?? 20;
+          const results = latestAdoptionReport.findings
+            .filter((finding) => {
+              if (evidence && finding.evidenceLevel !== evidence) return false;
+              if (surfaceStatus && finding.surfaceStatus !== surfaceStatus)
+                return false;
+              if (!query) return true;
+              return [
+                finding.organization,
+                finding.implementation,
+                finding.summary,
+                ...finding.tools.flatMap((tool) => [tool.name, tool.purpose]),
+              ]
+                .join(' ')
+                .toLowerCase()
+                .includes(query);
+            })
+            .slice(0, limit)
+            .map((finding) => ({
+              organization: finding.organization,
+              category: finding.category,
+              implementation: finding.implementation,
+              evidence_level: finding.evidenceLevel,
+              attribution: finding.attribution,
+              surface: finding.surface,
+              surface_status: finding.surfaceStatus,
+              deployment_count: finding.deploymentCount,
+              tools: finding.tools,
+              sources: finding.sources,
+              limitations: finding.limitations,
+              report_url: `/adoption/${latestAdoptionReport.date}#${finding.slug}`,
+            }));
+          return {
+            report_date: latestAdoptionReport.date,
+            count: results.length,
+            results,
           };
         },
       },

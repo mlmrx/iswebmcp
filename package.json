@@ -31,7 +31,10 @@
     "index:download": "tsx scripts/web-index/download-tranco.ts",
     "index:crawl": "tsx scripts/web-index/crawl-index.ts",
     "index:build": "tsx scripts/web-index/build-snapshot.ts",
-    "index:full": "tsx scripts/web-index/run-full.ts"
+    "index:full": "tsx scripts/web-index/run-full.ts",
+    "adoption:discover": "tsx scripts/adoption/discover-github.ts",
+    "adoption:generate": "tsx scripts/adoption/generate-daily.ts",
+    "adoption:index": "tsx scripts/adoption/submit-indexnow.ts"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",

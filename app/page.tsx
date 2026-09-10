@@ -19,6 +19,7 @@ import { ProofFirstHero } from '@/components/proof-first-hero';
 import { UtilityHero } from '@/components/utility-hero';
 import { Button } from '@/components/ui/button';
 import { learningArticles } from '@/lib/content';
+import { latestAdoptionReport } from '@/lib/adoption';
 import { formatPulseDate, pulseUpdates } from '@/lib/pulse';
 
 export const metadata: Metadata = {
@@ -244,6 +245,53 @@ export default function Home() {
                 <Gauge className="size-10 text-signal" aria-hidden="true" />
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-border bg-card/75">
+        <div className="mx-auto grid max-w-7xl gap-8 px-5 py-14 lg:grid-cols-[.72fr_1.28fr] lg:items-center lg:px-8">
+          <div>
+            <p className="eyebrow text-signal-ink">Daily adoption desk</p>
+            <h2 className="mt-3 text-4xl font-semibold tracking-[-.05em]">
+              Track implementations, not mentions.
+            </h2>
+            <p className="mt-4 max-w-lg leading-7 text-muted-foreground">
+              A dated evidence ledger of who implemented WebMCP, the tools they
+              expose, the API surface they use, and what has—or has not—been
+              verified.
+            </p>
+            <Button
+              nativeButton={false}
+              className="mt-7"
+              render={<Link href="/adoption" />}
+            >
+              Read today&apos;s adoption report{' '}
+              <ArrowRight data-icon="inline-end" />
+            </Button>
+          </div>
+          <div className="grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-3">
+            {[
+              [
+                latestAdoptionReport.summary.providerEngineeredDeployments,
+                'Provider-engineered',
+              ],
+              [
+                latestAdoptionReport.summary.platformInheritedDeployments,
+                'Platform-inherited',
+              ],
+              [
+                latestAdoptionReport.summary.namedToolDefinitions,
+                'Named tools',
+              ],
+            ].map(([value, label]) => (
+              <article key={label} className="bg-card p-6">
+                <p className="text-4xl font-semibold tracking-[-.06em]">
+                  {value}
+                </p>
+                <p className="mt-7 text-sm font-semibold">{label}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>

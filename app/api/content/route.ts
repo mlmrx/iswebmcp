@@ -1,4 +1,5 @@
 import { learningArticles, learningCatalogUpdatedAt } from '@/lib/content';
+import { latestAdoptionReport } from '@/lib/adoption';
 import { challengeSnapshot, pulseGeneratedAt, pulseUpdates } from '@/lib/pulse';
 
 export function GET() {
@@ -24,6 +25,11 @@ export function GET() {
         }),
       ),
       latest_updates: pulseUpdates,
+      latest_adoption_report: {
+        ...latestAdoptionReport,
+        url: `/adoption/${latestAdoptionReport.date}`,
+        json_url: `/adoption/${latestAdoptionReport.date}/report.json`,
+      },
       challenge: {
         ...challengeSnapshot,
         historical: true,

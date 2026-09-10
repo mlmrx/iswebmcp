@@ -14,6 +14,7 @@ const resources = [
   { href: '/pulse', label: 'News and updates' },
 ];
 const primary = [
+  { href: '/adoption', label: 'Adoption' },
   { href: '/developers', label: 'Developers' },
   { href: '/integrations', label: 'Integrations' },
 ];

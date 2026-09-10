@@ -19,6 +19,9 @@ export function SiteFooter() {
           <Link className="hover:text-foreground" href="/integrations">
             Integrations
           </Link>
+          <Link className="hover:text-foreground" href="/adoption">
+            Daily adoption report
+          </Link>
           <Link className="hover:text-foreground" href="/readiness-index">
             Readiness index
           </Link>
@@ -33,6 +36,9 @@ export function SiteFooter() {
           </Link>
           <Link className="hover:text-foreground" href="/feed.xml">
             RSS feed
+          </Link>
+          <Link className="hover:text-foreground" href="/llms.txt">
+            LLM index
           </Link>
           <Link className="hover:text-foreground" href="/privacy">
             Privacy

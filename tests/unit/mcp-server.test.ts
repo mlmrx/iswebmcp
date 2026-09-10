@@ -55,6 +55,8 @@ describe('isWebMCP remote MCP server', () => {
       'audit_public_url',
       'show_sample_audit',
       'audit_tool_contracts',
+      'get_adoption_report',
+      'list_adoption_implementers',
       'explain_evidence_level',
       'get_implementation_recipe',
       'compare_source_reports',
@@ -66,7 +68,7 @@ describe('isWebMCP remote MCP server', () => {
     expect(
       (audit?._meta?.ui as { resourceUri?: string } | undefined)?.resourceUri,
     ).toBe(AUDIT_WIDGET_URI);
-    for (const tool of tools.slice(4)) {
+    for (const tool of tools.slice(3)) {
       expect(tool.annotations).toMatchObject({
         readOnlyHint: true,
         destructiveHint: false,
@@ -75,6 +77,37 @@ describe('isWebMCP remote MCP server', () => {
       expect(tool.outputSchema).toBeDefined();
       expect(tool._meta?.ui).toBeUndefined();
     }
+  });
+
+  it('returns adoption intelligence with evidence boundaries intact', async () => {
+    const report = await client.callTool({
+      name: 'get_adoption_report',
+      arguments: {},
+    });
+    expect(report.isError).not.toBe(true);
+    expect(report.structuredContent).toMatchObject({
+      date: '2026-09-10',
+      summary: {
+        providerEngineeredDeployments: 9,
+        platformInheritedDeployments: 72,
+      },
+    });
+
+    const implementers = await client.callTool({
+      name: 'list_adoption_implementers',
+      arguments: { query: 'render.docs.search', surfaceStatus: 'legacy' },
+    });
+    expect(implementers.isError).not.toBe(true);
+    expect(implementers.structuredContent).toMatchObject({
+      count: 1,
+      results: [
+        {
+          organization: 'Render',
+          evidenceLevel: 'source-confirmed',
+          surfaceStatus: 'legacy',
+        },
+      ],
+    });
   });
 
   it.each(['search-tool', 'accessible-controls'])(

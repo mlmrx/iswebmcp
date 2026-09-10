@@ -2,6 +2,11 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
 
 import {
+  adoptionReports,
+  getAdoptionReport,
+  latestAdoptionReport,
+} from '@/lib/adoption';
+import {
   auditImportedManifest,
   deriveReportWithImportedAudit,
 } from '@/lib/imported-manifest';
@@ -339,6 +344,199 @@ export function createIsWebMcpServer(requesterKey = 'anonymous') {
           ],
         };
       }
+    },
+  );
+
+  server.registerTool(
+    'get_adoption_report',
+    {
+      title: 'Get a WebMCP adoption report',
+      description:
+        'Use this when the user asks who has implemented WebMCP, how they implemented it, which tools are exposed, or how strong the evidence is.',
+      inputSchema: {
+        date: z
+          .enum(
+            adoptionReports.map((report) => report.date) as [
+              string,
+              ...string[],
+            ],
+          )
+          .optional(),
+      },
+      outputSchema: {
+        date: z.string(),
+        generatedAt: z.string(),
+        title: z.string(),
+        dek: z.string(),
+        changeSummary: z.string(),
+        summary: z.record(z.string(), z.number()),
+        analysis: z.array(z.object({ heading: z.string(), body: z.string() })),
+        organizations: z.array(
+          z.object({
+            organization: z.string(),
+            evidenceLevel: z.string(),
+            attribution: z.string(),
+            surface: z.string(),
+            surfaceStatus: z.string(),
+            deploymentCount: z.number(),
+            tools: z.array(z.string()),
+            limitations: z.array(z.string()),
+          }),
+        ),
+        url: z.string(),
+      },
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
+      },
+    },
+    async ({ date }) => {
+      const report = date ? getAdoptionReport(date) : latestAdoptionReport;
+      if (!report) {
+        return {
+          isError: true,
+          content: [
+            {
+              type: 'text',
+              text: `REPORT_NOT_FOUND: No adoption report is published for ${date}.`,
+            },
+          ],
+        };
+      }
+      const result = {
+        date: report.date,
+        generatedAt: report.generatedAt,
+        title: report.title,
+        dek: report.dek,
+        changeSummary: report.changeSummary,
+        summary: report.summary,
+        analysis: report.analysis,
+        organizations: report.findings.map((finding) => ({
+          organization: finding.organization,
+          evidenceLevel: finding.evidenceLevel,
+          attribution: finding.attribution,
+          surface: finding.surface,
+          surfaceStatus: finding.surfaceStatus,
+          deploymentCount: finding.deploymentCount,
+          tools: finding.tools.map((tool) => tool.name),
+          limitations: finding.limitations,
+        })),
+        url: `https://iswebmcp.com/adoption/${report.date}`,
+      };
+      return {
+        structuredContent: result,
+        content: [
+          {
+            type: 'text',
+            text: `${report.title}: ${report.summary.providerEngineeredDeployments} provider-engineered deployments and ${report.summary.platformInheritedDeployments} platform-inherited deployments in the linked external census. Preserve the report's evidence and attribution labels when citing it.`,
+          },
+        ],
+      };
+    },
+  );
+
+  server.registerTool(
+    'list_adoption_implementers',
+    {
+      title: 'List WebMCP implementers',
+      description:
+        'Search the latest WebMCP adoption ledger by organization or tool, with evidence and API-surface filters.',
+      inputSchema: {
+        query: z.string().trim().max(120).optional(),
+        evidence: z
+          .enum([
+            'runtime-verified',
+            'source-confirmed',
+            'third-party-observed',
+            'announced',
+          ])
+          .optional(),
+        surfaceStatus: z
+          .enum(['current', 'legacy', 'mixed', 'unknown'])
+          .optional(),
+        limit: z.number().int().min(1).max(20).default(20),
+      },
+      outputSchema: {
+        reportDate: z.string(),
+        count: z.number(),
+        results: z.array(
+          z.object({
+            organization: z.string(),
+            category: z.string(),
+            implementation: z.string(),
+            evidenceLevel: z.string(),
+            attribution: z.string(),
+            surface: z.string(),
+            surfaceStatus: z.string(),
+            deploymentCount: z.number(),
+            tools: z.array(
+              z.object({
+                name: z.string(),
+                purpose: z.string(),
+                kind: z.string(),
+                status: z.string(),
+              }),
+            ),
+            limitations: z.array(z.string()),
+            reportUrl: z.string(),
+          }),
+        ),
+      },
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
+      },
+    },
+    async ({ query, evidence, surfaceStatus, limit }) => {
+      const normalized = query?.toLowerCase();
+      const results = latestAdoptionReport.findings
+        .filter((finding) => {
+          if (evidence && finding.evidenceLevel !== evidence) return false;
+          if (surfaceStatus && finding.surfaceStatus !== surfaceStatus)
+            return false;
+          if (!normalized) return true;
+          return [
+            finding.organization,
+            finding.implementation,
+            finding.summary,
+            ...finding.tools.flatMap((tool) => [tool.name, tool.purpose]),
+          ]
+            .join(' ')
+            .toLowerCase()
+            .includes(normalized);
+        })
+        .slice(0, limit)
+        .map((finding) => ({
+          organization: finding.organization,
+          category: finding.category,
+          implementation: finding.implementation,
+          evidenceLevel: finding.evidenceLevel,
+          attribution: finding.attribution,
+          surface: finding.surface,
+          surfaceStatus: finding.surfaceStatus,
+          deploymentCount: finding.deploymentCount,
+          tools: finding.tools,
+          limitations: finding.limitations,
+          reportUrl: `https://iswebmcp.com/adoption/${latestAdoptionReport.date}#${finding.slug}`,
+        }));
+      const result = {
+        reportDate: latestAdoptionReport.date,
+        count: results.length,
+        results,
+      };
+      return {
+        structuredContent: result,
+        content: [
+          {
+            type: 'text',
+            text: `Found ${results.length} matching implementation record${results.length === 1 ? '' : 's'} in the ${latestAdoptionReport.date} report.`,
+          },
+        ],
+      };
     },
   );
 

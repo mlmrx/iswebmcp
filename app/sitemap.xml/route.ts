@@ -1,13 +1,15 @@
 import { learningArticles, learningCatalogUpdatedAt } from '@/lib/content';
+import { adoptionReports, latestAdoptionReport } from '@/lib/adoption';
 import { pulseGeneratedAt } from '@/lib/pulse';
 import { siteOrigin } from '@/lib/site-origin';
 
 export function GET() {
   const pulseLastmod = pulseGeneratedAt.slice(0, 10);
-  const productLastmod =
-    pulseLastmod.localeCompare(learningCatalogUpdatedAt) > 0
-      ? pulseLastmod
-      : learningCatalogUpdatedAt;
+  const productLastmod = [
+    pulseLastmod,
+    learningCatalogUpdatedAt,
+    latestAdoptionReport.date,
+  ].sort((a, b) => b.localeCompare(a))[0];
   const staticPages = [
     { path: '', lastmod: productLastmod },
     { path: '/learn', lastmod: learningCatalogUpdatedAt },
@@ -15,6 +17,7 @@ export function GET() {
     { path: '/readiness-index', lastmod: '2026-09-01' },
     { path: '/readiness-index-methodology', lastmod: '2026-09-01' },
     { path: '/pulse', lastmod: pulseLastmod },
+    { path: '/adoption', lastmod: latestAdoptionReport.date },
     { path: '/methodology', lastmod: '2026-08-31' },
     { path: '/lab', lastmod: '2026-09-01' },
     { path: '/demos', lastmod: '2026-09-01' },
@@ -36,6 +39,10 @@ export function GET() {
     ...learningArticles.map((article) => ({
       loc: `${siteOrigin}/learn/${article.slug}`,
       lastmod: article.updatedAt,
+    })),
+    ...adoptionReports.map((report) => ({
+      loc: `${siteOrigin}/adoption/${report.date}`,
+      lastmod: report.date,
     })),
   ];
   const body = `<?xml version="1.0" encoding="UTF-8"?>
