@@ -26,7 +26,7 @@ const limit = Math.min(
   numericArg('limit', ADOPTION_CENSUS_LIMIT),
   ADOPTION_CENSUS_LIMIT,
 );
-const concurrency = Math.min(numericArg('concurrency', 128), 128);
+const concurrency = Math.min(numericArg('concurrency', 32), 128);
 const outputRoot = path.resolve(
   stringArg('output', 'public/data/adoption-census'),
 );
