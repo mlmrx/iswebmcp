@@ -1,8 +1,8 @@
 {
   "version": "0.2.0",
   "filename": "iswebmcp-developer-tools-0.2.0.zip",
-  "bytes": 23250,
-  "sha256": "0017403356503646374ece69fe5a52765436a7a37bba390c2a45f36be545b555",
+  "bytes": 23442,
+  "sha256": "2c123c60d51d2863ff9c690703bfc9f73306355ca3d8f764093a818c4b9b1dfd",
   "files": [
     "integrations/developer-kit/package.json",
     "integrations/developer-kit/index.mjs",
