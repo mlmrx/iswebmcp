@@ -32,7 +32,7 @@ jobs:
       - name: Generate evidence-scoped daily report
         run: npm run adoption:generate
       - name: Format generated report sources
-        run: npx oxfmt content/adoption
+        run: npx oxfmt content/adoption public/data/adoption-census
       - run: npm run format:check
       - run: npm run typecheck
       - run: npm test -- tests/unit/adoption.test.ts
