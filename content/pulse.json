@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T09:14:21-07:00",
+  "generatedAt": "2026-09-11T09:04:53-07:00",
   "policy": "Source-verified updates only. An hourly check may read approved machine-oriented official feeds, but new editorial entries require a primary source and a material change. Devpost observations are manual.",
   "challenge": {
     "name": "The WebMCP Challenge",
@@ -23,6 +23,30 @@
     ]
   },
   "updates": [
+    {
+      "id": "webmcp-executetool-any-97da8f5",
+      "title": "WebMCP broadens executeTool() input to any value",
+      "summary": "Commit 97da8f5 changes the WebMCP draft's executeTool() inputObject type from object to any. Implementers that mirror the draft's interface definitions should review generated bindings and validation assumptions; this is a draft API change, not a W3C Standard release, and WebMCP remains experimental.",
+      "publishedAt": "2026-09-10",
+      "observedAt": "2026-09-11T09:04:53-07:00",
+      "sourceName": "WebMCP specification repository",
+      "sourceUrl": "https://github.com/webmachinelearning/webmcp/commit/97da8f515427594c856307e3476c0a0db9698fbb",
+      "topic": "webmcp",
+      "status": "draft",
+      "tags": ["specification", "execute-tool", "interface-definition"]
+    },
+    {
+      "id": "webmcp-observed-tool-origin-94c0a3a",
+      "title": "WebMCP adds origin to observed-tool maps",
+      "summary": "Commit 94c0a3a includes origin information in the observation tool map through the observed tool collection structure. Clients consuming observed tools should preserve this provenance when distinguishing tools from different origins; the change is part of the experimental WebMCP draft, not a browser-support claim or W3C Standard release.",
+      "publishedAt": "2026-09-09",
+      "observedAt": "2026-09-11T09:04:53-07:00",
+      "sourceName": "WebMCP specification repository",
+      "sourceUrl": "https://github.com/webmachinelearning/webmcp/commit/94c0a3aeebcfb84829751d143e1b7f4aa9d6c35f",
+      "topic": "webmcp",
+      "status": "draft",
+      "tags": ["specification", "origin", "provenance"]
+    },
     {
       "id": "mcp-filesystems-wg-aa8ce04",
       "title": "MCP repository merges a filesystems working-group proposal",
