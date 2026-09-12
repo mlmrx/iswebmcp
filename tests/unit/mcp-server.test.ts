@@ -7,6 +7,7 @@ import { createIsWebMcpServer } from '@/lib/mcp/server';
 import { analyzeSource } from '@/lib/scanner';
 import { summarizeReport } from '@/lib/integrations/report-summary';
 import { sourceComparisonContext } from '@/lib/integrations/comparison-context';
+import { latestAdoptionReport } from '@/lib/adoption';
 
 function sourceSummary(
   html = '<main><h1>Search</h1><label for="q">Search</label><input id="q"></main>',
@@ -80,13 +81,15 @@ describe('isWebMCP remote MCP server', () => {
   });
 
   it('returns adoption intelligence with evidence boundaries intact', async () => {
+    const latestCensus = latestAdoptionReport.census;
+    expect(latestCensus).toBeDefined();
     const report = await client.callTool({
       name: 'get_adoption_report',
       arguments: {},
     });
     expect(report.isError).not.toBe(true);
     expect(report.structuredContent).toMatchObject({
-      date: '2026-09-10',
+      date: latestAdoptionReport.date,
       summary: {
         providerEngineeredDeployments: 9,
         platformInheritedDeployments: 72,
@@ -95,9 +98,9 @@ describe('isWebMCP remote MCP server', () => {
         scope: 'tranco-top-10000',
         scheduledCount: 10_000,
         attemptedCount: 10_000,
-        detectedCount: 13,
+        detectedCount: latestCensus?.detectedCount,
         namedToolDefinitions: 2,
-        dataUrl: 'https://iswebmcp.com/data/adoption-census/2026-09-10.json',
+        dataUrl: `https://iswebmcp.com/data/adoption-census/${latestAdoptionReport.date}.json`,
       },
     });
 
