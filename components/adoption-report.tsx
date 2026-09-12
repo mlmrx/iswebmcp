@@ -1,4 +1,5 @@
 import {
+  ArrowDown,
   ArrowRight,
   CalendarDays,
   CheckCircle2,
@@ -12,6 +13,7 @@ import {
 import Link from 'next/link';
 
 import { AdoptionExplorer } from '@/components/adoption-explorer';
+import { AdoptionCensusExplorer } from '@/components/adoption-census';
 import {
   adoptionReports,
   formatAdoptionDate,
@@ -19,6 +21,44 @@ import {
 } from '@/lib/adoption';
 
 export function AdoptionReportView({ report }: { report: AdoptionReport }) {
+  const headlineMetrics = report.census
+    ? [
+        [report.census.detectedCount, 'Source signals', 'Top-10,000 pass'],
+        [report.census.scheduledCount, 'Domains checked', 'Tranco denominator'],
+        [
+          report.census.namedToolDefinitions,
+          'Named tools',
+          'Recovered in source',
+        ],
+        [
+          report.summary.providerEngineeredDeployments,
+          'Engineered deployments',
+          'Linked external ledger',
+        ],
+      ]
+    : [
+        [
+          report.summary.providerEngineeredDeployments,
+          'Provider-engineered',
+          'External census',
+        ],
+        [
+          report.summary.platformInheritedDeployments,
+          'Platform-inherited',
+          'One ReadMe bundle',
+        ],
+        [
+          report.summary.directlyInspectedOrganizations,
+          'Directly inspected',
+          'This report',
+        ],
+        [
+          report.summary.namedToolDefinitions,
+          'Named tools',
+          'Evidence-backed records',
+        ],
+      ];
+
   return (
     <main
       id="main-content"
@@ -44,14 +84,23 @@ export function AdoptionReportView({ report }: { report: AdoptionReport }) {
               </div>
               <p className="eyebrow mt-8 text-signal">WebMCP adoption report</p>
               <h1 className="mt-3 max-w-4xl text-5xl font-semibold tracking-[-.06em] sm:text-6xl">
-                Who is shipping tools—and what those tools actually do.
+                A daily map of WebMCP adoption.
               </h1>
             </div>
             <div>
               <p className="text-lg leading-8 text-paper/65">{report.dek}</p>
               <div className="mt-6 flex flex-wrap gap-3">
+                {report.census ? (
+                  <Link
+                    className="inline-flex h-10 items-center gap-2 rounded-lg bg-signal px-4 text-sm font-semibold text-ink"
+                    href="#census-heading"
+                  >
+                    Explore the first pass{' '}
+                    <ArrowDown className="size-4" aria-hidden="true" />
+                  </Link>
+                ) : null}
                 <Link
-                  className="inline-flex h-10 items-center gap-2 rounded-lg bg-signal px-4 text-sm font-semibold text-ink"
+                  className="inline-flex h-10 items-center gap-2 rounded-lg border border-paper/20 px-4 text-sm font-semibold text-paper"
                   href={`/adoption/${report.date}/report.json`}
                 >
                   <Database className="size-4" aria-hidden="true" /> JSON
@@ -73,28 +122,7 @@ export function AdoptionReportView({ report }: { report: AdoptionReport }) {
           </div>
 
           <div className="mt-12 grid gap-px overflow-hidden rounded-xl border border-paper/15 bg-paper/15 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              [
-                report.summary.providerEngineeredDeployments,
-                'Provider-engineered',
-                'External census',
-              ],
-              [
-                report.summary.platformInheritedDeployments,
-                'Platform-inherited',
-                'One ReadMe bundle',
-              ],
-              [
-                report.summary.directlyInspectedOrganizations,
-                'Directly inspected',
-                'This report',
-              ],
-              [
-                report.summary.namedToolDefinitions,
-                'Named tools',
-                'Evidence-backed records',
-              ],
-            ].map(([value, label, detail]) => (
+            {headlineMetrics.map(([value, label, detail]) => (
               <article key={String(label)} className="bg-ink-soft p-5 sm:p-6">
                 <p className="text-4xl font-semibold tracking-[-.06em] text-paper">
                   {value}
@@ -196,65 +224,7 @@ export function AdoptionReportView({ report }: { report: AdoptionReport }) {
         </section>
 
         {report.census ? (
-          <section
-            className="instrument-card overflow-hidden"
-            aria-labelledby="census-heading"
-          >
-            <div className="grid gap-7 p-6 lg:grid-cols-[.7fr_1.3fr] lg:p-8">
-              <div>
-                <p className="eyebrow">First-pass census</p>
-                <h2
-                  id="census-heading"
-                  className="mt-2 text-2xl font-semibold tracking-[-.035em]"
-                >
-                  Top {report.census.scheduledCount.toLocaleString()} domains,
-                  one consistent denominator
-                </h2>
-                <p className="mt-4 text-sm leading-6 text-muted-foreground">
-                  A robots-aware homepage source pass records every outcome.
-                  Positive detections are retained with their source signals and
-                  any recoverable tool names; absence is never treated as proof
-                  that a site has no WebMCP.
-                </p>
-                <Link
-                  className="mt-5 inline-flex items-center gap-2 text-sm font-semibold"
-                  href={report.census.dataUrl}
-                >
-                  Download positive detections{' '}
-                  <ArrowRight className="size-4" aria-hidden="true" />
-                </Link>
-              </div>
-              <div className="grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
-                {[
-                  [report.census.detectedCount, 'Source signals'],
-                  [report.census.notDetectedCount, 'No signal'],
-                  [report.census.robotsBlockedCount, 'Robots blocked'],
-                  [report.census.unreachableCount, 'Unavailable'],
-                ].map(([value, label]) => (
-                  <div key={String(label)} className="bg-card p-5">
-                    <p className="text-3xl font-semibold tracking-[-.05em]">
-                      {Number(value).toLocaleString()}
-                    </p>
-                    <p className="mt-2 text-xs font-semibold text-muted-foreground">
-                      {label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="border-t border-border bg-muted/25 px-6 py-4 text-xs leading-5 text-muted-foreground lg:px-8">
-              Tranco list{' '}
-              <a
-                className="font-semibold underline underline-offset-4"
-                href={report.census.source.listUrl}
-              >
-                {report.census.source.listId}
-              </a>{' '}
-              ({report.census.source.listDate}) ·{' '}
-              {report.census.namedToolDefinitions} tool names recovered · audit
-              digest <code>{report.census.auditDigest.slice(0, 12)}…</code>
-            </div>
-          </section>
+          <AdoptionCensusExplorer census={report.census} />
         ) : null}
 
         <AdoptionExplorer findings={report.findings} />
