@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-11T09:04:53-07:00",
+  "generatedAt": "2026-09-14T10:44:15-07:00",
   "policy": "Source-verified updates only. An hourly check may read approved machine-oriented official feeds, but new editorial entries require a primary source and a material change. Devpost observations are manual.",
   "challenge": {
     "name": "The WebMCP Challenge",
@@ -23,6 +23,30 @@
     ]
   },
   "updates": [
+    {
+      "id": "webmcp-registertool-validation-order-cc45efc",
+      "title": "WebMCP validates tool names before descriptions",
+      "summary": "Commit cc45efc changes registerTool() so the experimental WebMCP draft validates a tool's name before its description. Implementers and conformance tests should account for the resulting error order when both fields are invalid; this is a draft behavior change, not a W3C Standard release.",
+      "publishedAt": "2026-09-14",
+      "observedAt": "2026-09-14T10:44:15-07:00",
+      "sourceName": "WebMCP specification repository",
+      "sourceUrl": "https://github.com/webmachinelearning/webmcp/commit/cc45efcaf094021b337e0fb87fcc5332707695b1",
+      "topic": "webmcp",
+      "status": "draft",
+      "tags": ["specification", "register-tool", "validation"]
+    },
+    {
+      "id": "mcp-skills-extension-sep-2640-1eb5bbe",
+      "title": "MCP repository merges the Skills Extension proposal",
+      "summary": "Commit 1eb5bbe merges SEP-2640, titled Skills Extension, into the MCP specification repository. Agent and SDK builders now have a repository-level extension proposal to track, but this is not a released protocol version or a WebMCP browser change.",
+      "publishedAt": "2026-09-13",
+      "observedAt": "2026-09-14T10:44:15-07:00",
+      "sourceName": "Model Context Protocol specification repository",
+      "sourceUrl": "https://github.com/modelcontextprotocol/modelcontextprotocol/commit/1eb5bbe8ac933bdb595fedc687b8ed545e440491",
+      "topic": "mcp",
+      "status": "published",
+      "tags": ["extensions", "agent-skills", "proposal"]
+    },
     {
       "id": "webmcp-executetool-any-97da8f5",
       "title": "WebMCP broadens executeTool() input to any value",
