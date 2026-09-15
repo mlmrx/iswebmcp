@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-14T10:44:15-07:00",
+  "generatedAt": "2026-09-15T09:07:43-07:00",
   "policy": "Source-verified updates only. An hourly check may read approved machine-oriented official feeds, but new editorial entries require a primary source and a material change. Devpost observations are manual.",
   "challenge": {
     "name": "The WebMCP Challenge",
@@ -23,6 +23,18 @@
     ]
   },
   "updates": [
+    {
+      "id": "mcp-skills-extension-support-tracking-2997f33",
+      "title": "MCP adds support tracking for the Skills extension",
+      "summary": "Commit 2997f33 adds an overview and support tracking for the recently merged Skills extension in the MCP specification repository. SDK and client builders now have an official repository location to follow implementation support; this remains broader MCP extension work, not a released protocol version or a WebMCP browser change.",
+      "publishedAt": "2026-09-13",
+      "observedAt": "2026-09-15T09:07:43-07:00",
+      "sourceName": "Model Context Protocol specification repository",
+      "sourceUrl": "https://github.com/modelcontextprotocol/modelcontextprotocol/commit/2997f33bf6e4aab3db48d755fc877c8feab32c71",
+      "topic": "mcp",
+      "status": "published",
+      "tags": ["extensions", "agent-skills", "implementation-status"]
+    },
     {
       "id": "webmcp-registertool-validation-order-cc45efc",
       "title": "WebMCP validates tool names before descriptions",
