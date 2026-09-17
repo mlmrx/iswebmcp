@@ -20,14 +20,22 @@ import {
   formatAdoptionDate,
   type AdoptionReport,
 } from '@/lib/adoption';
-import type { WebMcpDirectorySnapshot } from '@/lib/adoption-directory';
+import type {
+  DirectoryCensusComparison,
+  DirectoryHistoryEntry,
+  WebMcpDirectorySnapshot,
+} from '@/lib/adoption-directory';
 
 export function AdoptionReportView({
   report,
   ecosystem,
+  ecosystemHistory,
+  ecosystemComparison,
 }: {
   report: AdoptionReport;
   ecosystem?: WebMcpDirectorySnapshot;
+  ecosystemHistory?: DirectoryHistoryEntry[];
+  ecosystemComparison?: DirectoryCensusComparison;
 }) {
   const headlineMetrics = report.census
     ? [
@@ -235,7 +243,13 @@ export function AdoptionReportView({
           <AdoptionCensusExplorer census={report.census} />
         ) : null}
 
-        {ecosystem ? <AdoptionEcosystemAtlas snapshot={ecosystem} /> : null}
+        {ecosystem && ecosystemHistory && ecosystemComparison ? (
+          <AdoptionEcosystemAtlas
+            snapshot={ecosystem}
+            history={ecosystemHistory}
+            comparison={ecosystemComparison}
+          />
+        ) : null}
 
         <AdoptionExplorer findings={report.findings} />
 

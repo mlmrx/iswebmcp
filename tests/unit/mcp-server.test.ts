@@ -129,6 +129,14 @@ describe('isWebMCP remote MCP server', () => {
     expect(ecosystem.structuredContent).toMatchObject({
       evidenceLevel: 'third-party-indexed',
       sourceUrl: 'https://webmcp.com/api/v1/sites',
+      crossSourceComparison: {
+        comparison: 'normalized-exact-host',
+        independentDetectionCount: latestAdoptionReport.census?.detectedCount,
+      },
+      latestHistory: {
+        directorySites: expect.any(Number),
+        indexedTools: expect.any(Number),
+      },
     });
     expect(
       (ecosystem.structuredContent as { count: number }).count,

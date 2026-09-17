@@ -166,6 +166,14 @@ test('remote MCP completes initialize, discovery, resource, and tool calls', asy
   expect(ecosystem.structuredContent).toMatchObject({
     evidenceLevel: 'third-party-indexed',
     sourceUrl: 'https://webmcp.com/api/v1/sites',
+    crossSourceComparison: {
+      comparison: 'normalized-exact-host',
+      independentDetectionCount: expect.any(Number),
+    },
+    latestHistory: {
+      directorySites: expect.any(Number),
+      indexedTools: expect.any(Number),
+    },
   });
   expect(ecosystem.structuredContent.count).toBeGreaterThan(0);
 

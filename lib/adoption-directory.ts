@@ -1,4 +1,5 @@
 import directoryData from '@/content/adoption/ecosystem-index.json';
+import directoryHistoryData from '@/content/adoption/ecosystem-history.json';
 
 export type DirectorySiteType = 'live' | 'demo';
 export type DirectoryToolKind = 'answer' | 'act' | 'transact';
@@ -61,7 +62,74 @@ export interface WebMcpDirectorySnapshot {
   sites: DirectorySite[];
 }
 
+export interface DirectoryHistoryEntry {
+  date: string;
+  generatedAt: string;
+  sourceGeneratedAt: string;
+  digest: string;
+  summary: WebMcpDirectorySnapshot['summary'];
+  change: {
+    previousDate: string | null;
+    addedSites: number;
+    removedSites: number;
+    indexedToolDelta: number;
+    liveSiteDelta: number;
+    demoSiteDelta: number;
+    addedHosts: string[];
+    removedHosts: string[];
+  };
+}
+
+export interface DirectoryCensusComparison {
+  comparison: 'normalized-exact-host';
+  independentDetectionCount: number;
+  directorySiteCount: number;
+  overlapCount: number;
+  independentOnlyCount: number;
+  overlapDomains: string[];
+  independentOnlyDomains: string[];
+  limitation: string;
+}
+
 export const webMcpDirectory = directoryData as WebMcpDirectorySnapshot;
+export const webMcpDirectoryHistory =
+  directoryHistoryData as DirectoryHistoryEntry[];
+
+function normalizedHost(host: string): string {
+  return host
+    .trim()
+    .toLowerCase()
+    .replace(/^www\./, '');
+}
+
+export function compareDirectoryWithCensus(
+  snapshot: WebMcpDirectorySnapshot,
+  detections: Array<{ domain: string }>,
+): DirectoryCensusComparison {
+  const directoryHosts = new Set(
+    snapshot.sites.map((site) => normalizedHost(site.host)),
+  );
+  const overlapDomains: string[] = [];
+  const independentOnlyDomains: string[] = [];
+  for (const detection of detections) {
+    if (directoryHosts.has(normalizedHost(detection.domain))) {
+      overlapDomains.push(detection.domain);
+    } else {
+      independentOnlyDomains.push(detection.domain);
+    }
+  }
+  return {
+    comparison: 'normalized-exact-host',
+    independentDetectionCount: detections.length,
+    directorySiteCount: snapshot.sites.length,
+    overlapCount: overlapDomains.length,
+    independentOnlyCount: independentOnlyDomains.length,
+    overlapDomains,
+    independentOnlyDomains,
+    limitation:
+      'This is a normalized exact-host comparison with a single www prefix removed. It does not collapse unrelated subdomains or infer common ownership.',
+  };
+}
 
 export interface DirectorySearchOptions {
   query?: string;

@@ -8,9 +8,11 @@ import {
 } from '@/lib/adoption';
 import { detectWebMcpSource } from '@/lib/adoption-census';
 import {
+  compareDirectoryWithCensus,
   searchWebMcpDirectory,
   validateWebMcpDirectorySnapshot,
   webMcpDirectory,
+  webMcpDirectoryHistory,
 } from '@/lib/adoption-directory';
 
 describe('WebMCP adoption reports', () => {
@@ -107,6 +109,32 @@ describe('WebMCP adoption reports', () => {
         ),
       ),
     ).toBe(true);
+  });
+
+  it('publishes a reproducible cross-source comparison and daily trajectory', () => {
+    const comparison = compareDirectoryWithCensus(
+      webMcpDirectory,
+      latestAdoptionReport.census?.detections ?? [],
+    );
+    expect(comparison.independentDetectionCount).toBe(
+      latestAdoptionReport.census?.detectedCount,
+    );
+    expect(comparison.overlapCount + comparison.independentOnlyCount).toBe(
+      comparison.independentDetectionCount,
+    );
+    expect(comparison.overlapDomains).toHaveLength(comparison.overlapCount);
+    expect(comparison.independentOnlyDomains).toHaveLength(
+      comparison.independentOnlyCount,
+    );
+    expect(webMcpDirectoryHistory[0]).toMatchObject({
+      digest: webMcpDirectory.digest,
+      summary: webMcpDirectory.summary,
+    });
+    expect(webMcpDirectoryHistory.map((entry) => entry.date)).toEqual(
+      webMcpDirectoryHistory
+        .map((entry) => entry.date)
+        .sort((left, right) => right.localeCompare(left)),
+    );
   });
 
   it('requires sources and explicit limitations for every organization', () => {

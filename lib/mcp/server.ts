@@ -7,8 +7,10 @@ import {
   latestAdoptionReport,
 } from '@/lib/adoption';
 import {
+  compareDirectoryWithCensus,
   searchWebMcpDirectory,
   webMcpDirectory,
+  webMcpDirectoryHistory,
 } from '@/lib/adoption-directory';
 import {
   auditImportedManifest,
@@ -630,6 +632,25 @@ export function createIsWebMcpServer(requesterKey = 'anonymous') {
         evidenceLevel: z.literal('third-party-indexed'),
         sourceUrl: z.string(),
         count: z.number(),
+        crossSourceComparison: z.object({
+          comparison: z.literal('normalized-exact-host'),
+          independentDetectionCount: z.number(),
+          directorySiteCount: z.number(),
+          overlapCount: z.number(),
+          independentOnlyCount: z.number(),
+          overlapDomains: z.array(z.string()),
+          independentOnlyDomains: z.array(z.string()),
+          limitation: z.string(),
+        }),
+        latestHistory: z.object({
+          date: z.string(),
+          directorySites: z.number(),
+          indexedTools: z.number(),
+          previousDate: z.string().nullable(),
+          addedSites: z.number(),
+          removedSites: z.number(),
+          indexedToolDelta: z.number(),
+        }),
         results: z.array(
           z.object({
             host: z.string(),
@@ -657,6 +678,11 @@ export function createIsWebMcpServer(requesterKey = 'anonymous') {
       },
     },
     async ({ query, type, category, kind, limit }) => {
+      const comparison = compareDirectoryWithCensus(
+        webMcpDirectory,
+        latestAdoptionReport.census?.detections ?? [],
+      );
+      const history = webMcpDirectoryHistory[0];
       const results = searchWebMcpDirectory({
         query,
         type,
@@ -677,6 +703,16 @@ export function createIsWebMcpServer(requesterKey = 'anonymous') {
         evidenceLevel: 'third-party-indexed' as const,
         sourceUrl: webMcpDirectory.source.sitesUrl,
         count: results.length,
+        crossSourceComparison: comparison,
+        latestHistory: {
+          date: history.date,
+          directorySites: history.summary.directorySites,
+          indexedTools: history.summary.indexedTools,
+          previousDate: history.change.previousDate,
+          addedSites: history.change.addedSites,
+          removedSites: history.change.removedSites,
+          indexedToolDelta: history.change.indexedToolDelta,
+        },
         results,
         limitation:
           'Directory presence is externally indexed evidence, not independent source confirmation or runtime verification by isWebMCP.',

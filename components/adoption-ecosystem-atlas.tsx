@@ -12,6 +12,8 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 
 import type {
+  DirectoryCensusComparison,
+  DirectoryHistoryEntry,
   DirectorySiteType,
   DirectoryToolKind,
   WebMcpDirectorySnapshot,
@@ -33,8 +35,12 @@ function observedDate(value: string): string {
 
 export function AdoptionEcosystemAtlas({
   snapshot: initialSnapshot,
+  history,
+  comparison,
 }: {
   snapshot: WebMcpDirectorySnapshot;
+  history: DirectoryHistoryEntry[];
+  comparison: DirectoryCensusComparison;
 }) {
   const [snapshot, setSnapshot] = useState(initialSnapshot);
   const [loading, setLoading] = useState(initialSnapshot.sites.length === 0);
@@ -240,6 +246,80 @@ export function AdoptionEcosystemAtlas({
           total by {summary.additiveReconciliationGap.toLocaleString()}; these
           units may overlap, so this report does not add them into a new
           adoption total.
+        </div>
+
+        <div className="grid border-b border-border lg:grid-cols-[1.15fr_.85fr]">
+          <div className="border-b border-border p-6 lg:border-b-0 lg:border-r lg:p-8">
+            <p className="eyebrow">Cross-source reconciliation</p>
+            <h4 className="mt-2 text-2xl font-semibold tracking-[-.035em]">
+              Only {comparison.overlapCount} of{' '}
+              {comparison.independentDetectionCount} independently detected
+              hosts appear in the external directory.
+            </h4>
+            <p className="mt-3 text-sm leading-6 text-muted-foreground">
+              The other {comparison.independentOnlyCount} detections are why the
+              two products cannot share a headline total. Our crawl discovers
+              source signals in a fixed ranked sample; the directory follows a
+              curated and submitted index.
+            </p>
+            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-xl border border-border bg-muted/25 p-4">
+                <p className="text-xs font-semibold uppercase tracking-[.12em] text-muted-foreground">
+                  Exact-host overlap
+                </p>
+                <p className="mt-2 text-3xl font-semibold">
+                  {comparison.overlapCount}
+                </p>
+                <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                  {comparison.overlapDomains.join(', ')}
+                </p>
+              </div>
+              <div className="rounded-xl border border-signal-ink/25 bg-signal/10 p-4">
+                <p className="text-xs font-semibold uppercase tracking-[.12em] text-signal-ink">
+                  Independent-only
+                </p>
+                <p className="mt-2 text-3xl font-semibold">
+                  {comparison.independentOnlyCount}
+                </p>
+                <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                  {comparison.independentOnlyDomains.join(', ')}
+                </p>
+              </div>
+            </div>
+            <p className="mt-4 text-xs leading-5 text-muted-foreground">
+              {comparison.limitation}
+            </p>
+          </div>
+
+          <div className="p-6 lg:p-8">
+            <p className="eyebrow">Daily trajectory</p>
+            <h4 className="mt-2 text-xl font-semibold tracking-[-.03em]">
+              Append-only market snapshots
+            </h4>
+            <div className="mt-5 space-y-3">
+              {history.slice(0, 7).map((entry) => (
+                <div
+                  key={entry.date}
+                  className="rounded-lg border border-border bg-muted/20 p-4"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <time className="font-mono text-xs" dateTime={entry.date}>
+                      {entry.date}
+                    </time>
+                    <span className="text-xs text-muted-foreground">
+                      {entry.summary.directorySites.toLocaleString()} sites ·{' '}
+                      {entry.summary.indexedTools.toLocaleString()} tools
+                    </span>
+                  </div>
+                  <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                    {entry.change.previousDate
+                      ? `${entry.change.addedSites} added, ${entry.change.removedSites} removed, ${entry.change.indexedToolDelta >= 0 ? '+' : ''}${entry.change.indexedToolDelta} tools since ${entry.change.previousDate}.`
+                      : 'Baseline snapshot; daily additions and removals begin with the next collection.'}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="p-5 lg:p-8">

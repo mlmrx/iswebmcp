@@ -1,8 +1,16 @@
 import { adoptionReports, latestAdoptionReport } from '@/lib/adoption';
-import { webMcpDirectory } from '@/lib/adoption-directory';
+import {
+  compareDirectoryWithCensus,
+  webMcpDirectory,
+  webMcpDirectoryHistory,
+} from '@/lib/adoption-directory';
 import { siteOrigin } from '@/lib/site-origin';
 
 export function GET() {
+  const ecosystemComparison = compareDirectoryWithCensus(
+    webMcpDirectory,
+    latestAdoptionReport.census?.detections ?? [],
+  );
   return Response.json(
     {
       schema: 'https://iswebmcp.com/adoption/schema/v1',
@@ -13,6 +21,8 @@ export function GET() {
         source: webMcpDirectory.source,
         summary: webMcpDirectory.summary,
         digest: webMcpDirectory.digest,
+        history: webMcpDirectoryHistory,
+        independent_census_comparison: ecosystemComparison,
         url: `${siteOrigin}/adoption/ecosystem.json`,
       },
       archive: adoptionReports.map((report) => ({

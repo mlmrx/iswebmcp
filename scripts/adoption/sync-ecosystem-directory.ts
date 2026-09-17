@@ -1,9 +1,10 @@
 import { createHash } from 'node:crypto';
-import { writeFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import type {
   DirectoryAggregate,
+  DirectoryHistoryEntry,
   DirectorySite,
   DirectorySiteType,
   DirectoryTool,
@@ -16,6 +17,19 @@ const API_ORIGIN = 'https://webmcp.com';
 const PAGE_LIMIT = 500;
 const USER_AGENT =
   'isWebMCP-Adoption-Research/1.0 (+https://iswebmcp.com/adoption; research@iswebmcp.com)';
+
+function pacificDate(now = new Date()): string {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'America/Los_Angeles',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(now);
+  const value = Object.fromEntries(
+    parts.map((part) => [part.type, part.value]),
+  );
+  return `${value.year}-${value.month}-${value.day}`;
+}
 
 interface SourceTool {
   name: string;
@@ -153,9 +167,10 @@ if (retainedTools !== stats.tools) {
 const shopifyStores = stats.platforms.shopify ?? 0;
 const normalizedPayload = JSON.stringify(sites);
 const digest = createHash('sha256').update(normalizedPayload).digest('hex');
+const generatedAt = new Date().toISOString();
 const snapshot: WebMcpDirectorySnapshot = {
   schemaVersion: 1,
-  generatedAt: new Date().toISOString(),
+  generatedAt,
   sourceGeneratedAt,
   digest,
   source: {
@@ -199,7 +214,73 @@ const outputPath = path.join(
   'adoption',
   'ecosystem-index.json',
 );
+const historyPath = path.join(
+  process.cwd(),
+  'content',
+  'adoption',
+  'ecosystem-history.json',
+);
+const previousSnapshot = await readFile(outputPath, 'utf8')
+  .then((value) => JSON.parse(value) as WebMcpDirectorySnapshot)
+  .catch(() => undefined);
+const history = await readFile(historyPath, 'utf8')
+  .then((value) => JSON.parse(value) as DirectoryHistoryEntry[])
+  .catch(() => []);
+const date = pacificDate(new Date(generatedAt));
+const existingEntry = history.find((entry) => entry.date === date);
+const previousDate = previousSnapshot
+  ? pacificDate(new Date(previousSnapshot.generatedAt))
+  : null;
+const isNewDay = Boolean(previousSnapshot && previousDate !== date);
+const previousHosts = new Set(
+  isNewDay ? previousSnapshot?.sites.map((site) => site.host) : [],
+);
+const nextHosts = new Set(sites.map((site) => site.host));
+const change = existingEntry?.change ?? {
+  previousDate: isNewDay ? previousDate : null,
+  addedSites: isNewDay
+    ? sites.filter((site) => !previousHosts.has(site.host)).length
+    : 0,
+  removedSites: isNewDay
+    ? [...previousHosts].filter((host) => !nextHosts.has(host)).length
+    : 0,
+  indexedToolDelta: isNewDay
+    ? snapshot.summary.indexedTools -
+      (previousSnapshot?.summary.indexedTools ?? 0)
+    : 0,
+  liveSiteDelta: isNewDay
+    ? snapshot.summary.liveSites - (previousSnapshot?.summary.liveSites ?? 0)
+    : 0,
+  demoSiteDelta: isNewDay
+    ? snapshot.summary.demoSites - (previousSnapshot?.summary.demoSites ?? 0)
+    : 0,
+  addedHosts: isNewDay
+    ? sites
+        .filter((site) => !previousHosts.has(site.host))
+        .map((site) => site.host)
+    : [],
+  removedHosts: isNewDay
+    ? [...previousHosts].filter((host) => !nextHosts.has(host))
+    : [],
+};
+const historyEntry: DirectoryHistoryEntry = {
+  date,
+  generatedAt,
+  sourceGeneratedAt,
+  digest,
+  summary: snapshot.summary,
+  change,
+};
+const nextHistory = history
+  .filter((entry) => entry.date !== date)
+  .concat(historyEntry)
+  .sort((left, right) => right.date.localeCompare(left.date));
 await writeFile(outputPath, `${JSON.stringify(snapshot, null, 2)}\n`, 'utf8');
+await writeFile(
+  historyPath,
+  `${JSON.stringify(nextHistory, null, 2)}\n`,
+  'utf8',
+);
 console.log(
-  `Synced ${sites.length} directory sites and ${retainedTools} tools (${digest.slice(0, 12)}).`,
+  `Synced ${sites.length} directory sites and ${retainedTools} tools (${digest.slice(0, 12)}); history has ${nextHistory.length} day${nextHistory.length === 1 ? '' : 's'}.`,
 );

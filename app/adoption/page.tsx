@@ -2,7 +2,11 @@ import type { Metadata } from 'next';
 
 import { AdoptionReportView } from '@/components/adoption-report';
 import { latestAdoptionReport } from '@/lib/adoption';
-import { webMcpDirectory } from '@/lib/adoption-directory';
+import {
+  compareDirectoryWithCensus,
+  webMcpDirectory,
+  webMcpDirectoryHistory,
+} from '@/lib/adoption-directory';
 import { siteOrigin } from '@/lib/site-origin';
 
 export const metadata: Metadata = {
@@ -35,6 +39,10 @@ export const metadata: Metadata = {
 };
 
 export default function AdoptionPage() {
+  const ecosystemComparison = compareDirectoryWithCensus(
+    webMcpDirectory,
+    latestAdoptionReport.census?.detections ?? [],
+  );
   const datasetJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Dataset',
@@ -81,6 +89,8 @@ export default function AdoptionPage() {
       <AdoptionReportView
         report={latestAdoptionReport}
         ecosystem={{ ...webMcpDirectory, sites: [] }}
+        ecosystemHistory={webMcpDirectoryHistory}
+        ecosystemComparison={ecosystemComparison}
       />
     </>
   );
