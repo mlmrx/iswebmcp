@@ -58,6 +58,7 @@ describe('isWebMCP remote MCP server', () => {
       'audit_tool_contracts',
       'get_adoption_report',
       'list_adoption_implementers',
+      'search_webmcp_ecosystem',
       'explain_evidence_level',
       'get_implementation_recipe',
       'compare_source_reports',
@@ -119,6 +120,27 @@ describe('isWebMCP remote MCP server', () => {
         },
       ],
     });
+
+    const ecosystem = await client.callTool({
+      name: 'search_webmcp_ecosystem',
+      arguments: { query: 'search_docs', kind: 'answer', limit: 5 },
+    });
+    expect(ecosystem.isError).not.toBe(true);
+    expect(ecosystem.structuredContent).toMatchObject({
+      evidenceLevel: 'third-party-indexed',
+      sourceUrl: 'https://webmcp.com/api/v1/sites',
+      crossSourceComparison: {
+        comparison: 'normalized-exact-host',
+        independentDetectionCount: latestAdoptionReport.census?.detectedCount,
+      },
+      latestHistory: {
+        directorySites: expect.any(Number),
+        indexedTools: expect.any(Number),
+      },
+    });
+    expect(
+      (ecosystem.structuredContent as { count: number }).count,
+    ).toBeGreaterThan(0);
   });
 
   it.each(['search-tool', 'accessible-controls'])(

@@ -120,6 +120,7 @@ test('remote MCP completes initialize, discovery, resource, and tool calls', asy
     'audit_tool_contracts',
     'get_adoption_report',
     'list_adoption_implementers',
+    'search_webmcp_ecosystem',
     'explain_evidence_level',
     'get_implementation_recipe',
     'compare_source_reports',
@@ -148,11 +149,39 @@ test('remote MCP completes initialize, discovery, resource, and tool calls', asy
     labels: { runtime: 'unknown', lift: 'withheld' },
   });
 
-  const resourceResponse = await request.post('/mcp', {
+  const ecosystemResponse = await request.post('/mcp', {
     headers: protocolHeaders,
     data: {
       jsonrpc: '2.0',
       id: 4,
+      method: 'tools/call',
+      params: {
+        name: 'search_webmcp_ecosystem',
+        arguments: { query: 'search_docs', kind: 'answer', limit: 5 },
+      },
+    },
+  });
+  const ecosystem = (await ecosystemResponse.json()).result;
+  expect(ecosystem.isError).not.toBe(true);
+  expect(ecosystem.structuredContent).toMatchObject({
+    evidenceLevel: 'third-party-indexed',
+    sourceUrl: 'https://webmcp.com/api/v1/sites',
+    crossSourceComparison: {
+      comparison: 'normalized-exact-host',
+      independentDetectionCount: expect.any(Number),
+    },
+    latestHistory: {
+      directorySites: expect.any(Number),
+      indexedTools: expect.any(Number),
+    },
+  });
+  expect(ecosystem.structuredContent.count).toBeGreaterThan(0);
+
+  const resourceResponse = await request.post('/mcp', {
+    headers: protocolHeaders,
+    data: {
+      jsonrpc: '2.0',
+      id: 5,
       method: 'resources/read',
       params: { uri: 'ui://iswebmcp/audit-v1.html' },
     },
