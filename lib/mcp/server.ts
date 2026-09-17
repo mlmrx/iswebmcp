@@ -7,6 +7,10 @@ import {
   latestAdoptionReport,
 } from '@/lib/adoption';
 import {
+  searchWebMcpDirectory,
+  webMcpDirectory,
+} from '@/lib/adoption-directory';
+import {
   auditImportedManifest,
   deriveReportWithImportedAudit,
 } from '@/lib/imported-manifest';
@@ -602,6 +606,87 @@ export function createIsWebMcpServer(requesterKey = 'anonymous') {
           {
             type: 'text',
             text: `Found ${results.length} matching implementation record${results.length === 1 ? '' : 's'} in the ${latestAdoptionReport.date} report.`,
+          },
+        ],
+      };
+    },
+  );
+
+  server.registerTool(
+    'search_webmcp_ecosystem',
+    {
+      title: 'Search the WebMCP ecosystem',
+      description:
+        'Search the broad attributed ecosystem snapshot by site, tool, category, site type, or capability. Results are third-party indexed and are not isWebMCP runtime verification.',
+      inputSchema: {
+        query: z.string().trim().max(120).optional(),
+        type: z.enum(['live', 'demo']).optional(),
+        category: z.string().trim().max(80).optional(),
+        kind: z.enum(['answer', 'act', 'transact']).optional(),
+        limit: z.number().int().min(1).max(50).default(20),
+      },
+      outputSchema: {
+        generatedAt: z.string(),
+        evidenceLevel: z.literal('third-party-indexed'),
+        sourceUrl: z.string(),
+        count: z.number(),
+        results: z.array(
+          z.object({
+            host: z.string(),
+            url: z.string(),
+            type: z.string(),
+            category: z.string(),
+            apiSurface: z.string(),
+            toolCount: z.number(),
+            tools: z.array(
+              z.object({
+                name: z.string(),
+                kind: z.string(),
+                implementation: z.string(),
+              }),
+            ),
+          }),
+        ),
+        limitation: z.string(),
+      },
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
+      },
+    },
+    async ({ query, type, category, kind, limit }) => {
+      const results = searchWebMcpDirectory({
+        query,
+        type,
+        category,
+        kind,
+        limit,
+      }).map((site) => ({
+        host: site.host,
+        url: site.url,
+        type: site.type,
+        category: site.category,
+        apiSurface: site.apiSurface,
+        toolCount: site.toolCount,
+        tools: site.tools,
+      }));
+      const result = {
+        generatedAt: webMcpDirectory.generatedAt,
+        evidenceLevel: 'third-party-indexed' as const,
+        sourceUrl: webMcpDirectory.source.sitesUrl,
+        count: results.length,
+        results,
+        limitation:
+          'Directory presence is externally indexed evidence, not independent source confirmation or runtime verification by isWebMCP.',
+      };
+      return {
+        structuredContent: result,
+        content: [
+          {
+            type: 'text',
+            text: `Found ${results.length} matching external directory record${results.length === 1 ? '' : 's'}. Preserve the third-party-indexed evidence label when citing them.`,
           },
         ],
       };

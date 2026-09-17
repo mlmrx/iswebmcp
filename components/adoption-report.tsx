@@ -14,13 +14,21 @@ import Link from 'next/link';
 
 import { AdoptionExplorer } from '@/components/adoption-explorer';
 import { AdoptionCensusExplorer } from '@/components/adoption-census';
+import { AdoptionEcosystemAtlas } from '@/components/adoption-ecosystem-atlas';
 import {
   adoptionReports,
   formatAdoptionDate,
   type AdoptionReport,
 } from '@/lib/adoption';
+import type { WebMcpDirectorySnapshot } from '@/lib/adoption-directory';
 
-export function AdoptionReportView({ report }: { report: AdoptionReport }) {
+export function AdoptionReportView({
+  report,
+  ecosystem,
+}: {
+  report: AdoptionReport;
+  ecosystem?: WebMcpDirectorySnapshot;
+}) {
   const headlineMetrics = report.census
     ? [
         [report.census.detectedCount, 'Source signals', 'Top-10,000 pass'],
@@ -226,6 +234,8 @@ export function AdoptionReportView({ report }: { report: AdoptionReport }) {
         {report.census ? (
           <AdoptionCensusExplorer census={report.census} />
         ) : null}
+
+        {ecosystem ? <AdoptionEcosystemAtlas snapshot={ecosystem} /> : null}
 
         <AdoptionExplorer findings={report.findings} />
 

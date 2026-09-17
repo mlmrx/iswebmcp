@@ -7,6 +7,11 @@ import {
   latestAdoptionReport,
 } from '@/lib/adoption';
 import { detectWebMcpSource } from '@/lib/adoption-census';
+import {
+  searchWebMcpDirectory,
+  validateWebMcpDirectorySnapshot,
+  webMcpDirectory,
+} from '@/lib/adoption-directory';
 
 describe('WebMCP adoption reports', () => {
   it('detects current, legacy, and bridge source signals without treating prose as adoption', () => {
@@ -74,6 +79,34 @@ describe('WebMCP adoption reports', () => {
     );
     expect(census?.auditDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(census?.detections.length).toBe(census?.detectedCount);
+  });
+
+  it('reconciles the attributed ecosystem snapshot without merging evidence levels', () => {
+    expect(validateWebMcpDirectorySnapshot(webMcpDirectory)).toEqual([]);
+    expect(webMcpDirectory.summary.directorySites).toBeGreaterThan(600);
+    expect(webMcpDirectory.summary.indexedTools).toBeGreaterThan(4_000);
+    expect(webMcpDirectory.digest).toMatch(/^[a-f0-9]{64}$/);
+    expect(webMcpDirectory.source.evidenceLevel).toBe('third-party-indexed');
+    expect(webMcpDirectory.caveats.join(' ')).toContain(
+      'not independently inspected',
+    );
+  });
+
+  it('searches the broad directory by tool and capability', () => {
+    const results = searchWebMcpDirectory({
+      query: 'search_docs',
+      kind: 'answer',
+      limit: 10,
+    });
+    expect(results.length).toBeGreaterThan(0);
+    expect(results.length).toBeLessThanOrEqual(10);
+    expect(
+      results.every((site) =>
+        site.tools.some(
+          (tool) => tool.kind === 'answer' && tool.name.includes('search_docs'),
+        ),
+      ),
+    ).toBe(true);
   });
 
   it('requires sources and explicit limitations for every organization', () => {

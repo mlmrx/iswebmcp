@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 
 import { AdoptionReportView } from '@/components/adoption-report';
 import { latestAdoptionReport } from '@/lib/adoption';
+import { webMcpDirectory } from '@/lib/adoption-directory';
 import { siteOrigin } from '@/lib/site-origin';
 
 export const metadata: Metadata = {
@@ -54,6 +55,11 @@ export default function AdoptionPage() {
         encodingFormat: 'text/markdown',
         contentUrl: `${siteOrigin}/adoption/latest.md`,
       },
+      {
+        '@type': 'DataDownload',
+        encodingFormat: 'application/json',
+        contentUrl: `${siteOrigin}/adoption/ecosystem.json`,
+      },
     ],
     creator: {
       '@type': 'Organization',
@@ -72,7 +78,10 @@ export default function AdoptionPage() {
           __html: JSON.stringify(datasetJsonLd).replaceAll('<', '\\u003c'),
         }}
       />
-      <AdoptionReportView report={latestAdoptionReport} />
+      <AdoptionReportView
+        report={latestAdoptionReport}
+        ecosystem={{ ...webMcpDirectory, sites: [] }}
+      />
     </>
   );
 }

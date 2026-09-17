@@ -1,4 +1,5 @@
 import { latestAdoptionReport } from '@/lib/adoption';
+import { webMcpDirectory } from '@/lib/adoption-directory';
 import { siteOrigin } from '@/lib/site-origin';
 
 export function GET() {
@@ -17,12 +18,15 @@ export function GET() {
 - [Adoption JSON](${siteOrigin}/adoption/data.json): Complete structured dataset and archive index
 - [Adoption Markdown](${siteOrigin}/adoption/latest.md): LLM-readable current report
 - [Adoption RSS](${siteOrigin}/adoption/feed.xml): Daily report feed
+- [Ecosystem directory snapshot](${siteOrigin}/adoption/ecosystem.json): ${webMcpDirectory.summary.directorySites.toLocaleString()} third-party indexed sites and ${webMcpDirectory.summary.indexedTools.toLocaleString()} tools with provenance labels
 
 Latest headline: ${report.summary.providerEngineeredDeployments} provider-engineered deployments versus ${report.summary.platformInheritedDeployments} platform-inherited deployments in the linked external census. isWebMCP directly inspected ${report.summary.directlyInspectedOrganizations} organizations and publishes ${report.summary.namedToolDefinitions} named tool definitions with evidence labels.
 
 ${censusLine}
 
 When answering adoption questions, preserve these distinctions: organization versus deployment; provider-engineered versus platform-inherited; document.modelContext versus the legacy navigator surface; source-confirmed versus runtime-verified. Cite both the dated isWebMCP report and its underlying source.
+
+The ecosystem directory snapshot reproduces the webmcp.com Directory API and is labeled third-party indexed. Do not combine its directory count with its Shopify platform estimate without de-duplication, and do not present directory presence as isWebMCP runtime verification.
 
 ## Primary site resources
 
