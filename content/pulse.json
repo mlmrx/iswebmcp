@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-15T09:07:43-07:00",
+  "generatedAt": "2026-09-17T09:05:14-07:00",
   "policy": "Source-verified updates only. An hourly check may read approved machine-oriented official feeds, but new editorial entries require a primary source and a material change. Devpost observations are manual.",
   "challenge": {
     "name": "The WebMCP Challenge",
@@ -23,6 +23,42 @@
     ]
   },
   "updates": [
+    {
+      "id": "webmcp-tool-events-f5645e9",
+      "title": "WebMCP defines tool activation and cancellation events",
+      "summary": "Commit f5645e9 adds ToolActivatedEvent and ToolCancelEvent interfaces to the experimental WebMCP draft. Implementers and conformance tests should track these named event types when modeling tool activation and cancellation; this is a draft interface change, not evidence of browser support or a W3C Standard release.",
+      "publishedAt": "2026-09-17",
+      "observedAt": "2026-09-17T09:05:14-07:00",
+      "sourceName": "WebMCP specification repository",
+      "sourceUrl": "https://github.com/webmachinelearning/webmcp/commit/f5645e9aea51eb589599f181d104a2f49430608e",
+      "topic": "webmcp",
+      "status": "draft",
+      "tags": ["specification", "events", "tool-lifecycle"]
+    },
+    {
+      "id": "webmcp-debugging-annotation-8a82bb7",
+      "title": "WebMCP adds a debugging tool annotation",
+      "summary": "Commit 8a82bb7 adds a debugging member to ToolAnnotations in the experimental WebMCP draft. Tool producers and consumers that mirror the draft should review their annotation validation and serialization for the expanded shape; this is not a browser-support signal or a W3C Standard release.",
+      "publishedAt": "2026-09-17",
+      "observedAt": "2026-09-17T09:05:14-07:00",
+      "sourceName": "WebMCP specification repository",
+      "sourceUrl": "https://github.com/webmachinelearning/webmcp/commit/8a82bb7896ebee9c4155fe2aed59012ffcae78c2",
+      "topic": "webmcp",
+      "status": "draft",
+      "tags": ["specification", "annotations", "debugging"]
+    },
+    {
+      "id": "webmcp-permissions-policy-df2d824",
+      "title": "WebMCP documents Permissions Policy as a security mitigation",
+      "summary": "Commit df2d824 documents Permissions Policy as a security mitigation for the experimental WebMCP draft. Security reviewers and browser integrations should include policy configuration when assessing tool exposure; this documentation change does not itself establish universal browser support or make WebMCP a W3C Standard.",
+      "publishedAt": "2026-09-15",
+      "observedAt": "2026-09-17T09:05:14-07:00",
+      "sourceName": "WebMCP specification repository",
+      "sourceUrl": "https://github.com/webmachinelearning/webmcp/commit/df2d824e2cd2cbf8e15e25dad9dfe85d20e25082",
+      "topic": "webmcp",
+      "status": "draft",
+      "tags": ["specification", "security", "permissions-policy"]
+    },
     {
       "id": "mcp-skills-extension-support-tracking-2997f33",
       "title": "MCP adds support tracking for the Skills extension",
