@@ -268,13 +268,22 @@ export function AdoptionReportView({
             <p className="mt-4 leading-7 text-muted-foreground">
               {report.methodology.scope}
             </p>
-            <Link
-              className="mt-5 inline-flex items-center gap-2 text-sm font-semibold"
-              href="/methodology"
-            >
-              Read the wider evidence methodology{' '}
-              <ArrowRight className="size-4" aria-hidden="true" />
-            </Link>
+            <div className="mt-5 flex flex-wrap gap-4">
+              <Link
+                className="inline-flex items-center gap-2 text-sm font-semibold"
+                href="/adoption/methodology"
+              >
+                Adoption research methodology{' '}
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </Link>
+              <Link
+                className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground"
+                href="/methodology"
+              >
+                General evidence methodology{' '}
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </Link>
+            </div>
           </div>
           <div className="space-y-3">
             {report.methodology.evidenceLevels.map((item) => (

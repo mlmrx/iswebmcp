@@ -26,6 +26,7 @@ export function GET() {
 - [Adoption Markdown](${siteOrigin}/adoption/latest.md): LLM-readable current report
 - [Adoption RSS](${siteOrigin}/adoption/feed.xml): Daily report feed
 - [Ecosystem directory snapshot](${siteOrigin}/adoption/ecosystem.json): ${webMcpDirectory.summary.directorySites.toLocaleString()} third-party indexed sites and ${webMcpDirectory.summary.indexedTools.toLocaleString()} tools with provenance labels
+- [Adoption research methodology](${siteOrigin}/adoption/methodology): Counting units, evidence upgrades, reconciliation rules, failure modes, and reproducibility
 
 Latest headline: ${report.summary.providerEngineeredDeployments} provider-engineered deployments versus ${report.summary.platformInheritedDeployments} platform-inherited deployments in the linked external census. isWebMCP directly inspected ${report.summary.directlyInspectedOrganizations} organizations and publishes ${report.summary.namedToolDefinitions} named tool definitions with evidence labels.
 

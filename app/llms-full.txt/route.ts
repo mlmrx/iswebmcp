@@ -10,6 +10,7 @@ export function GET() {
 Canonical report: ${siteOrigin}/adoption/${latestAdoptionReport.date}
 Structured data: ${siteOrigin}/adoption/${latestAdoptionReport.date}/report.json
 Ecosystem snapshot: ${siteOrigin}/adoption/ecosystem.json
+Adoption methodology: ${siteOrigin}/adoption/methodology
 
 The ecosystem snapshot reproduces ${webMcpDirectory.summary.directorySites.toLocaleString()} site records and ${webMcpDirectory.summary.indexedTools.toLocaleString()} tool classifications from the webmcp.com Directory API as of ${webMcpDirectory.generatedAt}. Treat every one as third-party-indexed until isWebMCP publishes stronger evidence.
 
