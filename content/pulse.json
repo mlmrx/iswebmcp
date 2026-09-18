@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-17T09:05:14-07:00",
+  "generatedAt": "2026-09-18T09:44:16-07:00",
   "policy": "Source-verified updates only. An hourly check may read approved machine-oriented official feeds, but new editorial entries require a primary source and a material change. Devpost observations are manual.",
   "challenge": {
     "name": "The WebMCP Challenge",
@@ -23,6 +23,18 @@
     ]
   },
   "updates": [
+    {
+      "id": "mcp-skills-extension-published-24efd6e",
+      "title": "MCP marks the Skills extension as published",
+      "summary": "Commit 24efd6e updates the official MCP repository documentation to reflect the Skills extension's published status and track continuing work in extension issues. SDK and client builders can now distinguish the published extension from its ongoing implementation work; this is broader MCP extension work, not a new MCP protocol version or a WebMCP browser change.",
+      "publishedAt": "2026-09-18",
+      "observedAt": "2026-09-18T09:44:16-07:00",
+      "sourceName": "Model Context Protocol specification repository",
+      "sourceUrl": "https://github.com/modelcontextprotocol/modelcontextprotocol/commit/24efd6e7cbd7a074e6b3b781eb370891df40afad",
+      "topic": "mcp",
+      "status": "published",
+      "tags": ["extensions", "agent-skills", "publication-status"]
+    },
     {
       "id": "webmcp-tool-events-f5645e9",
       "title": "WebMCP defines tool activation and cancellation events",
