@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T09:44:16-07:00",
+  "generatedAt": "2026-09-22T09:02:06-07:00",
   "policy": "Source-verified updates only. An hourly check may read approved machine-oriented official feeds, but new editorial entries require a primary source and a material change. Devpost observations are manual.",
   "challenge": {
     "name": "The WebMCP Challenge",
@@ -23,6 +23,30 @@
     ]
   },
   "updates": [
+    {
+      "id": "mcp-json-example-fixes-dc48f37",
+      "title": "MCP repairs invalid JSON in two documentation examples",
+      "summary": "Commit dc48f37 makes two official MCP documentation examples parseable: it adds a missing comma to an Image Content example and replaces curly quotes plus an invalid default in a legacy single-select schema example. Builders copying these examples should use the corrected JSON; this is broader MCP documentation maintenance, not a new protocol release or a WebMCP browser change.",
+      "publishedAt": "2026-09-22",
+      "observedAt": "2026-09-22T09:02:06-07:00",
+      "sourceName": "Model Context Protocol specification repository",
+      "sourceUrl": "https://github.com/modelcontextprotocol/modelcontextprotocol/commit/dc48f37d9ee9f78081256e694ed11b73267787df",
+      "topic": "mcp",
+      "status": "published",
+      "tags": ["documentation", "json", "examples"]
+    },
+    {
+      "id": "mcp-cimd-loopback-example-00c3f2e",
+      "title": "MCP corrects native-app loopback redirect guidance",
+      "summary": "Commit 00c3f2e changes the draft CIMD example to use the IPv4 and IPv6 loopback literals instead of localhost, aligning its native-app redirect URIs with RFC 8252 guidance. Authorization implementers should prefer explicit loopback addresses in equivalent examples; this non-normative MCP draft fix is not a protocol release or a WebMCP browser change.",
+      "publishedAt": "2026-09-22",
+      "observedAt": "2026-09-22T09:02:06-07:00",
+      "sourceName": "Model Context Protocol specification repository",
+      "sourceUrl": "https://github.com/modelcontextprotocol/modelcontextprotocol/commit/00c3f2e7885870a6b8261c670e7efbc9b1a4a886",
+      "topic": "mcp",
+      "status": "draft",
+      "tags": ["authorization", "redirect-uris", "security"]
+    },
     {
       "id": "mcp-skills-extension-published-24efd6e",
       "title": "MCP marks the Skills extension as published",
