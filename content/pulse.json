@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-22T09:02:06-07:00",
+  "generatedAt": "2026-09-23T09:05:06-07:00",
   "policy": "Source-verified updates only. An hourly check may read approved machine-oriented official feeds, but new editorial entries require a primary source and a material change. Devpost observations are manual.",
   "challenge": {
     "name": "The WebMCP Challenge",
@@ -23,6 +23,18 @@
     ]
   },
   "updates": [
+    {
+      "id": "mcp-infrastructure-working-group-c7400a0",
+      "title": "MCP adds an Infrastructure Working Group charter",
+      "summary": "Commit c7400a0 merges an Infrastructure Working Group charter into the official MCP specification repository. Builders and maintainers can now track this infrastructure-focused governance work in the repository; this is broader MCP ecosystem governance, not a protocol release or a WebMCP browser change.",
+      "publishedAt": "2026-09-22",
+      "observedAt": "2026-09-23T09:05:06-07:00",
+      "sourceName": "Model Context Protocol specification repository",
+      "sourceUrl": "https://github.com/modelcontextprotocol/modelcontextprotocol/commit/c7400a0796045cbf102cb80b9b41422c7ce8e7af",
+      "topic": "mcp",
+      "status": "published",
+      "tags": ["governance", "working-groups", "infrastructure"]
+    },
     {
       "id": "mcp-json-example-fixes-dc48f37",
       "title": "MCP repairs invalid JSON in two documentation examples",
