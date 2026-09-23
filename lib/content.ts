@@ -697,6 +697,146 @@ export const learningArticles: LearningArticle[] = [
       href: '/pulse#challenge',
     },
   },
+  {
+    slug: 'webmcp-challenge-gallery-idea-harvest-2026',
+    title: 'What the public WebMCP challenge gallery is actually building',
+    dek: 'A dated, evidence-scoped harvest of 2,474 public project cards, 16 linked demo scans, and the product patterns worth carrying forward.',
+    kind: 'field-guide',
+    audience:
+      'Builders, product teams, and researchers exploring agent-ready web applications',
+    publishedAt: '2026-09-23',
+    updatedAt: '2026-09-23',
+    minutes: 9,
+    tags: ['challenge', 'Devpost', 'research', 'evidence', 'ideas'],
+    takeaway:
+      'The gallery is less a collection of chatbot demos than a field test for shared state, human approval, evidence trails, and asymmetric human-agent collaboration.',
+    sections: [
+      {
+        id: 'snapshot-not-ranking',
+        heading: 'A public gallery changes the question',
+        paragraphs: [
+          'On September 23, 2026, the WebMCP Challenge project gallery was publicly readable. A complete page pass covered 104 gallery pages and 2,474 project cards. The gallery is a discovery surface, not a leaderboard: card order, likes, taglines, and public availability do not establish quality, runtime success, judging outcome, or adoption.',
+          'The first page exposed 24 projects and a useful set of linked demos. We followed public demo links where available and ran the hosted isWebMCP developer scanner against 16 representative URLs. The scan set is a sample of the visible gallery, not an exhaustive audit of all submissions.',
+        ],
+        note: 'This report is a dated snapshot. Future gallery counts, project contents, deployment status, and challenge outcomes may change.',
+      },
+      {
+        id: 'patterns',
+        heading: 'The dominant shape is shared state',
+        paragraphs: [
+          'The recurring idea is not “give an agent a button.” It is “let a person and an agent work against the same live object while preserving human control.” Across the harvested taglines, the most visible clusters were evidence (179 mentions), workspace (175), design (131), shop or commerce (157 combined), games (108), code (92), 3D (85), and research (76). These are keyword signals from project descriptions, not normalized market categories.',
+          'The strongest submissions make the shared object explicit: a paper and its annotations, a spatial world, a research board, an incident workspace, a shopping shortlist, a flight recovery plan, a journal, a design canvas, or a game state. That object gives the tools something more meaningful to expose than generic browser clicks.',
+        ],
+        bullets: [
+          'PaperPilot turns a live paper, source anchors, annotations, and a knowledge graph into a bounded research surface.',
+          'Synspace and Jazzboard treat a spatial or visual canvas as a shared state model that both sides can inspect and change.',
+          'Bankgraph, PaleoScope, and Conspiracy make evidence organization and revision part of the product rather than a hidden prompt transcript.',
+          'TripRescue and Front Desk show why exact previews, constrained search, and owner confirmation matter when a tool can cause a real-world change.',
+          'CROSSTALK and ORPHEUS use deliberately asymmetric visibility: the human sees the world while the agent holds structured manuals or evidence, so neither side can finish alone.',
+        ],
+      },
+      {
+        id: 'scanned-evidence',
+        heading: 'What the isWebMCP scans found',
+        paragraphs: [
+          'All 16 selected demo scans completed with source-only evidence. The scanner analyzed 367,747 bytes in total. Source-actionability scores ranged from 20 to 85, with a sample average of 48. These are diagnostic observations about fetched HTML structure and coverage, not product or implementation scores.',
+          'Two scans exposed a partial WebMCP source hint: Clunk and PaleoScope. Three scans reported partial or failing accessible-name coverage: PaperPilot, Beat.Z, and Front Desk. Two scans did not expose source-visible state verification: Bankgraph and Beat.Z. Runtime remained unknown for all 16 scans because this tool does not execute target JavaScript or invoke page tools. WebMCP lift was therefore withheld for every project.',
+        ],
+        bullets: [
+          'Highest observed source-actionability: PaperPilot 85, PaleoScope 82, Bankgraph and Jazzboard 77.',
+          'Lowest observed values were not judgments of the projects: several demos returned very small or client-rendered HTML shells, producing 20-point scores with wide intervals.',
+          'The practical next test is same-origin browser verification or a reviewed, sanitized tool inventory—not a stronger conclusion from the source scan alone.',
+        ],
+      },
+      {
+        id: 'ideas-worth-stealing',
+        heading: 'Ideas worth carrying forward',
+        paragraphs: [
+          'First: build an evidence desk for agent work. A research or operations surface should keep source excerpts, claims, revisions, and human decisions addressable, rather than exporting a polished answer with no trail. Second: make consequential actions staged by default. Preview, diff, approval, receipt, undo, and stale-state checks are more reusable than a generic “agent completed the task” banner.',
+          'Third: treat the human-agent boundary as a product mechanic. The most memorable games in the gallery do not hide the limitation that the agent cannot see the screen. They turn it into a cooperative contract. The same pattern can make enterprise workflows legible: the agent can inspect and propose, while the person supplies judgment, context, or authorization.',
+          'Fourth: make local-first and browser-native constraints visible. Projects such as S.O.L.V.E.R., Beat.Z, Keydler, and Dabble Me point toward private workspaces where the page owns the user context and the agent receives only the narrow capabilities required for the current task.',
+        ],
+      },
+      {
+        id: 'iswebmcp-opportunity',
+        heading: 'The isWebMCP opportunity: gallery to proof',
+        paragraphs: [
+          'The most useful platform extension is a reviewed “gallery to proof” lane. A user could paste a public gallery or project URL, select linked demo deployments, and receive an evidence card containing the original claim, the demo URL, the scan timestamp, the exact source scope, the action surface observed, and the unknowns that still require runtime verification. The output should be a research notebook, not a ranking or an automated endorsement.',
+          'A second layer could cluster ideas by shared object and control boundary: evidence desk, staged commerce, incident command, spatial canvas, private memory, and asymmetric game. Builders could then compare contracts and verification seams across projects without copying code or contacting participants automatically. Any outreach or integration request should remain owner-approved and personalized.',
+          'For the next iteration, I would prioritize three small experiments: a first-class import record for a public project; a scan manifest that stores report IDs and evidence labels; and a side-by-side “claim / observed source / runtime unknown” view. Those pieces would turn the gallery into a durable learning surface while preserving the evidence boundaries that make isWebMCP useful.',
+        ],
+      },
+      {
+        id: 'limitations-and-next-pass',
+        heading: 'What this report does not claim',
+        paragraphs: [
+          'This is not a ranking of the 2,474 projects, a count of working WebMCP implementations, a challenge-result prediction, a security review, an accessibility certification, or a runtime benchmark. Devpost descriptions are participant-authored claims. The isWebMCP scans are bounded unauthenticated source observations; they do not execute JavaScript, sign in, call tools, or measure agent lift.',
+          'A useful next pass would select a small owner-approved set of projects for browser verification, preserve the browser and agent versions, import only sanitized contracts, and measure one paired workflow per project. Until then, the most credible conclusion is about design direction: WebMCP is being used to make shared state, approval, and evidence first-class.',
+        ],
+      },
+    ],
+    sources: [
+      {
+        title: 'WebMCP Challenge project gallery',
+        url: 'https://webmcp.devpost.com/project-gallery',
+        publisher: 'Devpost',
+      },
+      {
+        title: 'Synspace',
+        url: 'https://devpost.com/software/synspace',
+        publisher: 'Devpost project page',
+      },
+      {
+        title: 'PaperPilot',
+        url: 'https://devpost.com/software/paperpilot-kjglan',
+        publisher: 'Devpost project page',
+      },
+      {
+        title: 'PaleoScope',
+        url: 'https://devpost.com/software/paleoscope',
+        publisher: 'Devpost project page',
+      },
+      {
+        title: 'Bankgraph',
+        url: 'https://devpost.com/software/bankgraph',
+        publisher: 'Devpost project page',
+      },
+      {
+        title: 'TripRescue',
+        url: 'https://devpost.com/software/webmcp',
+        publisher: 'Devpost project page',
+      },
+      {
+        title: 'Front Desk',
+        url: 'https://devpost.com/software/front-desk-xyo91i',
+        publisher: 'Devpost project page',
+      },
+      {
+        title: 'CROSSTALK',
+        url: 'https://devpost.com/software/crosstalk-sklh3x',
+        publisher: 'Devpost project page',
+      },
+      {
+        title: 'ORPHEUS',
+        url: 'https://devpost.com/software/orpheus-a-mystery-neither-can-solve-alone',
+        publisher: 'Devpost project page',
+      },
+      {
+        title: 'isWebMCP methodology',
+        url: 'https://iswebmcp.com/methodology',
+        publisher: 'isWebMCP',
+      },
+      {
+        title: 'isWebMCP developer quickstart',
+        url: 'https://iswebmcp.com/developers',
+        publisher: 'isWebMCP',
+      },
+    ],
+    cta: {
+      label: 'Run a scan on your public app',
+      href: '/developers',
+    },
+  },
 ];
 
 export const learningCatalogUpdatedAt = learningArticles.reduce(
