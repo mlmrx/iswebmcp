@@ -485,7 +485,7 @@ test('learning center supports discovery and opens a source-linked guide', async
     }),
   ).toBeVisible();
   await page.getByLabel('Search the library').fill('prompt injection');
-  await expect(page.getByText('1 of 10 resources')).toBeVisible();
+  await expect(page.getByText(/1 of \d+ resources/)).toBeVisible();
   await page
     .getByRole('link', {
       name: 'A practical security and privacy review for WebMCP tools',

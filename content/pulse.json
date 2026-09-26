@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-23T09:05:06-07:00",
+  "generatedAt": "2026-09-26T06:48:41-07:00",
   "policy": "Source-verified updates only. An hourly check may read approved machine-oriented official feeds, but new editorial entries require a primary source and a material change. Devpost observations are manual.",
   "challenge": {
     "name": "The WebMCP Challenge",
@@ -23,6 +23,30 @@
     ]
   },
   "updates": [
+    {
+      "id": "webmcp-executetool-schema-clarification-69b73b4",
+      "title": "WebMCP clarifies executeTool() input and schema values",
+      "summary": "Commit 69b73b4 clarifies how executeTool() input and schema values are described and adds an example to the experimental WebMCP draft. Implementers and test authors should review their assumptions against the clarified contract; this is draft documentation, not evidence of browser support or a W3C Standard release.",
+      "publishedAt": "2026-09-26",
+      "observedAt": "2026-09-26T06:48:41-07:00",
+      "sourceName": "WebMCP specification repository",
+      "sourceUrl": "https://github.com/webmachinelearning/webmcp/commit/69b73b4ab821ccb2e95a8b8551b15ab133bc862b",
+      "topic": "webmcp",
+      "status": "draft",
+      "tags": ["specification", "execute-tool", "schema"]
+    },
+    {
+      "id": "webmcp-unregistration-execution-321d83c",
+      "title": "WebMCP clarifies execution after tool unregistration",
+      "summary": "Commit 321d83c clarifies the experimental WebMCP draft's execution behavior after a tool is unregistered. Tool lifecycle implementations and conformance tests should align with the clarified post-unregistration behavior; this is a draft clarification, not evidence of browser support or a W3C Standard release.",
+      "publishedAt": "2026-09-25",
+      "observedAt": "2026-09-26T06:48:41-07:00",
+      "sourceName": "WebMCP specification repository",
+      "sourceUrl": "https://github.com/webmachinelearning/webmcp/commit/321d83cc72bf15793a28e3623ddbcab50046f052",
+      "topic": "webmcp",
+      "status": "draft",
+      "tags": ["specification", "tool-lifecycle", "unregistration"]
+    },
     {
       "id": "mcp-infrastructure-working-group-c7400a0",
       "title": "MCP adds an Infrastructure Working Group charter",
