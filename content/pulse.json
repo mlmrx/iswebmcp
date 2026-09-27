@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-26T06:48:41-07:00",
+  "generatedAt": "2026-09-27T09:04:14-07:00",
   "policy": "Source-verified updates only. An hourly check may read approved machine-oriented official feeds, but new editorial entries require a primary source and a material change. Devpost observations are manual.",
   "challenge": {
     "name": "The WebMCP Challenge",
@@ -23,6 +23,18 @@
     ]
   },
   "updates": [
+    {
+      "id": "webmcp-navigable-lookup-parallelism-729ae01",
+      "title": "WebMCP fixes navigable lookup and completion parallelism",
+      "summary": "Commit 729ae01 corrects the experimental WebMCP draft's navigable lookup algorithms and the way completion-step parallelism is specified. Implementers and conformance-test authors should review navigation and completion behavior against the corrected algorithms; this is a draft correction, not evidence of browser support or a W3C Standard release.",
+      "publishedAt": "2026-09-26",
+      "observedAt": "2026-09-27T09:04:14-07:00",
+      "sourceName": "WebMCP specification repository",
+      "sourceUrl": "https://github.com/webmachinelearning/webmcp/commit/729ae01e68fc8aebfcd876cb05930b5bb0dd7e20",
+      "topic": "webmcp",
+      "status": "draft",
+      "tags": ["specification", "navigation", "parallelism"]
+    },
     {
       "id": "webmcp-executetool-schema-clarification-69b73b4",
       "title": "WebMCP clarifies executeTool() input and schema values",
