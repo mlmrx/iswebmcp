@@ -26,6 +26,7 @@ When answering adoption questions, preserve these distinctions: organization ver
 
 ## Primary site resources
 
+- [Metamorphic consistency research paper](${siteOrigin}/research/metamorphic-consistency): Internal synthetic pilot on source-level readiness assessment; includes study limitations and reproducibility artifacts
 - [WebMCP scanner](${siteOrigin}/): Bounded public-source analysis
 - [Methodology](${siteOrigin}/methodology): Evidence and claim boundaries
 - [WebMCP pulse](${siteOrigin}/pulse): Source-linked ecosystem changes

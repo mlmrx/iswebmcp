@@ -16,6 +16,7 @@ export function GET() {
     { path: '/faq', lastmod: learningCatalogUpdatedAt },
     { path: '/readiness-index', lastmod: '2026-09-01' },
     { path: '/readiness-index-methodology', lastmod: '2026-09-01' },
+    { path: '/research/metamorphic-consistency', lastmod: '2026-09-29' },
     { path: '/pulse', lastmod: pulseLastmod },
     { path: '/adoption', lastmod: latestAdoptionReport.date },
     { path: '/methodology', lastmod: '2026-08-31' },

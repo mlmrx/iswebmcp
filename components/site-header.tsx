@@ -10,11 +10,22 @@ const resources = [
   { href: '/lab', label: 'Experimental lab' },
   { href: '/workbench', label: 'Tool-contract audit' },
   { href: '/methodology', label: 'Methodology' },
-  { href: '/readiness-index', label: 'Historical research index' },
-  { href: '/pulse', label: 'News and updates' },
+];
+const research = [
+  {
+    href: '/research/metamorphic-consistency',
+    label: 'Source readiness study',
+  },
+  { href: '/adoption', label: 'WebMCP adoption report' },
+  { href: '/adoption/methodology', label: 'Adoption methodology' },
+  { href: '/readiness-index', label: 'Historical readiness index' },
+  {
+    href: '/readiness-index-methodology',
+    label: 'Readiness index methodology',
+  },
+  { href: '/pulse', label: 'Research updates' },
 ];
 const primary = [
-  { href: '/adoption', label: 'Adoption' },
   { href: '/developers', label: 'Developers' },
   { href: '/integrations', label: 'Integrations' },
 ];
@@ -75,6 +86,22 @@ export function SiteHeader() {
           ))}
           <details className="group hidden md:block">
             <summary className="flex cursor-pointer list-none items-center gap-1 rounded-lg px-3 py-2 hover:bg-muted">
+              Research <ChevronDown className="size-3.5" aria-hidden="true" />
+            </summary>
+            <div className="absolute right-0 top-12 z-50 grid min-w-72 gap-1 rounded-xl border border-border bg-card p-2 shadow-xl">
+              {research.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="rounded-lg px-3 py-2.5 hover:bg-muted"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </details>
+          <details className="group hidden md:block">
+            <summary className="flex cursor-pointer list-none items-center gap-1 rounded-lg px-3 py-2 hover:bg-muted">
               Resources <ChevronDown className="size-3.5" aria-hidden="true" />
             </summary>
             <div className="absolute right-0 top-12 z-50 grid min-w-64 gap-1 rounded-xl border border-border bg-card p-2 shadow-xl">
@@ -109,6 +136,7 @@ export function SiteHeader() {
               {[
                 ...primary,
                 { href: '/#audit', label: 'Check website' },
+                ...research,
                 ...resources,
               ].map((link) => (
                 <Link

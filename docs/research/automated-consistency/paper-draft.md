@@ -1,6 +1,6 @@
-# Metamorphic Consistency Checks for Source-Based Agent-Readiness Assessment: An Internal Synthetic Pilot
+# Metamorphic Consistency and Failure Modes of Source-Level Web Readiness Assessment
 
-Status: working research draft with executed pilot results, September 5, 2026. Author names, affiliations, and a public artifact location remain to be supplied by the owner. This is not submitted, peer reviewed, or a claim of novelty. The study evaluates isWebMCP's source analyzer, not the effectiveness of WebMCP agents.
+Status: working research draft with executed pilot results, September 5, 2026. This is an internal synthetic pilot, not submitted, peer reviewed, or a claim of novelty. The study evaluates isWebMCP's source analyzer, not the effectiveness of WebMCP agents. Public study page: https://iswebmcp.com/research/metamorphic-consistency. Human author names and affiliations remain to be supplied and reviewed.
 
 ## Abstract
 
