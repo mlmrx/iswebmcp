@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-28T09:06:11-07:00",
+  "generatedAt": "2026-09-29T09:02:55-07:00",
   "policy": "Source-verified updates only. An hourly check may read approved machine-oriented official feeds, but new editorial entries require a primary source and a material change. Devpost observations are manual.",
   "challenge": {
     "name": "The WebMCP Challenge",
@@ -23,6 +23,78 @@
     ]
   },
   "updates": [
+    {
+      "id": "webmcp-observation-context-19fc565",
+      "title": "WebMCP clarifies observation context management",
+      "summary": "Commit 19fc565 clarifies observation context management in the experimental WebMCP draft. Implementers and conformance-test authors should review observation behavior against the updated draft; this is a specification clarification, not evidence of browser support or a W3C Standard release.",
+      "publishedAt": "2026-09-29",
+      "observedAt": "2026-09-29T09:02:55-07:00",
+      "sourceName": "WebMCP specification repository",
+      "sourceUrl": "https://github.com/webmachinelearning/webmcp/commit/19fc56516057e2a190eeeab608e9ed5bf02de383",
+      "topic": "webmcp",
+      "status": "draft",
+      "tags": ["specification", "observation", "context-management"]
+    },
+    {
+      "id": "webmcp-model-facing-tool-updates-4e4d63b",
+      "title": "WebMCP documents patterns for updating model-facing tool details",
+      "summary": "Commit 4e4d63b documents patterns for updating the model-facing parts of a tool in the experimental WebMCP draft. Authors building dynamic tools now have draft guidance to review when tool details change; this is documentation guidance, not evidence of browser support or a W3C Standard release.",
+      "publishedAt": "2026-09-29",
+      "observedAt": "2026-09-29T09:02:55-07:00",
+      "sourceName": "WebMCP specification repository",
+      "sourceUrl": "https://github.com/webmachinelearning/webmcp/commit/4e4d63b35ba8e5cddaab9c004f32bf2f6aa2ecb6",
+      "topic": "webmcp",
+      "status": "draft",
+      "tags": ["specification", "dynamic-tools", "author-guidance"]
+    },
+    {
+      "id": "webmcp-executetool-omitted-input-294bad9",
+      "title": "WebMCP defines omitted executeTool() input as an empty object",
+      "summary": "Commit 294bad9 defines an omitted executeTool() input as an empty object in the experimental WebMCP draft. Browser, polyfill, and conformance-test implementations should align their missing-argument behavior with the updated algorithm; this is a draft behavior change, not a W3C Standard release.",
+      "publishedAt": "2026-09-29",
+      "observedAt": "2026-09-29T09:02:55-07:00",
+      "sourceName": "WebMCP specification repository",
+      "sourceUrl": "https://github.com/webmachinelearning/webmcp/commit/294bad9a234c92e5dc3c6ea08e745035a4dadbe0",
+      "topic": "webmcp",
+      "status": "draft",
+      "tags": ["specification", "execute-tool", "input-default"]
+    },
+    {
+      "id": "webmcp-meta-ray-ban-display-status-57d396f",
+      "title": "WebMCP implementation status adds Meta Ray-Ban Display",
+      "summary": "Commit 57d396f adds Meta Ray-Ban Display Web Apps to the WebMCP repository's implementation-status material. Builders can use the listing as environment-specific implementation evidence; it is not proof of support across browsers or agents, and WebMCP remains experimental.",
+      "publishedAt": "2026-09-29",
+      "observedAt": "2026-09-29T09:02:55-07:00",
+      "sourceName": "WebMCP specification repository",
+      "sourceUrl": "https://github.com/webmachinelearning/webmcp/commit/57d396fe40cf39642609bbe3ea8d246842ec8a6f",
+      "topic": "webmcp",
+      "status": "draft",
+      "tags": ["implementation-status", "meta", "wearables"]
+    },
+    {
+      "id": "mcp-sep-discussion-gate-b3e2cc7",
+      "title": "MCP requires group discussion before SEP submission",
+      "summary": "Commit b3e2cc7 updates the official MCP contribution process to require Working Group or Interest Group discussion before a SEP is submitted and notes the collaborator-only pull-request restriction. Protocol contributors should route proposals through the documented discussion step first; this is broader MCP governance, not a WebMCP browser change.",
+      "publishedAt": "2026-09-28",
+      "observedAt": "2026-09-29T09:02:55-07:00",
+      "sourceName": "Model Context Protocol specification repository",
+      "sourceUrl": "https://github.com/modelcontextprotocol/modelcontextprotocol/commit/b3e2cc7a137f9c7d4335399300ad576cc4a66b68",
+      "topic": "mcp",
+      "status": "published",
+      "tags": ["governance", "sep", "contribution-process"]
+    },
+    {
+      "id": "mcp-ruby-sdk-tier-one-7048021",
+      "title": "MCP lists the Ruby SDK at Tier 1",
+      "summary": "Commit 7048021 promotes the official Ruby SDK from Tier 2 to Tier 1 in the MCP SDK listing for the 2026-07-28 revision and the draft, based on the repository's recorded conformance and maintenance evidence. Ruby builders can use the tier as an official support signal; this is broader MCP SDK status, not a WebMCP browser change.",
+      "publishedAt": "2026-09-28",
+      "observedAt": "2026-09-29T09:02:55-07:00",
+      "sourceName": "Model Context Protocol specification repository",
+      "sourceUrl": "https://github.com/modelcontextprotocol/modelcontextprotocol/commit/70480219e37e33ac0f7ec286779e24c4b58e1950",
+      "topic": "mcp",
+      "status": "published",
+      "tags": ["sdk", "ruby", "support-tier"]
+    },
     {
       "id": "webmcp-nonnormative-mcp-reference-433a194",
       "title": "WebMCP adds a non-normative MCP specification reference",
