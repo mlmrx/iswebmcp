@@ -1,50 +1,224 @@
 {
-  "generatedAt": "2026-10-09T19:21:33.735Z",
+  "generatedAt": "2026-10-10T18:26:26.469Z",
   "policy": "Unpublished discovery leads only. A repository match is not a deployment and is never promoted without first-party page or runtime evidence.",
-  "previousCandidateCount": 149,
-  "candidateCount": 50,
+  "previousCandidateCount": 50,
+  "candidateCount": 149,
   "candidates": [
+    {
+      "repository": "ahastudio/til",
+      "path": "chrome/webmcp-early-preview.md",
+      "url": "https://github.com/ahastudio/til/blob/ed1620f12e336990a795578eda710c94115b5850/chrome/webmcp-early-preview.md",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "api-evangelist/kin-score",
+      "path": "CHANGELOG.md",
+      "url": "https://github.com/api-evangelist/kin-score/blob/129c535995788a22949d866ed5ccf47f2330b9c0/CHANGELOG.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "appsome/enty-mcp-server",
+      "path": "PLAN.md",
+      "url": "https://github.com/appsome/enty-mcp-server/blob/ed0b53c6e61a7fbbfa67185f0b455f74ba12c6dc/PLAN.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "appsome/enty-mcp-server",
+      "path": "spec/graphql/NOTES.md",
+      "url": "https://github.com/appsome/enty-mcp-server/blob/ed0b53c6e61a7fbbfa67185f0b455f74ba12c6dc/spec/graphql/NOTES.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "Arenukvern/mcp_flutter",
+      "path": "docs/superpowers/evals/2026-05-26-webmcp-verification.md",
+      "url": "https://github.com/Arenukvern/mcp_flutter/blob/62f3ee1e03df92ec61dfa28b3f41c9982c51000b/docs/superpowers/evals/2026-05-26-webmcp-verification.md",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "ashunar0/ashunar0-site",
+      "path": "src/content/posts/webmcp.md",
+      "url": "https://github.com/ashunar0/ashunar0-site/blob/70e3f951cd04ad033fe323ecb19f112e2ab4205a/src/content/posts/webmcp.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "Auriti-Labs/geo-optimizer-skill",
+      "path": "src/geo_optimizer/models/results.py",
+      "url": "https://github.com/Auriti-Labs/geo-optimizer-skill/blob/502a8b905e4b4494885194cff3cc4ee50a7072dc/src/geo_optimizer/models/results.py",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
     {
       "repository": "Automattic/wp-calypso",
       "path": "packages/agents-manager/WEBMCP.md",
-      "url": "https://github.com/Automattic/wp-calypso/blob/a5271f71129d1bb2a5fe86d6639e45af4f52136e/packages/agents-manager/WEBMCP.md",
+      "url": "https://github.com/Automattic/wp-calypso/blob/0f0227aa8789e04b89b976636ef34a7a13c9eed1/packages/agents-manager/WEBMCP.md",
       "query": "\"document.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "basgr/cf-webmcp",
+      "path": "docs/deployment.md",
+      "url": "https://github.com/basgr/cf-webmcp/blob/bd0b67afd9182a6ff0420a1ce9154454331e885a/docs/deployment.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "basgr/cf-webmcp",
+      "path": "scripts/build-config.ts",
+      "url": "https://github.com/basgr/cf-webmcp/blob/bd0b67afd9182a6ff0420a1ce9154454331e885a/scripts/build-config.ts",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "beaufortfrancois/sandbox",
+      "path": "webmcp/doors/forest.html",
+      "url": "https://github.com/beaufortfrancois/sandbox/blob/21d10661671a059148ecaafb83664af5332616fe/webmcp/doors/forest.html",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "beaufortfrancois/sandbox",
+      "path": "webmcp/doors/magic.html",
+      "url": "https://github.com/beaufortfrancois/sandbox/blob/21d10661671a059148ecaafb83664af5332616fe/webmcp/doors/magic.html",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "beaufortfrancois/sandbox",
+      "path": "webmcp/doors/ocean.html",
+      "url": "https://github.com/beaufortfrancois/sandbox/blob/21d10661671a059148ecaafb83664af5332616fe/webmcp/doors/ocean.html",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "beaufortfrancois/sandbox",
+      "path": "webmcp/duplicate-tool-names.html",
+      "url": "https://github.com/beaufortfrancois/sandbox/blob/21d10661671a059148ecaafb83664af5332616fe/webmcp/duplicate-tool-names.html",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "beaufortfrancois/sandbox",
+      "path": "webmcp/enum-issue.html",
+      "url": "https://github.com/beaufortfrancois/sandbox/blob/21d10661671a059148ecaafb83664af5332616fe/webmcp/enum-issue.html",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "beaufortfrancois/sandbox",
+      "path": "webmcp/pizza.html",
+      "url": "https://github.com/beaufortfrancois/sandbox/blob/21d10661671a059148ecaafb83664af5332616fe/webmcp/pizza.html",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "beaufortfrancois/sandbox",
+      "path": "webmcp/same-origin-transition/page1.html",
+      "url": "https://github.com/beaufortfrancois/sandbox/blob/21d10661671a059148ecaafb83664af5332616fe/webmcp/same-origin-transition/page1.html",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "beaufortfrancois/sandbox",
+      "path": "webmcp/same-origin-transition/page2.html",
+      "url": "https://github.com/beaufortfrancois/sandbox/blob/21d10661671a059148ecaafb83664af5332616fe/webmcp/same-origin-transition/page2.html",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "benbalter/word-to-markdown-js",
+      "path": "astro.config.mjs",
+      "url": "https://github.com/benbalter/word-to-markdown-js/blob/d8b2fc6ab398d8e1fbd9a0218e5d68bc7dd6a9f3/astro.config.mjs",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "bennett-bernard/augmentic-accounting-site",
+      "path": "README.md",
+      "url": "https://github.com/bennett-bernard/augmentic-accounting-site/blob/3d409e8d997cba4decd62251403f5bafc0194cef/README.md",
+      "query": "\".webmcp/bridge.js\" in:file"
     },
     {
       "repository": "brave/brave-core",
       "path": "browser/ai_chat/web_mcp_browsertest.cc",
-      "url": "https://github.com/brave/brave-core/blob/de9c08584b205f19aebb65832290603e6da627e8/browser/ai_chat/web_mcp_browsertest.cc",
+      "url": "https://github.com/brave/brave-core/blob/4effd68c468682074299d9a7c97336fa453674db/browser/ai_chat/web_mcp_browsertest.cc",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "brave/brave-core",
       "path": "browser/ai_chat/web_mcp_injection/web_mcp_injector.cc",
-      "url": "https://github.com/brave/brave-core/blob/de9c08584b205f19aebb65832290603e6da627e8/browser/ai_chat/web_mcp_injection/web_mcp_injector.cc",
+      "url": "https://github.com/brave/brave-core/blob/4effd68c468682074299d9a7c97336fa453674db/browser/ai_chat/web_mcp_injection/web_mcp_injector.cc",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "brave/brave-core",
       "path": "browser/ai_chat/web_mcp_injection/web_mcp_injector.h",
-      "url": "https://github.com/brave/brave-core/blob/de9c08584b205f19aebb65832290603e6da627e8/browser/ai_chat/web_mcp_injection/web_mcp_injector.h",
+      "url": "https://github.com/brave/brave-core/blob/4effd68c468682074299d9a7c97336fa453674db/browser/ai_chat/web_mcp_injection/web_mcp_injector.h",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "brave/brave-core",
       "path": "components/web_mcp/core/browser/web_mcp_injection_rule.h",
-      "url": "https://github.com/brave/brave-core/blob/de9c08584b205f19aebb65832290603e6da627e8/components/web_mcp/core/browser/web_mcp_injection_rule.h",
+      "url": "https://github.com/brave/brave-core/blob/4effd68c468682074299d9a7c97336fa453674db/components/web_mcp/core/browser/web_mcp_injection_rule.h",
       "query": "\"document.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "browserbase/skills",
+      "path": "skills/webmcp-gen/scripts/compile.mjs",
+      "url": "https://github.com/browserbase/skills/blob/6811ca31163332d9d60309cff48e77f09de37a17/skills/webmcp-gen/scripts/compile.mjs",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "cfjedimaster/webdemos",
+      "path": "webmcp/script.js",
+      "url": "https://github.com/cfjedimaster/webdemos/blob/554d0234cbb0c16e7e8d0382914ec2adc58fcfd1/webmcp/script.js",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "chernistry/alexchernysh-mcp",
+      "path": "src/index.ts",
+      "url": "https://github.com/chernistry/alexchernysh-mcp/blob/d26f10eb1309393f8f840287d91aba5093af7413/src/index.ts",
+      "query": "\".webmcp/bridge.js\" in:file"
     },
     {
       "repository": "CherryHQ/cherry-studio",
       "path": "docs/references/ai/browser-use-implementation.md",
-      "url": "https://github.com/CherryHQ/cherry-studio/blob/66aa49cd7f38e35fbdd21eedfd39054d8cc51655/docs/references/ai/browser-use-implementation.md",
+      "url": "https://github.com/CherryHQ/cherry-studio/blob/ae7ebdcdf1c3ea63ceeb2674aa7641ee7fd46156/docs/references/ai/browser-use-implementation.md",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "chromium/chromium",
       "path": "chrome/browser/actor/tools/script_tool_browsertest.cc",
-      "url": "https://github.com/chromium/chromium/blob/cde7ced9de4ee8d7485dee574935c62a33790f62/chrome/browser/actor/tools/script_tool_browsertest.cc",
+      "url": "https://github.com/chromium/chromium/blob/967c91c029415dd1ba90b1b72992153b96450844/chrome/browser/actor/tools/script_tool_browsertest.cc",
       "query": "\"document.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "Cloudflare-Mining/Cloudflare-Datamining",
+      "path": "data/blog/webmcp.html",
+      "url": "https://github.com/Cloudflare-Mining/Cloudflare-Datamining/blob/0b504838702ba5f68ec2bdf39b54ebef335d294c/data/blog/webmcp.html",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "cloudflare/agents",
+      "path": "examples/webmcp/src/client.tsx",
+      "url": "https://github.com/cloudflare/agents/blob/48d9c36f5f1ff18a91fbf0659b9a8e026d1cac43/examples/webmcp/src/client.tsx",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "cloudflare/cloudflare-docs",
+      "path": "src/scripts/webmcp.ts",
+      "url": "https://github.com/cloudflare/cloudflare-docs/blob/b9c9ac3983746fb0c563d97a84a26c16656db5de/src/scripts/webmcp.ts",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "duyet/aidr",
+      "path": "apps/web/src/components/WebMcpTools.tsx",
+      "url": "https://github.com/duyet/aidr/blob/30b1cec0008c7f5bd96c3c64cb18a9746d6dff60/apps/web/src/components/WebMcpTools.tsx",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "duyet/aidr",
+      "path": "apps/web/src/lib/ai-catalog.ts",
+      "url": "https://github.com/duyet/aidr/blob/30b1cec0008c7f5bd96c3c64cb18a9746d6dff60/apps/web/src/lib/ai-catalog.ts",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "duyet/aidr",
+      "path": "apps/web/src/lib/webmcp.ts",
+      "url": "https://github.com/duyet/aidr/blob/30b1cec0008c7f5bd96c3c64cb18a9746d6dff60/apps/web/src/lib/webmcp.ts",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "fanyong920/jvppeteer",
+      "path": "example/src/main/java/com/ruiyun/example/WcbMCPTest.java",
+      "url": "https://github.com/fanyong920/jvppeteer/blob/f30e6aaaa1a43f8a8bdc61b6648fd331cc12b00a/example/src/main/java/com/ruiyun/example/WcbMCPTest.java",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
     },
     {
       "repository": "github/awesome-copilot",
@@ -55,14 +229,20 @@
     {
       "repository": "GoogleChrome/modern-web-guidance-src",
       "path": "guides/webmcp/agentic-javascript-tools/expectations.md",
-      "url": "https://github.com/GoogleChrome/modern-web-guidance-src/blob/027d5a991587db859035438f56b4a263ab2070b2/guides/webmcp/agentic-javascript-tools/expectations.md",
+      "url": "https://github.com/GoogleChrome/modern-web-guidance-src/blob/89c626b5708bcae4d1d9fa887875a6d6af03d4df/guides/webmcp/agentic-javascript-tools/expectations.md",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "GoogleChrome/modern-web-guidance-src",
       "path": "guides/webmcp/webmcp/guide.md",
-      "url": "https://github.com/GoogleChrome/modern-web-guidance-src/blob/027d5a991587db859035438f56b4a263ab2070b2/guides/webmcp/webmcp/guide.md",
+      "url": "https://github.com/GoogleChrome/modern-web-guidance-src/blob/89c626b5708bcae4d1d9fa887875a6d6af03d4df/guides/webmcp/webmcp/guide.md",
       "query": "\"document.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "GoogleChromeLabs/webmcp-tools",
+      "path": "AWESOME_WEBMCP.md",
+      "url": "https://github.com/GoogleChromeLabs/webmcp-tools/blob/aca4e0b875b37391ced3be6d452f5e1b312944e1/AWESOME_WEBMCP.md",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
     },
     {
       "repository": "GoogleChromeLabs/webmcp-tools",
@@ -72,33 +252,93 @@
     },
     {
       "repository": "GoogleChromeLabs/webmcp-tools",
-      "path": "demos/real-estate-map/mcp.js",
-      "url": "https://github.com/GoogleChromeLabs/webmcp-tools/blob/aca4e0b875b37391ced3be6d452f5e1b312944e1/demos/real-estate-map/mcp.js",
-      "query": "\"document.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "GoogleChromeLabs/webmcp-tools",
       "path": "demos/real-estate-map/README.md",
       "url": "https://github.com/GoogleChromeLabs/webmcp-tools/blob/aca4e0b875b37391ced3be6d452f5e1b312944e1/demos/real-estate-map/README.md",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
+      "repository": "heyderekj/binky",
+      "path": "site/llms.txt",
+      "url": "https://github.com/heyderekj/binky/blob/c74c065dacb87632f2f78fa2761355630d50cee8/site/llms.txt",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "heyderekj/dinky",
+      "path": "site/llms.txt",
+      "url": "https://github.com/heyderekj/dinky/blob/261d8d1ba65df544ebc72b2bbb88aa26ea550d9e/site/llms.txt",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
       "repository": "koala73/worldmonitor",
       "path": "docs/webmcp-maintenance.mdx",
-      "url": "https://github.com/koala73/worldmonitor/blob/80990fa5491e4d33d94503a466a8970ae0af0e3d/docs/webmcp-maintenance.mdx",
+      "url": "https://github.com/koala73/worldmonitor/blob/d8e2d79f9e7b988d6f4d005163b408d8fef41725/docs/webmcp-maintenance.mdx",
       "query": "\"document.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "koala73/worldmonitor",
+      "path": "docs/webmcp.mdx",
+      "url": "https://github.com/koala73/worldmonitor/blob/d8e2d79f9e7b988d6f4d005163b408d8fef41725/docs/webmcp.mdx",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
     },
     {
       "repository": "koala73/worldmonitor",
       "path": "docs/zh/webmcp-maintenance.mdx",
-      "url": "https://github.com/koala73/worldmonitor/blob/80990fa5491e4d33d94503a466a8970ae0af0e3d/docs/zh/webmcp-maintenance.mdx",
-      "query": "\"document.modelContext.registerTool\" in:file"
+      "url": "https://github.com/koala73/worldmonitor/blob/d8e2d79f9e7b988d6f4d005163b408d8fef41725/docs/zh/webmcp-maintenance.mdx",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
     },
     {
       "repository": "koala73/worldmonitor",
       "path": "src/services/webmcp.ts",
-      "url": "https://github.com/koala73/worldmonitor/blob/80990fa5491e4d33d94503a466a8970ae0af0e3d/src/services/webmcp.ts",
+      "url": "https://github.com/koala73/worldmonitor/blob/d8e2d79f9e7b988d6f4d005163b408d8fef41725/src/services/webmcp.ts",
       "query": "\"document.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "koumoul-dev/vuetify-jsonschema-form",
+      "path": "doc/layouts/default.vue",
+      "url": "https://github.com/koumoul-dev/vuetify-jsonschema-form/blob/8e7ec77055e0a2020bf094816fc59741e4a0a656/doc/layouts/default.vue",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "lexmount/moli",
+      "path": "moli-wpt-compat/fixtures/wpt/upstream/webmcp/imperative/register-tool-title.https.html",
+      "url": "https://github.com/lexmount/moli/blob/5f5e1fff36ccad63acfae73740aa710d7588ec7b/moli-wpt-compat/fixtures/wpt/upstream/webmcp/imperative/register-tool-title.https.html",
+      "query": "\"document.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "lightpanda-io/browser",
+      "path": "src/server/cdp/domains/webmcp.zig",
+      "url": "https://github.com/lightpanda-io/browser/blob/c4b59af21ad40bb70d72cbb9eb6ed55c1d09085d/src/server/cdp/domains/webmcp.zig",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "linxule/mcp-music-studio",
+      "path": "privacy.html",
+      "url": "https://github.com/linxule/mcp-music-studio/blob/aea7e387af73e204c2820d768414ff488c528049/privacy.html",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "linxule/mcp-music-studio",
+      "path": "scripts/verify-share-webmcp.mjs",
+      "url": "https://github.com/linxule/mcp-music-studio/blob/aea7e387af73e204c2820d768414ff488c528049/scripts/verify-share-webmcp.mjs",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "marian-kamenistak/elc-conference-mcp-tickets",
+      "path": "src/links.ts",
+      "url": "https://github.com/marian-kamenistak/elc-conference-mcp-tickets/blob/f622401909a5f7b3cac0a348a3279a37f38771c0/src/links.ts",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "marian-kamenistak/elc-conference-mcp-tickets",
+      "path": "wrangler.toml",
+      "url": "https://github.com/marian-kamenistak/elc-conference-mcp-tickets/blob/f622401909a5f7b3cac0a348a3279a37f38771c0/wrangler.toml",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "MartinDelophy/ai-video-editor",
+      "path": "docs/webmcp.md",
+      "url": "https://github.com/MartinDelophy/ai-video-editor/blob/9514d6579eb8e1dfd27d737dbf0393d80372116f/docs/webmcp.md",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
     },
     {
       "repository": "microsoft/agent-governance-toolkit",
@@ -119,6 +359,264 @@
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
+      "repository": "Morpheos22/Pitch-Perfect",
+      "path": "CLOUDFLARE-DEPLOY.md",
+      "url": "https://github.com/Morpheos22/Pitch-Perfect/blob/be146673c4ac2a804a2e883e7beca9a170e4db25/CLOUDFLARE-DEPLOY.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "Morpheos22/Pitch-Perfect",
+      "path": "README.md",
+      "url": "https://github.com/Morpheos22/Pitch-Perfect/blob/be146673c4ac2a804a2e883e7beca9a170e4db25/README.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "murr2k/linknode-com",
+      "path": "docs/THEORY_OF_OPERATION.md",
+      "url": "https://github.com/murr2k/linknode-com/blob/0f6545ca336e610e4789eeb0031700b7be5202d7/docs/THEORY_OF_OPERATION.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "nucliweb/webperf-snippets",
+      "path": "components/WebMCP.js",
+      "url": "https://github.com/nucliweb/webperf-snippets/blob/2868f01cc496554484b913c0cdb0cbdd3727b781/components/WebMCP.js",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "oddharsh/site",
+      "path": "src/client/webmcp.js",
+      "url": "https://github.com/oddharsh/site/blob/97b3def53331ee12ecd31b711c8aecd8bfd73d79/src/client/webmcp.js",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "oddharsh/site",
+      "path": "src/content/md/security.md",
+      "url": "https://github.com/oddharsh/site/blob/97b3def53331ee12ecd31b711c8aecd8bfd73d79/src/content/md/security.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "oddharsh/site",
+      "path": "src/worker/lens.ts",
+      "url": "https://github.com/oddharsh/site/blob/97b3def53331ee12ecd31b711c8aecd8bfd73d79/src/worker/lens.ts",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "oddharsh/site",
+      "path": "src/worker/security.ts",
+      "url": "https://github.com/oddharsh/site/blob/97b3def53331ee12ecd31b711c8aecd8bfd73d79/src/worker/security.ts",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "oddharsh/site",
+      "path": "tools/gen-md-twins.ts",
+      "url": "https://github.com/oddharsh/site/blob/97b3def53331ee12ecd31b711c8aecd8bfd73d79/tools/gen-md-twins.ts",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "omg-cli/omg-web",
+      "path": "docs/operations/seo-plan.md",
+      "url": "https://github.com/omg-cli/omg-web/blob/dcf0895289006b7ee5f9bb4b609389c28c90cf57/docs/operations/seo-plan.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "parterburn/dabble.me",
+      "path": "public/webmcp.js",
+      "url": "https://github.com/parterburn/dabble.me/blob/6fff675bf0d3cef8be57d57e1905931091a70aa7/public/webmcp.js",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "pereira-tech-talks/pereiratechtalks.com",
+      "path": "public/auth.md",
+      "url": "https://github.com/pereira-tech-talks/pereiratechtalks.com/blob/e8736159dd217ab8375498dbecce59de580a23f2/public/auth.md",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "PeWu/topola-viewer",
+      "path": "docs/PLAYWRIGHT_DESIGN.md",
+      "url": "https://github.com/PeWu/topola-viewer/blob/6311c3e8ada6d9ddac592f0aa6ddd40f8cb6a552/docs/PLAYWRIGHT_DESIGN.md",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "PGHQdev/OpenScreenShot",
+      "path": "site/public/assets/webmcp.js",
+      "url": "https://github.com/PGHQdev/OpenScreenShot/blob/d281f4078b1a695ec4892443e25f247a9cfe5ebd/site/public/assets/webmcp.js",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "pubkey/rxdb",
+      "path": "docs-src/docs/webmcp.md",
+      "url": "https://github.com/pubkey/rxdb/blob/7520eacd4692fd0b06888ef38867602ce0e41562/docs-src/docs/webmcp.md",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "qdhenry/Claude-Command-Suite",
+      "path": ".claude/skills/webmcp/templates/imperative-tool.md",
+      "url": "https://github.com/qdhenry/Claude-Command-Suite/blob/e89b2f0b54f536a695ed7ae2e6e75e760b7a849e/.claude/skills/webmcp/templates/imperative-tool.md",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "qdhenry/Claude-Command-Suite",
+      "path": ".claude/skills/webmcp/workflows/add-imperative-tool.md",
+      "url": "https://github.com/qdhenry/Claude-Command-Suite/blob/e89b2f0b54f536a695ed7ae2e6e75e760b7a849e/.claude/skills/webmcp/workflows/add-imperative-tool.md",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "radustoian-em/radustoian-em",
+      "path": "agentic-architecture-mcp-llms.md",
+      "url": "https://github.com/radustoian-em/radustoian-em/blob/5068b1edb778abae10ddbc8ab6006f581bc5bbe4/agentic-architecture-mcp-llms.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "radustoian-em/radustoian-em",
+      "path": "agentic-architecture-mcp-llms.md.txt",
+      "url": "https://github.com/radustoian-em/radustoian-em/blob/5068b1edb778abae10ddbc8ab6006f581bc5bbe4/agentic-architecture-mcp-llms.md.txt",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "radustoian-em/radustoian-em",
+      "path": "llms-full.txt",
+      "url": "https://github.com/radustoian-em/radustoian-em/blob/5068b1edb778abae10ddbc8ab6006f581bc5bbe4/llms-full.txt",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "rknightion/backlog-publishing",
+      "path": "AGENTS.md",
+      "url": "https://github.com/rknightion/backlog-publishing/blob/4dfdfe077c59f280e3480ef564a17975b953ba61/AGENTS.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "royalplugins/royal-mcp",
+      "path": "includes/Admin/Settings_Page.php",
+      "url": "https://github.com/royalplugins/royal-mcp/blob/0d57fb9eca2cbd3c2e0e05ca6f0459e2a11edc9a/includes/Admin/Settings_Page.php",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "royalplugins/royal-mcp",
+      "path": "templates/admin/settings.php",
+      "url": "https://github.com/royalplugins/royal-mcp/blob/0d57fb9eca2cbd3c2e0e05ca6f0459e2a11edc9a/templates/admin/settings.php",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "ryanduguid/ryanduguid.github.io",
+      "path": "scripts/check_production.mjs",
+      "url": "https://github.com/ryanduguid/ryanduguid.github.io/blob/d118481f4f7728549412708868997153158df89a/scripts/check_production.mjs",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "schlessera/webmcp-hackathon",
+      "path": "WEBMCP-REFERENCE.md",
+      "url": "https://github.com/schlessera/webmcp-hackathon/blob/87f1eb28f60bce1e614fc8f38c574c55aea6b3e1/WEBMCP-REFERENCE.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "simonw/research",
+      "path": "webmcp-chrome-demo/explore_cdp.py",
+      "url": "https://github.com/simonw/research/blob/4f5f23ed56019c498baabe9063a646f50a386a73/webmcp-chrome-demo/explore_cdp.py",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "simonw/research",
+      "path": "webmcp-chrome-demo/notes.md",
+      "url": "https://github.com/simonw/research/blob/4f5f23ed56019c498baabe9063a646f50a386a73/webmcp-chrome-demo/notes.md",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "simonw/research",
+      "path": "webmcp-chrome-demo/README.md",
+      "url": "https://github.com/simonw/research/blob/4f5f23ed56019c498baabe9063a646f50a386a73/webmcp-chrome-demo/README.md",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "simonw/research",
+      "path": "webmcp-chrome-demo/server.py",
+      "url": "https://github.com/simonw/research/blob/4f5f23ed56019c498baabe9063a646f50a386a73/webmcp-chrome-demo/server.py",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "stellar/stellar-docs",
+      "path": "src/clientModules/webmcp.ts",
+      "url": "https://github.com/stellar/stellar-docs/blob/2efd1d55840eb780f4b311c313e35d34fedf2f63/src/clientModules/webmcp.ts",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "suwa-sh/zenn-contents",
+      "path": "articles/webmcp_20260826.md",
+      "url": "https://github.com/suwa-sh/zenn-contents/blob/f03c8d36aed77e064ceedd9d4ddf8268c6828435/articles/webmcp_20260826.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "syumai/cloudflare-blog-summaries",
+      "path": "docs/articles/2026-08-06-webmcp.md",
+      "url": "https://github.com/syumai/cloudflare-blog-summaries/blob/85f77b7464a429123ed0eabfbccba32169991b70/docs/articles/2026-08-06-webmcp.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "syumai/cloudflare-blog-summaries",
+      "path": "examples/webmcp/README.md",
+      "url": "https://github.com/syumai/cloudflare-blog-summaries/blob/85f77b7464a429123ed0eabfbccba32169991b70/examples/webmcp/README.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "syumai/cloudflare-blog-summaries",
+      "path": "examples/webmcp/src/index.ts",
+      "url": "https://github.com/syumai/cloudflare-blog-summaries/blob/85f77b7464a429123ed0eabfbccba32169991b70/examples/webmcp/src/index.ts",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "syumai/cloudflare-blog-summaries",
+      "path": "slides/webmcp/slides.md",
+      "url": "https://github.com/syumai/cloudflare-blog-summaries/blob/85f77b7464a429123ed0eabfbccba32169991b70/slides/webmcp/slides.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "TanStack/devtools",
+      "path": "docs/webmcp-tools.md",
+      "url": "https://github.com/TanStack/devtools/blob/afa01fec1751308eb5f60e737e408f2fc34e669a/docs/webmcp-tools.md",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "tbdavid2019/iptools",
+      "path": "CHANGELOG.md",
+      "url": "https://github.com/tbdavid2019/iptools/blob/e761968284ce4dac59fe94b79b7b3f20786ea7c8/CHANGELOG.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "tbdavid2019/iptools",
+      "path": "public/llms-full.txt",
+      "url": "https://github.com/tbdavid2019/iptools/blob/e761968284ce4dac59fe94b79b7b3f20786ea7c8/public/llms-full.txt",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "teaguesterling/duckdb_mcp",
+      "path": "src/webmcp/webmcp_client.js",
+      "url": "https://github.com/teaguesterling/duckdb_mcp/blob/1918c1382d330eafe2778df0709d29df1da9e1c8/src/webmcp/webmcp_client.js",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "temporal-sa/journey-platform",
+      "path": "scripts/dev-webmcp.sh",
+      "url": "https://github.com/temporal-sa/journey-platform/blob/e19445407f5c00f150ab36d0240895e54c80cc84/scripts/dev-webmcp.sh",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "temporal-sa/journey-platform",
+      "path": "web/index.html",
+      "url": "https://github.com/temporal-sa/journey-platform/blob/e19445407f5c00f150ab36d0240895e54c80cc84/web/index.html",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "tikoci/restraml",
+      "path": "CLAUDE.md",
+      "url": "https://github.com/tikoci/restraml/blob/dc929aa9ae90095b372082752905389dbb225a42/CLAUDE.md",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "toshi0607/kusakuzushi",
+      "path": "tasks/webmcp-article-notes.md",
+      "url": "https://github.com/toshi0607/kusakuzushi/blob/79372d1e7c457f475eb48e6d7e5c9beea0dfa7f0/tasks/webmcp-article-notes.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
       "repository": "vueuse/vueuse",
       "path": "packages/core/useWebMCP/index.md",
       "url": "https://github.com/vueuse/vueuse/blob/ad2822b3854347f9eeb1c738fd2b90b773381c4a/packages/core/useWebMCP/index.md",
@@ -137,147 +635,183 @@
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
+      "repository": "w3c/webextensions",
+      "path": "_minutes/2026-04-08-london-f2f.md",
+      "url": "https://github.com/w3c/webextensions/blob/f30382f287a5001e47e49dcce4f8249a874c8c75/_minutes/2026-04-08-london-f2f.md",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "wandersepulveda2013/toolisto-web",
+      "path": "ACTIVE-MISSION.md",
+      "url": "https://github.com/wandersepulveda2013/toolisto-web/blob/5e0534bffd00d56a21318ece8f218b29d9ad0590/ACTIVE-MISSION.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "wandersepulveda2013/toolisto-web",
+      "path": "APLUNO-PUBLICATION-STATUS.md",
+      "url": "https://github.com/wandersepulveda2013/toolisto-web/blob/5e0534bffd00d56a21318ece8f218b29d9ad0590/APLUNO-PUBLICATION-STATUS.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "wandersepulveda2013/toolisto-web",
+      "path": "artifacts/adsense-readiness/evidencia-live-production.md",
+      "url": "https://github.com/wandersepulveda2013/toolisto-web/blob/5e0534bffd00d56a21318ece8f218b29d9ad0590/artifacts/adsense-readiness/evidencia-live-production.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "wandersepulveda2013/toolisto-web",
+      "path": "artifacts/adsense-readiness/submission-readiness-checklist.md",
+      "url": "https://github.com/wandersepulveda2013/toolisto-web/blob/5e0534bffd00d56a21318ece8f218b29d9ad0590/artifacts/adsense-readiness/submission-readiness-checklist.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
+      "repository": "wandersepulveda2013/toolisto-web",
+      "path": "artifacts/cloudflare-webmcp/investigation.md",
+      "url": "https://github.com/wandersepulveda2013/toolisto-web/blob/5e0534bffd00d56a21318ece8f218b29d9ad0590/artifacts/cloudflare-webmcp/investigation.md",
+      "query": "\".webmcp/bridge.js\" in:file"
+    },
+    {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/cancel-reentrancy-crash.https.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/cancel-reentrancy-crash.https.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/cancel-reentrancy-crash.https.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/duplicate_tool_registration.https.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/duplicate_tool_registration.https.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/duplicate_tool_registration.https.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/executeTool-caller-navigate-abort.https.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/executeTool-caller-navigate-abort.https.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/executeTool-caller-navigate-abort.https.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/executeTool-error-window-onerror.https.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/executeTool-error-window-onerror.https.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/executeTool-error-window-onerror.https.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/executeTool-invalid-dictionary.https.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/executeTool-invalid-dictionary.https.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/executeTool-invalid-dictionary.https.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/executeTool-reentrant-cancellation.https.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/executeTool-reentrant-cancellation.https.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/executeTool-reentrant-cancellation.https.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/executeTool-signal-cross-origin.https.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/executeTool-signal-cross-origin.https.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/executeTool-signal-cross-origin.https.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/executeTool-target-detachment.https.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/executeTool-target-detachment.https.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/executeTool-target-detachment.https.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/exposedTo-defaults-same-origin.https.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/exposedTo-defaults-same-origin.https.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/exposedTo-defaults-same-origin.https.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/exposedTo-invalid-origins.https.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/exposedTo-invalid-origins.https.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/exposedTo-invalid-origins.https.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/getTools-filtering.https.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/getTools-filtering.https.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/getTools-filtering.https.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/getTools-imperative-schema.https.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/getTools-imperative-schema.https.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/getTools-imperative-schema.https.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/getTools.https.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/getTools.https.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/getTools.https.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/initial-about-blank-shared-tool.https.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/initial-about-blank-shared-tool.https.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/initial-about-blank-shared-tool.https.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/object-arguments.https.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/object-arguments.https.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/object-arguments.https.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/opaque-origin-tools.https.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/opaque-origin-tools.https.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/opaque-origin-tools.https.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/register_tool_invalid_json_schema.https.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/register_tool_invalid_json_schema.https.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/register_tool_invalid_json_schema.https.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/register_tool_name_validation.https.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/register_tool_name_validation.https.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/register_tool_name_validation.https.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/register_tool_no_schema.https.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/register_tool_no_schema.https.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/register_tool_no_schema.https.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/register_tool_signal.https.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/register_tool_signal.https.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/register_tool_signal.https.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/register_tool_with_empty_annotation.https.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/register_tool_with_empty_annotation.https.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/register_tool_with_empty_annotation.https.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/register-tool-title.https.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/register-tool-title.https.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/register-tool-title.https.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/resources/iframe-register-tool.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/resources/iframe-register-tool.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/resources/iframe-register-tool.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "web-platform-tests/wpt",
       "path": "webmcp/imperative/same-origin-iframe-registerTool-regression.https.html",
-      "url": "https://github.com/web-platform-tests/wpt/blob/3b8aed1e7cd75850921d452b7d9a3e5c59cb5ac0/webmcp/imperative/same-origin-iframe-registerTool-regression.https.html",
+      "url": "https://github.com/web-platform-tests/wpt/blob/6a3c46c7c119fc84a80a1082fc8d21f9f5c24e66/webmcp/imperative/same-origin-iframe-registerTool-regression.https.html",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
@@ -299,10 +833,70 @@
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
+      "repository": "WebMCP-org/chrome-devtools-quickstart",
+      "path": "counter.js",
+      "url": "https://github.com/WebMCP-org/chrome-devtools-quickstart/blob/73389a63a2561f9c6a64da02b21cd87ec94efac7/counter.js",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "WebMCP-org/examples",
+      "path": "AGENTS.md",
+      "url": "https://github.com/WebMCP-org/examples/blob/0c4a2a18c2f4d8626d23c90cfeb13cab676a9e6d/AGENTS.md",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "WebMCP-org/examples",
+      "path": "angular/README.md",
+      "url": "https://github.com/WebMCP-org/examples/blob/0c4a2a18c2f4d8626d23c90cfeb13cab676a9e6d/angular/README.md",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "WebMCP-org/examples",
+      "path": "CHANGELOG.md",
+      "url": "https://github.com/WebMCP-org/examples/blob/0c4a2a18c2f4d8626d23c90cfeb13cab676a9e6d/CHANGELOG.md",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "WebMCP-org/examples",
+      "path": "phoenix-liveview/README.md",
+      "url": "https://github.com/WebMCP-org/examples/blob/0c4a2a18c2f4d8626d23c90cfeb13cab676a9e6d/phoenix-liveview/README.md",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "WebMCP-org/examples",
+      "path": "rails/README.md",
+      "url": "https://github.com/WebMCP-org/examples/blob/0c4a2a18c2f4d8626d23c90cfeb13cab676a9e6d/rails/README.md",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "WebMCP-org/examples",
+      "path": "README.md",
+      "url": "https://github.com/WebMCP-org/examples/blob/0c4a2a18c2f4d8626d23c90cfeb13cab676a9e6d/README.md",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "WebMCP-org/examples",
+      "path": "svelte/README.md",
+      "url": "https://github.com/WebMCP-org/examples/blob/0c4a2a18c2f4d8626d23c90cfeb13cab676a9e6d/svelte/README.md",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "WebMCP-org/examples",
+      "path": "vanilla/README.md",
+      "url": "https://github.com/WebMCP-org/examples/blob/0c4a2a18c2f4d8626d23c90cfeb13cab676a9e6d/vanilla/README.md",
+      "query": "\"navigator.modelContext.registerTool\" in:file"
+    },
+    {
       "repository": "WordPress/wordpress-playground",
       "path": "packages/playground/mcp/README.md",
-      "url": "https://github.com/WordPress/wordpress-playground/blob/d7a515d872fc5bf8730a4f9505c03533f519a96c/packages/playground/mcp/README.md",
+      "url": "https://github.com/WordPress/wordpress-playground/blob/dcb889355e82784eb6b68226f3888a48c4acefa8/packages/playground/mcp/README.md",
       "query": "\"document.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "xenod799/graphehe",
+      "path": "server/index.js",
+      "url": "https://github.com/xenod799/graphehe/blob/db1a0bb0155c9d334f360f5197cb7bb725b80cfb/server/index.js",
+      "query": "\".webmcp/bridge.js\" in:file"
     }
   ]
 }
