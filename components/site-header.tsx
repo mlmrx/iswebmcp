@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronDown, Menu, Radar } from 'lucide-react';
+import { Binoculars, ChevronDown, Menu, Radar } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 
@@ -25,10 +25,18 @@ const research = [
   },
   { href: '/pulse', label: 'Research updates' },
 ];
-const primary = [
+const primary: Array<{ href: string; label: string; featured?: boolean }> = [
+  { href: '/agentlens', label: 'AgentLens', featured: true },
   { href: '/developers', label: 'Developers' },
   { href: '/integrations', label: 'Integrations' },
 ];
+const mobileLinks: Array<{ href: string; label: string; featured?: boolean }> =
+  [
+    ...primary,
+    { href: '/#audit', label: 'Check website' },
+    ...research,
+    ...resources,
+  ];
 
 export function SiteHeader() {
   const navigationRef = useRef<HTMLElement>(null);
@@ -79,8 +87,15 @@ export function SiteHeader() {
             <Link
               key={link.href}
               href={link.href}
-              className="hidden rounded-lg px-3 py-2 hover:bg-muted md:inline-flex"
+              className={`hidden rounded-lg px-3 py-2 hover:bg-muted md:inline-flex ${
+                link.featured
+                  ? 'items-center gap-1.5 bg-signal font-semibold text-ink hover:bg-signal/85'
+                  : ''
+              }`}
             >
+              {link.featured && (
+                <Binoculars className="size-3.5" aria-hidden="true" />
+              )}
               {link.label}
             </Link>
           ))}
@@ -133,16 +148,13 @@ export function SiteHeader() {
               className="absolute right-0 top-12 z-50 grid max-h-[75vh] min-w-64 gap-1 overflow-y-auto rounded-xl border border-border bg-card p-2 shadow-xl"
               data-testid="mobile-menu"
             >
-              {[
-                ...primary,
-                { href: '/#audit', label: 'Check website' },
-                ...research,
-                ...resources,
-              ].map((link) => (
+              {mobileLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="rounded-lg px-3 py-2.5 hover:bg-muted"
+                  className={`rounded-lg px-3 py-2.5 hover:bg-muted ${
+                    link.featured ? 'font-semibold text-signal-ink' : ''
+                  }`}
                 >
                   {link.label}
                 </Link>

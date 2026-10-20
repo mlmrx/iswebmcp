@@ -31,6 +31,7 @@ export function GET() {
     { path: '/support', lastmod: '2026-09-03' },
     { path: '/security', lastmod: '2026-09-02' },
     { path: '/workbench', lastmod: '2026-08-31' },
+    { path: '/agentlens', lastmod: '2026-10-19' },
   ];
   const urls = [
     ...staticPages.map(({ path, lastmod }) => ({

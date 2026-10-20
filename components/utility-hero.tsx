@@ -1,5 +1,11 @@
 import Link from 'next/link';
-import { ArrowRight, Braces, GitCompareArrows, Search } from 'lucide-react';
+import {
+  ArrowRight,
+  Binoculars,
+  Braces,
+  GitCompareArrows,
+  Search,
+} from 'lucide-react';
 import { QuickScanForm } from '@/components/quick-scan-form';
 
 export function UtilityHero() {
@@ -32,6 +38,14 @@ export function UtilityHero() {
               className="mt-4 block text-sm font-semibold text-signal-ink underline underline-offset-4"
             >
               Automate checks with the SDK + CI toolkit
+            </Link>
+            <Link
+              href="/agentlens"
+              className="mt-5 inline-flex items-center gap-2 rounded-xl bg-signal px-4 py-2.5 text-sm font-semibold text-ink transition hover:-translate-y-0.5 hover:bg-signal/85"
+            >
+              <Binoculars className="size-4" aria-hidden="true" />
+              Launch AgentLens
+              <ArrowRight className="size-4" aria-hidden="true" />
             </Link>
             <div
               aria-label="CLI quickstart"
