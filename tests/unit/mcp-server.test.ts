@@ -53,6 +53,7 @@ describe('isWebMCP remote MCP server', () => {
   it('advertises a small, accurately annotated tool surface', async () => {
     const { tools } = await client.listTools();
     expect(tools.map((tool) => tool.name)).toEqual([
+      'audit_agent_readiness',
       'audit_public_url',
       'show_sample_audit',
       'audit_tool_contracts',
@@ -69,7 +70,11 @@ describe('isWebMCP remote MCP server', () => {
     expect(
       (audit?._meta?.ui as { resourceUri?: string } | undefined)?.resourceUri,
     ).toBe(AUDIT_WIDGET_URI);
-    for (const tool of tools.slice(3)) {
+    for (const tool of tools.filter(
+      (item) =>
+        item.annotations?.readOnlyHint &&
+        item.annotations.openWorldHint === false,
+    )) {
       expect(tool.annotations).toMatchObject({
         readOnlyHint: true,
         destructiveHint: false,

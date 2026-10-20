@@ -115,6 +115,7 @@ test('remote MCP completes initialize, discovery, resource, and tool calls', asy
     _meta?: { ui?: { resourceUri?: string } };
   }>;
   expect(tools.map((tool) => tool.name)).toEqual([
+    'audit_agent_readiness',
     'audit_public_url',
     'show_sample_audit',
     'audit_tool_contracts',
@@ -124,12 +125,19 @@ test('remote MCP completes initialize, discovery, resource, and tool calls', asy
     'get_implementation_recipe',
     'compare_source_reports',
   ]);
-  expect(tools[0]?.annotations).toMatchObject({
+  const readiness = tools.find((tool) => tool.name === 'audit_agent_readiness');
+  expect(readiness?.annotations).toMatchObject({
+    readOnlyHint: true,
+    openWorldHint: true,
+    destructiveHint: false,
+  });
+  const audit = tools.find((tool) => tool.name === 'audit_public_url');
+  expect(audit?.annotations).toMatchObject({
     readOnlyHint: false,
     openWorldHint: true,
     destructiveHint: false,
   });
-  expect(tools[0]?._meta?.ui?.resourceUri).toBe('ui://iswebmcp/audit-v1.html');
+  expect(audit?._meta?.ui?.resourceUri).toBe('ui://iswebmcp/audit-v1.html');
 
   const sampleResponse = await request.post('/mcp', {
     headers: protocolHeaders,
