@@ -38,6 +38,7 @@ import type { ActionCandidate, ScanReport } from '@/lib/types';
 import type { AgentReadinessReport } from '@/lib/agentlens-readiness';
 import { ReadinessBoard } from '@/components/agentlens/readiness-board';
 import { AgentRunTheater } from '@/components/agentlens/trace-theater';
+import { AgentLensUpdatesForm } from '@/components/agentlens/updates-form';
 
 type LensId = 'pathfinder' | 'contract' | 'guardian';
 
@@ -1293,6 +1294,8 @@ export function AgentLens() {
           </div>
         </section>
       )}
+
+      {report && <AgentLensUpdatesForm />}
 
       <section className="mx-auto max-w-7xl px-5 pb-16 lg:px-8">
         <div className="grid gap-4 border-t border-paper/10 pt-7 sm:grid-cols-3">

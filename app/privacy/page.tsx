@@ -16,7 +16,7 @@ export default function PrivacyPage() {
       className="min-h-screen bg-background"
     >
       <article className="prose prose-neutral mx-auto max-w-3xl px-5 py-14 text-foreground lg:px-8">
-        <p className="eyebrow">Updated 6 September 2026</p>
+        <p className="eyebrow">Updated 19 October 2026</p>
         <h1 className="mt-3 text-5xl font-semibold tracking-[-.05em]">
           Privacy
         </h1>
@@ -39,6 +39,29 @@ export default function PrivacyPage() {
               credentials, query strings, and fragments are removed before
               storage. Integrations may also process supplied tool-contract
               text.
+            </p>
+          </section>
+          <section>
+            <h2 className="text-2xl font-semibold text-foreground">
+              Optional AgentLens updates
+            </h2>
+            <p className="mt-3">
+              If you choose to sign up for AgentLens product updates, we store
+              your normalized email address, consent version, and signup time in
+              the managed database. We use the address only for occasional
+              AgentLens product notes. Signing up is optional and does not send
+              your scanned URL, goal, report, or agent trace with it. We do not
+              sell these signup addresses or share them with marketing partners.
+              Records older than 12 months are deleted during later signup
+              activity. You can opt out or request deletion at any time through{' '}
+              <Link
+                className="text-signal-ink underline hover:no-underline"
+                href="/support"
+              >
+                support
+              </Link>
+              . A short-lived in-memory rate limit helps prevent form abuse; the
+              signup record does not include your IP address.
             </p>
           </section>
           <section>
