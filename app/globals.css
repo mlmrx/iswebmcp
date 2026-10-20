@@ -422,6 +422,15 @@ code {
   }
 }
 
+@keyframes readiness-sweep {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(340%);
+  }
+}
+
 .integration-signal-dot {
   position: absolute;
   top: 50%;

@@ -375,6 +375,8 @@ export interface SafeFetchResult {
   declaredBytes?: number;
   truncated: boolean;
   redirects: number;
+  /** Small allowlist of response headers useful for source evidence. */
+  headers: Record<string, string>;
 }
 
 export interface SafeFetchOptions {
@@ -384,9 +386,15 @@ export interface SafeFetchOptions {
   accept?: string;
   allowedMediaTypes?: string[];
   returnErrorResponse?: boolean;
+  maxResponseBytes?: number;
+  timeoutMs?: number;
+  totalTimeoutMs?: number;
 }
 
-async function readLimitedBody(response: Response): Promise<{
+async function readLimitedBody(
+  response: Response,
+  maxResponseBytes = MAX_RESPONSE_BYTES,
+): Promise<{
   text: string;
   bytes: number;
   declaredBytes?: number;
@@ -407,7 +415,7 @@ async function readLimitedBody(response: Response): Promise<{
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
-    const remaining = MAX_RESPONSE_BYTES - bytes;
+    const remaining = maxResponseBytes - bytes;
     if (value.byteLength > remaining) {
       if (remaining > 0) chunks.push(value.slice(0, remaining));
       bytes += Math.max(0, remaining);
@@ -417,11 +425,7 @@ async function readLimitedBody(response: Response): Promise<{
     }
     chunks.push(value);
     bytes += value.byteLength;
-    if (
-      bytes === MAX_RESPONSE_BYTES &&
-      declaredBytes &&
-      declaredBytes > bytes
-    ) {
+    if (bytes === maxResponseBytes && declaredBytes && declaredBytes > bytes) {
       truncated = true;
       await reader.cancel();
       break;
@@ -465,7 +469,7 @@ export async function fetchPublicText(
   else externalSignal?.addEventListener('abort', cancelTotal, { once: true });
   const totalTimeout = setTimeout(
     () => totalController.abort(),
-    TOTAL_SCAN_TIMEOUT_MS,
+    options.totalTimeoutMs ?? TOTAL_SCAN_TIMEOUT_MS,
   );
 
   try {
@@ -486,7 +490,10 @@ export async function fetchPublicText(
       totalController.signal.addEventListener('abort', cancelHop, {
         once: true,
       });
-      const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+      const timeout = setTimeout(
+        () => controller.abort(),
+        options.timeoutMs ?? FETCH_TIMEOUT_MS,
+      );
       let response: Response | undefined;
       try {
         response = await fetch(current, {
@@ -533,7 +540,10 @@ export async function fetchPublicText(
             'Quick Scan scores HTML pages only.',
             415,
           );
-        const body = await readLimitedBody(response);
+        const body = await readLimitedBody(
+          response,
+          options.maxResponseBytes ?? MAX_RESPONSE_BYTES,
+        );
         return {
           text: body.text,
           finalUrl: current.toString(),
@@ -543,6 +553,12 @@ export async function fetchPublicText(
           declaredBytes: body.declaredBytes,
           truncated: body.truncated,
           redirects,
+          headers: Object.fromEntries(
+            ['link', 'content-signal', 'x-robots-tag'].flatMap((name) => {
+              const value = response?.headers.get(name);
+              return value ? [[name, value.slice(0, 800)]] : [];
+            }),
+          ),
         };
       } catch (error) {
         if (error instanceof ScanFailure) {

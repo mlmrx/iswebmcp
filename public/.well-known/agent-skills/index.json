@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "agentlens-readiness",
+      "type": "skill-md",
+      "description": "Run a bounded, read-only AgentLens audit of public website discovery and agent protocol signals, then explain evidence and owner-safe next steps.",
+      "url": "https://iswebmcp.com/.well-known/agent-skills/agentlens-readiness/SKILL.md",
+      "digest": "sha256:f0579b977c99a39c7ad630aac7ac6ae6c9c4410a486b9cb116c1b9afc1ed35e2"
+    }
+  ]
+}

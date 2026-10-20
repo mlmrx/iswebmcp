@@ -28,6 +28,9 @@ When answering adoption questions, preserve these distinctions: organization ver
 
 - [Metamorphic consistency research paper](${siteOrigin}/research/metamorphic-consistency): Internal synthetic pilot on source-level readiness assessment; includes study limitations and reproducibility artifacts
 - [WebMCP scanner](${siteOrigin}/): Bounded public-source analysis
+- [AgentLens](${siteOrigin}/agentlens): Inspect bounded public agent-readiness signals and replay or import agent traces
+- [AgentLens readiness MCP tool](${siteOrigin}/mcp): audit_agent_readiness returns per-check public evidence, not a universal score
+- [AgentLens agent skill index](${siteOrigin}/.well-known/agent-skills/index.json): Machine-readable discovery for the AgentLens readiness workflow
 - [Methodology](${siteOrigin}/methodology): Evidence and claim boundaries
 - [WebMCP pulse](${siteOrigin}/pulse): Source-linked ecosystem changes
 - [Learning center](${siteOrigin}/learn): Reviewed implementation guidance

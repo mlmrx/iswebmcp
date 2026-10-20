@@ -35,6 +35,8 @@ import {
 import { normalizeScanUrlInput, parseScanApiResponse } from '@/lib/scan-client';
 import { buildReportOverview } from '@/lib/report-overview';
 import type { ActionCandidate, ScanReport } from '@/lib/types';
+import type { AgentReadinessReport } from '@/lib/agentlens-readiness';
+import { ReadinessBoard } from '@/components/agentlens/readiness-board';
 import { AgentRunTheater } from '@/components/agentlens/trace-theater';
 
 type LensId = 'pathfinder' | 'contract' | 'guardian';
@@ -88,6 +90,12 @@ const badgeCatalog: Array<{
     name: 'Scope guardian',
     description: 'Keep runtime unknowns visible in your review.',
     icon: ShieldCheck,
+  },
+  {
+    id: 'readiness-mapper',
+    name: 'Signal cartographer',
+    description: 'Map agent-facing signals while keeping owner choices clear.',
+    icon: Radar,
   },
 ];
 
@@ -225,6 +233,21 @@ function awardProgress(
   };
 }
 
+function awardReadinessProgress(current: LocalProgress) {
+  const earned = current.badges.includes('readiness-mapper')
+    ? []
+    : ['readiness-mapper'];
+  return {
+    progress: {
+      ...current,
+      xp: current.xp + 25,
+      badges: [...new Set([...current.badges, ...earned])],
+    },
+    earned,
+    xp: 25,
+  };
+}
+
 function levelFor(xp: number) {
   const currentIndex = levels.reduce(
     (found, level, index) => (xp >= level.threshold ? index : found),
@@ -292,6 +315,9 @@ export function AgentLens() {
   );
   const progress = parseProgress(progressSnapshot);
   const [report, setReport] = useState<ScanReport | null>(null);
+  const [readiness, setReadiness] = useState<AgentReadinessReport | null>(null);
+  const [readinessLoading, setReadinessLoading] = useState(false);
+  const [readinessError, setReadinessError] = useState('');
   const [scanning, setScanning] = useState(false);
   const [error, setError] = useState('');
   const [earned, setEarned] = useState<string[]>([]);
@@ -304,6 +330,55 @@ export function AgentLens() {
       ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, [report]);
 
+  useEffect(() => {
+    if (!report) return;
+    const controller = new AbortController();
+    void fetch('/api/agentlens/readiness', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ url: report.finalUrl }),
+      signal: controller.signal,
+    })
+      .then(async (response) => {
+        const payload = (await response.json()) as
+          | AgentReadinessReport
+          | { error?: { message?: string } };
+        if (!response.ok) {
+          throw new Error(
+            'error' in payload && payload.error?.message
+              ? payload.error.message
+              : 'The readiness check could not be completed.',
+          );
+        }
+        const readinessReport = payload as AgentReadinessReport;
+        setReadiness(readinessReport);
+        let currentProgress = sessionProgress;
+        try {
+          currentProgress = parseProgress(
+            window.localStorage.getItem(PROGRESS_KEY),
+          );
+        } catch {
+          // Keep this field reward available even when browser storage is blocked.
+        }
+        const reward = awardReadinessProgress(currentProgress);
+        saveProgress(reward.progress);
+        setEarned((current) => [...new Set([...current, ...reward.earned])]);
+        setEarnedXp((current) => (current ?? 0) + reward.xp);
+      })
+      .catch((requestError: unknown) => {
+        if (controller.signal.aborted) return;
+        setReadinessError(
+          requestError instanceof Error
+            ? requestError.message
+            : 'The readiness check could not be completed.',
+        );
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setReadinessLoading(false);
+      });
+    return () => controller.abort();
+  }, [report]);
+
   const level = levelFor(progress.xp);
   const selectedLens = lenses.find((item) => item.id === lens)!;
   const SelectedLensIcon = selectedLens.icon;
@@ -312,6 +387,9 @@ export function AgentLens() {
     event.preventDefault();
     setError('');
     setReport(null);
+    setReadiness(null);
+    setReadinessLoading(false);
+    setReadinessError('');
     setEarned([]);
     setEarnedXp(null);
 
@@ -341,6 +419,7 @@ export function AgentLens() {
         body: JSON.stringify({ url: normalizedUrl, goal: goal.trim() }),
       });
       const result = await parseScanApiResponse(response);
+      setReadinessLoading(true);
       setReport(result);
       const reward = awardProgress(progress, result);
       saveProgress(reward.progress);
@@ -917,6 +996,14 @@ export function AgentLens() {
                   <p className="mt-1 text-xs text-ink/50">{label}</p>
                 </div>
               ))}
+            </div>
+
+            <div className="px-5 sm:px-7">
+              <ReadinessBoard
+                report={readiness}
+                loading={readinessLoading}
+                error={readinessError}
+              />
             </div>
 
             <div className="grid gap-8 p-5 sm:p-7 lg:grid-cols-[1.1fr_.9fr]">

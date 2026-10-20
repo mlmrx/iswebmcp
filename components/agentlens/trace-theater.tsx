@@ -38,7 +38,7 @@ type AgentGroup = {
 
 const agentGroups: AgentGroup[] = [
   {
-    name: 'Work & frontier agents',
+    name: 'Cowork & work agents',
     members: [
       'Claude Cowork',
       'ChatGPT',

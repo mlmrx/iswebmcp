@@ -6,6 +6,7 @@ import {
   getAdoptionReport,
   latestAdoptionReport,
 } from '@/lib/adoption';
+import { runAgentReadinessAudit } from '@/lib/agentlens-readiness';
 import {
   auditImportedManifest,
   deriveReportWithImportedAudit,
@@ -187,6 +188,58 @@ export function createIsWebMcpServer(requesterKey = 'anonymous') {
         },
       ],
     }),
+  );
+
+  server.registerTool(
+    'audit_agent_readiness',
+    {
+      title: 'Map public agent-readiness signals',
+      description:
+        'Inspect a bounded set of conventional, same-origin public endpoints and response headers. Returns per-check evidence and owner choices, not a universal score. Does not crawl links, execute page code, authenticate, or imply that a real agent completed a task.',
+      inputSchema: {
+        url: z.string().trim().min(1).max(2_048),
+      },
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
+      _meta: {
+        'openai/toolInvocation/invoking':
+          'Checking public agent-readiness signals…',
+        'openai/toolInvocation/invoked': 'Readiness evidence mapped',
+      },
+    },
+    async ({ url }) => {
+      if (!allowRequest(`mcp-readiness:${requesterKey}`, 4)) {
+        return {
+          isError: true,
+          content: [
+            {
+              type: 'text',
+              text: 'RATE_LIMITED: Too many readiness checks from this client. Try again in a minute.',
+            },
+          ],
+        };
+      }
+      try {
+        const report = await runAgentReadinessAudit(url);
+        const { found, notFound, ownerChoice, couldNotVerify, optional } =
+          report.summary;
+        return {
+          structuredContent: { ...report } as Record<string, unknown>,
+          content: [
+            {
+              type: 'text',
+              text: `Mapped ${report.checks.length} public signals for ${report.origin}: ${found} found, ${notFound} not found, ${ownerChoice} owner choices, ${couldNotVerify} unverified, ${optional} optional. This is evidence, not a readiness score or observed agent run.`,
+            },
+          ],
+        };
+      } catch (error) {
+        return failureResult(error);
+      }
+    },
   );
 
   server.registerTool(
