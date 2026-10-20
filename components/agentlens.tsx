@@ -25,7 +25,12 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useState, type FormEvent } from 'react';
+import {
+  useEffect,
+  useState,
+  useSyncExternalStore,
+  type SubmitEvent,
+} from 'react';
 
 import { normalizeScanUrlInput, parseScanApiResponse } from '@/lib/scan-client';
 import { buildReportOverview } from '@/lib/report-overview';
@@ -40,7 +45,10 @@ type LocalProgress = {
 };
 
 const PROGRESS_KEY = 'iswebmcp-agentlens-progress-v1';
+const PROGRESS_CHANGE_EVENT = 'agentlens-progress-change';
 const EMPTY_PROGRESS: LocalProgress = { xp: 0, runs: 0, badges: [] };
+const EMPTY_PROGRESS_SNAPSHOT = JSON.stringify(EMPTY_PROGRESS);
+let sessionProgress = EMPTY_PROGRESS;
 
 const levels = [
   { name: 'New signal', threshold: 0 },
@@ -133,10 +141,9 @@ const missionPresets = [
   },
 ];
 
-function readProgress(): LocalProgress {
+function parseProgress(raw: string | null): LocalProgress {
+  if (!raw) return EMPTY_PROGRESS;
   try {
-    const raw = window.localStorage.getItem(PROGRESS_KEY);
-    if (!raw) return EMPTY_PROGRESS;
     const parsed = JSON.parse(raw) as Partial<LocalProgress>;
     return {
       xp:
@@ -148,7 +155,7 @@ function readProgress(): LocalProgress {
           ? Number(parsed.runs)
           : 0,
       badges: Array.isArray(parsed.badges)
-        ? parsed.badges.filter(
+        ? [...new Set(parsed.badges)].filter(
             (badge): badge is string =>
               typeof badge === 'string' &&
               badgeCatalog.some((known) => known.id === badge),
@@ -160,12 +167,34 @@ function readProgress(): LocalProgress {
   }
 }
 
+function subscribeToProgress(onChange: () => void) {
+  window.addEventListener('storage', onChange);
+  window.addEventListener(PROGRESS_CHANGE_EVENT, onChange);
+  return () => {
+    window.removeEventListener('storage', onChange);
+    window.removeEventListener(PROGRESS_CHANGE_EVENT, onChange);
+  };
+}
+
+function getProgressSnapshot() {
+  try {
+    const raw = window.localStorage.getItem(PROGRESS_KEY);
+    if (!raw) return JSON.stringify(sessionProgress);
+    sessionProgress = parseProgress(raw);
+    return raw;
+  } catch {
+    return JSON.stringify(sessionProgress);
+  }
+}
+
 function saveProgress(progress: LocalProgress) {
+  sessionProgress = progress;
   try {
     window.localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
   } catch {
     // Progress remains available for this page session when storage is blocked.
   }
+  window.dispatchEvent(new Event(PROGRESS_CHANGE_EVENT));
 }
 
 function awardProgress(
@@ -255,18 +284,17 @@ export function AgentLens() {
   const [url, setUrl] = useState('');
   const [goal, setGoal] = useState('');
   const [lens, setLens] = useState<LensId>('pathfinder');
-  const [progress, setProgress] = useState(EMPTY_PROGRESS);
-  const [progressReady, setProgressReady] = useState(false);
+  const progressSnapshot = useSyncExternalStore(
+    subscribeToProgress,
+    getProgressSnapshot,
+    () => EMPTY_PROGRESS_SNAPSHOT,
+  );
+  const progress = parseProgress(progressSnapshot);
   const [report, setReport] = useState<ScanReport | null>(null);
   const [scanning, setScanning] = useState(false);
   const [error, setError] = useState('');
   const [earned, setEarned] = useState<string[]>([]);
   const [earnedXp, setEarnedXp] = useState<number | null>(null);
-
-  useEffect(() => {
-    setProgress(readProgress());
-    setProgressReady(true);
-  }, []);
 
   useEffect(() => {
     if (!report) return;
@@ -279,7 +307,7 @@ export function AgentLens() {
   const selectedLens = lenses.find((item) => item.id === lens)!;
   const SelectedLensIcon = selectedLens.icon;
 
-  const submitScan = async (event: FormEvent<HTMLFormElement>) => {
+  const submitScan = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError('');
     setReport(null);
@@ -314,7 +342,6 @@ export function AgentLens() {
       const result = await parseScanApiResponse(response);
       setReport(result);
       const reward = awardProgress(progress, result);
-      setProgress(reward.progress);
       saveProgress(reward.progress);
       setEarned(reward.earned);
       setEarnedXp(reward.xp);
@@ -426,12 +453,14 @@ export function AgentLens() {
                     : 'MAX'}
                 </span>
               </div>
-              <div
-                role="progressbar"
+              <progress
+                value={level.progress}
+                max={100}
                 aria-label="Progress toward next AgentLens level"
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-valuenow={level.progress}
+                className="sr-only"
+              />
+              <div
+                aria-hidden="true"
                 className="h-2 overflow-hidden rounded-full bg-paper/10"
               >
                 <div
@@ -664,7 +693,7 @@ export function AgentLens() {
 
             <button
               type="submit"
-              disabled={scanning || !progressReady}
+              disabled={scanning}
               className="mt-6 inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-xl bg-signal px-5 py-3.5 text-sm font-bold text-ink shadow-[0_8px_25px_rgb(215_242_77/.2)] transition hover:-translate-y-0.5 hover:bg-[#e5ff67] hover:shadow-[0_12px_32px_rgb(215_242_77/.25)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal disabled:cursor-wait disabled:opacity-70"
             >
               {scanning ? (
@@ -797,17 +826,16 @@ export function AgentLens() {
       </section>
 
       {scanning && (
-        <div
-          role="status"
+        <output
           aria-live="polite"
-          className="mx-auto -mt-8 mb-12 max-w-7xl px-5 lg:px-8"
+          className="mx-auto -mt-8 mb-12 block max-w-7xl px-5 lg:px-8"
         >
           <div className="flex items-center gap-3 rounded-2xl border border-signal/20 bg-paper/[.06] p-4 text-sm text-paper/75">
             <span className="size-2 animate-pulse rounded-full bg-signal" />
             Fetching the public page and mapping source evidence. AgentLens does
             not open the page or perform the mission.
           </div>
-        </div>
+        </output>
       )}
 
       {report && (
