@@ -3,14 +3,14 @@ import type { Metadata } from 'next';
 import { AgentLens } from '@/components/agentlens';
 
 export const metadata: Metadata = {
-  title: 'AgentLens — Public-source quests for agent-ready sites',
+  title: 'AgentLens — Watch agent traces on your site',
   description:
-    'Give a public page a mission. Map candidate actions, inspect source evidence, and earn field badges with AgentLens by isWebMCP.',
+    'Replay an illustrative agent run or import a real OpenTelemetry trace to inspect tool calls, page activity, timing, and reported tokens with AgentLens by isWebMCP.',
   alternates: { canonical: '/agentlens' },
   openGraph: {
     title: 'AgentLens by isWebMCP',
     description:
-      'Public-source evidence, mission briefs, field badges, and honest boundaries for agent-ready websites.',
+      'Visualize agent traces and inspect public-source evidence, with private reasoning and unreported metrics kept out of view.',
     url: '/agentlens',
     type: 'website',
   },

@@ -35,6 +35,7 @@ import {
 import { normalizeScanUrlInput, parseScanApiResponse } from '@/lib/scan-client';
 import { buildReportOverview } from '@/lib/report-overview';
 import type { ActionCandidate, ScanReport } from '@/lib/types';
+import { AgentRunTheater } from '@/components/agentlens/trace-theater';
 
 type LensId = 'pathfinder' | 'contract' | 'guardian';
 
@@ -504,6 +505,8 @@ export function AgentLens() {
           </section>
         </div>
       </section>
+
+      <AgentRunTheater />
 
       <section className="mx-auto grid max-w-7xl gap-5 px-5 pb-16 lg:grid-cols-[1.15fr_.85fr] lg:px-8">
         <section
