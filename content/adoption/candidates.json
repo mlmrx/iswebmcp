@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-11-02T22:53:21.703Z",
+  "generatedAt": "2026-11-03T20:40:12.280Z",
   "policy": "Unpublished discovery leads only. A repository match is not a deployment and is never promoted without first-party page or runtime evidence.",
-  "previousCandidateCount": 147,
-  "candidateCount": 97,
+  "previousCandidateCount": 97,
+  "candidateCount": 50,
   "candidates": [
     {
       "repository": "3DStreet/3dstreet",
       "path": "docs/webmcp.md",
-      "url": "https://github.com/3DStreet/3dstreet/blob/06f8c92a5e2a11433374622b2a6b1cfc3b2fb272/docs/webmcp.md",
+      "url": "https://github.com/3DStreet/3dstreet/blob/ba2a47909d0db37f9e1ef90eb4d25da748edc3c7/docs/webmcp.md",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
@@ -21,12 +21,6 @@
       "path": "docs/api.md",
       "url": "https://github.com/agentcathq/webmcp-react/blob/740c5b450559c513a7eb198a1e4dffcfc0ddd8b7/docs/api.md",
       "query": "\"document.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "ahastudio/til",
-      "path": "chrome/webmcp-early-preview.md",
-      "url": "https://github.com/ahastudio/til/blob/3f9f8448d839637ea4092e8dacadd8be669312cf/chrome/webmcp-early-preview.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
     },
     {
       "repository": "ahzs645/rendercv-app",
@@ -59,76 +53,10 @@
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
-      "repository": "Auriti-Labs/geo-optimizer-skill",
-      "path": "src/geo_optimizer/models/results.py",
-      "url": "https://github.com/Auriti-Labs/geo-optimizer-skill/blob/13a7b3b49f9d5899b83b49f80e2022661f51f1a1/src/geo_optimizer/models/results.py",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
       "repository": "bagisto/bagisto-docs",
       "path": "src/ai/webmcp.md",
       "url": "https://github.com/bagisto/bagisto-docs/blob/ea82ce3442b0b981da4b32fb56c9945316009381/src/ai/webmcp.md",
       "query": "\"document.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "beaufortfrancois/sandbox",
-      "path": "webmcp/doors/forest.html",
-      "url": "https://github.com/beaufortfrancois/sandbox/blob/21d10661671a059148ecaafb83664af5332616fe/webmcp/doors/forest.html",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "beaufortfrancois/sandbox",
-      "path": "webmcp/doors/magic.html",
-      "url": "https://github.com/beaufortfrancois/sandbox/blob/21d10661671a059148ecaafb83664af5332616fe/webmcp/doors/magic.html",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "beaufortfrancois/sandbox",
-      "path": "webmcp/doors/ocean.html",
-      "url": "https://github.com/beaufortfrancois/sandbox/blob/21d10661671a059148ecaafb83664af5332616fe/webmcp/doors/ocean.html",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "beaufortfrancois/sandbox",
-      "path": "webmcp/duplicate-tool-names.html",
-      "url": "https://github.com/beaufortfrancois/sandbox/blob/21d10661671a059148ecaafb83664af5332616fe/webmcp/duplicate-tool-names.html",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "beaufortfrancois/sandbox",
-      "path": "webmcp/enum-issue.html",
-      "url": "https://github.com/beaufortfrancois/sandbox/blob/21d10661671a059148ecaafb83664af5332616fe/webmcp/enum-issue.html",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "beaufortfrancois/sandbox",
-      "path": "webmcp/pizza.html",
-      "url": "https://github.com/beaufortfrancois/sandbox/blob/21d10661671a059148ecaafb83664af5332616fe/webmcp/pizza.html",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "beaufortfrancois/sandbox",
-      "path": "webmcp/same-origin-transition/page1.html",
-      "url": "https://github.com/beaufortfrancois/sandbox/blob/21d10661671a059148ecaafb83664af5332616fe/webmcp/same-origin-transition/page1.html",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "beaufortfrancois/sandbox",
-      "path": "webmcp/same-origin-transition/page2.html",
-      "url": "https://github.com/beaufortfrancois/sandbox/blob/21d10661671a059148ecaafb83664af5332616fe/webmcp/same-origin-transition/page2.html",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "cfjedimaster/webdemos",
-      "path": "webmcp/script.js",
-      "url": "https://github.com/cfjedimaster/webdemos/blob/5c8cb1618ef244a73759965c47555b2171b5ab17/webmcp/script.js",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "cloudflare/agents",
-      "path": "examples/webmcp/src/client.tsx",
-      "url": "https://github.com/cloudflare/agents/blob/5cb7d4f7d1a32b5023fae9325e3834c2c8a73ede/examples/webmcp/src/client.tsx",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
     },
     {
       "repository": "cocodedk/agent-benchmark",
@@ -146,7 +74,7 @@
       "repository": "csound/web-ide",
       "path": "docs/webmcp-research.md",
       "url": "https://github.com/csound/web-ide/blob/d2a907955b9490d2d4f7c6c0974e6504e387d32f/docs/webmcp-research.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
+      "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "egolens/egolens",
@@ -161,18 +89,6 @@
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
-      "repository": "escapeboy/claude-code-kit",
-      "path": "14-webmcp/guide.md",
-      "url": "https://github.com/escapeboy/claude-code-kit/blob/09e25f6e2b9d47ea8a52e1a3ba6d83c77b96530c/14-webmcp/guide.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "fanyong920/jvppeteer",
-      "path": "example/src/main/java/com/ruiyun/example/WcbMCPTest.java",
-      "url": "https://github.com/fanyong920/jvppeteer/blob/f30e6aaaa1a43f8a8bdc61b6648fd331cc12b00a/example/src/main/java/com/ruiyun/example/WcbMCPTest.java",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
       "repository": "forter/agentic-readiness-guide",
       "path": "audit/m4-5.md",
       "url": "https://github.com/forter/agentic-readiness-guide/blob/dacc2105d17566b885a9417e929f71007e7669c0/audit/m4-5.md",
@@ -181,14 +97,8 @@
     {
       "repository": "FreemapSlovakia/freemap-v3-react",
       "path": "doc/webmcp.md",
-      "url": "https://github.com/FreemapSlovakia/freemap-v3-react/blob/6e573d3fd9e7767c30b04ddb865bd0ece289a7c3/doc/webmcp.md",
+      "url": "https://github.com/FreemapSlovakia/freemap-v3-react/blob/2e63745d63fc54def5d220884a431d1f39f34e04/doc/webmcp.md",
       "query": "\"document.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "fru1tworld/cs-study",
-      "path": "reference/standard/w3c/webmcp.md",
-      "url": "https://github.com/fru1tworld/cs-study/blob/449cdbf7be58ee7797d4f6a409e10adef0f4837d/reference/standard/w3c/webmcp.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
     },
     {
       "repository": "fzlzjerry/tarot-mcp",
@@ -210,14 +120,8 @@
     },
     {
       "repository": "GoogleChromeLabs/webmcp-tools",
-      "path": "AWESOME_WEBMCP.md",
-      "url": "https://github.com/GoogleChromeLabs/webmcp-tools/blob/dca47d247d11896ca563b0d92b072e16a6d9516d/AWESOME_WEBMCP.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "GoogleChromeLabs/webmcp-tools",
       "path": "demos/pizza-maker/README.md",
-      "url": "https://github.com/GoogleChromeLabs/webmcp-tools/blob/dca47d247d11896ca563b0d92b072e16a6d9516d/demos/pizza-maker/README.md",
+      "url": "https://github.com/GoogleChromeLabs/webmcp-tools/blob/fe69ca43dc84966995f803431e35d8fa2748081c/demos/pizza-maker/README.md",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
@@ -225,12 +129,6 @@
       "path": "docs/agent-tools.md",
       "url": "https://github.com/grinich/inflow/blob/52ed7d6b54b093d002ab45586cec80210ac61fbd/docs/agent-tools.md",
       "query": "\"document.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "heyderekj/binky",
-      "path": "site/llms.txt",
-      "url": "https://github.com/heyderekj/binky/blob/2136d75ec3e51181a75dd51b2b496192fb9d65f0/site/llms.txt",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
     },
     {
       "repository": "igrigorik/AgentBoard",
@@ -247,8 +145,8 @@
     {
       "repository": "Ivan-Malinovski/calino",
       "path": "docs/WEBMCP.md",
-      "url": "https://github.com/Ivan-Malinovski/calino/blob/4a31188b8b8502d4dae37724b96700463bc3773b/docs/WEBMCP.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
+      "url": "https://github.com/Ivan-Malinovski/calino/blob/defed479583d83f0649268ee57c6f10fafebd88d/docs/WEBMCP.md",
+      "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "jasonkneen/chadcn",
@@ -265,26 +163,14 @@
     {
       "repository": "judegomila/OnCo",
       "path": "docs/webmcp.md",
-      "url": "https://github.com/judegomila/OnCo/blob/f12940eca7eec8180461dea4d4f8db516ef27832/docs/webmcp.md",
+      "url": "https://github.com/judegomila/OnCo/blob/bec78be883183fcfefb985c153339bece7806337/docs/webmcp.md",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "JustasMonkev/mcp-accessibility-scanner",
       "path": "docs/webmcp.md",
-      "url": "https://github.com/JustasMonkev/mcp-accessibility-scanner/blob/0dbea2545c1c4a4f0c99226982a29e3515b2696b/docs/webmcp.md",
+      "url": "https://github.com/JustasMonkev/mcp-accessibility-scanner/blob/c13bb16d2b6a4ac95c0ed97163c2d7733a20cb00/docs/webmcp.md",
       "query": "\"document.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "koumoul-dev/vuetify-jsonschema-form",
-      "path": "doc/layouts/default.vue",
-      "url": "https://github.com/koumoul-dev/vuetify-jsonschema-form/blob/e5448c60c8fa263cddb57bb072348e5952c09f5e/doc/layouts/default.vue",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "lightpanda-io/demo",
-      "path": "public/webmcp/app.js",
-      "url": "https://github.com/lightpanda-io/demo/blob/d1ced132d6a13532c3e59b0a32c2291bd9b619ac/public/webmcp/app.js",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
     },
     {
       "repository": "lightspeedwp/.github",
@@ -307,8 +193,8 @@
     {
       "repository": "MartinDelophy/ai-video-editor",
       "path": "docs/webmcp.md",
-      "url": "https://github.com/MartinDelophy/ai-video-editor/blob/f9a26924bf5a2556c762138c35cf6b4263e50104/docs/webmcp.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
+      "url": "https://github.com/MartinDelophy/ai-video-editor/blob/49ca98258f7ec5a46f65c6fa47240a3063363057/docs/webmcp.md",
+      "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "Milothik/olfaria-webmcp",
@@ -341,94 +227,28 @@
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
-      "repository": "openakita/openakita",
-      "path": "src/openakita/tools/browser/webmcp.py",
-      "url": "https://github.com/openakita/openakita/blob/5f5b38da728274f0fd06461a481851be7c0bca6a/src/openakita/tools/browser/webmcp.py",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
       "repository": "opentiny/webmcp-sdk",
       "path": "AGENTS.md",
-      "url": "https://github.com/opentiny/webmcp-sdk/blob/cce98f7eb9a5bc9ea9fc339e5b5342545b03ef29/AGENTS.md",
+      "url": "https://github.com/opentiny/webmcp-sdk/blob/442241871df8f63a238be6836acf050cda649463/AGENTS.md",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "opentiny/webmcp-sdk",
       "path": "README.md",
-      "url": "https://github.com/opentiny/webmcp-sdk/blob/cce98f7eb9a5bc9ea9fc339e5b5342545b03ef29/README.md",
+      "url": "https://github.com/opentiny/webmcp-sdk/blob/442241871df8f63a238be6836acf050cda649463/README.md",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
       "repository": "patrickgwsmith/qip",
       "path": "site/recipes.md",
-      "url": "https://github.com/patrickgwsmith/qip/blob/ae9f8a205a6e7b447c033ac17d59ce3f5b7accc3/site/recipes.md",
+      "url": "https://github.com/patrickgwsmith/qip/blob/144b358b5a1e08bdb008d6bea6dc4b55b2c52d47/site/recipes.md",
       "query": "\"document.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "pereira-tech-talks/pereiratechtalks.com",
-      "path": "public/auth.md",
-      "url": "https://github.com/pereira-tech-talks/pereiratechtalks.com/blob/e33b78e5e0461b278472e830476eb73679897ec8/public/auth.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "PeWu/topola-viewer",
-      "path": "docs/PLAYWRIGHT_DESIGN.md",
-      "url": "https://github.com/PeWu/topola-viewer/blob/e490ec43719ffc502bfc873483ec5ca1696e1844/docs/PLAYWRIGHT_DESIGN.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "PGHQdev/OpenScreenShot",
-      "path": "site/src/scripts/webmcp.js",
-      "url": "https://github.com/PGHQdev/OpenScreenShot/blob/b85b5efdc063884354935de525f7e1f6ef827e48/site/src/scripts/webmcp.js",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
     },
     {
       "repository": "plasmate-labs/plasmate",
       "path": "docs/WEBMCP.md",
-      "url": "https://github.com/plasmate-labs/plasmate/blob/d350007e377938407857761aca96fec515850142/docs/WEBMCP.md",
+      "url": "https://github.com/plasmate-labs/plasmate/blob/f53216cf15422ef1efd580b32394e81c558301ca/docs/WEBMCP.md",
       "query": "\"document.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "platonai/Browser4",
-      "path": "docs-dev/research/2026-09-10-cdp-antidetect-and-ai-native-browsers.md",
-      "url": "https://github.com/platonai/Browser4/blob/70723b14b275746f0408d1bc3360de80564ddcf6/docs-dev/research/2026-09-10-cdp-antidetect-and-ai-native-browsers.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "pocketpaw/pocketpaw",
-      "path": "docs/advanced/webmcp.mdx",
-      "url": "https://github.com/pocketpaw/pocketpaw/blob/eaf24c21bd356ec906a7f505f227b465b7d20983/docs/advanced/webmcp.mdx",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "qdhenry/Claude-Command-Suite",
-      "path": ".claude/skills/webmcp/references/anti-patterns.md",
-      "url": "https://github.com/qdhenry/Claude-Command-Suite/blob/e89b2f0b54f536a695ed7ae2e6e75e760b7a849e/.claude/skills/webmcp/references/anti-patterns.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "qdhenry/Claude-Command-Suite",
-      "path": ".claude/skills/webmcp/references/imperative-api.md",
-      "url": "https://github.com/qdhenry/Claude-Command-Suite/blob/e89b2f0b54f536a695ed7ae2e6e75e760b7a849e/.claude/skills/webmcp/references/imperative-api.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "qdhenry/Claude-Command-Suite",
-      "path": ".claude/skills/webmcp/templates/imperative-tool.md",
-      "url": "https://github.com/qdhenry/Claude-Command-Suite/blob/e89b2f0b54f536a695ed7ae2e6e75e760b7a849e/.claude/skills/webmcp/templates/imperative-tool.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "qdhenry/Claude-Command-Suite",
-      "path": ".claude/skills/webmcp/workflows/add-imperative-tool.md",
-      "url": "https://github.com/qdhenry/Claude-Command-Suite/blob/e89b2f0b54f536a695ed7ae2e6e75e760b7a849e/.claude/skills/webmcp/workflows/add-imperative-tool.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "qdhenry/Claude-Command-Suite",
-      "path": ".claude/skills/webmcp/workflows/setup-webmcp.md",
-      "url": "https://github.com/qdhenry/Claude-Command-Suite/blob/e89b2f0b54f536a695ed7ae2e6e75e760b7a849e/.claude/skills/webmcp/workflows/setup-webmcp.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
     },
     {
       "repository": "sanand0/tools-in-data-science-public",
@@ -443,52 +263,10 @@
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
-      "repository": "simonw/research",
-      "path": "webmcp-chrome-demo/explore_cdp.py",
-      "url": "https://github.com/simonw/research/blob/60c724f077179be10cd903bb795584957cda582e/webmcp-chrome-demo/explore_cdp.py",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "simonw/research",
-      "path": "webmcp-chrome-demo/notes.md",
-      "url": "https://github.com/simonw/research/blob/60c724f077179be10cd903bb795584957cda582e/webmcp-chrome-demo/notes.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "simonw/research",
-      "path": "webmcp-chrome-demo/README.md",
-      "url": "https://github.com/simonw/research/blob/60c724f077179be10cd903bb795584957cda582e/webmcp-chrome-demo/README.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "simonw/research",
-      "path": "webmcp-chrome-demo/server.py",
-      "url": "https://github.com/simonw/research/blob/60c724f077179be10cd903bb795584957cda582e/webmcp-chrome-demo/server.py",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
       "repository": "Snakeblack/ospec-workflow",
       "path": "skills/stack-webmcp/SKILL.md",
-      "url": "https://github.com/Snakeblack/ospec-workflow/blob/7aa2caee1abcc00442a764e8f2d758fd6d44daa9/skills/stack-webmcp/SKILL.md",
+      "url": "https://github.com/Snakeblack/ospec-workflow/blob/659a3fe023ca8cc533f255844c25d4ca66e4c512/skills/stack-webmcp/SKILL.md",
       "query": "\"document.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "TanStack/devtools",
-      "path": "docs/webmcp-tools.md",
-      "url": "https://github.com/TanStack/devtools/blob/8f625443bfde9c5ec6415f05958020aecb252d8d/docs/webmcp-tools.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "TanStack/devtools",
-      "path": "packages/devtools-webmcp/README.md",
-      "url": "https://github.com/TanStack/devtools/blob/8f625443bfde9c5ec6415f05958020aecb252d8d/packages/devtools-webmcp/README.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "teaguesterling/duckdb_mcp",
-      "path": "src/webmcp/webmcp_client.js",
-      "url": "https://github.com/teaguesterling/duckdb_mcp/blob/4c260c655d85668eade6bb9ad2911f2b36d86316/src/webmcp/webmcp_client.js",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
     },
     {
       "repository": "TheGreatAxios/faraday",
@@ -509,60 +287,6 @@
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
-      "repository": "webfuse-com/awesome-webmcp",
-      "path": "README.md",
-      "url": "https://github.com/webfuse-com/awesome-webmcp/blob/00d6ca15a07db203a4acbf82d25fbfb259a6bdc7/README.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "WebMCP-org/chrome-devtools-quickstart",
-      "path": "counter.js",
-      "url": "https://github.com/WebMCP-org/chrome-devtools-quickstart/blob/73389a63a2561f9c6a64da02b21cd87ec94efac7/counter.js",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "WebMCP-org/chrome-devtools-quickstart",
-      "path": "README.md",
-      "url": "https://github.com/WebMCP-org/chrome-devtools-quickstart/blob/73389a63a2561f9c6a64da02b21cd87ec94efac7/README.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "WebMCP-org/examples",
-      "path": "AGENTS.md",
-      "url": "https://github.com/WebMCP-org/examples/blob/0c4a2a18c2f4d8626d23c90cfeb13cab676a9e6d/AGENTS.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "WebMCP-org/examples",
-      "path": "CHANGELOG.md",
-      "url": "https://github.com/WebMCP-org/examples/blob/0c4a2a18c2f4d8626d23c90cfeb13cab676a9e6d/CHANGELOG.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "WebMCP-org/examples",
-      "path": "rails/README.md",
-      "url": "https://github.com/WebMCP-org/examples/blob/0c4a2a18c2f4d8626d23c90cfeb13cab676a9e6d/rails/README.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "WebMCP-org/examples",
-      "path": "README.md",
-      "url": "https://github.com/WebMCP-org/examples/blob/0c4a2a18c2f4d8626d23c90cfeb13cab676a9e6d/README.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "WebMCP-org/examples",
-      "path": "svelte/README.md",
-      "url": "https://github.com/WebMCP-org/examples/blob/0c4a2a18c2f4d8626d23c90cfeb13cab676a9e6d/svelte/README.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "WebMCP-org/examples",
-      "path": "vanilla/README.md",
-      "url": "https://github.com/WebMCP-org/examples/blob/0c4a2a18c2f4d8626d23c90cfeb13cab676a9e6d/vanilla/README.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
-    },
-    {
       "repository": "WebMCP-org/npm-packages",
       "path": "docs/TYPE_TESTING.md",
       "url": "https://github.com/WebMCP-org/npm-packages/blob/469bad289e3aee1d19a487c2c7820d2c54a82373/docs/TYPE_TESTING.md",
@@ -579,12 +303,6 @@
       "path": "docs/WEBMCP.md",
       "url": "https://github.com/xability/maidr/blob/14ff3c725b0c843b332baadb409a8abfda6ec8fa/docs/WEBMCP.md",
       "query": "\"document.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "yonatangross/orchestkit",
-      "path": "plugins/ork/skills/mcp-patterns/rules/webmcp-browser.md",
-      "url": "https://github.com/yonatangross/orchestkit/blob/192add0451db908d9834a8b251b27e4fac4485c2/plugins/ork/skills/mcp-patterns/rules/webmcp-browser.md",
-      "query": "\"navigator.modelContext.registerTool\" in:file"
     }
   ]
 }
