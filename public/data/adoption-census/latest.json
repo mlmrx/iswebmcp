@@ -1,28 +1,28 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-03T20:09:35.730Z",
+  "generatedAt": "2026-11-04T20:28:12.095Z",
   "scope": "tranco-top-10000",
   "source": {
     "name": "Tranco",
-    "listId": "GQ38K",
-    "listUrl": "https://tranco-list.eu/list/GQ38K/full",
-    "listDate": "2026-11-02",
+    "listId": "746WX",
+    "listUrl": "https://tranco-list.eu/list/746WX/full",
+    "listDate": "2026-11-03",
     "description": "A reproducible research ranking of popular domains; used as a popularity proxy, not direct traffic measurement."
   },
   "coverage": {
     "scheduledCount": 10000,
     "attemptedCount": 10000,
-    "detectedCount": 14,
-    "notDetectedCount": 5588,
-    "robotsBlockedCount": 968,
-    "unreachableCount": 3401,
-    "unsupportedCount": 29,
+    "detectedCount": 15,
+    "notDetectedCount": 5718,
+    "robotsBlockedCount": 978,
+    "unreachableCount": 3259,
+    "unsupportedCount": 30,
     "documentSurfaceCount": 7,
     "navigatorSurfaceCount": 6,
-    "bridgeSurfaceCount": 9,
+    "bridgeSurfaceCount": 10,
     "namedToolDefinitions": 2
   },
-  "auditDigest": "316da677e4ad8b8aabea4261dcba508e78a831e052ee9ceb9e93b3796157a560",
+  "auditDigest": "59e3fa1fcdfebf9ea2ebd541f830d87e1778baeab0601db359ca21d5892dcc19",
   "rowPolicy": "The denominator includes every scheduled domain and every collection outcome. The retained detections array contains only positive WebMCP source signals; not-detected and blocked domains remain represented in coverage counts.",
   "detections": [
     {
@@ -34,7 +34,7 @@
       "surface": "document",
       "signals": ["document.modelContext", "registerTool"],
       "tools": [],
-      "checkedAt": "2026-11-03T20:09:35.730Z",
+      "checkedAt": "2026-11-04T20:28:12.095Z",
       "bytesRead": 1000000,
       "redirects": 1
     },
@@ -47,7 +47,7 @@
       "surface": "document",
       "signals": ["document.modelContext", "registerTool"],
       "tools": [],
-      "checkedAt": "2026-11-03T20:09:35.730Z",
+      "checkedAt": "2026-11-04T20:28:12.095Z",
       "bytesRead": 757720,
       "redirects": 2
     },
@@ -60,12 +60,12 @@
       "surface": "document",
       "signals": ["document.modelContext", "registerTool"],
       "tools": [],
-      "checkedAt": "2026-11-03T20:09:35.730Z",
+      "checkedAt": "2026-11-04T20:28:12.095Z",
       "bytesRead": 601751,
       "redirects": 2
     },
     {
-      "popularityRank": 206,
+      "popularityRank": 203,
       "domain": "forter.com",
       "url": "https://forter.com/",
       "finalUrl": "https://www.forter.com/",
@@ -73,12 +73,12 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": ["switch_site_language"],
-      "checkedAt": "2026-11-03T20:09:35.730Z",
+      "checkedAt": "2026-11-04T20:28:12.095Z",
       "bytesRead": 295723,
       "redirects": 1
     },
     {
-      "popularityRank": 747,
+      "popularityRank": 745,
       "domain": "asus.com",
       "url": "https://asus.com/",
       "finalUrl": "https://www.asus.com/",
@@ -86,12 +86,12 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-11-03T20:09:35.730Z",
-      "bytesRead": 455390,
+      "checkedAt": "2026-11-04T20:28:12.095Z",
+      "bytesRead": 455858,
       "redirects": 1
     },
     {
-      "popularityRank": 1101,
+      "popularityRank": 1099,
       "domain": "usercentrics.eu",
       "url": "https://usercentrics.eu/",
       "finalUrl": "https://usercentrics.com/",
@@ -103,12 +103,25 @@
         "WebMCP bridge or manifest marker"
       ],
       "tools": [],
-      "checkedAt": "2026-11-03T20:09:35.730Z",
-      "bytesRead": 859071,
+      "checkedAt": "2026-11-04T20:28:12.095Z",
+      "bytesRead": 859133,
       "redirects": 1
     },
     {
-      "popularityRank": 1843,
+      "popularityRank": 1833,
+      "domain": "onrender.com",
+      "url": "https://onrender.com/",
+      "finalUrl": "https://render.com/",
+      "state": "detected",
+      "surface": "navigator",
+      "signals": ["navigator.modelContext", "registerTool"],
+      "tools": [],
+      "checkedAt": "2026-11-04T20:28:12.095Z",
+      "bytesRead": 795064,
+      "redirects": 1
+    },
+    {
+      "popularityRank": 1845,
       "domain": "hostinger.com",
       "url": "https://hostinger.com/",
       "finalUrl": "https://www.hostinger.com/",
@@ -120,25 +133,12 @@
         "registerTool"
       ],
       "tools": [],
-      "checkedAt": "2026-11-03T20:09:35.730Z",
-      "bytesRead": 856508,
+      "checkedAt": "2026-11-04T20:28:12.095Z",
+      "bytesRead": 853826,
       "redirects": 1
     },
     {
-      "popularityRank": 1850,
-      "domain": "onrender.com",
-      "url": "https://onrender.com/",
-      "finalUrl": "https://render.com/",
-      "state": "detected",
-      "surface": "navigator",
-      "signals": ["navigator.modelContext", "registerTool"],
-      "tools": [],
-      "checkedAt": "2026-11-03T20:09:35.730Z",
-      "bytesRead": 408093,
-      "redirects": 1
-    },
-    {
-      "popularityRank": 2060,
+      "popularityRank": 2050,
       "domain": "customer.io",
       "url": "https://customer.io/",
       "finalUrl": "https://customer.io/",
@@ -146,12 +146,12 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-11-03T20:09:35.730Z",
+      "checkedAt": "2026-11-04T20:28:12.095Z",
       "bytesRead": 487422,
       "redirects": 0
     },
     {
-      "popularityRank": 2332,
+      "popularityRank": 2369,
       "domain": "cookiebot.com",
       "url": "https://cookiebot.com/",
       "finalUrl": "https://www.cookiebot.com/",
@@ -159,12 +159,12 @@
       "surface": "mixed",
       "signals": ["document.modelContext", "navigator.modelContext"],
       "tools": [],
-      "checkedAt": "2026-11-03T20:09:35.730Z",
+      "checkedAt": "2026-11-04T20:28:12.095Z",
       "bytesRead": 1000000,
       "redirects": 1
     },
     {
-      "popularityRank": 3006,
+      "popularityRank": 3001,
       "domain": "zapier.com",
       "url": "https://zapier.com/",
       "finalUrl": "https://zapier.com/",
@@ -172,12 +172,12 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-11-03T20:09:35.730Z",
-      "bytesRead": 410166,
+      "checkedAt": "2026-11-04T20:28:12.095Z",
+      "bytesRead": 409268,
       "redirects": 0
     },
     {
-      "popularityRank": 3216,
+      "popularityRank": 3206,
       "domain": "monday.com",
       "url": "https://monday.com/",
       "finalUrl": "https://monday.com/",
@@ -185,12 +185,12 @@
       "surface": "navigator",
       "signals": ["navigator.modelContext", "registerTool"],
       "tools": ["navigate_by_use_case"],
-      "checkedAt": "2026-11-03T20:09:35.730Z",
+      "checkedAt": "2026-11-04T20:28:12.095Z",
       "bytesRead": 623948,
       "redirects": 0
     },
     {
-      "popularityRank": 3910,
+      "popularityRank": 3916,
       "domain": "elementor.com",
       "url": "https://elementor.com/",
       "finalUrl": "https://elementor.com/",
@@ -202,12 +202,12 @@
         "registerTool"
       ],
       "tools": [],
-      "checkedAt": "2026-11-03T20:09:35.730Z",
+      "checkedAt": "2026-11-04T20:28:12.095Z",
       "bytesRead": 619280,
       "redirects": 0
     },
     {
-      "popularityRank": 7144,
+      "popularityRank": 7146,
       "domain": "chavesnamao.com.br",
       "url": "https://chavesnamao.com.br/",
       "finalUrl": "https://www.chavesnamao.com.br/",
@@ -215,8 +215,21 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-11-03T20:09:35.730Z",
-      "bytesRead": 451678,
+      "checkedAt": "2026-11-04T20:28:12.095Z",
+      "bytesRead": 443885,
+      "redirects": 1
+    },
+    {
+      "popularityRank": 9436,
+      "domain": "legalzoom.com",
+      "url": "https://legalzoom.com/",
+      "finalUrl": "https://www.legalzoom.com/",
+      "state": "detected",
+      "surface": "bridge",
+      "signals": ["WebMCP bridge or manifest marker"],
+      "tools": [],
+      "checkedAt": "2026-11-04T20:28:12.095Z",
+      "bytesRead": 317014,
       "redirects": 1
     }
   ]

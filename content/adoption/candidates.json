@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-11-03T20:40:12.280Z",
+  "generatedAt": "2026-11-04T20:51:55.747Z",
   "policy": "Unpublished discovery leads only. A repository match is not a deployment and is never promoted without first-party page or runtime evidence.",
-  "previousCandidateCount": 97,
+  "previousCandidateCount": 50,
   "candidateCount": 50,
   "candidates": [
     {
       "repository": "3DStreet/3dstreet",
       "path": "docs/webmcp.md",
-      "url": "https://github.com/3DStreet/3dstreet/blob/ba2a47909d0db37f9e1ef90eb4d25da748edc3c7/docs/webmcp.md",
+      "url": "https://github.com/3DStreet/3dstreet/blob/4c774871649edc5268ff7b6ca01a46fa0be36a9b/docs/webmcp.md",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
@@ -53,9 +53,21 @@
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
+      "repository": "Automattic/kandelo",
+      "path": "docs/webmcp.md",
+      "url": "https://github.com/Automattic/kandelo/blob/689bfc19978d6195604facbeac0a8513d7628fbc/docs/webmcp.md",
+      "query": "\"document.modelContext.registerTool\" in:file"
+    },
+    {
       "repository": "bagisto/bagisto-docs",
       "path": "src/ai/webmcp.md",
       "url": "https://github.com/bagisto/bagisto-docs/blob/ea82ce3442b0b981da4b32fb56c9945316009381/src/ai/webmcp.md",
+      "query": "\"document.modelContext.registerTool\" in:file"
+    },
+    {
+      "repository": "camille-hdl/cuisine-ead",
+      "path": "README.md",
+      "url": "https://github.com/camille-hdl/cuisine-ead/blob/edf82e1e65499773d9dc4813b9457fd8c6018846/README.md",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
@@ -97,7 +109,7 @@
     {
       "repository": "FreemapSlovakia/freemap-v3-react",
       "path": "doc/webmcp.md",
-      "url": "https://github.com/FreemapSlovakia/freemap-v3-react/blob/2e63745d63fc54def5d220884a431d1f39f34e04/doc/webmcp.md",
+      "url": "https://github.com/FreemapSlovakia/freemap-v3-react/blob/252786c8e441fa03c579fbf07cdea5fbec83ff02/doc/webmcp.md",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
@@ -163,7 +175,7 @@
     {
       "repository": "judegomila/OnCo",
       "path": "docs/webmcp.md",
-      "url": "https://github.com/judegomila/OnCo/blob/bec78be883183fcfefb985c153339bece7806337/docs/webmcp.md",
+      "url": "https://github.com/judegomila/OnCo/blob/2e516006d4e155cae3293ec6d9d39838d792c3f0/docs/webmcp.md",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
@@ -193,7 +205,7 @@
     {
       "repository": "MartinDelophy/ai-video-editor",
       "path": "docs/webmcp.md",
-      "url": "https://github.com/MartinDelophy/ai-video-editor/blob/49ca98258f7ec5a46f65c6fa47240a3063363057/docs/webmcp.md",
+      "url": "https://github.com/MartinDelophy/ai-video-editor/blob/0fff757157cd7d8745f3f45c1ab6cb1773f98c5c/docs/webmcp.md",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
@@ -239,21 +251,9 @@
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
-      "repository": "patrickgwsmith/qip",
-      "path": "site/recipes.md",
-      "url": "https://github.com/patrickgwsmith/qip/blob/144b358b5a1e08bdb008d6bea6dc4b55b2c52d47/site/recipes.md",
-      "query": "\"document.modelContext.registerTool\" in:file"
-    },
-    {
       "repository": "plasmate-labs/plasmate",
       "path": "docs/WEBMCP.md",
-      "url": "https://github.com/plasmate-labs/plasmate/blob/f53216cf15422ef1efd580b32394e81c558301ca/docs/WEBMCP.md",
-      "query": "\"document.modelContext.registerTool\" in:file"
-    },
-    {
-      "repository": "sanand0/tools-in-data-science-public",
-      "path": "2026-09/week-3/webmcp.md",
-      "url": "https://github.com/sanand0/tools-in-data-science-public/blob/0fa3a570dc86b850c30edbf66c00e79bf9b8fa98/2026-09/week-3/webmcp.md",
+      "url": "https://github.com/plasmate-labs/plasmate/blob/64336ce05fb6bdc678201af9b27e0d3e8c2012b5/docs/WEBMCP.md",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
@@ -265,7 +265,7 @@
     {
       "repository": "Snakeblack/ospec-workflow",
       "path": "skills/stack-webmcp/SKILL.md",
-      "url": "https://github.com/Snakeblack/ospec-workflow/blob/659a3fe023ca8cc533f255844c25d4ca66e4c512/skills/stack-webmcp/SKILL.md",
+      "url": "https://github.com/Snakeblack/ospec-workflow/blob/3e742f4fd1eb5808bf21ce5e158fbe8b1b103fbf/skills/stack-webmcp/SKILL.md",
       "query": "\"document.modelContext.registerTool\" in:file"
     },
     {
