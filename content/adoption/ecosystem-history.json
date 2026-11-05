@@ -1,0 +1,32 @@
+[
+  {
+    "date": "2026-09-16",
+    "generatedAt": "2026-09-17T06:05:25.541Z",
+    "sourceGeneratedAt": "2026-09-17T06:05:24.989Z",
+    "digest": "e33ac25b5cdfcbecf50c1318a25c953e0155f72dcb974eec55115e19f0e1d7e6",
+    "summary": {
+      "directorySites": 673,
+      "liveSites": 617,
+      "demoSites": 56,
+      "indexedTools": 4656,
+      "answerTools": 2048,
+      "actionTools": 2392,
+      "transactionTools": 216,
+      "imperativeTools": 4526,
+      "declarativeTools": 130,
+      "shopifyStores": 833707,
+      "reportedTotalSites": 834349,
+      "additiveReconciliationGap": -31
+    },
+    "change": {
+      "previousDate": null,
+      "addedSites": 0,
+      "removedSites": 0,
+      "indexedToolDelta": 0,
+      "liveSiteDelta": 0,
+      "demoSiteDelta": 0,
+      "addedHosts": [],
+      "removedHosts": []
+    }
+  }
+]

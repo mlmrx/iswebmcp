@@ -19,6 +19,7 @@ export function GET() {
     { path: '/research/metamorphic-consistency', lastmod: '2026-09-29' },
     { path: '/pulse', lastmod: pulseLastmod },
     { path: '/adoption', lastmod: latestAdoptionReport.date },
+    { path: '/adoption/methodology', lastmod: latestAdoptionReport.date },
     { path: '/methodology', lastmod: '2026-08-31' },
     { path: '/lab', lastmod: '2026-09-01' },
     { path: '/demos', lastmod: '2026-09-01' },
