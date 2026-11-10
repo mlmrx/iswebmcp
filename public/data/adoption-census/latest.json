@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T23:01:24.471Z",
+  "generatedAt": "2026-11-10T20:29:46.610Z",
   "scope": "tranco-top-10000",
   "source": {
     "name": "Tranco",
-    "listId": "8P8NV",
-    "listUrl": "https://tranco-list.eu/list/8P8NV/full",
+    "listId": "947N2",
+    "listUrl": "https://tranco-list.eu/list/947N2/full",
     "listDate": "2026-11-09",
     "description": "A reproducible research ranking of popular domains; used as a popularity proxy, not direct traffic measurement."
   },
@@ -13,16 +13,16 @@
     "scheduledCount": 10000,
     "attemptedCount": 10000,
     "detectedCount": 14,
-    "notDetectedCount": 5453,
-    "robotsBlockedCount": 934,
-    "unreachableCount": 3568,
-    "unsupportedCount": 31,
+    "notDetectedCount": 5593,
+    "robotsBlockedCount": 940,
+    "unreachableCount": 3424,
+    "unsupportedCount": 29,
     "documentSurfaceCount": 7,
     "navigatorSurfaceCount": 6,
     "bridgeSurfaceCount": 9,
-    "namedToolDefinitions": 2
+    "namedToolDefinitions": 10
   },
-  "auditDigest": "cf72151694e37fdb5d18a81d31f1c3e5aaa7140a4d13ad20ae6fbff0b18444d3",
+  "auditDigest": "a2c61963bb76c64fd4da7dee3c2c60bde62a24991392b0701f8fd29521509daf",
   "rowPolicy": "The denominator includes every scheduled domain and every collection outcome. The retained detections array contains only positive WebMCP source signals; not-detected and blocked domains remain represented in coverage counts.",
   "detections": [
     {
@@ -34,7 +34,7 @@
       "surface": "document",
       "signals": ["document.modelContext", "registerTool"],
       "tools": [],
-      "checkedAt": "2026-11-09T23:01:24.471Z",
+      "checkedAt": "2026-11-10T20:29:46.610Z",
       "bytesRead": 1000000,
       "redirects": 1
     },
@@ -47,7 +47,7 @@
       "surface": "document",
       "signals": ["document.modelContext", "registerTool"],
       "tools": [],
-      "checkedAt": "2026-11-09T23:01:24.471Z",
+      "checkedAt": "2026-11-10T20:29:46.610Z",
       "bytesRead": 757720,
       "redirects": 2
     },
@@ -60,7 +60,7 @@
       "surface": "document",
       "signals": ["document.modelContext", "registerTool"],
       "tools": [],
-      "checkedAt": "2026-11-09T23:01:24.471Z",
+      "checkedAt": "2026-11-10T20:29:46.610Z",
       "bytesRead": 601751,
       "redirects": 2
     },
@@ -73,7 +73,7 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": ["switch_site_language"],
-      "checkedAt": "2026-11-09T23:01:24.471Z",
+      "checkedAt": "2026-11-10T20:29:46.610Z",
       "bytesRead": 295331,
       "redirects": 1
     },
@@ -86,8 +86,8 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-11-09T23:01:24.471Z",
-      "bytesRead": 454668,
+      "checkedAt": "2026-11-10T20:29:46.610Z",
+      "bytesRead": 454782,
       "redirects": 1
     },
     {
@@ -103,8 +103,8 @@
         "WebMCP bridge or manifest marker"
       ],
       "tools": [],
-      "checkedAt": "2026-11-09T23:01:24.471Z",
-      "bytesRead": 863280,
+      "checkedAt": "2026-11-10T20:29:46.610Z",
+      "bytesRead": 864726,
       "redirects": 1
     },
     {
@@ -116,8 +116,8 @@
       "surface": "navigator",
       "signals": ["navigator.modelContext", "registerTool"],
       "tools": [],
-      "checkedAt": "2026-11-09T23:01:24.471Z",
-      "bytesRead": 760460,
+      "checkedAt": "2026-11-10T20:29:46.610Z",
+      "bytesRead": 759921,
       "redirects": 1
     },
     {
@@ -133,8 +133,8 @@
         "registerTool"
       ],
       "tools": [],
-      "checkedAt": "2026-11-09T23:01:24.471Z",
-      "bytesRead": 848119,
+      "checkedAt": "2026-11-10T20:29:46.610Z",
+      "bytesRead": 862883,
       "redirects": 1
     },
     {
@@ -146,8 +146,8 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-11-09T23:01:24.471Z",
-      "bytesRead": 490467,
+      "checkedAt": "2026-11-10T20:29:46.610Z",
+      "bytesRead": 489851,
       "redirects": 0
     },
     {
@@ -159,7 +159,7 @@
       "surface": "mixed",
       "signals": ["document.modelContext", "navigator.modelContext"],
       "tools": [],
-      "checkedAt": "2026-11-09T23:01:24.471Z",
+      "checkedAt": "2026-11-10T20:29:46.610Z",
       "bytesRead": 1000000,
       "redirects": 1
     },
@@ -172,8 +172,8 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-11-09T23:01:24.471Z",
-      "bytesRead": 409071,
+      "checkedAt": "2026-11-10T20:29:46.610Z",
+      "bytesRead": 409115,
       "redirects": 0
     },
     {
@@ -185,7 +185,7 @@
       "surface": "navigator",
       "signals": ["navigator.modelContext", "registerTool"],
       "tools": ["navigate_by_use_case"],
-      "checkedAt": "2026-11-09T23:01:24.471Z",
+      "checkedAt": "2026-11-10T20:29:46.610Z",
       "bytesRead": 623948,
       "redirects": 0
     },
@@ -201,9 +201,18 @@
         "navigator.modelContext",
         "registerTool"
       ],
-      "tools": [],
-      "checkedAt": "2026-11-09T23:01:24.471Z",
-      "bytesRead": 620936,
+      "tools": [
+        "get_products",
+        "get_plans_and_pricing",
+        "get_faq",
+        "get_roadmap",
+        "find_legal_documents",
+        "get_legal_document",
+        "list_resources",
+        "search_elementor"
+      ],
+      "checkedAt": "2026-11-10T20:29:46.610Z",
+      "bytesRead": 616081,
       "redirects": 0
     },
     {
@@ -215,7 +224,7 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-11-09T23:01:24.471Z",
+      "checkedAt": "2026-11-10T20:29:46.610Z",
       "bytesRead": 444294,
       "redirects": 1
     }
