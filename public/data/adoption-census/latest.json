@@ -1,28 +1,28 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-12T20:56:11.340Z",
+  "generatedAt": "2026-11-13T20:31:50.313Z",
   "scope": "tranco-top-10000",
   "source": {
     "name": "Tranco",
-    "listId": "PY2NJ",
-    "listUrl": "https://tranco-list.eu/list/PY2NJ/full",
-    "listDate": "2026-11-11",
+    "listId": "947W2",
+    "listUrl": "https://tranco-list.eu/list/947W2/full",
+    "listDate": "2026-11-12",
     "description": "A reproducible research ranking of popular domains; used as a popularity proxy, not direct traffic measurement."
   },
   "coverage": {
     "scheduledCount": 10000,
     "attemptedCount": 10000,
     "detectedCount": 14,
-    "notDetectedCount": 5582,
+    "notDetectedCount": 5530,
     "robotsBlockedCount": 968,
-    "unreachableCount": 3405,
+    "unreachableCount": 3457,
     "unsupportedCount": 31,
     "documentSurfaceCount": 7,
     "navigatorSurfaceCount": 6,
     "bridgeSurfaceCount": 9,
     "namedToolDefinitions": 10
   },
-  "auditDigest": "04e916150acef28a93908224ff4cf187a7dd2f26e8b95fcdfa3e3d7de2d98b28",
+  "auditDigest": "c01580851c558cba652243774007d3b00938ddc1374982d553250abed07b02fd",
   "rowPolicy": "The denominator includes every scheduled domain and every collection outcome. The retained detections array contains only positive WebMCP source signals; not-detected and blocked domains remain represented in coverage counts.",
   "detections": [
     {
@@ -34,7 +34,7 @@
       "surface": "document",
       "signals": ["document.modelContext", "registerTool"],
       "tools": [],
-      "checkedAt": "2026-11-12T20:56:11.340Z",
+      "checkedAt": "2026-11-13T20:31:50.313Z",
       "bytesRead": 1000000,
       "redirects": 1
     },
@@ -47,7 +47,7 @@
       "surface": "document",
       "signals": ["document.modelContext", "registerTool"],
       "tools": [],
-      "checkedAt": "2026-11-12T20:56:11.340Z",
+      "checkedAt": "2026-11-13T20:31:50.313Z",
       "bytesRead": 757720,
       "redirects": 2
     },
@@ -60,7 +60,7 @@
       "surface": "document",
       "signals": ["document.modelContext", "registerTool"],
       "tools": [],
-      "checkedAt": "2026-11-12T20:56:11.340Z",
+      "checkedAt": "2026-11-13T20:31:50.313Z",
       "bytesRead": 601751,
       "redirects": 2
     },
@@ -73,8 +73,8 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": ["switch_site_language"],
-      "checkedAt": "2026-11-12T20:56:11.340Z",
-      "bytesRead": 295331,
+      "checkedAt": "2026-11-13T20:31:50.313Z",
+      "bytesRead": 295010,
       "redirects": 1
     },
     {
@@ -86,12 +86,12 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-11-12T20:56:11.340Z",
-      "bytesRead": 454503,
+      "checkedAt": "2026-11-13T20:31:50.313Z",
+      "bytesRead": 454381,
       "redirects": 1
     },
     {
-      "popularityRank": 1094,
+      "popularityRank": 1099,
       "domain": "usercentrics.eu",
       "url": "https://usercentrics.eu/",
       "finalUrl": "https://usercentrics.com/",
@@ -103,12 +103,12 @@
         "WebMCP bridge or manifest marker"
       ],
       "tools": [],
-      "checkedAt": "2026-11-12T20:56:11.340Z",
-      "bytesRead": 864726,
+      "checkedAt": "2026-11-13T20:31:50.313Z",
+      "bytesRead": 864724,
       "redirects": 1
     },
     {
-      "popularityRank": 1501,
+      "popularityRank": 1461,
       "domain": "onrender.com",
       "url": "https://onrender.com/",
       "finalUrl": "https://render.com/",
@@ -116,8 +116,8 @@
       "surface": "navigator",
       "signals": ["navigator.modelContext", "registerTool"],
       "tools": [],
-      "checkedAt": "2026-11-12T20:56:11.340Z",
-      "bytesRead": 761220,
+      "checkedAt": "2026-11-13T20:31:50.313Z",
+      "bytesRead": 762476,
       "redirects": 1
     },
     {
@@ -133,12 +133,12 @@
         "registerTool"
       ],
       "tools": [],
-      "checkedAt": "2026-11-12T20:56:11.340Z",
-      "bytesRead": 862460,
+      "checkedAt": "2026-11-13T20:31:50.313Z",
+      "bytesRead": 863704,
       "redirects": 1
     },
     {
-      "popularityRank": 2076,
+      "popularityRank": 2070,
       "domain": "customer.io",
       "url": "https://customer.io/",
       "finalUrl": "https://customer.io/",
@@ -146,12 +146,12 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-11-12T20:56:11.340Z",
-      "bytesRead": 486612,
+      "checkedAt": "2026-11-13T20:31:50.313Z",
+      "bytesRead": 487717,
       "redirects": 0
     },
     {
-      "popularityRank": 2366,
+      "popularityRank": 2367,
       "domain": "cookiebot.com",
       "url": "https://cookiebot.com/",
       "finalUrl": "https://www.cookiebot.com/",
@@ -159,12 +159,12 @@
       "surface": "mixed",
       "signals": ["document.modelContext", "navigator.modelContext"],
       "tools": [],
-      "checkedAt": "2026-11-12T20:56:11.340Z",
+      "checkedAt": "2026-11-13T20:31:50.313Z",
       "bytesRead": 1000000,
       "redirects": 1
     },
     {
-      "popularityRank": 3017,
+      "popularityRank": 3012,
       "domain": "zapier.com",
       "url": "https://zapier.com/",
       "finalUrl": "https://zapier.com/",
@@ -172,12 +172,12 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-11-12T20:56:11.340Z",
-      "bytesRead": 401892,
+      "checkedAt": "2026-11-13T20:31:50.313Z",
+      "bytesRead": 395654,
       "redirects": 0
     },
     {
-      "popularityRank": 3162,
+      "popularityRank": 3164,
       "domain": "monday.com",
       "url": "https://monday.com/",
       "finalUrl": "https://monday.com/",
@@ -185,12 +185,12 @@
       "surface": "navigator",
       "signals": ["navigator.modelContext", "registerTool"],
       "tools": ["navigate_by_use_case"],
-      "checkedAt": "2026-11-12T20:56:11.340Z",
-      "bytesRead": 626206,
+      "checkedAt": "2026-11-13T20:31:50.313Z",
+      "bytesRead": 626156,
       "redirects": 0
     },
     {
-      "popularityRank": 3874,
+      "popularityRank": 3881,
       "domain": "elementor.com",
       "url": "https://elementor.com/",
       "finalUrl": "https://elementor.com/",
@@ -211,12 +211,12 @@
         "list_resources",
         "search_elementor"
       ],
-      "checkedAt": "2026-11-12T20:56:11.340Z",
-      "bytesRead": 627400,
+      "checkedAt": "2026-11-13T20:31:50.313Z",
+      "bytesRead": 627117,
       "redirects": 0
     },
     {
-      "popularityRank": 7172,
+      "popularityRank": 7201,
       "domain": "chavesnamao.com.br",
       "url": "https://chavesnamao.com.br/",
       "finalUrl": "https://www.chavesnamao.com.br/",
@@ -224,7 +224,7 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-11-12T20:56:11.340Z",
+      "checkedAt": "2026-11-13T20:31:50.313Z",
       "bytesRead": 443723,
       "redirects": 1
     }
