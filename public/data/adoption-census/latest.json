@@ -1,28 +1,28 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T22:56:17.735Z",
+  "generatedAt": "2026-11-17T21:49:48.466Z",
   "scope": "tranco-top-10000",
   "source": {
     "name": "Tranco",
-    "listId": "JZWZY",
-    "listUrl": "https://tranco-list.eu/list/JZWZY/full",
+    "listId": "K97GW",
+    "listUrl": "https://tranco-list.eu/list/K97GW/full",
     "listDate": "2026-11-16",
     "description": "A reproducible research ranking of popular domains; used as a popularity proxy, not direct traffic measurement."
   },
   "coverage": {
     "scheduledCount": 10000,
     "attemptedCount": 10000,
-    "detectedCount": 14,
-    "notDetectedCount": 5184,
-    "robotsBlockedCount": 918,
-    "unreachableCount": 3854,
-    "unsupportedCount": 30,
+    "detectedCount": 13,
+    "notDetectedCount": 5573,
+    "robotsBlockedCount": 981,
+    "unreachableCount": 3402,
+    "unsupportedCount": 31,
     "documentSurfaceCount": 7,
     "navigatorSurfaceCount": 6,
-    "bridgeSurfaceCount": 9,
+    "bridgeSurfaceCount": 8,
     "namedToolDefinitions": 9
   },
-  "auditDigest": "d98009d6fe4597c7e0a703280ded125d3312c638c89d7f424632319bb3ef31fc",
+  "auditDigest": "dc06e7b86b43dd13e894d78d62ab63ccacf305e9a9d174f9305e15c94f150bb4",
   "rowPolicy": "The denominator includes every scheduled domain and every collection outcome. The retained detections array contains only positive WebMCP source signals; not-detected and blocked domains remain represented in coverage counts.",
   "detections": [
     {
@@ -34,7 +34,7 @@
       "surface": "document",
       "signals": ["document.modelContext", "registerTool"],
       "tools": [],
-      "checkedAt": "2026-11-16T22:56:17.735Z",
+      "checkedAt": "2026-11-17T21:49:48.466Z",
       "bytesRead": 1000000,
       "redirects": 1
     },
@@ -47,7 +47,7 @@
       "surface": "document",
       "signals": ["document.modelContext", "registerTool"],
       "tools": [],
-      "checkedAt": "2026-11-16T22:56:17.735Z",
+      "checkedAt": "2026-11-17T21:49:48.466Z",
       "bytesRead": 757720,
       "redirects": 2
     },
@@ -60,7 +60,7 @@
       "surface": "document",
       "signals": ["document.modelContext", "registerTool"],
       "tools": [],
-      "checkedAt": "2026-11-16T22:56:17.735Z",
+      "checkedAt": "2026-11-17T21:49:48.466Z",
       "bytesRead": 601751,
       "redirects": 2
     },
@@ -73,7 +73,7 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-11-16T22:56:17.735Z",
+      "checkedAt": "2026-11-17T21:49:48.466Z",
       "bytesRead": 298006,
       "redirects": 1
     },
@@ -86,8 +86,8 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-11-16T22:56:17.735Z",
-      "bytesRead": 454915,
+      "checkedAt": "2026-11-17T21:49:48.466Z",
+      "bytesRead": 455257,
       "redirects": 1
     },
     {
@@ -103,7 +103,7 @@
         "WebMCP bridge or manifest marker"
       ],
       "tools": [],
-      "checkedAt": "2026-11-16T22:56:17.735Z",
+      "checkedAt": "2026-11-17T21:49:48.466Z",
       "bytesRead": 864724,
       "redirects": 1
     },
@@ -116,8 +116,8 @@
       "surface": "navigator",
       "signals": ["navigator.modelContext", "registerTool"],
       "tools": [],
-      "checkedAt": "2026-11-16T22:56:17.735Z",
-      "bytesRead": 766483,
+      "checkedAt": "2026-11-17T21:49:48.466Z",
+      "bytesRead": 766397,
       "redirects": 1
     },
     {
@@ -133,8 +133,8 @@
         "registerTool"
       ],
       "tools": [],
-      "checkedAt": "2026-11-16T22:56:17.735Z",
-      "bytesRead": 896315,
+      "checkedAt": "2026-11-17T21:49:48.466Z",
+      "bytesRead": 813785,
       "redirects": 1
     },
     {
@@ -146,8 +146,8 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-11-16T22:56:17.735Z",
-      "bytesRead": 563251,
+      "checkedAt": "2026-11-17T21:49:48.466Z",
+      "bytesRead": 563213,
       "redirects": 0
     },
     {
@@ -159,7 +159,7 @@
       "surface": "mixed",
       "signals": ["document.modelContext", "navigator.modelContext"],
       "tools": [],
-      "checkedAt": "2026-11-16T22:56:17.735Z",
+      "checkedAt": "2026-11-17T21:49:48.466Z",
       "bytesRead": 1000000,
       "redirects": 1
     },
@@ -172,8 +172,8 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-11-16T22:56:17.735Z",
-      "bytesRead": 395654,
+      "checkedAt": "2026-11-17T21:49:48.466Z",
+      "bytesRead": 396217,
       "redirects": 0
     },
     {
@@ -185,7 +185,7 @@
       "surface": "navigator",
       "signals": ["navigator.modelContext", "registerTool"],
       "tools": ["navigate_by_use_case"],
-      "checkedAt": "2026-11-16T22:56:17.735Z",
+      "checkedAt": "2026-11-17T21:49:48.466Z",
       "bytesRead": 626156,
       "redirects": 0
     },
@@ -211,22 +211,9 @@
         "list_resources",
         "search_elementor"
       ],
-      "checkedAt": "2026-11-16T22:56:17.735Z",
-      "bytesRead": 627117,
+      "checkedAt": "2026-11-17T21:49:48.466Z",
+      "bytesRead": 676815,
       "redirects": 0
-    },
-    {
-      "popularityRank": 7242,
-      "domain": "chavesnamao.com.br",
-      "url": "https://chavesnamao.com.br/",
-      "finalUrl": "https://www.chavesnamao.com.br/",
-      "state": "detected",
-      "surface": "bridge",
-      "signals": ["WebMCP bridge or manifest marker"],
-      "tools": [],
-      "checkedAt": "2026-11-16T22:56:17.735Z",
-      "bytesRead": 443723,
-      "redirects": 1
     }
   ]
 }
