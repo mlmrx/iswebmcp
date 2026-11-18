@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-18T21:28:24.465Z",
+  "scope": "tranco-top-10000",
+  "source": {
+    "name": "Tranco",
+    "listId": "V38GN",
+    "listUrl": "https://tranco-list.eu/list/V38GN/full",
+    "listDate": "2026-11-17",
+    "description": "A reproducible research ranking of popular domains; used as a popularity proxy, not direct traffic measurement."
+  },
+  "coverage": {
+    "scheduledCount": 10000,
+    "attemptedCount": 10000,
+    "detectedCount": 11,
+    "notDetectedCount": 5018,
+    "robotsBlockedCount": 909,
+    "unreachableCount": 4035,
+    "unsupportedCount": 27,
+    "documentSurfaceCount": 6,
+    "navigatorSurfaceCount": 4,
+    "bridgeSurfaceCount": 7,
+    "namedToolDefinitions": 9
+  },
+  "auditDigest": "b2d327ed778d45de20c0f937dd6f0152841b7ddc0c867ed264c4d4db89108a8e",
+  "rowPolicy": "The denominator includes every scheduled domain and every collection outcome. The retained detections array contains only positive WebMCP source signals; not-detected and blocked domains remain represented in coverage counts.",
+  "detections": [
+    {
+      "popularityRank": 2,
+      "domain": "cloudflare.com",
+      "url": "https://cloudflare.com/",
+      "finalUrl": "https://www.cloudflare.com/",
+      "state": "detected",
+      "surface": "document",
+      "signals": ["document.modelContext", "registerTool"],
+      "tools": [],
+      "checkedAt": "2026-11-18T21:28:24.465Z",
+      "bytesRead": 1000000,
+      "redirects": 1
+    },
+    {
+      "popularityRank": 88,
+      "domain": "workers.dev",
+      "url": "https://workers.dev/",
+      "finalUrl": "https://www.cloudflare.com/products/workers/",
+      "state": "detected",
+      "surface": "document",
+      "signals": ["document.modelContext", "registerTool"],
+      "tools": [],
+      "checkedAt": "2026-11-18T21:28:24.465Z",
+      "bytesRead": 757720,
+      "redirects": 2
+    },
+    {
+      "popularityRank": 167,
+      "domain": "pages.dev",
+      "url": "https://pages.dev/",
+      "finalUrl": "https://www.cloudflare.com/products/pages/",
+      "state": "detected",
+      "surface": "document",
+      "signals": ["document.modelContext", "registerTool"],
+      "tools": [],
+      "checkedAt": "2026-11-18T21:28:24.465Z",
+      "bytesRead": 601751,
+      "redirects": 2
+    },
+    {
+      "popularityRank": 184,
+      "domain": "forter.com",
+      "url": "https://forter.com/",
+      "finalUrl": "https://www.forter.com/",
+      "state": "detected",
+      "surface": "bridge",
+      "signals": ["WebMCP bridge or manifest marker"],
+      "tools": [],
+      "checkedAt": "2026-11-18T21:28:24.465Z",
+      "bytesRead": 298006,
+      "redirects": 1
+    },
+    {
+      "popularityRank": 724,
+      "domain": "asus.com",
+      "url": "https://asus.com/",
+      "finalUrl": "https://www.asus.com/",
+      "state": "detected",
+      "surface": "bridge",
+      "signals": ["WebMCP bridge or manifest marker"],
+      "tools": [],
+      "checkedAt": "2026-11-18T21:28:24.465Z",
+      "bytesRead": 455078,
+      "redirects": 1
+    },
+    {
+      "popularityRank": 1890,
+      "domain": "hostinger.com",
+      "url": "https://hostinger.com/",
+      "finalUrl": "https://www.hostinger.com/",
+      "state": "detected",
+      "surface": "mixed",
+      "signals": [
+        "document.modelContext",
+        "navigator.modelContext",
+        "registerTool"
+      ],
+      "tools": [],
+      "checkedAt": "2026-11-18T21:28:24.465Z",
+      "bytesRead": 814777,
+      "redirects": 1
+    },
+    {
+      "popularityRank": 1998,
+      "domain": "customer.io",
+      "url": "https://customer.io/",
+      "finalUrl": "https://customer.io/",
+      "state": "detected",
+      "surface": "bridge",
+      "signals": ["WebMCP bridge or manifest marker"],
+      "tools": [],
+      "checkedAt": "2026-11-18T21:28:24.465Z",
+      "bytesRead": 563170,
+      "redirects": 0
+    },
+    {
+      "popularityRank": 2371,
+      "domain": "cookiebot.com",
+      "url": "https://cookiebot.com/",
+      "finalUrl": "https://www.cookiebot.com/",
+      "state": "detected",
+      "surface": "mixed",
+      "signals": ["document.modelContext", "navigator.modelContext"],
+      "tools": [],
+      "checkedAt": "2026-11-18T21:28:24.465Z",
+      "bytesRead": 1000000,
+      "redirects": 1
+    },
+    {
+      "popularityRank": 2979,
+      "domain": "zapier.com",
+      "url": "https://zapier.com/",
+      "finalUrl": "https://zapier.com/",
+      "state": "detected",
+      "surface": "bridge",
+      "signals": ["WebMCP bridge or manifest marker"],
+      "tools": [],
+      "checkedAt": "2026-11-18T21:28:24.465Z",
+      "bytesRead": 396217,
+      "redirects": 0
+    },
+    {
+      "popularityRank": 3168,
+      "domain": "monday.com",
+      "url": "https://monday.com/",
+      "finalUrl": "https://monday.com/",
+      "state": "detected",
+      "surface": "navigator",
+      "signals": ["navigator.modelContext", "registerTool"],
+      "tools": ["navigate_by_use_case"],
+      "checkedAt": "2026-11-18T21:28:24.465Z",
+      "bytesRead": 626156,
+      "redirects": 0
+    },
+    {
+      "popularityRank": 3928,
+      "domain": "elementor.com",
+      "url": "https://elementor.com/",
+      "finalUrl": "https://elementor.com/",
+      "state": "detected",
+      "surface": "mixed",
+      "signals": [
+        "document.modelContext",
+        "navigator.modelContext",
+        "registerTool"
+      ],
+      "tools": [
+        "get_products",
+        "get_plans_and_pricing",
+        "get_faq",
+        "get_roadmap",
+        "find_legal_documents",
+        "get_legal_document",
+        "list_resources",
+        "search_elementor"
+      ],
+      "checkedAt": "2026-11-18T21:28:24.465Z",
+      "bytesRead": 677227,
+      "redirects": 0
+    }
+  ]
+}
