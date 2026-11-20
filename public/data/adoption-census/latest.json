@@ -1,28 +1,28 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T21:40:05.255Z",
+  "generatedAt": "2026-11-20T21:17:16.584Z",
   "scope": "tranco-top-10000",
   "source": {
     "name": "Tranco",
-    "listId": "L5KW4",
-    "listUrl": "https://tranco-list.eu/list/L5KW4/full",
-    "listDate": "2026-11-18",
+    "listId": "GQ9JK",
+    "listUrl": "https://tranco-list.eu/list/GQ9JK/full",
+    "listDate": "2026-11-19",
     "description": "A reproducible research ranking of popular domains; used as a popularity proxy, not direct traffic measurement."
   },
   "coverage": {
     "scheduledCount": 10000,
     "attemptedCount": 10000,
     "detectedCount": 15,
-    "notDetectedCount": 5581,
-    "robotsBlockedCount": 968,
-    "unreachableCount": 3405,
-    "unsupportedCount": 31,
+    "notDetectedCount": 5708,
+    "robotsBlockedCount": 991,
+    "unreachableCount": 3254,
+    "unsupportedCount": 32,
     "documentSurfaceCount": 7,
     "navigatorSurfaceCount": 6,
     "bridgeSurfaceCount": 10,
     "namedToolDefinitions": 9
   },
-  "auditDigest": "e412c864c47474179970b8454b0ea12135bcba1bb6380f51df8147adf14e55e5",
+  "auditDigest": "747cae2a972acba8a909dc439d31c82828ad71d9fd112672ce274b4d0bc73443",
   "rowPolicy": "The denominator includes every scheduled domain and every collection outcome. The retained detections array contains only positive WebMCP source signals; not-detected and blocked domains remain represented in coverage counts.",
   "detections": [
     {
@@ -34,12 +34,12 @@
       "surface": "document",
       "signals": ["document.modelContext", "registerTool"],
       "tools": [],
-      "checkedAt": "2026-11-19T21:40:05.255Z",
+      "checkedAt": "2026-11-20T21:17:16.584Z",
       "bytesRead": 1000000,
       "redirects": 1
     },
     {
-      "popularityRank": 89,
+      "popularityRank": 90,
       "domain": "workers.dev",
       "url": "https://workers.dev/",
       "finalUrl": "https://www.cloudflare.com/products/workers/",
@@ -47,12 +47,12 @@
       "surface": "document",
       "signals": ["document.modelContext", "registerTool"],
       "tools": [],
-      "checkedAt": "2026-11-19T21:40:05.255Z",
+      "checkedAt": "2026-11-20T21:17:16.584Z",
       "bytesRead": 757856,
       "redirects": 2
     },
     {
-      "popularityRank": 166,
+      "popularityRank": 165,
       "domain": "pages.dev",
       "url": "https://pages.dev/",
       "finalUrl": "https://www.cloudflare.com/products/pages/",
@@ -60,12 +60,12 @@
       "surface": "document",
       "signals": ["document.modelContext", "registerTool"],
       "tools": [],
-      "checkedAt": "2026-11-19T21:40:05.255Z",
+      "checkedAt": "2026-11-20T21:17:16.584Z",
       "bytesRead": 601887,
       "redirects": 2
     },
     {
-      "popularityRank": 184,
+      "popularityRank": 183,
       "domain": "forter.com",
       "url": "https://forter.com/",
       "finalUrl": "https://www.forter.com/",
@@ -73,25 +73,12 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-11-19T21:40:05.255Z",
-      "bytesRead": 321088,
+      "checkedAt": "2026-11-20T21:17:16.584Z",
+      "bytesRead": 318267,
       "redirects": 1
     },
     {
-      "popularityRank": 720,
-      "domain": "hugedomains.com",
-      "url": "https://hugedomains.com/",
-      "finalUrl": "https://www.hugedomains.com/",
-      "state": "detected",
-      "surface": "bridge",
-      "signals": ["WebMCP bridge or manifest marker"],
-      "tools": [],
-      "checkedAt": "2026-11-19T21:40:05.255Z",
-      "bytesRead": 56802,
-      "redirects": 1
-    },
-    {
-      "popularityRank": 724,
+      "popularityRank": 718,
       "domain": "asus.com",
       "url": "https://asus.com/",
       "finalUrl": "https://www.asus.com/",
@@ -99,8 +86,21 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-11-19T21:40:05.255Z",
-      "bytesRead": 455069,
+      "checkedAt": "2026-11-20T21:17:16.584Z",
+      "bytesRead": 455062,
+      "redirects": 1
+    },
+    {
+      "popularityRank": 724,
+      "domain": "hugedomains.com",
+      "url": "https://hugedomains.com/",
+      "finalUrl": "https://www.hugedomains.com/",
+      "state": "detected",
+      "surface": "bridge",
+      "signals": ["WebMCP bridge or manifest marker"],
+      "tools": [],
+      "checkedAt": "2026-11-20T21:17:16.584Z",
+      "bytesRead": 56579,
       "redirects": 1
     },
     {
@@ -116,12 +116,12 @@
         "WebMCP bridge or manifest marker"
       ],
       "tools": [],
-      "checkedAt": "2026-11-19T21:40:05.255Z",
-      "bytesRead": 864724,
+      "checkedAt": "2026-11-20T21:17:16.584Z",
+      "bytesRead": 865696,
       "redirects": 1
     },
     {
-      "popularityRank": 1418,
+      "popularityRank": 1409,
       "domain": "onrender.com",
       "url": "https://onrender.com/",
       "finalUrl": "https://render.com/",
@@ -129,12 +129,12 @@
       "surface": "navigator",
       "signals": ["navigator.modelContext", "registerTool"],
       "tools": [],
-      "checkedAt": "2026-11-19T21:40:05.255Z",
-      "bytesRead": 770968,
+      "checkedAt": "2026-11-20T21:17:16.584Z",
+      "bytesRead": 771108,
       "redirects": 1
     },
     {
-      "popularityRank": 1889,
+      "popularityRank": 1890,
       "domain": "hostinger.com",
       "url": "https://hostinger.com/",
       "finalUrl": "https://www.hostinger.com/",
@@ -146,12 +146,12 @@
         "registerTool"
       ],
       "tools": [],
-      "checkedAt": "2026-11-19T21:40:05.255Z",
-      "bytesRead": 815993,
+      "checkedAt": "2026-11-20T21:17:16.584Z",
+      "bytesRead": 806060,
       "redirects": 1
     },
     {
-      "popularityRank": 1990,
+      "popularityRank": 1982,
       "domain": "customer.io",
       "url": "https://customer.io/",
       "finalUrl": "https://customer.io/",
@@ -159,12 +159,12 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-11-19T21:40:05.255Z",
-      "bytesRead": 563589,
+      "checkedAt": "2026-11-20T21:17:16.584Z",
+      "bytesRead": 566203,
       "redirects": 0
     },
     {
-      "popularityRank": 2371,
+      "popularityRank": 2346,
       "domain": "cookiebot.com",
       "url": "https://cookiebot.com/",
       "finalUrl": "https://www.cookiebot.com/",
@@ -172,12 +172,12 @@
       "surface": "mixed",
       "signals": ["document.modelContext", "navigator.modelContext"],
       "tools": [],
-      "checkedAt": "2026-11-19T21:40:05.255Z",
+      "checkedAt": "2026-11-20T21:17:16.584Z",
       "bytesRead": 1000000,
       "redirects": 1
     },
     {
-      "popularityRank": 2980,
+      "popularityRank": 2976,
       "domain": "zapier.com",
       "url": "https://zapier.com/",
       "finalUrl": "https://zapier.com/",
@@ -185,12 +185,12 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-11-19T21:40:05.255Z",
-      "bytesRead": 396162,
+      "checkedAt": "2026-11-20T21:17:16.584Z",
+      "bytesRead": 398597,
       "redirects": 0
     },
     {
-      "popularityRank": 3165,
+      "popularityRank": 3170,
       "domain": "monday.com",
       "url": "https://monday.com/",
       "finalUrl": "https://monday.com/",
@@ -198,12 +198,12 @@
       "surface": "navigator",
       "signals": ["navigator.modelContext", "registerTool"],
       "tools": ["navigate_by_use_case"],
-      "checkedAt": "2026-11-19T21:40:05.255Z",
+      "checkedAt": "2026-11-20T21:17:16.584Z",
       "bytesRead": 626156,
       "redirects": 0
     },
     {
-      "popularityRank": 3962,
+      "popularityRank": 3964,
       "domain": "elementor.com",
       "url": "https://elementor.com/",
       "finalUrl": "https://elementor.com/",
@@ -224,12 +224,12 @@
         "list_resources",
         "search_elementor"
       ],
-      "checkedAt": "2026-11-19T21:40:05.255Z",
+      "checkedAt": "2026-11-20T21:17:16.584Z",
       "bytesRead": 678380,
       "redirects": 0
     },
     {
-      "popularityRank": 4411,
+      "popularityRank": 4410,
       "domain": "gist.build",
       "url": "https://gist.build/",
       "finalUrl": "https://customer.io/channels/in-app",
@@ -237,8 +237,8 @@
       "surface": "bridge",
       "signals": ["WebMCP bridge or manifest marker"],
       "tools": [],
-      "checkedAt": "2026-11-19T21:40:05.255Z",
-      "bytesRead": 482230,
+      "checkedAt": "2026-11-20T21:17:16.584Z",
+      "bytesRead": 484845,
       "redirects": 3
     }
   ]
